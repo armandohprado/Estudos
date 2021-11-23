@@ -1,0 +1,49 @@
+<div class="modal-header adc-cn">
+  <h4 class="modal-title pull-left">Adicionar cartão novidade</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="card">
+    <div class="conteudo" [formGroup]="formAdcCardNovidades">
+      <div class="item titulo">
+        <label>Titulo do cartão</label> <input type="text" placeholder="titulo do cartão" formControlName="titulo" />
+      </div>
+      <section class="grid grid-template-criar">
+        <div class="item imagem">
+          <img [src]="previewImagem" *ngIf="previewImagem" alt="" />
+          <ng-container *ngIf="!previewImagem">
+            <input type="file" id="actual-btn" hidden (change)="_uploadFile($event, error)" />
+            <label for="actual-btn" class="text-center"
+              >Selecione uma imagem* <br />
+              <br />
+              <span class="font-min">Tamanho recomendado de 970x1500px</span>
+            </label>
+          </ng-container>
+        </div>
+        <div class="item link">
+          <label>Link do cartão</label><input type="text" placeholder="link do cartão" formControlName="link" />
+        </div>
+        <div class="item ordem">
+          <label>Ordem do cartão*</label><input type="number" placeholder="ordem" formControlName="ordem" />
+        </div>
+        <div class="item color-picker">
+          <label>Cor de fundo</label><br /><input type="color" formControlName="corFundo" />
+        </div>
+      </section>
+      <div class="item footer">
+        <button class="btn btn-aw-pri" (click)="salvar()" [disabled]="formAdcCardNovidades.invalid">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #error>
+  <div class="modal-header">
+    <alert type="danger" class="p-0 m-2 modal-title"><strong>Erro</strong> ao tentar fazer upload da imagem!</alert>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefError.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</ng-template>

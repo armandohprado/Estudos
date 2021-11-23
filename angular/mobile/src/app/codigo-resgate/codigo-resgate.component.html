@@ -1,0 +1,59 @@
+<div class="">
+  <section class="aw-mobile">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12 apresentacao">
+          <img src="/front/aw-mobile/logo-aw-mobile.svg" class="logo" alt="AW Mobile" />
+          <h4>Disponível para Android e iOS</h4>
+          <p>Uma forma rápida e fácil para você executar as ações do cotidiano na Athié Wohnrath.</p>
+          <p>
+            Com o AW Mobile você poderá abrir requerimentos, fazer aprovações, tirar dúvidas sobre as solicitações e
+            muito mais.
+          </p>
+          <h5>Qual o seu aparelho hoje?</h5>
+
+          <div class="opcoes-lojas" (click)="openForm()">
+            <a
+              href="https://play.google.com/store/apps/details?id=br.com.athiewohnrath.awmobile"
+              title="Ir para o Google Play"
+            >
+              <img src="/front/aw-mobile/google-play.svg" alt="Download na Google Play"
+            /></a>
+
+            <img src="/front/aw-mobile/app-store.svg" alt="Download na App Store" class="c-pointer" />
+          </div>
+
+          <ng-container *ngIf="toogleForm">
+            <div class="form-solicitacao">
+              <p>
+                Informe o número do seu celular, com DDD, e enviaremos um SMS com o link para download do aplicativo
+                diretamente na loja da Apple. <i>Digite apenas números.</i>
+              </p>
+              <div class="form">
+                <div class="form-group">
+                  <input
+                    maxlength="11"
+                    type="text"
+                    class="form-control"
+                    placeholder="11912349876"
+                    [(ngModel)]="celular"
+                    autocomplete="off"
+                    name="name"
+                    #cel
+                  />
+                </div>
+                <button class="btn" (click)="toogleForm = false; enviar()" [disabled]="celular.length !== 11">
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <div class=" mt-2 {{ mensagem.class }}" *ngIf="toogleMsg">
+            {{ mensagem.mensagem }}
+          </div>
+        </div>
+        <div class="col-lg-6 imagem"></div>
+      </div>
+    </div>
+  </section>
+</div>

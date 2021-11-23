@@ -1,0 +1,20 @@
+{
+  "/api": {
+    "target": "https://api-focus-d.athiewohnrath.com.br/aw-mobile/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/gerenciador-arquivo": {
+    "target": "https://api-focus-d.athiewohnrath.com.br/gerenciador-arquivo",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/gerenciador-arquivo": ""
+    }
+  }
+}

@@ -1,0 +1,96 @@
+.aw-mobile {
+  background-color: #fff;
+}
+
+.c-pointer {
+  cursor: pointer;
+}
+
+.aw-mobile .container {
+  position: relative;
+  z-index: 1;
+}
+
+.apresentacao {
+  background-color: #fff;
+}
+
+.apresentacao .logo {
+  width: 280px;
+  display: block;
+  margin: 50px 0 30px;
+}
+
+.apresentacao .opcoes-lojas {
+  margin: 20px 0 40px;
+}
+
+.apresentacao .form-solicitacao {
+  padding-bottom: 50px;
+}
+
+.apresentacao .form-solicitacao .form {
+  width: 60%;
+}
+
+.apresentacao .form-solicitacao .form .btn {
+  background-color: #d70085;
+  color: #fff;
+  display: block;
+  width: 100%;
+}
+
+.apresentacao .form-solicitacao .form input[type='text'] {
+  border: 1px solid #808080;
+}
+
+.apresentacao .sucesso {
+  border: 1px solid #00c9b4;
+  color: #fff;
+  border-radius: 4px;
+  padding: 11px;
+  background-color: #00c9b4;
+}
+.apresentacao .erro {
+  border: 1px solid #c92800;
+  color: #fff;
+  border-radius: 4px;
+  padding: 11px;
+  background-color: #c92800;
+}
+
+@media (max-width: 991px) {
+  .apresentacao .logo {
+    width: 170px;
+  }
+
+  .apresentacao .opcoes-lojas img {
+    height: 30px;
+    margin-right: 5px;
+  }
+}
+
+@media (min-width: 992px) {
+  .aw-mobile:before {
+    content: '';
+    background-color: #ededed;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+  }
+
+  .aw-mobile:after {
+    content: '';
+    background: url('/front/aw-mobile/celulares.png') no-repeat -35% 0;
+    background-size: 70%;
+    position: absolute;
+    width: 100%;
+    height: 120vh;
+    top: -15%;
+    left: 50%;
+    z-index: 0;
+  }
+}

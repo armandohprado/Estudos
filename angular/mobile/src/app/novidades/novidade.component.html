@@ -1,0 +1,9 @@
+<div class="container my-2">
+  <button class="btn btn-aw-pri" (click)="modalAdicionarCard()"><span class="icone icone-adicionar"></span></button>
+  <hr />
+  <div class="grid-container">
+    <ng-container *ngFor="let card of novidadeService.listaCard$ | async; trackBy: trackByCards">
+      <app-nov-card-re [card]="card" (excluir)="excluirCard($event)" (editar)="editarCard($event)"></app-nov-card-re>
+    </ng-container>
+  </div>
+</div>

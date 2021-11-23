@@ -1,0 +1,10 @@
+**/node_modules
+package.json
+.angulardoc.json
+.vscode/*
+src/assets/@ckeditor/*
+build/*
+yarn.lock
+yarn-error.log
+.prettierignore
+package.json.yarn

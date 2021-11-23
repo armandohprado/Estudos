@@ -1,0 +1,70 @@
+<div class="card">
+  <div class="conteudo" *ngIf="!_editar; else editarTemplate">
+    <div class="d-flex titulo justify-content-between align-items-center">
+      <span class="titulo">{{ card.titulo }}</span>
+      <div>
+        <span class="icone icone-editar mr-2 c-pointer" (click)="editMode()"></span
+        ><span class="icone icone-lixo c-pointer" (click)="excluirCard(template)"></span>
+      </div>
+    </div>
+    <section class="grid grid-template-visualizar">
+      <div class="item imagem"><img [src]="card.urlImagem" alt="" /></div>
+      <div class="item link">
+        <b>Link do cartão</b>
+        <br />
+        <span class="ellipsis">{{ card.link || 'nenhum link' }}</span>
+      </div>
+      <div class="item ordem">
+        <b>Ordem do cartão</b>
+        <p>{{ card.ordem }}</p>
+      </div>
+      <div class="item color-picker">
+        <b>Cor de fundo</b>
+        <p class="cor-fundo" [style.background]="'#' + card.corFundo"></p>
+      </div>
+      <div class="item footer">
+        <span>
+          Enviado em {{ card.dataCadastro | date }}<br />
+
+          Publicado por: {{ card.funcionario }}</span
+        >
+      </div>
+    </section>
+  </div>
+  <ng-template #editarTemplate>
+    <div class="conteudo" [formGroup]="formEditandoCardNovidades">
+      <div class="d-flex titulo justify-content-between align-items-center">
+        <span class="titulo">
+          <input type="text" placeholder="Titulo" formControlName="titulo" />
+        </span>
+      </div>
+      <section class="grid grid-template-visualizar">
+        <div class="item imagem"><img [src]="card.urlImagem" alt="" /></div>
+        <div class="item link">
+          <b>Link do cartão</b>
+          <input type="text" placeholder="Link do cartão" formControlName="link" />
+        </div>
+        <div class="item ordem edit-ordem">
+          <b>Ordem do cartão</b>
+          <input type="number" placeholder="Ordem" formControlName="ordem" />
+        </div>
+        <div class="item color-picker">
+          <b>Cor de fundo</b>
+          <input type="color" placeholder="Cor de fundo" formControlName="corFundo" />
+        </div>
+        <div class="item footer">
+          <button (click)="editarCard()" class="btn btn-aw-pri">Salvar</button>
+        </div>
+      </section>
+    </div>
+  </ng-template>
+</div>
+<hr />
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja excluir?</p>
+    <button type="button" class="btn btn-default" (click)="eventoModal(true)">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="eventoModal(false)">Não</button>
+  </div>
+</ng-template>

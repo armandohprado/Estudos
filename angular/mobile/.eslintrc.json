@@ -1,0 +1,268 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*", "build.js"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": ["aw", "app"],
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/no-empty-function": "off",
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": ["aw", "app"],
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-class-suffix": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "max-len": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "no-console": "error",
+        "curly": ["error", "multi-line"],
+        "arrow-parens": ["error", "as-needed"],
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 2
+          }
+        ],
+        "quote-props": ["error", "as-needed"],
+        "quotes": [
+          "error",
+          "single",
+          {
+            "allowTemplateLiterals": true
+          }
+        ],
+        "prefer-const": [
+          "error",
+          {
+            "destructuring": "all"
+          }
+        ],
+        "object-shorthand": ["error"],
+        "object-curly-spacing": ["error", "always"],
+        "no-trailing-spaces": [
+          "error",
+          {
+            "ignoreComments": true,
+            "skipBlankLines": true
+          }
+        ],
+        "comma-dangle": [
+          "error",
+          {
+            "objects": "always-multiline",
+            "arrays": "always-multiline",
+            "functions": "never",
+            "imports": "always-multiline",
+            "exports": "always-multiline"
+          }
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/unified-signatures": "off",
+        "@typescript-eslint/no-useless-constructor": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/prefer-optional-chain": ["warn"],
+        "@typescript-eslint/typedef": [
+          "error",
+          {
+            "arrowParameter": false,
+            "memberVariableDeclaration": false,
+            "parameter": false,
+            "propertyDeclaration": true
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true,
+            "allowTypedFunctionExpressions": true,
+            "allowHigherOrderFunctions": true
+          }
+        ],
+        "brace-style": ["off", "off"],
+        "id-blacklist": "off",
+        "id-match": "off",
+        "import/order": "off",
+        "linebreak-style": "off",
+        "new-parens": "off",
+        "newline-per-chained-call": "off",
+        "no-extra-semi": "off",
+        "no-irregular-whitespace": "off",
+        "no-underscore-dangle": "off",
+        "space-in-parens": ["off", "never"],
+        "no-useless-constructor": ["off"],
+        "arrow-body-style": ["error", "as-needed"],
+        "prefer-arrow-callback": ["error"],
+        "@typescript-eslint/explicit-member-accessibility": ["off", { "accessibility": "explicit" }],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "default",
+            "format": ["camelCase"]
+          },
+          {
+            "selector": "variable",
+            "format": ["camelCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "variable",
+            "modifiers": ["const"],
+            "format": ["camelCase", "UPPER_CASE", "PascalCase"]
+          },
+          {
+            "selector": "parameter",
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "memberLike",
+            "modifiers": ["private"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "require"
+          },
+          {
+            "selector": "memberLike",
+            "modifiers": ["protected"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "memberLike",
+            "format": ["camelCase", "PascalCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "property",
+            "modifiers": ["static"],
+            "format": null
+          },
+          {
+            "selector": "parameterProperty",
+            "modifiers": ["private"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "enumMember",
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "function",
+            "format": ["camelCase", "PascalCase"]
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "signature",
+
+              "private-constructor",
+              "protected-constructor",
+              "public-constructor",
+              "constructor",
+
+              "private-decorated-field",
+              "private-abstract-field",
+              "private-instance-field",
+              "private-field",
+
+              "protected-decorated-field",
+              "protected-abstract-field",
+              "protected-instance-field",
+              "protected-field",
+
+              "public-decorated-field",
+              "public-abstract-field",
+              "public-instance-field",
+              "public-field",
+
+              "decorated-field",
+              "field",
+
+              "private-decorated-method",
+              "private-instance-method",
+              "private-abstract-method",
+              "private-method",
+
+              "protected-decorated-method",
+              "protected-instance-method",
+              "protected-abstract-method",
+              "protected-method",
+
+              "public-decorated-method",
+              "public-instance-method",
+              "public-abstract-method",
+              "public-method",
+
+              "decorated-method",
+              "instance-method",
+              "abstract-method",
+              "method",
+
+              "private-static-field",
+              "protected-static-field",
+              "public-static-field",
+              "static-field",
+
+              "private-static-method",
+              "protected-static-method",
+              "public-static-method",
+              "static-method",
+
+              "instance-field",
+              "abstract-field"
+            ]
+          }
+        ],
+        "@angular-eslint/no-host-metadata-property": ["off"],
+        "@angular-eslint/no-input-rename": ["off"],
+        "@angular-eslint/no-inputs-metadata-property": ["off"],
+        "@angular-eslint/component-class-suffix": ["off"],
+        "@angular-eslint/prefer-on-push-component-change-detection": ["warn"],
+        "@angular-eslint/use-lifecycle-interface": ["warn"],
+        "@angular-eslint/no-conflicting-lifecycle": ["warn"],
+        "@angular-eslint/contextual-decorator": ["error"],
+        "@angular-eslint/prefer-output-readonly": ["warn"],
+        "@angular-eslint/component-max-inline-declarations": ["error", { "animations": 20, "styles": 8, "template": 5 }]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        "@angular-eslint/template/no-negated-async": ["off"],
+        "@angular-eslint/template/no-call-expression": ["error"],
+        "@angular-eslint/template/use-track-by-function": ["warn"],
+        "@angular-eslint/template/banana-in-box": ["error"]
+      }
+    }
+  ]
+}

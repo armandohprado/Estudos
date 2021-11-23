@@ -1,0 +1,97 @@
+/* Grid */
+.grid {
+  display: grid;
+}
+
+.link {
+  grid-area: link;
+  min-width: 313px;
+}
+
+.ordem {
+  grid-area: ordem;
+  width: 120px;
+  input {
+    width: 90px;
+  }
+}
+
+.color-picker {
+  grid-area: color-picker;
+  input {
+    width: 25%;
+  }
+}
+.label {
+  font-weight: bold;
+}
+.imagem {
+  grid-area: imagem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #808080;
+  width: 150px;
+  height: 265px;
+  max-width: 150px;
+  max-height: 265px;
+  label {
+    color: #000;
+    padding: 0.5rem;
+    font-family: sans-serif;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+}
+
+.footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: flex-end;
+}
+.titulo {
+  width: 100%;
+  grid-area: titulo;
+  input {
+    width: 465px;
+  }
+}
+
+.grid-template-criar {
+  grid-template-areas:
+    'imagem  link'
+    'imagem  ordem'
+    'imagem  color-picker'
+    'imagem  color-picker'
+    'imagem  color-picker';
+}
+
+input {
+  width: 100%;
+}
+img {
+  width: 100%;
+}
+
+/* Grid Item */
+.item {
+  margin: 3px;
+  padding: 2px;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.grid {
+  max-width: 400px;
+  min-height: 300px;
+}
+.adc-cn {
+  background-color: #f2f5f7 !important;
+}
+
+::ng-deep {
+  .alert {
+    margin-bottom: 0 !important;
+  }
+}

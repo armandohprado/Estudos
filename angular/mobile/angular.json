@@ -1,0 +1,133 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "a608d1e6-c177-4339-9582-08bc4cf30e5a",
+    "defaultCollection": "@angular-eslint/schematics"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "front-aw-mobile": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": { "style": "scss", "changeDetection": "OnPush" },
+        "@schematics/angular:application": { "strict": true }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/front-aw-mobile",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/web.config",
+              {
+                "input": "src/assets",
+                "output": "/",
+                "glob": "**/*"
+              }
+            ],
+            "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": { "includePaths": ["src/styles"] },
+            "scripts": [],
+            "vendorChunk": true,
+            "optimization": { "styles": { "inlineCritical": false, "minify": true }, "fonts": { "inline": false } },
+            "outputHashing": "all",
+            "baseHref": "/aw-mobile/",
+            "deployUrl": "/front/aw-mobile/",
+            "budgets": [
+              { "type": "initial", "maximumWarning": "2mb", "maximumError": "3mb" },
+              { "type": "anyComponentStyle", "maximumWarning": "4kb", "maximumError": "8kb" }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                { "replace": "src/environments/environment.ts", "with": "src/environments/environment.prod.ts" }
+              ]
+            },
+            "dev": {
+              "fileReplacements": [
+                { "replace": "src/environments/environment.ts", "with": "src/environments/environment.dev.ts" }
+              ],
+              "namedChunks": true
+            },
+            "homolog": {
+              "fileReplacements": [
+                { "replace": "src/environments/environment.ts", "with": "src/environments/environment.homolog.ts" }
+              ]
+            },
+            "serve": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "baseHref": "/",
+              "deployUrl": "/",
+              "budgets": [],
+              "outputHashing": "none"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "front-aw-mobile:build:production"
+            },
+            "dev": {
+              "browserTarget": "front-aw-mobile:build:dev"
+            },
+            "homolog": {
+              "browserTarget": "front-aw-mobile:build:homolog"
+            },
+            "serve": {
+              "browserTarget": "front-aw-mobile:build:serve"
+            }
+          },
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
+          "defaultConfiguration": "serve"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "front-aw-mobile:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "front-aw-mobile"
+}

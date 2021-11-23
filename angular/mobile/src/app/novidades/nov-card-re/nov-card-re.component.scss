@@ -1,0 +1,90 @@
+/* Grid */
+.grid {
+  display: grid;
+}
+
+.link {
+  grid-area: link;
+
+  min-width: 200px;
+  max-width: 200px;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ordem {
+  grid-area: ordem;
+  width: 120px;
+  input {
+    width: 90px;
+  }
+}
+
+.color-picker {
+  grid-area: color-picker;
+  width: 33%;
+}
+.cor-fundo {
+  width: 100%;
+  height: 15px;
+}
+.imagem {
+  grid-area: imagem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 265px;
+  max-width: 150px;
+  max-height: 265px;
+}
+
+.titulo {
+  width: 100%;
+  padding: 5px 3px;
+  display: flex;
+  font-weight: bold;
+  font-size: medium;
+  align-items: center;
+  background: #f2f5f7 !important;
+}
+.grid-template-visualizar {
+  grid-template-areas:
+    'titulo titulo'
+    'imagem  link'
+    'imagem  ordem'
+    'imagem  color-picker'
+    'imagem  footer'
+    'imagem  footer';
+}
+
+input {
+  width: 100%;
+}
+img {
+  width: 100%;
+}
+
+/* Grid Item */
+.item {
+  margin: 3px;
+  padding: 2px;
+  text-align: left;
+  font-size: 0.8rem;
+  max-width: 300px;
+}
+
+.conteudo {
+  max-width: 500px;
+  min-height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+.footer {
+  grid-area: footer;
+  font-size: 11px;
+}
