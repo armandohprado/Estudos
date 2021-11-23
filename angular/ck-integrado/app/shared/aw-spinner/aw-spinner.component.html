@@ -1,0 +1,16 @@
+<div
+  [class.overlay]="overlay"
+  [class.noBackground]="noBackground"
+  [ngStyle]="{
+    zIndex: overlay ? zIndex : 0,
+    position: overlay ? (fullScreen ? 'fixed' : 'absolute') : 'relative',
+    borderRadius: borderRadius
+  }"
+>
+  <div class="la-ball-clip-rotate" [ngClass]="size">
+    <div></div>
+  </div>
+  <div class="loading-text" [style.z-index]="zIndex">
+    <ng-content></ng-content>
+  </div>
+</div>

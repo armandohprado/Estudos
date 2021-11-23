@@ -1,0 +1,16 @@
+<div class="grupo-item-content">
+  <div class="filhos">
+    <ng-container *ngFor="let group of filhosGrouped$ | async; trackBy: trackByGrouped">
+      <div class="title">
+        <h6>{{ group.descricao }}</h6>
+      </div>
+      <div class="itens">
+        <app-deli-grupo-item-filho
+          *ngFor="let grupoItemFilho of group.itens; trackBy: trackByGrupoItemFilho"
+          [grupoItem]="grupoItem"
+          [grupoItemFilho]="grupoItemFilho"
+        ></app-deli-grupo-item-filho>
+      </div>
+    </ng-container>
+  </div>
+</div>

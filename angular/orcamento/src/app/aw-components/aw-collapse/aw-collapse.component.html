@@ -1,0 +1,29 @@
+<div class="rounded w-100 {{ bg }}" [ngClass]="{ 'border border-primary': border }" size="sm" @skipFirstAnimation>
+  <div
+    class="font-weight-bolder d-flex justify-content-between p-2 px-3 c-pointer"
+    (click)="collapseToggle(!awCollapse)"
+  >
+    <div class="title {{ colorFont }} {{ sizeTitle }} w-100">
+      <ng-container *ngIf="collapseHeader.length; else noHeaderCollapse">
+        <ng-content select="[collapseHeader]"></ng-content>
+      </ng-container>
+      <ng-template #noHeaderCollapse> {{ title }} </ng-template>
+      <span class="icon ml-2 d-flex align-self-center" [ngClass]="icon"></span>
+    </div>
+    <div
+      class="d-flex caret align-self-center {{ colorFont }}"
+      [class.icon-caret-down]="awCollapse"
+      [class.icon-caret-up]="!awCollapse"
+    ></div>
+  </div>
+  <div
+    class="bg-collapse-group {{ bgBody }}"
+    *ngIf="!realCollapse"
+    (@collapseNamed.done)="animationDone($event)"
+    [@collapseNamed]="awCollapse ? 'collapsed' : 'opened'"
+  >
+    <div class="px-1 pb-2">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

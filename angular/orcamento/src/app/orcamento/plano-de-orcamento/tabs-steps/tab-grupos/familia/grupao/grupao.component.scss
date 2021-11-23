@@ -1,0 +1,109 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+
+  border: 2px solid transparent;
+  border-radius: $border-radius;
+  background-color: #e7ecef;
+
+  &.has-selected-groups {
+    border-color: var(--bluey-grey);
+  }
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  padding: 12.5px 20px;
+  cursor: pointer;
+
+  .group-id {
+    min-width: 60px;
+    display: inline-block;
+  }
+
+  .divider {
+    margin-right: 10px;
+  }
+
+  .group-name {
+    text-transform: lowercase;
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+  .cotacao-icon {
+    .cotacao-title {
+      display: none;
+    }
+  }
+
+  [class^='-icon-caret-'],
+  [class*='icon-caret-'] {
+    font-size: 4.6px;
+    color: $primary;
+    margin-left: 15px;
+  }
+
+  &.cotacao {
+    margin: $spacing * 2 $spacing * 2 0 $spacing * 2;
+    background-color: $secondary;
+    padding: 8px $spacing * 2;
+    .title {
+      color: white;
+      font-size: 1.12rem;
+      .group-name {
+        text-transform: capitalize;
+      }
+    }
+    .cotacao-icon {
+      .cotacao-title {
+        display: block;
+        span {
+          color: white;
+          font-size: 1rem;
+          font-weight: 500;
+          &.valor-meta {
+            .minor {
+              font-size: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+    .icon-caret-down,
+    .icon-caret-up {
+      color: white;
+    }
+  }
+}
+
+.collapse-body {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+.group-body {
+  padding: 20px;
+  &.cotacao {
+    background-color: #fff;
+  }
+}
+
+app-grupo {
+  .cotacao {
+    background-color: #e7ecef;
+  }
+}
+
+.show-percentual-label {
+  text-align: right;
+  padding-right: 10px;
+}

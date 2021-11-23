@@ -1,0 +1,74 @@
+<ng-container *ngLet="status$ | async as status">
+  <aw-spinner *ngIf="status === 'loading'"></aw-spinner>
+  <div class="pc-grid-cell">
+    <div
+      class="value d-inline-flex align-items-center"
+      [ngClass]="{
+        'white-space': !params.otherInfo,
+        'font-weight-bold': params.bold,
+        'text-right': params.type === 'number',
+        'font-light': params.fontColor === 'light',
+        'font-dark': params.fontColor === 'dark'
+      }"
+      [ngSwitch]="params.type"
+    >
+      <ng-container *ngLet="params.valueFormatted || params.value as value">
+        <ng-container *ngSwitchCase="'number'">
+          {{ value | number: '1.2-2' }}
+        </ng-container>
+        <ng-container *ngSwitchCase="'date'">
+          {{ value | date: 'dd/MM/yyyy' }}
+        </ng-container>
+        <ng-container *ngSwitchCase="'text'">
+          {{ value }}
+        </ng-container>
+      </ng-container>
+      <div
+        *ngIf="
+          !(pcCabecalhoQuery.congeladoPlano$ | async) && !!params.allowsDel && (params.valueFormatted || params.value)
+        "
+        class="icon icon-close ml-1"
+        (click)="$event.stopPropagation(); onDelete()"
+        (mousedown)="$event.stopPropagation()"
+      ></div>
+    </div>
+
+    <div
+      *ngIf="params.otherInfo as otherInfo"
+      class="other-info mt-3 d-flex justify-content-{{ params.otherInfoJustify }}"
+    >
+      <span
+        class="value"
+        [ngClass]="{
+          'font-weight-bold': params.bold,
+          'font-light': params.fontColor === 'light',
+          'font-dark': params.fontColor === 'dark'
+        }"
+        style="font-size: 10px"
+        *ngIf="!params.otherInfoIcon; else icon"
+      >
+        {{ params.data[otherInfo] }}
+      </span>
+      <ng-template #icon>
+        <span
+          class="icon"
+          [ngClass]="params.data[otherInfo] ? params.otherInfoIcon : params.otherInfoIconEmpty"
+          cdk-overlay-origin
+          #origin="cdkOverlayOrigin"
+          (mouseenter)="overlay(true)"
+          (mouseleave)="overlay(false)"
+        ></span>
+        <ng-template
+          cdk-connected-overlay
+          [cdkConnectedOverlayOrigin]="origin"
+          [cdkConnectedOverlayWidth]="200"
+          [cdkConnectedOverlayOpen]="isOverlayOpen"
+          [cdkConnectedOverlayPositions]="overlayPositions"
+          cdkConnectedOverlayPanelClass="overlay-comentario"
+        >
+          {{ params.data[otherInfo] || 'Nenhum comentário' }}
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

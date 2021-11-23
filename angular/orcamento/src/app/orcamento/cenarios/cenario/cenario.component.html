@@ -1,0 +1,296 @@
+<div class="box">
+  <div class="container-grid">
+    <div class="hr font-weight-bold d-flex c-pointer" (click)="editar()">
+      <div class=""><span class="icon-edit mx-3"></span>{{ cenario.nomeOrcamentoCenario }}</div>
+    </div>
+    <div class="hr d-flex justify-content-center">V.{{ cenario.revisao }}</div>
+    <div class="hr d-flex justify-content-end">
+      <div>
+        Cliente :
+        <span class="font-weight-bold">{{ cenario.percentualImpostoRefautramento | number: '1.0-2' }}%</span>
+      </div>
+      <div class="pl-1">
+        AW :
+        <span class="font-weight-bold">{{ cenario.percentualImpostoRefautramentoCliente | number: '1.0-2' }}%</span>
+      </div>
+    </div>
+    <div class="hr d-flex justify-content-end">
+      <div>
+        <span class="font-weight-bold">{{ cenario.valorMargemContribuicao | currency: ' ' }}</span>
+      </div>
+      <div class="pl-1">{{ cenario.percentualMargemContribuicao | number: '1.0-2' }}%</div>
+    </div>
+    <div class="hr d-flex justify-content-end">
+      <div>
+        <span class="font-weight-bold">{{ cenario.valorImpostoRefaturamento | currency: ' ' }}</span>
+      </div>
+    </div>
+    <div class="hr d-flex justify-content-end">
+      <div class="d-flex justify-content-around align-items-center">
+        <div class="d-flex pl-1">
+          <div>
+            <span class="font-weight-bold">{{ cenario.valorTotalComImposto | currency: ' ' }}</span>
+          </div>
+        </div>
+        <div
+          class="btn-group"
+          container="body"
+          dropdown
+          placement="bottom left"
+          [class.disabledd]="cenario.idCenarioStatus !== cenarioStatus.emEdicao"
+          [isDisabled]="loading"
+        >
+          <button class="btn btn-icon" dropdownToggle type="button">
+            <i class="icon icon-more-options"></i>
+          </button>
+          <ul *dropdownMenu aria-labelledby="button-animated" class="dropdown-menu cenario-dropdown" role="menu">
+            <li role="menuitem">
+              <button class="dropdown-item" (click)="duplicar()">
+                <div class="d-flex justify-content-around">
+                  <span class="aw-icon-duplicate icon"></span>
+                  <div>Duplicar Planilha</div>
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-grid-2">
+    <div class="mt-1">{{ cenario.descricaoOrcamentoCenario }}</div>
+    <div></div>
+    <div
+      *ngIf="cenario.idCenarioStatus === cenarioStatus.propostaAprovada"
+      [class.start-4]="cenario.idCenarioStatus === cenarioStatus.propostaAprovada"
+    >
+      <button
+        awButton
+        status="light"
+        size="md"
+        block
+        [disabled]="loading"
+        [routerLink]="[cenario.idOrcamentoCenario, 'planilha-vendas-hibrida']"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="aw-icon-frozen icon"></span>
+          <div>Congelar Planilha</div>
+        </div>
+      </button>
+    </div>
+    <div *ngIf="cenario.idCenarioStatus === cenarioStatus.emEdicao">
+      <button
+        awButton
+        status="light"
+        size="md"
+        block
+        [routerLink]="[cenario.idOrcamentoCenario, 'planilha-vendas-hibrida']"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="icon-edit icon"></span>
+          <div>Editar Planilha</div>
+        </div>
+      </button>
+    </div>
+
+    <div
+      *ngIf="cenario.idCenarioStatus === cenarioStatus.arquivados"
+      [class.start-6]="cenario.idCenarioStatus === cenarioStatus.arquivados"
+    >
+      <button
+        awButton
+        status="light"
+        size="md"
+        block=""
+        (click)="alterarCenario(cenarioStatus.emEdicao)"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="icon-arrow-left2 icon"></span>
+          <div>Mover para "Em edição"</div>
+        </div>
+      </button>
+    </div>
+    <div *ngIf="cenario.idCenarioStatus === cenarioStatus.analiseCEO">
+      <button
+        awButton
+        status="light"
+        size="md"
+        block="true"
+        [disabled]="loading"
+        (click)="fichaCeoReport(cenario.idOrcamentoCenario)"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="aw-icon-abrir-budget icon"></span>
+          <div>Ficha CEO</div>
+        </div>
+      </button>
+    </div>
+    <div
+      *ngIf="cenario.idCenarioStatus !== cenarioStatus.arquivados"
+      [ngClass]="{
+        'start-6': cenario.idCenarioStatus === cenarioStatus.congelado,
+        'start-3': cenario.idCenarioStatus === cenarioStatus.aprovadoCEO
+      }"
+    >
+      <button
+        awButton
+        status="light"
+        size="md"
+        block
+        [routerLink]="[cenario.idOrcamentoCenario, 'cadernos']"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="icon-edit icon"></span>
+          <div>Editar Cadernos</div>
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="cenario.idCenarioStatus === cenarioStatus.aprovadoCEO">
+      <button
+        awButton
+        status="light"
+        size="md"
+        block=""
+        (click)="modalEvidencias(cenario.idOrcamentoCenario)"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="icon-budget-plan icon"></span>
+          <div>Evidências</div>
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="cenario.idCenarioStatus == cenarioStatus.analiseCEO">
+      <button
+        awButton
+        status="light"
+        size="md"
+        block=""
+        [disabled]="loading"
+        [outsideClick]="true"
+        [popover]="popTemplate"
+        #popover="bs-popover"
+        container="body"
+        containerClass="popover-upload"
+        placement="bottom"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="icon-check icon"></span>
+          <div>Aprovar</div>
+        </div>
+      </button>
+    </div>
+    <div *ngIf="cenario.idCenarioStatus === cenarioStatus.emEdicao">
+      <button
+        awButton
+        status="light"
+        (click)="alterarCenario(cenarioStatus.arquivados)"
+        [disabled]="loading"
+        size="md"
+        block
+      >
+        <div class="d-flex justify-content-around">
+          <span class="aw-icon-seta-baixo icon"></span>
+          <div>Arquivar Planilha</div>
+        </div>
+      </button>
+    </div>
+    <div *ngIf="cenario.idCenarioStatus === cenarioStatus.emEdicao">
+      <button
+        awButton
+        status="light"
+        size="md"
+        block=""
+        (click)="alterarCenario(cenarioStatus.analiseCEO)"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="aw-icon-seta-cima icon"></span>
+          <div>Enviar para CEO</div>
+        </div>
+      </button>
+    </div>
+
+    <div
+      *ngIf="
+        [
+          cenarioStatus.analiseCEO,
+          cenarioStatus.aprovadoCEO,
+          cenarioStatus.analiseCliente,
+          cenarioStatus.propostaAprovada
+        ].includes(cenario.idCenarioStatus)
+      "
+    >
+      <button awButton status="light" size="md" block (click)="revisarCenario()" [disabled]="loading">
+        <div class="d-flex justify-content-around">
+          <span class="icon-review-docs icon"></span>
+          <div>Revisar</div>
+        </div>
+      </button>
+    </div>
+    <div
+      *ngIf="
+        cenario.idCenarioStatus === cenarioStatus.analiseCliente ||
+        cenario.idCenarioStatus === cenarioStatus.aprovadoCEO
+      "
+    >
+      <button
+        awButton
+        status="light"
+        size="md"
+        block=""
+        (click)="alterarCenario(cenarioStatus.propostaAprovada)"
+        [disabled]="loading"
+      >
+        <div class="d-flex justify-content-around">
+          <span class="aw-icon-seta-cima icon"></span>
+          <div>Aprovado pelo Cliente</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #popTemplate>
+  <div>
+    <div [formGroup]="formUpload">
+      <h4 class="py-1"><b>Evidência de Aprovação da Ficha do CEO</b></h4>
+      <h6 class="py-1">Por favor, insira a evidência de aprovação da ficha do CEO</h6>
+      <div class="bg-gray">
+        <aw-file multiple formControlName="files" class="py-1"></aw-file>
+      </div>
+      <h6 class="py-3">ou</h6>
+      <input
+        awInput
+        formControlName="justificacao"
+        size="md"
+        resize="vertical"
+        class="text-area"
+        maxlength="200"
+        placeholder="justifique aqui a inexistência de evidência "
+      />
+      <div class="py-2">
+        Ao confirmar essa opção o status da Planilha de Venda Híbrida passará para o status <br />
+        "Aprovado pelo CEO/ Em análise pelo cliente"
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end w-95 pt-3">
+      <div class="d-flex justify-content-between w-10">
+        <button
+          awButton
+          (click)="saveUpload()"
+          [loading]="loading"
+          [disabled]="!(formUpload.get('justificacao').value || formUpload.get('files').value)"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

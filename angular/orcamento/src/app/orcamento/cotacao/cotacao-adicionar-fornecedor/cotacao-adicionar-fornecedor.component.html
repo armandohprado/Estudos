@@ -1,0 +1,10 @@
+<app-adicionar-fornecedor
+  [nomeGrupo]="grupo.nomeGrupo"
+  [codigoGrupo]="grupo.codigoGrupo"
+  [loading]="loading"
+  [listaArea]="controleComprasQuery.listaArea$ | async"
+  [listaCausa]="controleComprasQuery.listaCausa$ | async"
+  [projeto]="projeto$ | async"
+  (voltar)="voltar()"
+  (submeterAprovacao)="submeterAprovacao($event)"
+></app-adicionar-fornecedor>

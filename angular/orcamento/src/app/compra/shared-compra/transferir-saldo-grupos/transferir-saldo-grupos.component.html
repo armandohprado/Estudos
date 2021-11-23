@@ -1,0 +1,101 @@
+<ng-container *ngLet="grupos | awFilter: 'codigo':filtroGrupo as gruposFilter">
+  <ng-container
+    *ngLet="gruposFilter | slice: (currentPage - 1) * itemsPerPage:currentPage * itemsPerPage as gruposPage"
+  >
+    <div class="d-flex justify-content-between" *ngIf="!this.readonlyGruposView">
+      <div class="col-8 d-flex align-items-center">
+        <aw-select
+          [(ngModel)]="filtroGrupo"
+          [multiple]="filterGrupoMultiple"
+          [closeOnSelect]="!filterGrupoMultiple"
+          [items]="grupos"
+          bindLabel="nome"
+          bindValue="codigo"
+          placeholder="Todos Grupos"
+          size="md"
+          class="flex-grow-1"
+        >
+        </aw-select>
+      </div>
+      <div class="col-2 row d-flex align-items-center">
+        {{ itemsPerPage * (currentPage - 1) + 1 }} - {{ itemsPerPage * (currentPage - 1) + gruposPage.length }} de
+        {{ gruposFilter.length }}: Grupos
+      </div>
+      <div class="col-2 row d-flex align-items-center">
+        <pager
+          [totalItems]="gruposFilter.length"
+          [(ngModel)]="currentPage"
+          [itemsPerPage]="itemsPerPage"
+          pageBtnClass="btn iconPager"
+          awPager
+          previousText=" "
+          nextText=" "
+        >
+        </pager>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="header">
+        <div>Cod.</div>
+        <div class="grupo">Grupo</div>
+        <div>Status</div>
+        <div class="end">Valor de Venda Congelado (R$)</div>
+        <div class="end">Saldo (R$)</div>
+        <div class="end">Valor a Transferir (R$)</div>
+      </div>
+      <hr class="divider-grupos" />
+      <div
+        *ngFor="let grupo of gruposPage; let $odd = odd; trackBy: trackByGruposTransferencia"
+        class="body"
+        [class.odd]="$odd"
+      >
+        <div>{{ grupo.codigo }}</div>
+        <div class="grupo">{{ grupo.nome }}</div>
+        <div></div>
+        <div class="end">
+          {{ grupo.valorVendaCongelada | number: '1.2-2' }}
+        </div>
+        <div class="end">
+          {{ grupo.valorSaldoUtilizado | number: '1.2-2' }}
+        </div>
+        <div
+          *ngLet="
+            !readonlyGruposView && (useBloqueado ? !grupo.bloqueado : !grupo.haTransacoesPendentes) as exibirInput
+          "
+          awSpinner
+          class="end"
+          [isDisabled]="exibirInput"
+          tooltip="Existem transações pendentes"
+        >
+          <input
+            tooltip="Transferência de valores"
+            [delay]="200"
+            awInput
+            size="sm"
+            placeholder="0,00"
+            [class.is-invalid]="!isValid && grupo.transferencia > 0"
+            [ngModel]="grupo.transferencia"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+            (ngModelChange)="changeValueGroup($event, grupo)"
+            currencyMask
+            [options]="{ allowNegative: false }"
+            [status]="statusGrupos[grupo.idCompraNegociacaoGrupo]"
+            *ngIf="exibirInput; else readonly"
+          />
+          <ng-template #readonly>
+            {{ grupo.transferencia | default: 0 | number: '1.2-2' }}
+          </ng-template>
+        </div>
+      </div>
+      <ng-container *ngIf="!hideTotal">
+        <hr />
+        <div class="grid-container-2">
+          <div class="total-label">Total</div>
+          <div class="total-value">
+            {{ grupos | awSumBy: 'transferencia' | number: '1.2-2' }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>

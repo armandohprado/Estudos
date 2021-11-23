@@ -1,0 +1,26 @@
+<div class="bg-white px-4 pb-2 rounded mx-3">
+  <app-header-grupo-cc [tipo]="tipo$ | async" [sort]="sort$ | async"></app-header-grupo-cc>
+  <ng-container *ngFor="let grupo of grupos$ | async; trackBy: trackBy">
+    <app-header-body-grupo-cc *ngIf="!grupo.gruposDuplicados?.length; else possuiDuplicados" #grupos [grupo]="grupo">
+    </app-header-body-grupo-cc>
+    <ng-template #possuiDuplicados>
+      <div class="grupo-duplicados">
+        <div class="grupo-duplicados-header">
+          <div class="grupo-duplicados-title">{{ grupo.codigo }} - {{ grupo.nome }}</div>
+          <div class="grupo-duplicados-total-congelado">{{ grupo.valorVendaCongelada | number: '1.2-2' }}</div>
+          <div class="grupo-duplicado-cc-emitida">{{ grupo.valorEmissaoCC | number: '1.2-2' }}</div>
+          <div class="grupo-duplicado-saldo">{{ grupo.valorSaldoAtualizado | number: '1.2-2' }}</div>
+        </div>
+        <div class="grupo-duplicado-grupos">
+          <app-header-body-grupo-cc
+            *ngFor="let grupo of grupo.gruposDuplicados; trackBy: trackBy; let $last = last"
+            #grupos
+            [grupo]="grupo"
+            [last]="$last"
+          >
+          </app-header-body-grupo-cc>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

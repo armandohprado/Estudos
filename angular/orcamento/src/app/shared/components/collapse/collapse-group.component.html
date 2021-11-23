@@ -1,0 +1,11 @@
+<ng-content select="[collapse-heading]"></ng-content>
+<div
+  #collapse="bs-collapse"
+  [collapse]="!isOpen"
+  [class.expanded]="isOpen"
+  class="collapse-body"
+  [isAnimated]="true"
+  (expands)="onExpand()"
+>
+  <ng-content></ng-content>
+</div>

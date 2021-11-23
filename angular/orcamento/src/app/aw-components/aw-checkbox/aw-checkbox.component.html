@@ -1,0 +1,19 @@
+<label class="aw-checkbox" [ngClass]="{ small, disabled }">
+  <input
+    type="checkbox"
+    class="aw-checkbox-input visually-hidden"
+    [disabled]="disabled"
+    [checked]="checked"
+    (change)="updateValue($event)"
+    (blur)="onTouched()"
+    (click)="$event.stopPropagation()"
+    [indeterminate]="indeterminate"
+  />
+  <span class="aw-checkbox-check" [class.checked]="checked || indeterminate">
+    <span class="icon icon-check" *ngIf="checked"></span>
+    <span class="icon icon-indeterminate" *ngIf="indeterminate">-</span>
+  </span>
+  <span class="aw-checkbox-text">
+    <ng-content></ng-content>
+  </span>
+</label>

@@ -1,0 +1,27 @@
+.card {
+  &.cenarios-card,
+  &.project-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .card-header {
+      background-color: var(--brownish-grey);
+      padding: 8px 10px 8px 20px;
+
+      .card-title {
+        margin-bottom: 0;
+        color: white;
+        font-weight: 500;
+      }
+    }
+
+    > .card-body {
+      padding-bottom: 14px;
+      padding-top: 20px;
+    }
+
+    .project-name {
+      @include project-name();
+    }
+  }
+}

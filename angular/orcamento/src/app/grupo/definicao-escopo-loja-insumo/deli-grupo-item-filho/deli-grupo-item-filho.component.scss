@@ -1,0 +1,36 @@
+@import 'variables';
+
+.grupo-item-filho {
+  padding: 1rem;
+  background-color: $very-light-blue;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+  > .header {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 120px 40px repeat(5, minmax(0, 1fr)) 25px;
+    > .cod-item {
+      grid-column-start: 2;
+    }
+    > .descricao {
+      grid-column: span 2;
+    }
+  }
+  > .body {
+    background-color: white;
+    border-radius: $border-radius;
+    margin-top: 1rem;
+  }
+}
+
+.acoes {
+  .icon {
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 2px;
+    &.caret {
+      font-size: 6px;
+      color: $primary;
+    }
+  }
+}

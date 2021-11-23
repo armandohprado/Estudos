@@ -1,0 +1,292 @@
+<form [formGroup]="form" class="form-group px-5">
+  <h4 class="font-weight-bold">As informações deste questionário foram</h4>
+
+  <!-- picks -->
+
+  <aw-radio
+    [name]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    [value]="1"
+    [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    (click)="selectCategoriaFormulario(1)"
+  >
+    Premissadas. será usado para orçamento, para início do processo de estimativa de custos (ainda não houve reunião
+    financeira com o cliente).
+  </aw-radio>
+
+  <div class="custom-control input-radio" *ngIf="categoria === 1">
+    <label for="tipo-nomeProfissional">Nome do profissional</label>
+    <input
+      type="text"
+      id="tipo-nomeProfissional"
+      class="form-control"
+      placeholder="ex: Luiza Silva"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO_NOME_PROFISSIONAL"
+    />
+  </div>
+
+  <aw-radio
+    [name]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    [value]="2"
+    [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    (click)="selectCategoriaFormulario(2)"
+  >
+    Reunião financeira com o cliente
+  </aw-radio>
+
+  <!-- form array -->
+
+  <div class="custom-control input-radio" *ngIf="categoria === 2">
+    <h5 class="font-weight-bold title-size mt-2">Interlocutor</h5>
+    <h5 class="font-weight-bold">Participantes da Entrevista</h5>
+
+    <div formArrayName="interlocutoresGroup">
+      <div *ngFor="let interlocutor of interlocutores.controls; let i = index" class="interlocutor-group">
+        <h6 class="font-weight-bold">Interlocutor {{ i + 1 }}</h6>
+
+        <div [formGroupName]="i">
+          <div (click)="deleteInterlocutor(i)">
+            <i class="icon icon-close"></i>
+          </div>
+
+          <label [for]="'nomeInterlocutor_' + i">Nome</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            [id]="'nomeInterlocutor_' + i"
+            placeholder="ex: Luiza Silva"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_INTERLOCUTOR_NOME"
+          />
+
+          <label [for]="'cargoInterlocutor_' + i">Cargo</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            [id]="'cargoInterlocutor_' + i"
+            placeholder="ex: Coordenadora Administrativa"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_INTERLOCUTOR_CARGO"
+          />
+
+          <div class="row">
+            <div class="col-md-8">
+              <label [for]="'emailInterlocutor_' + i">E-mail</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                [id]="'emailInterlocutor' + i"
+                placeholder="ex: luiza.silva@aw.com"
+                [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_INTERLOCUTOR_EMAIL"
+              />
+            </div>
+            <div class="col-md-4">
+              <label [for]="'telefoneInterlocutor_' + i">Telefone</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                [id]="'telefoneInterlocutor_' + i"
+                placeholder="ex: (00) 0000-0000"
+                [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_INTERLOCUTOR_TELEFONE"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-interlocutor d-flex justify-content-center align-items-center" (click)="addInterlocutor()">
+      <span class="btn btn-circle btn-plus ml-2 mr-1">
+        <i class="icon icon-plus"></i>
+      </span>
+
+      Adicionar Interlocutor
+    </button>
+  </div>
+
+  <!-- end array -->
+
+  <aw-radio
+    [name]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    [value]="3"
+    [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    (click)="selectCategoriaFormulario(3)"
+  >
+    Compra liberada mesmo sem a reunião com o cliente
+  </aw-radio>
+
+  <div class="custom-control input-radio" *ngIf="categoria === 3">
+    <label for="justificativa">Justificativa</label>
+    <textarea
+      class="form-control"
+      id="justificativa"
+      rows="5"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO_JUSTIFICATIVA"
+      [innerHTML]="form.get(QuestionarioEnum.QUESTIONARIO_TIPO_JUSTIFICATIVA).value"
+    >
+    </textarea>
+  </div>
+
+  <aw-radio
+    [name]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    [value]="4"
+    [formControlName]="QuestionarioEnum.QUESTIONARIO_TIPO"
+    (click)="selectCategoriaFormulario(4)"
+  >
+    Copiar informações financeiras de outro projeto
+  </aw-radio>
+
+  <div class="custom-control input-radio" *ngIf="categoria === 4">
+    <i class="icon icon-search"></i>
+    <input
+      type="text"
+      class="form-control my-2 project-search"
+      id="buscar"
+      placeholder="buscar por números ou nome do projeto"
+    />
+  </div>
+
+  <!-- form -->
+
+  <h4 class="font-weight-bold mt-5">Informações Iniciais</h4>
+
+  <h5 class="font-weight-bold mb-4 pl-3">Athie Wohnrath</h5>
+
+  <div class="control-switch d-flex mb-4">
+    <aw-toggle
+      [vertical]="true"
+      (click)="enableFields(quantitativo)"
+      [checked]="form.get(QuestionarioEnum.QUESTIONARIO_INICIAL_NOME_PROJETO).value"
+      #quantitativo
+    >
+      <label after>Premissa</label>
+    </aw-toggle>
+
+    <div class="custom-control col-md-9" [class.disabled]="!quantitativo.checked">
+      <label for="projeto" class="font-size">Projeto </label>
+      <input
+        type="text"
+        class="form-control"
+        id="projeto"
+        placeholder="ex: 0000/00 - Nome do Projeto"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_NOME_PROJETO"
+      />
+    </div>
+  </div>
+
+  <div class="control-switch d-flex mb-4">
+    <aw-toggle
+      [vertical]="true"
+      #quantitativo2
+      (click)="enableFields(quantitativo2)"
+      [checked]="form.get(QuestionarioEnum.QUESTIONARIO_INICIAL_FUNCIONARIO).value"
+    >
+      <label after>Premissa</label>
+    </aw-toggle>
+
+    <div class="custom-control col-md-6" [class.disabled]="!quantitativo2.checked">
+      <label for="nomeFuncionario" class="font-size">Funcionário</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nomeFuncionario"
+        placeholder="ex: Luiza Silva"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_FUNCIONARIO"
+      />
+    </div>
+
+    <div class="custom-control col-md-3" [class.disabled]="!quantitativo2.checked">
+      <label for="inicial-data" class="font-size">Data</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inicial-data"
+        placeholder="ex: 00/00/0000"
+        bsDatepicker
+        placement="top"
+        autocomplete="off"
+        [bsConfig]="bsConfig"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_DATA"
+      />
+    </div>
+  </div>
+
+  <div class="control-switch d-flex mb-4">
+    <aw-toggle
+      [vertical]="true"
+      #quantitativo3
+      (click)="enableFields(quantitativo3)"
+      [checked]="form.get(QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO).value"
+    >
+      <label after>Premissa</label>
+    </aw-toggle>
+    <fieldset [class.disabled]="!quantitativo3.checked">
+      <legend class="custom-control ml-3 pl-3">Tipo</legend>
+      <div class="ml-3 pl-3">
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          value="Projeto"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          >Projeto</aw-radio
+        >
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          value="Gerenciamento"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+        >
+          Gerenciamento
+        </aw-radio>
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          value="Parcial"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          >Empreitada Parcial</aw-radio
+        >
+
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          value="Empreitada Total"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_TIPO"
+          >Empreitada Total</aw-radio
+        >
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="control-switch d-flex mb-4">
+    <aw-toggle
+      #quantitativo4
+      [vertical]="true"
+      (click)="enableFields(quantitativo4)"
+      [checked]="form.get(QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO).value"
+    >
+      <label after>Premissa</label>
+    </aw-toggle>
+
+    <fieldset [class.disabled]="!quantitativo4.checked">
+      <legend class="custom-control ml-3 pl-3">Questionário está sendo respondido</legend>
+      <div class="ml-3 pl-3">
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          value="GEX / SAF / FPO em início do processo para estimativa de custo (ainda não houve reunião com o cliente) / encontro de contas."
+          >GEX / SAF / FPO em início do processo para estimativa de custo (ainda não houve reunião com o cliente) /
+          encontro de contas.</aw-radio
+        >
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          value="Reunião financeira como cliente"
+          >Reunião financeira como cliente</aw-radio
+        >
+        <aw-radio
+          [name]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_INICIAL_QUESTIONARIO"
+          value="Liberado sem reunião"
+          >Liberado sem reunião</aw-radio
+        >
+      </div>
+    </fieldset>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end">
+  <button class="btn btn-primary gradient-btn btn-proximo" type="button" (click)="sendForm()">próximo</button>
+</div>

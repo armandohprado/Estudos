@@ -1,0 +1,20 @@
+@import 'variables';
+
+.row {
+  &.bg-ice {
+    background-color: var(--ice-blue);
+    padding-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  padding-left: 112px;
+}
+
+:host ::ng-deep.btn {
+  width: 140px;
+  margin: 1rem 0.7rem;
+}
+
+.invalid {
+  border: 1px solid red !important;
+}

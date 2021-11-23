@@ -1,0 +1,60 @@
+<div class="bg-white rounder p-2 d-flex justify-content-center">
+  <tabset class="pb-2 body-grupo-tabs" #tabset>
+    <tab
+      heading="Orçamento"
+      [active]="grupo.tabAtual === cnGruposTabsEnum.Orcamento"
+      [id]="'' + cnGruposTabsEnum.Orcamento"
+      (selectTab)="mudarAba(cnGruposTabsEnum.Orcamento)"
+    >
+      <app-tab-orcamento-cc
+        *ngIf="grupo.tabAtual === cnGruposTabsEnum.Orcamento"
+        [grupoOrcamento]="grupo.grupoOrcamento"
+        [grupo]="grupo"
+      ></app-tab-orcamento-cc>
+    </tab>
+    <tab
+      heading="Compra e Negociação"
+      [active]="grupo.tabAtual === cnGruposTabsEnum.CompraNegociacao"
+      [id]="'' + cnGruposTabsEnum.CompraNegociacao"
+      (selectTab)="mudarAba(cnGruposTabsEnum.CompraNegociacao)"
+      [disabled]="grupo.grupoTaxa || (!grupo.centralCompras && !grupo.haTransacoesPendentes)"
+      [awSpinner]="grupo.loadingCompraNegociacaoTab"
+    >
+      <app-tab-compra-negociacao-cc
+        *ngIf="grupo.tabAtual === cnGruposTabsEnum.CompraNegociacao"
+        [grupo]="grupo"
+        [grupoOrcamento]="grupo.grupoOrcamento"
+      ></app-tab-compra-negociacao-cc>
+    </tab>
+    <tab
+      heading="Migração de budget"
+      [active]="grupo.tabAtual === cnGruposTabsEnum.MigracaoBudget"
+      [id]="'' + cnGruposTabsEnum.MigracaoBudget"
+      (selectTab)="mudarAba(cnGruposTabsEnum.MigracaoBudget)"
+      [awSpinner]="grupo.loadingMigracaoBudgetGruposTransferencia"
+    >
+      <app-cn-tab-migracao-budget
+        *ngIf="grupo.tabAtual === cnGruposTabsEnum.MigracaoBudget"
+        [grupo]="grupo"
+      ></app-cn-tab-migracao-budget>
+    </tab>
+    <tab
+      heading="Confirmação de Compra"
+      [active]="grupo.tabAtual === cnGruposTabsEnum.Confirmacao"
+      [id]="'' + cnGruposTabsEnum.Confirmacao"
+      (selectTab)="mudarAba(cnGruposTabsEnum.Confirmacao)"
+      [disabled]="
+        grupo.grupoOrcamento?.somenteAwEstimado ||
+        (!grupo.permitidoEmitirCcSemMapa &&
+          grupo.centralCompras &&
+          !grupo.grupoTaxa &&
+          !(grupo.idCompraNegociacaoStatus | any: statusConfirmacaoCompra))
+      "
+    >
+      <app-tab-confirmacao-compra-cc
+        *ngIf="grupo.tabAtual === cnGruposTabsEnum.Confirmacao"
+        [grupo]="grupo"
+      ></app-tab-confirmacao-compra-cc
+    ></tab>
+  </tabset>
+</div>

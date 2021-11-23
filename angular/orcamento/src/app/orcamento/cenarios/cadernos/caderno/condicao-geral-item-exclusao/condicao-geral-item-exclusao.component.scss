@@ -1,0 +1,10 @@
+:host {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .caderno-content {
+    min-height: auto;
+    padding-bottom: 1rem;
+  }
+}

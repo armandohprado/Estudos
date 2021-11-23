@@ -1,0 +1,23 @@
+<div class="body2">
+  <div class="simples" *ngLet="backLoading$ | async">
+    <gc-spread-sheets
+      (workbookInitialized)="workbookInit($event)"
+      (editEnded)="editEnded($event)"
+      (clipboardPasted)="clipboardPasted($event)"
+      (cellChanged)="cellChanged($event)"
+      (rangeChanged)="rangeChanged($event)"
+      [hostStyle]="hostStyle"
+      [allowUserDragDrop]="false"
+      [tabStripVisible]="true"
+      [newTabVisible]="false"
+      [tabNavigationVisible]="false"
+      [allowContextMenu]="false"
+      [allowUndo]="false"
+      [allowUserDragFill]="false"
+      [allowUserDragMerge]="false"
+    >
+      <gc-worksheet></gc-worksheet>
+    </gc-spread-sheets>
+    <div #zoom class="zoom"></div>
+  </div>
+</div>

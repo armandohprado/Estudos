@@ -1,0 +1,15 @@
+<div [awSpinner]="planoComprasQuery.loading$ | async" size="lg">
+  <ag-grid-angular
+    class="ag-theme-balham ag-aw"
+    [rowData]="planoComprasQuery.rowData$ | async"
+    [modules]="gridModules"
+    [gridOptions]="gridOptions"
+    (gridReady)="onGridReady($event)"
+    (firstDataRendered)="firstDataRendered()"
+    (sortChanged)="stateChanged()"
+    (filterChanged)="stateChanged()"
+    [class.minified]="minified"
+    #agGrid
+  >
+  </ag-grid-angular>
+</div>

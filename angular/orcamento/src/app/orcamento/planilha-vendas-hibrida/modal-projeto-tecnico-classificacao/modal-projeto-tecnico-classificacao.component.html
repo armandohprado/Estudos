@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4>Projetos Técnicos</h4>
+  <button awButton icon="close" size="sm" type="button" (click)="bsModalRef.hide()"></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="grid-2 pt-2">
+      <div class="font-weight-bold justify-content-center">Nome do grupo</div>
+      <div class="font-weight-bold justify-content-center">Classificação</div>
+    </div>
+    <hr />
+    <div
+      class="grid-2 py-2"
+      *ngFor="let projeto of projetosTecnicos$ | async; trackBy: trackByProjetos; let $last = last"
+      [awSpinner]="projeto.loader"
+    >
+      <div class="pl-3 ml-3">{{ projeto.codigoGrupo }} - {{ projeto.nomeGrupo }}</div>
+      <div>
+        <div class="px-1">
+          <aw-radio
+            [value]="1"
+            [(ngModel)]="projeto.classificacao"
+            [name]="projeto.idOrcamentoCenarioGrupo + ''"
+            (ngModelChange)="updateProjetoTecnico(projeto)"
+            >Obrigatório</aw-radio
+          >
+        </div>
+        <div class="px-1">
+          <aw-radio
+            [name]="projeto.idOrcamentoCenarioGrupo + ''"
+            [value]="2"
+            [(ngModel)]="projeto.classificacao"
+            (ngModelChange)="updateProjetoTecnico(projeto)"
+            >Sugerido</aw-radio
+          >
+        </div>
+        <div class="px-1">
+          <aw-radio
+            [value]="3"
+            [name]="projeto.idOrcamentoCenarioGrupo + ''"
+            [(ngModel)]="projeto.classificacao"
+            (ngModelChange)="updateProjetoTecnico(projeto)"
+            >Opcional</aw-radio
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

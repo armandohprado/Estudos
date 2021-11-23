@@ -1,0 +1,100 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding: 0 80px 25px 80px;
+
+  ::ng-deep {
+    .ck-editor__editable {
+      min-height: 162px !important;
+      border-radius: $border-radius !important;
+      border: 1px solid var(--greyish-brown) !important;
+    }
+
+    .ck {
+      .ck-button {
+        min-height: unset !important;
+      }
+
+      .ck-toolbar {
+        border: 0;
+        background-color: var(--ice-blue);
+        border-radius: $border-radius !important;
+
+        > * {
+          margin-top: 1.8px;
+          margin-bottom: 1.8px;
+        }
+      }
+
+      .ck-sticky-panel {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+.error {
+  border: 1px solid red;
+  font-style: normal;
+}
+
+.form-group-title {
+  font-weight: bold;
+  font-size: $h6-font-size;
+  margin-bottom: 0;
+}
+
+.has-success,
+.has-danger {
+  &:after {
+    top: unset;
+    transform: translate(0px, -28px);
+  }
+}
+
+.form-group-title + label,
+.form-group-title + .service-execution-dates .form-group label {
+  &:not(.error) {
+    color: var(--brownish-grey);
+    font-size: $small-font-size;
+    font-weight: normal;
+  }
+}
+
+.message-info {
+  color: var(--brownish-grey);
+  font-size: 12px;
+
+  b {
+    &:first-of-type {
+      font-weight: bold;
+    }
+
+    font-weight: 500;
+  }
+}
+
+.has-label {
+  min-height: 97px;
+}
+
+.service-execution-dates {
+  .form-group {
+    flex: 1;
+
+    &:first-of-type {
+      .form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &:last-child {
+      .form-control {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

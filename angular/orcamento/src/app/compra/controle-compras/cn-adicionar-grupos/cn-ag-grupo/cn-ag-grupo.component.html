@@ -1,0 +1,72 @@
+<div class="checkbox">
+  <aw-checkbox
+    [ngModel]="grupo.selecionado"
+    (ngModelChange)="onSelect($event)"
+    [disabled]="!!grupo.idOrcamentoGrupo"
+  ></aw-checkbox>
+</div>
+<div class="codigo">{{ grupo.codigoGrupo }}</div>
+<div class="descricao">
+  {{ grupo.nomeGrupo }}
+  <ng-container *ngIf="grupo.complementoOrcamentoGrupo"> - {{ grupo.complementoOrcamentoGrupo }} </ng-container>
+</div>
+<div class="actions">
+  <div class="action-add-grupo" *ngIf="!grupo.idOrcamentoGrupo">
+    <aw-radio
+      class="action"
+      [disabled]="!grupo.selecionado"
+      name="{{ grupo.idGrupo }}"
+      [value]="true"
+      [ngModel]="grupo.grupoNaoPrevisto"
+      (ngModelChange)="onGrupoNaoPrevistoChange($event)"
+    >
+      Custo não previsto
+    </aw-radio>
+    <aw-radio
+      class="action"
+      [disabled]="!grupo.selecionado"
+      name="{{ grupo.idGrupo }}"
+      [value]="false"
+      [ngModel]="grupo.grupoNaoPrevisto"
+      (ngModelChange)="onGrupoNaoPrevistoChange($event)"
+    >
+      Valor zerado
+    </aw-radio>
+  </div>
+  <div class="action-duplicar-grupo" *ngIf="grupo.idOrcamentoGrupo">
+    <button size="sm" awButton type="button" (click)="onDuplicar()" *ngIf="!grupo.duplicar; else duplicado">
+      <span class="icon aw-icon-duplicate"></span>
+      Duplicar
+    </button>
+    <ng-template #duplicado>
+      <aw-checkbox
+        class="action"
+        [ngModel]="grupo.duplicarFornecedor"
+        (ngModelChange)="onChangeDuplicarFornecedor($event)"
+      >
+        Manter Fornecedor
+      </aw-checkbox>
+      <aw-checkbox
+        class="action"
+        *ngIf="!(grupo.idTipoGrupo | any: [tipoGrupoEnum.Loja, tipoGrupoEnum.Insumo, tipoGrupoEnum.InsumoKit])"
+        [ngModel]="grupo.duplicarAtributos"
+        (ngModelChange)="onChangeDuplicarAtributos($event)"
+      >
+        Manter Atributos
+      </aw-checkbox>
+      <aw-checkbox
+        class="action"
+        [ngModel]="grupo.duplicarQuantidades"
+        (ngModelChange)="onChangeDuplicarQuantidado($event)"
+      >
+        Manter Quantidades
+      </aw-checkbox>
+    </ng-template>
+  </div>
+</div>
+<div class="copia" *ngIf="grupo.idOrcamentoGrupoOrigem">
+  <span class="icon aw-icon-icon-tooltip" tooltip="Cópia"></span>
+</div>
+<div class="cancelar-duplicar" *ngIf="grupo.duplicar">
+  <button type="button" awButton icon="error" tooltip="Cancelar duplicação" (click)="onCancelarDuplicar()"></button>
+</div>

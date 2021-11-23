@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h5 class="modal-title">Miscellaneous</h5>
+  <button type="button" awButton icon="close" size="sm" (click)="bsModalRef.hide()" [disabled]="loading"></button>
+</div>
+<div class="modal-body">
+  <div class="wrapper">
+    <div class="box saldo-grupo">
+      <div class="title">Saldo disponível:</div>
+      <div class="value">{{ grupo.valorMiscellaneousDisponivel | number: '1.2-2' }}</div>
+    </div>
+    <div class="box miscellaneous">
+      <div class="title">Miscellaneous</div>
+      <div class="value">
+        <label class="sr-only" for="miscellaneous">Miscellaneous</label>
+        <input
+          id="miscellaneous"
+          awInput
+          [formControl]="miscellaneousControl"
+          currencyMask
+          [options]="{ allowNegative: false, max: grupo.valorMiscellaneousDisponivel }"
+          (keydown.enter)="salvar()"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" awButton status="secondary" (click)="bsModalRef.hide()" width="secondary" [disabled]="loading">
+    Fechar
+  </button>
+  <button
+    type="button"
+    awButton
+    [disabled]="miscellaneousControl.invalid || miscellaneousControl.value <= 0"
+    width="primary"
+    (click)="salvar()"
+    [loading]="loading"
+  >
+    Salvar
+  </button>
+</div>

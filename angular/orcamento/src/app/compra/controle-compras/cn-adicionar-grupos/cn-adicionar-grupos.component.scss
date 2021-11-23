@@ -1,0 +1,33 @@
+@use 'variables' as v;
+
+.grupao {
+  background-color: v.$very-light-blue;
+  border-radius: v.$border-radius;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  border: 2px solid transparent;
+  transition: border-color 200ms ease;
+  &.has-any-grupo-selected {
+    border-color: v.$bluey-grey;
+  }
+}
+
+.grupao-header {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 60px) minmax(0, 1fr) minmax(0, 30px);
+  grid-gap: 1rem;
+  align-items: center;
+}
+
+.grupao-inner-body {
+  padding: 0.75rem 1rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, max-content);
+  grid-gap: 1rem;
+  align-items: flex-end;
+}

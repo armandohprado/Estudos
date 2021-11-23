@@ -1,0 +1,78 @@
+@import 'variables';
+@import 'mixins';
+
+.card {
+  > .card-header {
+    background-color: #787878;
+    > .card-title {
+      margin-bottom: 0;
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  > .card-body {
+    padding-bottom: 14px;
+    padding-top: 20px;
+    > .project-name {
+      @include project-name();
+    }
+  }
+
+  &.orcamentos {
+    > .card-header,
+    > .card-body {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 0.5fr;
+      grid-gap: 1rem;
+      > .divider {
+        grid-column: span 4;
+        border-top: 1px solid #abaeb9;
+      }
+    }
+    > .card-header {
+      color: white;
+      font-size: 1.12525rem;
+      font-weight: 500;
+      > .acoes {
+        text-align: center;
+      }
+    }
+    > .card-body {
+      > .edificios,
+      > .fases {
+        > div:not(:last-child) {
+          margin-bottom: 1rem;
+        }
+      }
+
+      > .acoes {
+        > .icons {
+          display: flex;
+          justify-content: center;
+          > button,
+          > .divider,
+          > a {
+            margin-right: 1rem;
+            &.last {
+              margin-right: 0;
+            }
+          }
+          > .divider {
+            padding: 0;
+            border-right: 1px solid #b5babd;
+          }
+        }
+      }
+    }
+  }
+}
+.toggle-modal {
+  width: 313px;
+}
+
+.empty-message {
+  font-style: italic;
+  color: #b5babd;
+  padding: 24px;
+}

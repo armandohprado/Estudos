@@ -1,0 +1,55 @@
+<div class="title">
+  <h6>{{ titulo }}</h6>
+  <a *ngIf="tipo === 'entregaDocumentos'" (click)="preencherEnderecoAw()"> Endereço AW </a>
+</div>
+<div class="form">
+  <div class="form-group cep">
+    <input awInput [mask]="maskEnum.cep" placeholder="CEP" formControlName="cep" />
+  </div>
+  <div class="form-group pais">
+    <aw-select
+      placeholder="País"
+      [clearable]="false"
+      [items]="enderecosQuery.paises$ | async"
+      bindLabel="nome"
+      formControlName="pais"
+      [comparatorFn]="comparatorPais"
+    ></aw-select>
+  </div>
+  <div class="form-group uf">
+    <aw-select
+      placeholder="UF"
+      [clearable]="false"
+      [items]="estados$ | async | default: estados"
+      bindLabel="nome"
+      formControlName="uf"
+      [loading]="estadoLoading"
+      noDataFound="Nenhum estado encontrado"
+      [comparatorFn]="comparatorEstado"
+    ></aw-select>
+  </div>
+  <div class="form-group cidade">
+    <aw-select
+      placeholder="Cidade"
+      [clearable]="false"
+      [items]="cidades$ | async | default: cidades"
+      bindLabel="nome"
+      formControlName="cidade"
+      [loading]="cidadeLoading"
+      noDataFound="Nenhuma cidade encontrada"
+      [comparatorFn]="comparatorCidade"
+    ></aw-select>
+  </div>
+  <div class="form-group bairro">
+    <input awInput placeholder="Bairro" formControlName="bairro" />
+  </div>
+  <div class="form-group endereco">
+    <input awInput placeholder="Endereço" formControlName="endereco" />
+  </div>
+  <div class="form-group complemento">
+    <input awInput placeholder="Complemento" formControlName="complemento" />
+  </div>
+  <div class="form-group observacao" *ngIf="observacao">
+    <textarea awInput placeholder="Observação" formControlName="observacao" resize="none" rows="5"></textarea>
+  </div>
+</div>

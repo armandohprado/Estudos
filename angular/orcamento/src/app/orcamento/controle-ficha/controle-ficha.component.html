@@ -1,0 +1,9 @@
+<aw-wrapper-page titulo="Fichas" (voltar)="voltar()">
+  <app-header-controle-fichas (filterChange)="filters = $event"></app-header-controle-fichas>
+  <div>
+    <app-body-controle-fichas [filters]="filters"></app-body-controle-fichas>
+  </div>
+  <div footer>
+    <button awButton status="secondary" (click)="voltar()">Voltar</button>
+  </div>
+</aw-wrapper-page>

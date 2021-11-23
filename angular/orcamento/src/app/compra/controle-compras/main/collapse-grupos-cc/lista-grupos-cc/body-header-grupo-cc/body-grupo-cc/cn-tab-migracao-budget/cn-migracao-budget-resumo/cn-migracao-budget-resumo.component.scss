@@ -1,0 +1,47 @@
+@use 'variables' as v;
+
+.grupos-resumo {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  > div {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    &:not(.header) {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+}
+
+.nome {
+  grid-column: span 2;
+}
+
+hr {
+  width: 100%;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  grid-column: 1/-1;
+}
+
+.header {
+  font-weight: 500;
+}
+
+.valor {
+  text-align: end;
+}
+
+.odd {
+  background-color: v.$very-light-blue;
+}
+
+.total-label {
+  grid-column-start: 5;
+  font-weight: bold;
+}
+
+.total-value {
+  text-align: end;
+  font-weight: bold;
+}

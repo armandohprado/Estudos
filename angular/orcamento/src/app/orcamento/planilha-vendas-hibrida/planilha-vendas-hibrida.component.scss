@@ -1,0 +1,371 @@
+@import 'variables';
+@import 'mixins';
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-gerenciar-grupos {
+  padding: $spacing 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.content {
+  &.planilha-hibrida {
+    background-color: #ffffff;
+
+    .btn-acoes-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid rgba(192, 192, 192, 0.5);
+
+      p {
+        font-size: 0.95em;
+        font-weight: bold;
+      }
+    }
+
+    .opcoes-visualizacao {
+      margin-top: $spacing * 2.5;
+      background-color: #e7ecef;
+      padding: $spacing;
+      &.sticky {
+        position: sticky;
+        top: 295px;
+        z-index: 2;
+      }
+      > div {
+        display: flex;
+        align-items: center;
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+        &.title {
+          font-size: 12px;
+          font-weight: bold;
+        }
+        &.divider {
+          border-right: 1px solid $bluey-grey;
+        }
+        &.fixo {
+          > .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .contrato-grupo select {
+      border-radius: 3px;
+      padding: 4px 0;
+    }
+
+    .taxas {
+      background-color: #f7f7f7;
+      border-radius: 3px;
+      padding: $spacing;
+
+      .taxas-title {
+        font-size: 16px;
+        font-weight: 500;
+        padding: $spacing;
+        border-bottom: 1px solid #9ea1ae;
+      }
+
+      thead {
+        tr {
+          font-size: 12px;
+          font-weight: 500;
+
+          td {
+            padding: $spacing $spacing;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          background-color: #ffffff;
+          border-radius: 3px;
+          border-bottom: 2px solid #f7f7f7;
+          font-weight: bold;
+          text-transform: capitalize;
+
+          td {
+            padding: $spacing * 2 $spacing;
+          }
+        }
+      }
+
+      tfoot {
+        tr {
+          font-weight: bold;
+
+          td {
+            padding: $spacing * 2 $spacing;
+          }
+        }
+      }
+    }
+    .botoes {
+      padding: $spacing * 2.5 0;
+      font-weight: 500;
+
+      .btn-verde {
+        color: #ffffff;
+        background-image: linear-gradient(279deg, #398e85 121%, #44a79d -17%);
+      }
+    }
+  }
+}
+
+.content-collapse {
+  padding: $spacing;
+
+  .header-title-familia {
+    font-size: 12px;
+    font-weight: 500;
+    padding: $spacing $spacing * 4 0 $spacing * 2;
+    &.sticky {
+      position: sticky;
+      top: 336px;
+      z-index: 2;
+    }
+    background-color: #ffffff;
+  }
+
+  .header-title-taxas {
+    text-align: right;
+    padding-left: $spacing;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .header-title-valor {
+    width: 131px;
+    padding-left: $spacing;
+    text-align: right;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .header-title-grupo {
+    font-size: 12px;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .icon-caret-down,
+  .icon-caret-up {
+    font-size: 6px;
+    cursor: pointer;
+  }
+}
+.card {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  box-shadow: none;
+
+  .card-header {
+    background-color: #e7ecef;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 3px;
+    &.sticky {
+      position: sticky;
+      top: 377px;
+      z-index: 1;
+    }
+    &.familia-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      > .familia-nome {
+        > h5 {
+          margin: 0;
+        }
+      }
+      > .info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > div {
+          padding: 0 0.5rem;
+          &.scroll-btns {
+            cursor: default;
+            white-space: nowrap;
+            > .aw-btn:first-child {
+              margin-right: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  .card-body {
+    background-color: #e7ecef;
+    position: relative;
+    overflow-x: auto;
+
+    .grupao-info {
+      border-bottom: 2px solid #9ea1ae;
+      margin-top: $spacing;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    .grupo-info {
+      border: none;
+      border-radius: 3px;
+      margin-top: $spacing;
+      font-size: 12px;
+      padding: $spacing 0 0 $spacing;
+      background-color: #ffffff;
+
+      .divisor-linha {
+        border-bottom: 1px solid #e7ecef;
+      }
+      .divisor-coluna-left {
+        border-left: 1px solid #e7ecef;
+      }
+
+      .adic-desc {
+        width: 235px;
+      }
+      .valor-orcado-grupo {
+        padding-left: $spacing * 2.5;
+        font-weight: bold;
+      }
+      .subtotal-adic-desc-grupo {
+        padding-left: $spacing * 2.5;
+        font-weight: bold;
+      }
+      .subtotal-contrato-grupo {
+        padding-left: $spacing * 2.5;
+        font-weight: bold;
+      }
+      .valor-total-grupo {
+        padding-left: $spacing;
+        margin-right: $spacing;
+        font-weight: bold;
+      }
+      .btn-saving-individual {
+        text-align: right;
+        float: right;
+        padding-right: $spacing * 2.5;
+
+        .icon {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .card-header-grupo {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 3px;
+  }
+  .card-body-grupo {
+    background-color: #ffffff;
+    padding: $spacing;
+  }
+
+  .tabela-planilha-hibrida {
+    width: 100%;
+
+    tr.footer-familia-planilha {
+      font-size: 12px;
+      font-weight: normal;
+      padding: 0 $spacing * 4 0 $spacing * 2;
+      text-align: right;
+      border-radius: 3px;
+    }
+
+    td {
+      font-size: 12px;
+    }
+  }
+}
+
+input.porcento {
+  width: 43px;
+  height: 25px;
+  font-size: 12px;
+  background-color: #ffffff;
+  margin: auto 2px;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  padding: 5px 1px;
+  text-align: right;
+}
+
+input.valor {
+  width: 90px;
+  height: 25px;
+  font-size: 12px;
+  background-color: #ffffff;
+  margin: auto 2px;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  padding: 5px 1px;
+  text-align: right;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.btn-congelar-planilha.disabled {
+  cursor: default;
+  > p {
+    opacity: 0.6;
+  }
+}
+
+.card-transacoes {
+  color: #3c3c3c;
+  .card-header {
+    background-color: #787878;
+    color: #fff;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    position: unset;
+  }
+  .card-body {
+    background-color: #fff;
+    h1 {
+      font-size: 18px;
+    }
+    h2 {
+      font-size: 14px;
+      text-transform: none;
+    }
+    h1,
+    h2 {
+      font-weight: bold;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .icon-caret-down,
+  .icon-caret-up {
+    color: $primary;
+  }
+  .aw-select {
+    .icon-caret-down,
+    .icon-caret-up {
+      color: black;
+    }
+  }
+}

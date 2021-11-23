@@ -1,0 +1,47 @@
+@import 'variables';
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 100px repeat(8, minmax(0, 1fr));
+  grid-gap: 0.5rem;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.odd {
+  background-color: $light-gray !important;
+}
+
+.primary {
+  color: $primary;
+}
+
+.cinza-escuro {
+  background-color: $grey-light !important;
+}
+
+.size-11 {
+  font-size: 11px;
+}
+
+.circulo {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: absolute;
+  margin-top: 4px;
+
+  &.red {
+    background: #fb2525;
+  }
+
+  &.green {
+    background: #00d46c;
+  }
+
+  &.yellow {
+    background: #f79500;
+  }
+}

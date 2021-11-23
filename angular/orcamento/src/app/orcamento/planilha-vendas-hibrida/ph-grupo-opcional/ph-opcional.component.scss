@@ -1,0 +1,40 @@
+@import 'variables';
+
+.padding-ph {
+  //padding: 10px 40px 0 20px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.bg-cinza {
+  background-color: #e7ecef;
+}
+.margin-valor {
+  margin-right: 8px;
+}
+.font-weight-revert {
+  font-weight: revert;
+}
+.font-size-md {
+  font-size: medium;
+}
+.margin-grupos-opc {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.scroll-btns {
+  margin: 0 0.5rem;
+  button:not(:last-of-type) {
+    margin-right: 0.5rem;
+  }
+}
+
+.end-title {
+  display: flex;
+  align-items: center;
+}
+
+.info-valor {
+  text-transform: none;
+}

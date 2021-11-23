@@ -1,0 +1,50 @@
+@import 'variables';
+
+.grupo-item-content {
+  border-radius: $border-radius;
+  background-color: white;
+  min-height: 100px;
+  padding: 1rem;
+  .quantificar {
+    background-color: $very-light-blue;
+    border-radius: $border-radius;
+    padding-bottom: 0.001rem;
+    .title {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: $border-radius;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h6 {
+        margin: 0;
+      }
+    }
+    .content {
+      margin: 1rem;
+      padding: 0.5rem 0;
+      background-color: white;
+    }
+  }
+  > .filhos {
+    margin-top: 1rem;
+    > .title {
+      margin-bottom: 1rem;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      grid-gap: 1rem;
+      background-color: $gray-secondary;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius;
+      h6 {
+        margin: 0;
+        grid-column-start: 2;
+      }
+    }
+  }
+}
+
+.icon.caret {
+  font-size: 6px;
+  color: $primary;
+}

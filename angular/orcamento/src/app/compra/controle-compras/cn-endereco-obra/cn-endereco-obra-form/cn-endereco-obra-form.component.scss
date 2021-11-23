@@ -1,0 +1,51 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+h6 {
+  border-bottom: 1px solid v.$bluey-grey;
+  margin-bottom: 0;
+}
+
+.block {
+  padding: 1rem;
+  background-color: v.$very-light-blue;
+  border-radius: 0 0 v.$border-radius v.$border-radius;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas:
+    'endereco endereco pais estado cidade'
+    'complemento complemento bairro bairro cep';
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.endereco {
+  grid-area: endereco;
+}
+
+.pais {
+  grid-area: pais;
+}
+
+.estado {
+  grid-area: estado;
+}
+
+.cidade {
+  grid-area: cidade;
+}
+
+.complemento {
+  grid-area: complemento;
+}
+
+.bairro {
+  grid-area: bairro;
+}
+
+.cep {
+  grid-area: cep;
+}

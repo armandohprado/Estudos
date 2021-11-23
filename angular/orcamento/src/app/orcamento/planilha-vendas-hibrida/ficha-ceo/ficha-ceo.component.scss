@@ -1,0 +1,34 @@
+@import 'variables';
+@import 'mixins';
+
+.ficha-ceo {
+  background-color: #ffffff;
+  padding: $spacing;
+  font-size: 12px;
+
+  .header-title {
+    font-weight: bold;
+  }
+
+  .body-title {
+    font-weight: 500;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .form-group {
+    > .input-group {
+      > .input-group-append {
+        > .input-group-text {
+          padding: 0 0.75rem;
+        }
+      }
+    }
+  }
+}

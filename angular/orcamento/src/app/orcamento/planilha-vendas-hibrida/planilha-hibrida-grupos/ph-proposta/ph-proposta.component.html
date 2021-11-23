@@ -1,0 +1,20 @@
+<aw-spinner *ngIf="loading" size="lg" fullScreen></aw-spinner>
+<aw-spinner *ngIf="loadingGrupo"></aw-spinner>
+<app-grupo-proposta
+  *ngIf="grupo$ | async as grupo; else noDataFoundGrupo"
+  [grupo]="grupo"
+  [idOrcamentoCenario]="idOrcamentoCenario"
+  [idOrcamento]="idOrcamento"
+  [idProjeto]="idProjeto"
+  (propostaSelecionada)="refreshPlanilhaHibrida()"
+  (grupoExcluir)="refreshPlanilhaHibrida()"
+  [devolucaoPropostaRouterLink]="['proposta']"
+  [equalizacaoRouterLink]="['equalizacao-proposta', grupo.idOrcamentoGrupo]"
+  [routerLinkQueryParams]="{
+    idOrcamentoFamilia: idOrcamentoFamilia,
+    idGrupao: idGrupao,
+    idOrcamentoGrupo: grupo.idOrcamentoGrupo
+  }"
+  [expanded]="true"
+></app-grupo-proposta>
+<ng-template #noDataFoundGrupo> Grupo não encontrado! </ng-template>

@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <h5 class="modal-title">Adicionar Grupo Opcional</h5>
+  <button type="button" class="close" (click)="close()" [disabled]="saving">
+    <span class="icon icon-close"></span>
+  </button>
+</div>
+<div class="mx-5 modal-body">
+  <div class="sup" [formGroup]="form">
+    <div class="bg-cinza d-flex justify-content-center p-2">
+      <div class="d-flex justify-content-start ml-1">
+        <aw-radio formControlName="tipoGrupoOpcional" name="tipoGrupoOpcional" [value]="tipoGrupo.troca">
+          Troca
+        </aw-radio>
+      </div>
+      <div class="d-flex justify-content-start ml-2">
+        <aw-radio formControlName="tipoGrupoOpcional" name="tipoGrupoOpcional" [value]="tipoGrupo.complemento">
+          Complemento
+        </aw-radio>
+      </div>
+      <div class="d-flex justify-content-start ml-2">
+        <aw-radio formControlName="tipoGrupoOpcional" name="tipoGrupoOpcional" [value]="tipoGrupo.semVinculo">
+          Complemento não vinculado a outro grupo
+        </aw-radio>
+      </div>
+    </div>
+    <div class="grid-2 my-2 p-2 rounded bg-cinza">
+      <div class="d-flex justify-content-start">
+        <aw-select
+          placeholder="Familia"
+          [clearable]="false"
+          [disabled]="tipoGrupoOpcional?.value === 2"
+          [items]="familias$ | async"
+          bindLabel="nomeOrcamentoFamilia"
+          bindValue="idOrcamentoCenarioFamilia"
+          formControlName="familias"
+        ></aw-select>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <aw-select
+          placeholder="Grupo"
+          [clearable]="false"
+          [disabled]="tipoGrupoOpcional?.value === 2"
+          [items]="grupos$ | async"
+          bindValue="idOrcamentoCenarioGrupo"
+          [bindLabel]="['codigo', 'nomeGrupo']"
+          bindLabelSeparator=" - "
+          formControlName="grupos"
+          [loading]="gruposLoading"
+          noDataFound="Nenhum grupo encontrado"
+        ></aw-select>
+      </div>
+    </div>
+    <hr />
+  </div>
+</div>
+<div class="modal-footer">
+  <div>
+    <button awButton status="secondary" width="secondary" [disabled]="saving" (click)="close()">Fechar</button>
+    <button
+      awButton
+      status="primary"
+      width="primary"
+      [loading]="saving"
+      [disabled]="form.invalid && tipoGrupoOpcional?.value !== 2"
+      (click)="salvarGrupoOpc()"
+    >
+      Confirmar grupo opcional
+    </button>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<!--Componente somente usado para mostrar o header em dev-->
+<header class="position-fixed w-100 top-header">
+  <nav class="base-nav">
+    <a class="navbar-brand position-absolute"> Focus </a>
+    <div class="container">
+      <div class="nav-cnt ml-md-auto">
+        <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
+          <li class="nav-item"></li>
+          <li class="nav-item">
+            <button title="Lista de notificações" class="nav-link notifications"></button>
+          </li>
+          <li class="nav-item search">
+            <button class="btn btn-pesquisar" title="Pesquisar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="14" viewBox="0 0 13 14">
+                <g fill="none" fill-rule="nonzero" stroke="#3C3C3C" stroke-width="1.2" transform="translate(.5 .374)">
+                  <path stroke-linecap="round" d="M.488 12.604L4.671 8.37"></path>
+                  <ellipse cx="7.273" cy="4.667" rx="4.127" ry="4.067"></ellipse>
+                </g>
+              </svg>
+            </button>
+          </li>
+          <li class="nav-item separator"></li>
+          <li class="nav-item">
+            <div class="navbar-profile">
+              <ul class="profile-name list-unstyled d-none d-sm-block">
+                <li class="name">
+                  <a href="#">DEV </a>
+                </li>
+                <li class="role text-lowercase">DEV</li>
+              </ul>
+              <figure>
+                <a href="#" title="Clique para sair do sistema">
+                  <img src="http://awintra.athiewohnrath.com.br/Download/Fotos/images/default.jpg" alt="DEV" />
+                </a>
+              </figure>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="menu-focus">
+  <button class="open-menu">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15">
+      <g fill="none" fill-rule="nonzero" stroke="#3C3C3C" stroke-linecap="round">
+        <path d="M1 1.25h20M1 7.5h20M1 13.75h20"></path>
+      </g>
+    </svg>
+  </button>
+  <div class="menu">
+    <button class="close-menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14">
+        <g fill="none" fill-rule="nonzero" stroke="#3C3C3C" stroke-linecap="round">
+          <path d="M1 0l14 14M1 14L15 0"></path>
+        </g>
+      </svg>
+    </button>
+    <h3>
+      <a href="#" class="nav-main-menu" data-item="sistema-geral">Focus Geral</a>
+      <span class="pipe"></span>
+      <a class="nav-main-menu active" data-item="sistema-atual" href="#"></a>
+    </h3>
+    <div class="menu-content">
+      <ul class="menu-root list-unstyled menu-list" id="sistema-atual"></ul>
+
+      <ul class="menu-root d-none menu-list list-unstyled" id="sistema-geral"></ul>
+    </div>
+  </div>
+</div>

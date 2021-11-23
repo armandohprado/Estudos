@@ -1,0 +1,47 @@
+@use 'variables' as v;
+
+.banner {
+  padding: 0.1rem 0.25rem;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr);
+  align-items: center;
+  background-color: v.$gray-secondary;
+  transition: background-color 200ms ease-in-out;
+  color: white;
+  &.show-color {
+    &.positive {
+      background-color: v.$warning-alt;
+    }
+    &.negative {
+      background-color: v.$green-alt2;
+    }
+  }
+  box-shadow: 0 2px 2px 0 rgb(136 136 136 / 50%);
+  &.hide-shadow {
+    box-shadow: none;
+  }
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  &.arrow-up {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 5px solid white;
+  }
+
+  &.arrow-down {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid white;
+  }
+}
+
+.value {
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,72 @@
+<div class="grid-container bg-white" [class.hidden-columns]="hiddenColumns">
+  <ng-container *ngFor="let grupo of grupos; trackBy: trackByLousaGrupo">
+    <div class="linha status">
+      <div class="circulo {{ grupo.circuloClass }}"></div>
+      <div class="">{{ grupo.codigo }}</div>
+    </div>
+    <div class="linha fixa font-escura">
+      <div class="">{{ grupo.nome }}</div>
+    </div>
+    <div class="linha">
+      <div>
+        {{ grupo.tipoFaturamento }}
+      </div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.venda | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.verba | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.valorMetaCompra | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.valorContratado | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.valorSaldoContingencia | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha font-escura text-right">
+      <div>{{ grupo.valorMiscellaneous | number: '1.2-2' }}</div>
+    </div>
+    <div class="linha cinza-claro confirmacao-compra" [class.hidden-columns]="hiddenColumns">
+      <ng-container
+        *ngFor="let confirmacaoCompra of grupo.confirmacaoCompras; trackBy: trackByConfirmacaoCompra; let $last = last"
+      >
+        <div class="linha text-center" [class.last]="$last">
+          <div>
+            {{ confirmacaoCompra.nomeFantasia }}
+          </div>
+        </div>
+        <div class="linha" [class.last]="$last">
+          <div>
+            <a awButton link [href]="confirmacaoCompra.urlCentralizacao" target="_blank" class="p-0">
+              {{ confirmacaoCompra.numeracao }}
+            </a>
+          </div>
+        </div>
+        <div class="linha" [class.last]="$last">
+          <div>
+            {{ confirmacaoCompra.nomeConfirmacaoCompraClassificacao }}
+          </div>
+        </div>
+        <div class="linha" [class.last]="$last" *ngIf="!hiddenColumns">
+          <div>
+            {{ confirmacaoCompra.dataEmissaoCC | date: 'dd/MM/yyyy' }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="linha" *ngIf="!hiddenColumns">
+      <div>
+        {{ grupo.responsavelEscopo }}
+      </div>
+    </div>
+    <div class="linha" *ngIf="!hiddenColumns">
+      <div>
+        {{ grupo.responsavelNegociacao }}
+      </div>
+    </div>
+  </ng-container>
+</div>

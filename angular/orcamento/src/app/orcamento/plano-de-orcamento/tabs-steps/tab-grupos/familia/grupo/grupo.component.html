@@ -1,0 +1,45 @@
+<div class="custom-control custom-checkbox" [class.pl-0]="!selectionMode">
+  <input
+    type="checkbox"
+    [(ngModel)]="grupo.selecionado"
+    (ngModelChange)="select()"
+    class="custom-control-input"
+    id="{{ id }}"
+    *ngIf="selectionMode"
+    [disabled]="disabledGrupo"
+  />
+  <label
+    [class.custom-control-label]="selectionMode"
+    for="{{ id }}"
+    class="d-flex justify-content-between align-items-center w-100"
+  >
+    <span>
+      <span class="group-item-id">{{ grupo.codigoGrupo }}</span>
+      <span class="divider">-</span>
+      <span class="group-item-name">{{ grupo.nomeGrupo }}</span>
+    </span>
+    <span class="d-flex" *ngIf="custoPrevisto">
+      <aw-radio
+        [name]="'custoPrevisto_$' + grupo.idGrupo"
+        [disabled]="disabledGrupo || !grupo.selecionado"
+        [(ngModel)]="grupo.grupoNaoPrevisto"
+        (ngModelChange)="select()"
+        [value]="true"
+      >
+        Custo não previsto</aw-radio
+      >
+      <span class="ml-2">
+        <aw-radio
+          [name]="'custoPrevisto_$' + grupo.idGrupo"
+          [disabled]="disabledGrupo || !grupo.selecionado"
+          (ngModelChange)="select()"
+          [(ngModel)]="grupo.grupoNaoPrevisto"
+          [value]="false"
+        >
+          Valor zerado
+        </aw-radio>
+      </span>
+    </span>
+    <span *ngIf="showPercentual" class="ml-3"> {{ grupo.percentualImposto | number: '1.2-2' }}% </span>
+  </label>
+</div>

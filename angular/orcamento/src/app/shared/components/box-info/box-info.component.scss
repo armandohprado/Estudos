@@ -1,0 +1,56 @@
+@import 'variables';
+:host {
+  min-height: 35px;
+}
+
+.box {
+  height: 35px;
+  border-radius: 3px;
+  text-align: center;
+  box-shadow: 0 0 10px 0 rgba(192, 192, 192, 0.5);
+  transition: all 300ms ease;
+
+  .label,
+  .value {
+    border-radius: 3px;
+    height: 35px;
+    p {
+      font-size: 14px;
+      font-weight: 500;
+      color: #3c3c3c;
+      margin: 0;
+    }
+    &.success {
+      p {
+        color: #00d46c;
+      }
+    }
+    &.danger {
+      p {
+        color: #fb2525;
+      }
+    }
+  }
+
+  .label {
+    flex: 1;
+    background-color: var(--ice-blue);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .value {
+    flex: 1;
+    background-color: #ffffff;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    &.group-sum {
+      p {
+        font-size: 14px;
+        font-weight: 500;
+        color: #fb2525;
+        margin: 0;
+      }
+    }
+  }
+}

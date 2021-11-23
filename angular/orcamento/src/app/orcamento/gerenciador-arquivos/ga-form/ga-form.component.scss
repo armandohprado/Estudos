@@ -1,0 +1,9 @@
+@import 'variables';
+
+.form {
+  padding: 1rem;
+  border-bottom: 1px solid $bluey-grey;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 0.5rem;
+}

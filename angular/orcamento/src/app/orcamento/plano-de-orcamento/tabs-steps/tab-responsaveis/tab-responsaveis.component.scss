@@ -1,0 +1,168 @@
+@import 'variables';
+
+.lista-principais-responsaveis {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding-left: 0;
+    padding-right: 30px;
+    display: inline-flex;
+    align-items: center;
+
+    .user-picture {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #aeaeae;
+    }
+
+    p {
+      margin-bottom: 0;
+      font-weight: bold;
+      color: $headings-color;
+      margin-left: 10px;
+    }
+  }
+}
+
+:host {
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  height: 100%;
+
+  &:last-child {
+    .collapse-body {
+      &.show {
+        border-top: unset;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .formErrorMessage {
+      .popover-header {
+        background-color: white;
+        color: $danger;
+        border-bottom: 0;
+      }
+
+      .popover-body {
+        padding: 0 10px 10px;
+      }
+    }
+  }
+}
+
+.family-group-header {
+  padding: 7px 0;
+  display: flex;
+  align-items: center;
+
+  &[aria-expanded] {
+    cursor: pointer;
+  }
+
+  .title {
+    margin-bottom: 0;
+    color: $headings-color;
+
+    .selected-groups-counter {
+      font-weight: normal;
+    }
+  }
+
+  [class^='-icon-caret-'],
+  [class*='icon-caret-'] {
+    font-size: 4.6px;
+    color: $primary;
+    margin-left: 15px;
+  }
+
+  .btn {
+    padding: 0.282rem 0.75rem;
+  }
+}
+
+.collapse-body {
+  &.show {
+    border-top: 1px solid $tooltip-color;
+  }
+}
+
+$responsavel-gray-darker: #7b8594;
+$responsavel-gray: #9ea1ae;
+$responsavel-gray-light: #f2f5f7;
+
+$header-color: $responsavel-gray-darker;
+$spacing: 8px;
+$borderColor: $responsavel-gray;
+
+@mixin border() {
+  border-bottom: 1px solid $borderColor;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+
+  thead {
+    @include border;
+
+    th {
+      font-size: $font-size-base * 0.85;
+      padding: $spacing;
+      color: $header-color;
+      font-weight: bold;
+      vertical-align: bottom;
+    }
+  }
+
+  tbody {
+    tr {
+      @include border;
+
+      td {
+        padding: $spacing - 1 $spacing;
+        font-size: $font-size-base * 0.85;
+
+        &:first-child {
+          .group-item-id {
+            min-width: 54px;
+            display: inline-block;
+            font-size: 12px;
+          }
+
+          .divider {
+            margin-right: 10px;
+          }
+
+          .group-item-name {
+            text-transform: lowercase;
+          }
+        }
+
+        &:nth-child(2) {
+          width: 100px;
+          padding-right: $spacing;
+          padding-left: $spacing;
+        }
+
+        &:nth-child(3),
+        &:nth-child(4) {
+          max-width: 160px;
+          width: 160px;
+        }
+      }
+    }
+  }
+}
+
+form {
+  height: 100%;
+}

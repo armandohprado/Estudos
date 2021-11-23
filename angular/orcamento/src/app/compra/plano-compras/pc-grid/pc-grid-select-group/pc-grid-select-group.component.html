@@ -1,0 +1,21 @@
+<div class="list" *ngLet="grupos$ | async as grupos">
+  <ng-container *ngIf="!grupos.length">
+    Nenhum grupo encontrado
+  </ng-container>
+  <cdk-virtual-scroll-viewport
+    class="lista-virtual"
+    [style.height.px]="height"
+    itemSize="50"
+  >
+    <div
+      class="item "
+      [class.selecionado]="selecionados.includes(grupo.idPlanoCompraGrupo)"
+      tabindex="0"
+      *cdkVirtualFor="let grupo of grupos; trackBy: trackBy"
+      (click)="toggleSelecao(grupo)"
+    >
+      <div class="codigo">{{ grupo.codigoGrupo }}</div>
+      <div class="nome">{{ grupo.nomeGrupo }}</div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

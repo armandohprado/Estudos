@@ -1,0 +1,32 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <h5 class="modal-title">Gerenciar grupos</h5>
+  <button awButton icon="close" type="button" (click)="close()" [disabled]="saving"></button>
+</div>
+<div class="modal-body">
+  <div class="search">
+    <input awInput [formControl]="termControl" placeholder="&#xE908; Pesquisar" />
+  </div>
+  <div
+    class="grupo"
+    [class.ativo]="grupo.ativo"
+    *ngFor="let grupo of grupos | awSearch: ['codigo', 'nome']:(term$ | async); trackBy: trackBy"
+    (click)="toggleGrupo(grupo.idCompraNegociacaoGrupo, !grupo.ativo)"
+  >
+    <div class="checkbox">
+      <aw-checkbox
+        [checked]="grupo.ativo"
+        (checkedChange)="toggleGrupo(grupo.idCompraNegociacaoGrupo, $event)"
+        (click)="$event.stopPropagation()"
+      ></aw-checkbox>
+    </div>
+    <div class="codigo">{{ grupo.codigo }}</div>
+    <div class="nome">{{ grupo.nome }}</div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" awButton width="secondary" status="secondary" (click)="close()" [disabled]="saving">
+    Cancelar
+  </button>
+  <button type="button" awButton width="primary" (click)="salvar()" [loading]="saving">Confirmar</button>
+</div>

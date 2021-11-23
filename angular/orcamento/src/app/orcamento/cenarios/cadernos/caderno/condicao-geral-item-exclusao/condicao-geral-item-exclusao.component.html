@@ -1,0 +1,131 @@
+<aside>
+  <div class="card" [class.disabled]="!caderno?.habilitadoCondicaoGeral">
+    <div class="card-header d-flex py-2 px-0">
+      <h3 class="headline flex-grow-1 w-75">
+        {{ caderno?.nomeCondicaoGeral || 'Condições Gerais de Fornecimento' | ellipsis: 30 }}
+      </h3>
+      <div class="btn-group" container="body" dropdown placement="bottom left">
+        <button class="btn btn-icon" dropdownToggle type="button">
+          <i class="icon icon-more-options"></i>
+        </button>
+        <ul *dropdownMenu aria-labelledby="button-animated" class="dropdown-menu planilha-dropdown" role="menu">
+          <ng-container *ngIf="!caderno?.enviadoCliente">
+            <li role="menuitem">
+              <button class="dropdown-item" (click)="setSelected('condicao-geral')">
+                {{ caderno?.habilitadoCondicaoGeral ? 'Editar' : 'Visualizar' }}
+              </button>
+            </li>
+            <li role="menuitem">
+              <button
+                class="dropdown-item"
+                (click)="
+                  openDeleteApendiceModal('condicao-geral', caderno.nomeCondicaoGeral, caderno.habilitadoCondicaoGeral)
+                "
+              >
+                {{ caderno?.habilitadoCondicaoGeral ? 'Desabilitar' : 'Habilitar' }}
+              </button>
+            </li>
+          </ng-container>
+          <li role="menuitem" *ngIf="caderno?.enviadoCliente">
+            <button class="dropdown-item" (click)="setSelected('condicao-geral')">Visualizar</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-body py-2 px-0">
+      <button
+        *ngIf="!caderno.descricaoCondicaoGeral"
+        [disabled]="!caderno?.habilitadoCondicaoGeral || caderno?.enviadoCliente"
+        awButton
+        link
+        type="button"
+        (click)="setSelected('condicao-geral')"
+      >
+        Clique para editar
+      </button>
+
+      <p *ngIf="caderno.descricaoCondicaoGeral">
+        {{ caderno.descricaoCondicaoGeral | ellipsis: 250 | replacePattern: patternEnum.htmlTags:'':'g' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="card" [class.disabled]="!caderno?.habilitadoItemExcluso">
+    <div class="card-header d-flex py-2 px-0">
+      <h3 class="headline flex-grow-1 w-75">
+        {{ caderno?.nomeItemExcluso || 'Itens não considerados' | ellipsis: 30 }}
+      </h3>
+      <div class="btn-group" container="body" dropdown placement="bottom left">
+        <button class="btn btn-icon" dropdownToggle type="button">
+          <i class="icon icon-more-options"></i>
+        </button>
+        <ul *dropdownMenu aria-labelledby="button-animated" class="dropdown-menu planilha-dropdown" role="menu">
+          <ng-container *ngIf="!caderno?.enviadoCliente">
+            <li role="menuitem">
+              <button class="dropdown-item" (click)="setSelected('item-exclusao')">
+                {{ caderno?.habilitadoItemExcluso ? 'Editar' : 'Visualizar' }}
+              </button>
+            </li>
+            <li role="menuitem">
+              <button
+                class="dropdown-item"
+                (click)="
+                  openDeleteApendiceModal('item-excluso', caderno.nomeItemExcluso, caderno.habilitadoItemExcluso)
+                "
+              >
+                {{ caderno?.habilitadoItemExcluso ? 'Desabilitar' : 'Habilitar' }}
+              </button>
+            </li>
+          </ng-container>
+          <li role="menuitem">
+            <button *ngIf="caderno?.enviadoCliente" class="dropdown-item" (click)="setSelected('item-exclusao')">
+              Visualizar
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body py-2 px-0">
+      <button
+        *ngIf="!caderno.descricaoItemExcluso"
+        [disabled]="!caderno?.habilitadoItemExcluso || caderno?.enviadoCliente"
+        awButton
+        link
+        type="button"
+        (click)="setSelected('item-exclusao')"
+      >
+        Clique para editar
+      </button>
+      <p *ngIf="caderno.descricaoItemExcluso">
+        {{ caderno.descricaoItemExcluso | ellipsis: 90 | replacePattern: patternEnum.htmlTags:'':'g' }}
+      </p>
+    </div>
+  </div>
+</aside>
+<div class="caderno-content">
+  <div *ngIf="successFeedback" class="planilha-adicionada d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <i class="icon icon-check"></i>
+      <p class="font-weight-bold mt-3">Planilha adicionada</p>
+    </div>
+  </div>
+  <ng-container [ngSwitch]="selected">
+    <app-caderno-card
+      [caderno]="caderno"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+      nomeProperty="nomeCondicaoGeral"
+      descricaoProperty="descricaoCondicaoGeral"
+      enabledProperty="habilitadoCondicaoGeral"
+      *ngSwitchCase="'condicao-geral'"
+    ></app-caderno-card>
+    <app-caderno-card
+      [caderno]="caderno"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+      nomeProperty="nomeItemExcluso"
+      descricaoProperty="descricaoItemExcluso"
+      enabledProperty="habilitadoItemExcluso"
+      *ngSwitchCase="'item-exclusao'"
+    ></app-caderno-card>
+  </ng-container>
+</div>

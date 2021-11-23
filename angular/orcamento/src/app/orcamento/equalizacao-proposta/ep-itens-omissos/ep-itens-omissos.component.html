@@ -1,0 +1,120 @@
+<div class="separator"></div>
+<div class="title"><div class="sticky">Itens omissos</div></div>
+<div class="itens">
+  <div class="item" *ngFor="let propostaItem of propostaItens; trackBy: trackByEpPropostaItem">
+    <div class="sticky">
+      <div class="item">
+        <div class="actions">
+          <button
+            awButton
+            icon="add"
+            tooltip="Adicionar omisso ao escopo"
+            container="body"
+            delay="400"
+            [loading]="propostaItem.savingOmisso"
+            [disabled]="propostaItem.deletingOmisso"
+            (click)="addOmisso(propostaItem)"
+          ></button>
+          <button
+            awButton
+            icon="trash-alt"
+            tooltip="Excluir omisso"
+            container="body"
+            delay="400"
+            [loading]="propostaItem.deletingOmisso"
+            [disabled]="propostaItem.savingOmisso"
+            (click)="deleteOmisso(propostaItem)"
+          ></button>
+        </div>
+        <div class="tag">{{ propostaItem.tag }}</div>
+        <div class="numero">{{ propostaItem.numeracaoPropostaItem }}</div>
+        <div
+          class="descricao"
+          [title]="propostaItem.descricaoCompleta"
+          [class.collapsed]="!propostaItem.descricaoOpened"
+          (click)="toggleCollapseDescricao(propostaItem)"
+        >
+          {{ propostaItem.descricaoCompleta }}
+        </div>
+        <div class="collapse-icon">
+          <button
+            type="button"
+            awButton
+            [icon]="!propostaItem.descricaoOpened ? 'caret-down' : 'caret-up'"
+            iconSize="7"
+            (click)="toggleCollapseDescricao(propostaItem)"
+          ></button>
+        </div>
+      </div>
+      <div class="labels">
+        <div class="label quantidade">Quant. {{ propostaItem.unidadeMedida }}</div>
+        <div class="label valor-unitario" (click)="toggleCollapseValorUnitario(propostaItem)">
+          Valor Unit. R$
+          <button
+            awButton
+            [icon]="!propostaItem.valorUnitarioOpened ? 'caret-down' : 'caret-up'"
+            iconSize="7"
+            type="button"
+          ></button>
+        </div>
+        <div class="valores-unitarios" @collapse *ngIf="propostaItem.valorUnitarioOpened">
+          <div class="label valor-unitario-produto">Valor Unit. Produto R$</div>
+          <div class="label valor-unitario-servico">Valor Unit. Serviço R$</div>
+        </div>
+        <div class="label valor-total">Valor total R$</div>
+      </div>
+    </div>
+    <div class="columns">
+      <div
+        class="column"
+        *ngFor="let column of propostaItem.columns; trackBy: trackByEpPropostaItem; let $first = first"
+        [class.aw-referencia]="$first"
+      >
+        <div class="label quantidade">
+          <div class="value">
+            {{ column?.quantidadeItens | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="label valor-unitario">
+          <div class="value" *ngIf="column">
+            {{ column.valorUnitarioProdutoPropostaItem + column.valorUnitarioServicoPropostaItem | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="valores-unitarios" *ngIf="propostaItem.valorUnitarioOpened" @collapse>
+          <div class="label valor-unitario-produto">
+            <div class="value">{{ column?.valorUnitarioProdutoPropostaItem | number: '1.2-2' }}</div>
+          </div>
+          <div class="label valor-unitario-servico">
+            <div class="value">{{ column?.valorUnitarioServicoPropostaItem | number: '1.2-2' }}</div>
+          </div>
+        </div>
+        <div class="label valor-total">
+          <div class="value" *ngIf="column">
+            {{
+              (column.valorUnitarioProdutoPropostaItem + column.valorUnitarioServicoPropostaItem) *
+                column.quantidadeItens | number: '1.2-2'
+            }}
+          </div>
+        </div>
+        <div
+          *ngIf="column"
+          class="descricao"
+          [title]="column.comentarioPropostaItem || ''"
+          [class.collapsed]="!propostaItem.descricaoOpened"
+          (click)="toggleCollapseDescricao(propostaItem)"
+        >
+          {{ column.comentarioPropostaItem }}
+        </div>
+      </div>
+      <div class="column" *ngFor="let offsetColumn of epPropostaItemQuery.offsetColumns$ | async">
+        <div class="label quantidade"></div>
+        <div class="label valor-unitario"></div>
+        <div class="valores-unitarios" *ngIf="propostaItem.valorUnitarioOpened" @collapse>
+          <div class="label valor-unitario-produto"></div>
+          <div class="label valor-unitario-servico"></div>
+        </div>
+        <div class="label valor-total"></div>
+      </div>
+    </div>
+  </div>
+</div>

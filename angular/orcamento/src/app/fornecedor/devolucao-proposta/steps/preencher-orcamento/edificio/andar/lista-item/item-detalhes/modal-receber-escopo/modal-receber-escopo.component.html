@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalContainer()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <span>Cód</span>
+        <div class="my-1">
+          <h5>{{ devolucaoProposta.classificacao }}<br />{{ item.numeracao }}</h5>
+        </div>
+      </div>
+      <div class="col-4">
+        <span>Item</span>
+        <div class="my-1">
+          <h5>{{ item.descricao }}</h5>
+        </div>
+      </div>
+      <div class="col-3">
+        <span>Quantidade Total</span>
+        <div class="my-1">
+          <h5>{{ item.quantidade | number }}</h5>
+        </div>
+      </div>
+      <div class="col-3">
+        <span>Unidade de Medida</span>
+        <div class="my-1">
+          <h5>{{ item.unidadeMedida }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center mb-20">
+      <aw-alert tipo="warning" [dismissible]="true">
+        Insira os valores quantitativos nos campos abaixo de acordo com o andar/ centro de custo ou fase.
+      </aw-alert>
+    </div>
+    <div class="teste">
+      <app-escopo [item]="item"></app-escopo>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button awButton status="secondary" type="button" (click)="modalTodosCampos()">Ignorar e Preencher mais tarde</button>
+  <button awButton status="secondary" type="button" (click)="closeModalContainer()">Continue</button>
+</div>
+<aw-spinner *ngIf="loaderModal"></aw-spinner>

@@ -1,0 +1,100 @@
+<div class="header">
+  <div>CC</div>
+  <div class="tipo">{{ tipo }}</div>
+  <div>Data</div>
+  <div>Hora</div>
+  <div class="text-right">Valor total</div>
+</div>
+<div class="line"></div>
+<ng-container *ngIf="lista.length; else noItems">
+  <div
+    class="body"
+    *ngFor="let item of lista; trackBy: trackBy; let $index = index"
+    [class.error]="
+      (!item.emitirMapaEmissaoCompra && tipo !== tipoListaEmitirCcEnum.Miscellaneous) ||
+      item.bloquearEmissao ||
+      item.itemOmisso
+    "
+  >
+    <div class="emitir-cc">
+      <a
+        awButton
+        link
+        [href]="item.urlCentralizacao"
+        target="_blank"
+        *ngIf="item.numeracao && item.idCompraNegociacaoGrupoConfirmacaoCompra; else emitirCcRef"
+      >
+        {{ item.numeracao }}
+      </a>
+      <ng-template #emitirCcRef>
+        <button
+          awButton
+          link
+          [disabled]="
+            item.valorTotalNegociado <= 0 ||
+            emitirCcDisabled ||
+            !item.emitirMapaEmissaoCompra ||
+            item.bloquearEmissao ||
+            (item.nomeFantasia === 'Saldo de Contingência' && haTransacoesPendentes) ||
+            item.itemOmisso
+          "
+          (click)="navigateToEmitirCc(item, $index)"
+        >
+          Emitir CC
+        </button>
+      </ng-template>
+    </div>
+    <div class="nome">
+      {{ item.nomeFantasia }}
+      <span
+        class="icon icon-information"
+        [tooltip]="
+          item.itemOmisso
+            ? 'Proposta possuí itens omissos selecionados'
+            : item.emitirMapaEmissaoCompraMensagem ??
+              'O Saldo de Contingência está reservado para emissão de compra de fornecedor'
+        "
+        *ngIf="item.itemOmisso || item.bloquearEmissao || !item.emitirMapaEmissaoCompra"
+      ></span>
+    </div>
+    <div>{{ item.data }}</div>
+    <div>{{ item.hora }}<ng-container *ngIf="item.hora"> h</ng-container></div>
+    <div class="text-right">
+      <input
+        awInput
+        *ngIf="
+          tipo === tipoListaEmitirCcEnum.Revenda &&
+            !item.idCompraNegociacaoGrupoConfirmacaoCompra &&
+            item.emitirMapaEmissaoCompra;
+          else notRevenda
+        "
+        placeholder="0,00"
+        currencyMask
+        [ngModel]="item.valorTotalNegociado"
+        (ngModelChange)="onValorTotalNegociacaoChange($index, item, $event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+        [options]="{
+          allowNegative: false,
+          allowZero: true,
+          nullable: false,
+          inputMode: currencyMaskInputMode.NATURAL,
+          max: confirmacaoCompraSaldoRevenda
+        }"
+      />
+      <ng-template #notRevenda>
+        {{ item.valorTotalNegociado | number: '1.2-2' }}
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noItems>
+  <div class="body no-items">
+    <div [ngSwitch]="tipo">
+      <ng-container *ngSwitchCase="tipoListaEmitirCcEnum.Fornecedores">Nenhum fornecedor encontrado</ng-container>
+      <ng-container *ngSwitchCase="tipoListaEmitirCcEnum.Miscellaneous">Nenhum miscellaneous encontrado</ng-container>
+      <ng-container *ngSwitchCase="tipoListaEmitirCcEnum.Revenda">Nenhuma revenda encontrada</ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<div class="line"></div>

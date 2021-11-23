@@ -1,0 +1,82 @@
+<ng-container *ngIf="migracaoGrupo$ | async as migracaoGrupo">
+  <ng-container
+    *ngLet="
+      awProduto
+        ? migracaoGrupo.valorVendaCongelada - migracaoGrupo.valorVendaCongelada * (percentualImposto / 100)
+        : migracaoGrupo.valorMaximoCompra as valorMaximoCompra
+    "
+  >
+    <div class="modal-header">
+      <h6 class="modal-title">Migrar Grupo para - {{ msgTituloGrupo[grupo.tipo.toLowerCase()] }}</h6>
+      <button type="button" awButton icon="close" (click)="bsModalRef.hide()" [disabled]="loading" size="sm"></button>
+    </div>
+    <div class="modal-body">
+      <div class="border-subtitle my-2">
+        <div class="content">{{ grupo.codigo }} - {{ grupo.nome }}</div>
+      </div>
+      <div class="my-2" *ngIf="grupo.tipo === tipoGrupoEnum.Direto">
+        <div class="content bg-cinza-secondary rounded">
+          Caro PPO, você está trocando o grupo de faturamento direto para faturamento aw, portanto deve se atentar para
+          o imposto que incide para compra e revenda deste grupo. Abaixo informamos o percentual de imposto e qual o
+          valor máximo para efetuar a compra, evitando a redução de sua margem de contribuição. Este valor máximo será a
+          nova
+          <b>Meta</b> para esse grupo.
+        </div>
+      </div>
+      <div class="info border-subtitle py-2">
+        <div class="label">Valor budget para compra:</div>
+        <div class="valor">{{ migracaoGrupo.valorVendaCongelada | number: '1.2-2' }}</div>
+        <div class="label">
+          <aw-checkbox [(ngModel)]="awProduto" *ngIf="grupo.tipo === tipoGrupoEnum.Direto; else notAwProduto">
+            AW Produto - Valor de imposto:
+          </aw-checkbox>
+          <ng-template #notAwProduto> Valor de imposto: </ng-template>
+        </div>
+        <div class="valor">
+          <input
+            *ngIf="awProduto && grupo.tipo === tipoGrupoEnum.Direto; else percentualNotInput"
+            awInput
+            placeholder="0,00"
+            [options]="currencyOptionsPercent"
+            [(ngModel)]="percentualImposto"
+            (ngModelChange)="onPercentChange(migracaoGrupo.valorVendaCongelada, $event)"
+            size="sm"
+            currencyMask
+          />
+          <ng-template #percentualNotInput> {{ migracaoGrupo.percentualImposto | number: '1.2-2' }}% </ng-template>
+        </div>
+        <div class="label">Valor máximo para compra:</div>
+        <div class="valor">
+          {{ valorMaximoCompra | number: '1.2-2' }}
+        </div>
+        <div class="label">Nova meta:</div>
+        <div>
+          <input
+            awInput
+            placeholder="0,00"
+            [options]="{
+              allowNegative: baseCurrencyOptions.allowNegative,
+              max: valorMaximoCompra,
+              inputMode: baseCurrencyOptions.inputMode
+            }"
+            [(ngModel)]="novaMeta"
+            size="sm"
+            currencyMask
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        awButton
+        width="primary"
+        type="button"
+        (click)="migrar(migracaoGrupo)"
+        [disabled]="novaMeta > valorMaximoCompra"
+        [loading]="loading"
+      >
+        Gravar
+      </button>
+    </div>
+  </ng-container>
+</ng-container>

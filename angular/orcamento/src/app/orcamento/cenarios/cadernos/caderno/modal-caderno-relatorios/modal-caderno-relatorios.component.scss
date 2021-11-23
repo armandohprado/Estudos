@@ -1,0 +1,45 @@
+@import 'variables';
+
+.grid-6 {
+  display: grid;
+  grid-template-columns: 1fr 1fr repeat(4, 125px);
+  grid-gap: 2px;
+}
+
+.bg-cinza {
+  background: $secondary;
+}
+
+.border-white {
+  border-bottom: 1px solid #ffffff;
+}
+
+.color-white {
+  color: #fff;
+}
+
+.url {
+  position: relative;
+  span {
+    color: blue;
+    text-decoration: underline;
+  }
+}
+
+.body > div {
+  border-right: 1px solid #9ea1ae;
+  color: #000;
+  &:last-child {
+    border-right: none;
+  }
+}
+.header > div {
+  border-right: 1px solid #fff;
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.resolution div {
+  padding: 5px;
+}

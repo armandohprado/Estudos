@@ -1,0 +1,47 @@
+<div
+  *ngIf="!!grupao"
+  class="group-header justify-content-between"
+  (click)="isCollapsed = !isCollapsed"
+  [attr.aria-expanded]="!isCollapsed"
+  role="button"
+  [attr.aria-controls]="grupao.numeroGrupao"
+>
+  <h6 class="title">
+    <span class="group-id">{{ grupao.numeroGrupao }}</span>
+    <span class="divider">-</span>
+    <span class="group-name">{{ grupao.descricaoGrupao }}</span>
+  </h6>
+  <div class="cotacao-icon d-flex align-items-center">
+    <div class="cotacao-title">
+      <span class="data-limite-escopo pr-3">Data limite escopo</span>
+      <span class="data-limite-custos pr-3">Data limite custos</span>
+      <span class="valor-meta">Valor da meta <span class="minor">R$</span></span>
+    </div>
+    <i class="icon" [class.icon-caret-up]="!isCollapsed" [class.icon-caret-down]="isCollapsed"></i>
+  </div>
+</div>
+<div *ngIf="!isCollapsed" @collapse class="collapse-body" [id]="grupao.numeroGrupao">
+  <div class="group-body">
+    <div class="show-percentual-label" *ngIf="showPercentual">Percentual Imposto</div>
+    <app-grupo
+      *ngFor="let grupo of grupao.grupos; trackBy: trackByFn"
+      [grupo]="grupo"
+      (selection)="onSelection($event)"
+      [custoPrevisto]="custoPrevisto"
+      [id]="
+        grupao.numeroGrupao +
+        '_' +
+        grupo.idGrupo +
+        '_' +
+        grupo.idGrupao +
+        '_' +
+        grupao.idFamilia +
+        '_' +
+        grupao.idOrcamentoFamilia
+      "
+      [selectionMode]="selectionMode"
+      [hidden]="grupo.exibeGrupo"
+      [showPercentual]="showPercentual"
+    ></app-grupo>
+  </div>
+</div>

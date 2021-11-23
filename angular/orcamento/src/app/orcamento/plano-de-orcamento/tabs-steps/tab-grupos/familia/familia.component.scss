@@ -1,0 +1,93 @@
+@import 'variables';
+
+:host {
+  &:last-child {
+    .family-group-header {
+      border-bottom: 1px solid $tooltip-color;
+    }
+
+    .collapse-body {
+      &.show {
+        border-top: unset;
+      }
+    }
+  }
+}
+
+.family-group-header {
+  border-top: 1px solid $tooltip-color;
+  padding: 7px 0;
+  display: flex;
+  align-items: center;
+
+  &.cotacao {
+    background-color: $secondary;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    padding: 8px 10px 8px 20px;
+    border-radius: calc(3px - 1px) calc(3px - 1px) 0 0;
+
+    .title {
+      color: white;
+      text-transform: capitalize;
+      font-size: 1.12rem;
+    }
+
+    .icon-caret-down,
+    .icon-caret-up {
+      color: white;
+    }
+  }
+
+  &[aria-expanded] {
+    cursor: pointer;
+  }
+
+  .title {
+    margin-bottom: 0;
+    color: $headings-color;
+
+    .selected-groups-counter {
+      font-weight: normal;
+    }
+  }
+
+  [class^='-icon-caret-'],
+  [class*='icon-caret-'] {
+    font-size: 4.6px;
+    color: $primary;
+    margin-left: 15px;
+  }
+
+  .btn {
+    padding: 0.282rem 0.75rem;
+  }
+
+  .actions {
+    margin-left: auto;
+    margin-right: 44px;
+    transition: opacity 0.3s ease-in;
+    .btn-icon {
+      padding: 0.44rem 0.4rem;
+    }
+  }
+}
+
+.collapse-body {
+  &.show {
+    border-top: 1px solid $tooltip-color;
+  }
+
+  .family-group-body {
+    padding: 20px 0;
+  }
+
+  &.cotacao {
+    .family-group-body {
+      padding-top: 0;
+      padding-bottom: $spacing * 2;
+    }
+    background-color: white;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+  }
+}

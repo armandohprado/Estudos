@@ -1,0 +1,14 @@
+.block {
+  > .content {
+    > .info {
+      grid-template-columns: max-content minmax(0, 150px);
+      > .value {
+        text-align: end;
+        padding-right: 0.75rem;
+      }
+      > .label {
+        align-items: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<div class="title">
+  <h6>Lista de produtos ({{ catalogo.length }})</h6>
+</div>
+<div class="filtros">
+  <app-deli-catalogo-filtros
+    [catalogo]="catalogo"
+    [filtrosAtivos]="filtrosAtivos"
+    [term]="term"
+    (termChanged)="term = $event; termChanged.emit($event)"
+    (filtroChanged)="filtroChanged.emit($event)"
+  ></app-deli-catalogo-filtros>
+</div>
+<div class="catalogo">
+  <app-deli-produto-list-catalogo
+    [showCheckbox]="showCheckbox"
+    [catalogo]="catalogo"
+    [filtrosAtivos]="filtrosAtivos"
+    [term]="term"
+    [showVariacoes]="showVariacoes"
+    (produtoSelecionado)="produtoSelecionado.emit($event)"
+    (filtroChanged)="filtroChanged.emit($event)"
+    (modalDetalhesOpened)="modalDetalhesOpened.emit($event)"
+  ></app-deli-produto-list-catalogo>
+</div>

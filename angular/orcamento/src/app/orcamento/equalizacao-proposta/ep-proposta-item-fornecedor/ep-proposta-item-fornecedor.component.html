@@ -1,0 +1,294 @@
+<ng-container *ngIf="propostaItem && !propostaItem.itemNaoPreenchido; else noPropostaItem">
+  <ng-container
+    *ngLet="{
+      disabledItem: disabled$ | async,
+      disabledInputs: epPropostaItemQuery.disabledAwReferenciaInputs$ | async,
+      bloqueios: epPropostaItemQuery.bloqueios$ | async
+    } as state"
+  >
+    <div class="label quantidade">
+      <button
+        *ngIf="!propostaItem.indicadorAWReferencia"
+        awButton
+        icon="aw-icon-seta-esquerda"
+        (click)="transferirQuantidade(propostaItem)"
+        [disabled]="state.disabledItem"
+        [loading]="propostaItem.loadingTransferenciaQuantidade"
+      ></button>
+      <div class="value" *ngLet="propostaItem.quantidadeItens | number: '1.2-2' as quantidade" [title]="quantidade">
+        {{ quantidade }}
+      </div>
+      <app-ep-banner-comparativo
+        type="item"
+        [idPropostaItem]="propostaItem.idPropostaItem"
+        comparativo="quantidadeItens"
+        *ngIf="!propostaItem.indicadorAWReferencia"
+      ></app-ep-banner-comparativo>
+    </div>
+    <div class="quantitativos" @collapse *ngIf="propostaItem.quantitativoOpened">
+      <div
+        class="label"
+        *ngFor="let quantitativo of propostaItem.quantitativos; trackBy: trackByEpPropostaItemQuantitativoItem"
+      >
+        <ng-container *ngIf="!quantitativo.labelOnly">
+          <label for="{{ quantitativo.id }}" class="sr-only">Quantidade {{ quantitativo.nomeCentroCusto }}</label>
+          <input
+            id="{{ quantitativo.id }}"
+            awInput
+            currencyMask
+            [ngModel]="quantitativo.quantidade"
+            [ngModelOptions]="modelOptions"
+            [options]="currencyOptions"
+            [disabled]="quantitativo.loading || state.disabledInputs || quantitativo.disabled"
+            (ngModelChange)="
+              atualizarQuantitativoAwReferencia(
+                propostaItem.idOrcamentoGrupoItem,
+                quantitativo.idFasePavimentoCentro,
+                quantitativo.id,
+                $event
+              )
+            "
+            *ngIf="propostaItem.indicadorAWReferencia; else notReferenciaQuantidade"
+          />
+          <ng-template #notReferenciaQuantidade>
+            <button
+              *ngIf="!propostaItem.indicadorAWReferencia"
+              awButton
+              type="button"
+              icon="aw-icon-seta-esquerda"
+              [disabled]="state.disabledItem || quantitativo.disabled"
+              [loading]="quantitativo.loading"
+              (click)="
+                atualizarQuantitativoAwReferencia(
+                  propostaItem.idOrcamentoGrupoItem,
+                  quantitativo.idFasePavimentoCentro,
+                  quantitativo.id,
+                  quantitativo.quantidade
+                )
+              "
+            ></button>
+            <div class="value" *ngLet="quantitativo.quantidade | number: '1.2-2' as quantidade" [title]="quantidade">
+              {{ quantidade }}
+            </div>
+            <app-ep-banner-comparativo
+              [idPropostaItem]="propostaItem.idPropostaItem"
+              [idFasePavimentoCentro]="quantitativo.idFasePavimentoCentro"
+              type="item"
+              comparativo="quantitativos"
+            ></app-ep-banner-comparativo>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+    <div class="label valor-unitario">
+      <button
+        *ngIf="!propostaItem.indicadorAWReferencia"
+        awButton
+        icon="aw-icon-seta-esquerda"
+        [disabled]="
+          state.disabledItem ||
+          propostaItem.loadingTransferenciaValorUnitarioProduto ||
+          propostaItem.loadingTransferenciaValorUnitarioServico ||
+          propostaItem.loadingValorUnitario
+        "
+        [loading]="propostaItem.loadingTransferenciaValorUnitario"
+        (click)="
+          transferirValorUnitario(propostaItem, {
+            valorProduto: propostaItem.valorUnitarioProdutoPropostaItem,
+            valorServico: propostaItem.valorUnitarioServicoPropostaItem
+          })
+        "
+      ></button>
+      <div
+        class="value"
+        *ngLet="
+          propostaItem.valorUnitarioProdutoPropostaItem + propostaItem.valorUnitarioServicoPropostaItem
+            | number: '1.2-2' as valorUnitario
+        "
+        [title]="valorUnitario"
+      >
+        {{ valorUnitario }}
+      </div>
+      <app-ep-banner-comparativo
+        *ngIf="!propostaItem.indicadorAWReferencia"
+        [idPropostaItem]="propostaItem.idPropostaItem"
+        type="item"
+        comparativo="valorUnitario"
+      ></app-ep-banner-comparativo>
+    </div>
+    <div class="valores-unitarios" *ngIf="propostaItem.valorUnitarioOpened" @collapse>
+      <div class="label valor-unitario-produto">
+        <label for="{{ propostaItem.idPropostaItem }}-valor-unitario-produto" class="sr-only">
+          Valor unitário produto
+        </label>
+        <input
+          id="{{ propostaItem.idPropostaItem }}-valor-unitario-produto"
+          awInput
+          *ngIf="propostaItem.indicadorAWReferencia; else notReferenciaProduto"
+          [disabled]="
+            state.bloqueios.produto ||
+            propostaItem.loadingValorUnitario ||
+            propostaItem.loadingTransferenciaValorUnitarioProduto ||
+            propostaItem.loadingTransferenciaValorUnitario ||
+            propostaItem.loadingTransferenciaValorUnitarioServico ||
+            state.disabledInputs
+          "
+          [ngModel]="propostaItem.valorUnitarioProdutoPropostaItem"
+          [ngModelOptions]="modelOptions"
+          (ngModelChange)="salvarValorUnitario(propostaItem, { valorProduto: $event })"
+          currencyMask
+          [options]="currencyOptions"
+        />
+        <ng-template #notReferenciaProduto>
+          <button
+            awButton
+            icon="aw-icon-seta-esquerda"
+            [disabled]="
+              state.disabledItem ||
+              propostaItem.loadingTransferenciaValorUnitario ||
+              propostaItem.loadingTransferenciaValorUnitarioServico ||
+              propostaItem.loadingValorUnitario
+            "
+            [loading]="propostaItem.loadingTransferenciaValorUnitarioProduto"
+            (click)="
+              transferirValorUnitario(
+                propostaItem,
+                { valorProduto: propostaItem.valorUnitarioProdutoPropostaItem },
+                'Produto'
+              )
+            "
+            *ngIf="!state.bloqueios.produto"
+          ></button>
+          <div
+            class="value"
+            *ngLet="propostaItem.valorUnitarioProdutoPropostaItem | number: '1.2-2' as valorUnitarioProduto"
+            [title]="valorUnitarioProduto"
+          >
+            {{ valorUnitarioProduto }}
+          </div>
+          <app-ep-banner-comparativo
+            [idPropostaItem]="propostaItem.idPropostaItem"
+            type="item"
+            comparativo="valorUnitarioProdutoPropostaItem"
+            *ngIf="!state.bloqueios.produto"
+          ></app-ep-banner-comparativo>
+        </ng-template>
+      </div>
+      <div class="label valor-unitario-servico">
+        <label for="{{ propostaItem.idPropostaItem }}-valor-unitario-servico" class="sr-only">
+          Valor unitário serviço
+        </label>
+        <input
+          id="{{ propostaItem.idPropostaItem }}-valor-unitario-servico"
+          awInput
+          *ngIf="propostaItem.indicadorAWReferencia; else notReferenciaServico"
+          [disabled]="
+            state.bloqueios.servico ||
+            propostaItem.loadingValorUnitario ||
+            propostaItem.loadingTransferenciaValorUnitarioServico ||
+            propostaItem.loadingTransferenciaValorUnitario ||
+            propostaItem.loadingTransferenciaValorUnitarioProduto ||
+            state.disabledInputs
+          "
+          [ngModel]="propostaItem.valorUnitarioServicoPropostaItem"
+          [ngModelOptions]="modelOptions"
+          (ngModelChange)="salvarValorUnitario(propostaItem, { valorServico: $event })"
+          currencyMask
+          [options]="currencyOptions"
+        />
+        <ng-template #notReferenciaServico>
+          <button
+            awButton
+            icon="aw-icon-seta-esquerda"
+            [disabled]="
+              state.disabledItem ||
+              propostaItem.loadingTransferenciaValorUnitario ||
+              propostaItem.loadingTransferenciaValorUnitarioProduto ||
+              propostaItem.loadingValorUnitario
+            "
+            [loading]="propostaItem.loadingTransferenciaValorUnitarioServico"
+            (click)="
+              transferirValorUnitario(
+                propostaItem,
+                { valorServico: propostaItem.valorUnitarioServicoPropostaItem },
+                'Servico'
+              )
+            "
+            *ngIf="!state.bloqueios.servico"
+          ></button>
+          <div
+            class="value"
+            *ngLet="propostaItem.valorUnitarioServicoPropostaItem | number: '1.2-2' as valorUnitarioServico"
+            [title]="valorUnitarioServico"
+          >
+            {{ valorUnitarioServico }}
+          </div>
+          <app-ep-banner-comparativo
+            [idPropostaItem]="propostaItem.idPropostaItem"
+            type="item"
+            comparativo="valorUnitarioServicoPropostaItem"
+            *ngIf="!state.bloqueios.servico"
+          ></app-ep-banner-comparativo>
+        </ng-template>
+      </div>
+    </div>
+    <div class="label valor-total">
+      <aw-radio
+        name="{{ propostaItem.idOrcamentoGrupoItem }}"
+        value="{{ propostaItem.idOrcamentoGrupoItem }}true"
+        ngModel="{{ propostaItem.idOrcamentoGrupoItem }}{{
+          propostaItem.idPropostaItemSelecionado === propostaItem.idPropostaItem
+        }}"
+        [canUncheck]="true"
+        (ngModelChange)="selecionar(propostaItem)"
+        *ngIf="!propostaItem.indicadorAWReferencia"
+        [disabled]="
+          disabledRadio ||
+          state.disabledItem ||
+          propostaItem.loadingSelecionar ||
+          (epPropostaItemQuery.loadingSelecionar$ | async)
+        "
+      ></aw-radio>
+      <div
+        class="value"
+        *ngLet="
+          (propostaItem.valorUnitarioProdutoPropostaItem + propostaItem.valorUnitarioServicoPropostaItem) *
+            propostaItem.quantidadeItens | number: '1.2-2' as valorTotal
+        "
+        [title]="valorTotal"
+      >
+        {{ valorTotal }}
+      </div>
+      <app-ep-banner-comparativo
+        *ngIf="!propostaItem.indicadorAWReferencia"
+        type="item"
+        [idPropostaItem]="propostaItem.idPropostaItem"
+        comparativo="valorTotal"
+      ></app-ep-banner-comparativo>
+    </div>
+    <div
+      class="descricao"
+      [title]="propostaItem.comentarioPropostaItem || ''"
+      [class.collapsed]="!propostaItem.descricaoOpened"
+      (click)="toggleCollapseDescricao()"
+    >
+      {{ propostaItem.comentarioPropostaItem }}
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #noPropostaItem>
+  <div class="label quantidade"></div>
+  <div class="quantitativos" *ngIf="propostaItemParent.quantitativoOpened" @collapse>
+    <div
+      class="label"
+      *ngFor="let label of propostaItemParent.quantitativos; trackBy: trackByEpPropostaItemQuantitativoItem"
+    ></div>
+  </div>
+  <div class="label valor-unitario"></div>
+  <div class="valores-unitarios" *ngIf="propostaItemParent.valorUnitarioOpened" @collapse>
+    <div class="label valor-unitario-produto"></div>
+    <div class="label valor-unitario-servico"></div>
+  </div>
+  <div class="label valor-total"></div>
+  <div class="descricao"></div>
+</ng-template>

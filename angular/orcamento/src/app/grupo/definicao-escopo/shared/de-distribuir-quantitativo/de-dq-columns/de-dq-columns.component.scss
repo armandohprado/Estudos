@@ -1,0 +1,60 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  > .column {
+    > .header {
+      padding: 0.5rem 0.3rem;
+      font-weight: 700;
+      text-align: center;
+      background-color: $very-light-blue;
+      margin-bottom: 4px;
+    }
+    > .body {
+      > .item.spacing {
+        height: 80px;
+      }
+    }
+    &.total,
+    &.centro-custo {
+      > .header {
+        width: 130px;
+      }
+      > .body {
+        background-color: $light-gray;
+        text-align: center;
+        > div {
+          padding: 0.5rem 0.3rem;
+          border: 1px solid transparent;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    &.total {
+      > .bottom {
+        padding: 0.5rem 0.3rem;
+        background-color: $very-light-blue;
+        text-align: center;
+        margin-top: 4px;
+      }
+      margin-left: 4px;
+    }
+    &.centro-custo {
+      margin-right: 4px;
+    }
+    &.pavimento {
+      overflow: auto;
+      > .body {
+        display: flex;
+        overflow: auto;
+        > .column-centro-custo {
+          width: 80px;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+}

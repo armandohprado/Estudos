@@ -1,0 +1,31 @@
+@import 'variables';
+
+:host {
+  > .content {
+    border-radius: $border-radius;
+    background-color: white;
+    padding: 15px;
+    > .catalogo {
+      > .header {
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 3px;
+        background-color: var(--ice-blue);
+        display: flex;
+        color: $primary;
+        margin-top: 1rem;
+        .text,
+        .icon {
+          margin-left: auto;
+        }
+        .icon {
+          cursor: pointer;
+          padding: 5px;
+          &.caret {
+            font-size: 6px;
+          }
+        }
+      }
+    }
+  }
+}

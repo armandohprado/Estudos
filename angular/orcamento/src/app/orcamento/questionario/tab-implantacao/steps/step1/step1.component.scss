@@ -1,0 +1,101 @@
+@import 'variables';
+
+.row {
+  label {
+    color: #7b8594;
+  }
+
+  input {
+    color: #3c3c3c;
+  }
+
+  .custom-control {
+    padding-left: 1rem;
+  }
+}
+
+button {
+  justify-content: center;
+  align-items: center;
+
+  .circle-icon-plus {
+    background-color: white;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    margin-right: 10px;
+
+    i {
+      font-size: 20px;
+      line-height: 2;
+    }
+  }
+}
+
+.btn-interlocutor {
+  background-color: #f7f7f7;
+  width: 100%;
+  height: 70px;
+}
+
+.btn-proximo {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.input-radio {
+  background-color: #f2f5f7;
+  padding: 15px 128px 15px 80px;
+
+  input {
+    background-color: #f2f5f7;
+    height: auto;
+  }
+}
+
+.btn-fornecedor {
+  background-color: #e7ecef;
+}
+
+.buscar-fornecedor {
+  i {
+    position: relative;
+    top: 28px;
+    left: 10px;
+  }
+
+  input {
+    padding-left: 35px;
+  }
+}
+
+.line-divisor {
+  margin-top: 30px;
+
+  span {
+    position: relative;
+    top: -27px;
+    padding: 10px;
+    background-color: #f2f5f7;
+  }
+}
+
+.cliente {
+  color: $green-alt;
+  font-weight: bold;
+}
+
+.icon {
+  &.icon-close {
+    float: right;
+    font-size: 10px;
+    color: #aeaeae;
+    border: 1px solid #aeaeae;
+    border-radius: 50%;
+    padding: 5px 4px 3px 4px;
+    background-color: #fff;
+    z-index: 1000;
+    cursor: pointer;
+  }
+}

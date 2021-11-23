@@ -1,0 +1,33 @@
+@import 'variables';
+.list {
+  font-size: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #fff;
+  .lista-virtual {
+    .item {
+      padding-left: 10px;
+      padding-right: 10px;
+      border-bottom: 1px solid var(--light-blue-grey);
+      height: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      &:hover,
+      &.selecionado {
+        background-color: #f2f5f7;
+        border: 1px solid #4fa4a1;
+      }
+      > .nome {
+        font-weight: bold;
+      }
+      > .codigo,
+      > .nome {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

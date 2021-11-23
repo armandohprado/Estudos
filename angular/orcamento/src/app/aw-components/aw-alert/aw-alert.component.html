@@ -1,0 +1,21 @@
+<div *ngIf="isOpen" class="aw-alert" [ngClass]="tipo" [class.dismissible]="dismissible">
+  <div class="close-alert" *ngIf="dismissible">
+    <span class="icon icon-close" (click)="close()"></span>
+  </div>
+  <div class="content">
+    <div class="icon-wrapper">
+      <span
+        class="icon"
+        [ngClass]="{
+          'aw-icon-alerta-cheio': tipo === 'warning',
+          'aw-icon-erro': tipo === 'danger',
+          'aw-icon-sucesso': tipo === 'success',
+          'aw-icon-icon-tooltip': tipo === 'info'
+        }"
+      ></span>
+    </div>
+    <div class="user-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

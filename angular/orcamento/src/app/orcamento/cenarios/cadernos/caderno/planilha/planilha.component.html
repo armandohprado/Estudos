@@ -1,0 +1,318 @@
+<form
+  *ngIf="planilhas.length > 0; else semPlanilhasBody"
+  [formGroup]="planilhasForm"
+  (ngSubmit)="onSubmit('submitting')"
+  class="caderno-content flex-grow-1 container"
+>
+  <div class="row pt-3">
+    <div class="col-md-12">
+      <div
+        class="form-group"
+        [class.has-danger]="planilhasForm.invalid && planilhasForm.touched"
+        [class.has-success]="planilhasForm.valid && planilhasForm.dirty"
+      >
+        <label for="input-planilha-name">Nome da planilha</label>
+        <input
+          id="input-planilha-name"
+          class="form-control"
+          formControlName="nomePlanilha"
+          name="nomePlanilha"
+          required
+          maxlength="100"
+          [value]="planilhasForm.value.nomePlanilha"
+          placeholder="escreva o nome da planilha"
+        />
+        <label *ngIf="planilhasForm.invalid && planilhasForm.touched" for="input-planilha-name" class="error">
+          Campo obrigatório.
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-3">
+    <div class="col-md-4">
+      <label>Modelo</label>
+      <aw-radio formControlName="idCadernoPlanilhaModelo" name="idCadernoPlanilhaModelo" [value]="modeloCaderno.FAMILIA"
+        >Por Família</aw-radio
+      >
+      <aw-radio formControlName="idCadernoPlanilhaModelo" name="idCadernoPlanilhaModelo" [value]="modeloCaderno.ANDAR"
+        >Por Andar</aw-radio
+      >
+      <aw-radio
+        formControlName="idCadernoPlanilhaModelo"
+        name="idCadernoPlanilhaModelo"
+        [value]="modeloCaderno.COLUNADOS"
+        >Andares Colunados</aw-radio
+      >
+    </div>
+    <div class="col-md-8">
+      <label>Selecione os componentes da planilha</label>
+      <div class="form-content py-2 px-3 mb-2">
+        <ng-container *ngIf="planilhasForm.value.idCadernoPlanilhaModelo === 2">
+          <ng-container *ngTemplateOutlet="checkboxAndar"></ng-container>
+        </ng-container>
+
+        <div class="custom-control custom-checkbox mb-1">
+          <input
+            type="checkbox"
+            formControlName="exibeFamilia"
+            name="exibeFamilia"
+            class="custom-control-input"
+            id="checkbox-familia"
+          />
+          <label class="custom-control-label" for="checkbox-familia">Família</label>
+        </div>
+
+        <div class="custom-control custom-checkbox mb-1">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkbox-faturamento"
+            formControlName="exibeTipoFaturamento"
+            name="exibeTipoFaturamento"
+          />
+          <label class="custom-control-label" for="checkbox-faturamento">Tipo de Faturamento</label>
+        </div>
+        <div class="custom-control custom-checkbox mb-1">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkbox-agrupador"
+            formControlName="exibeAgrupador"
+            name="exibeAgrupador"
+          />
+          <label class="custom-control-label" for="checkbox-agrupador">Agrupador</label>
+        </div>
+        <div class="custom-control custom-checkbox mb-1">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkbox-grupo"
+            formControlName="exibeGrupo"
+            name="exibeGrupo"
+          />
+          <label class="custom-control-label" for="checkbox-grupo">Grupo</label>
+        </div>
+
+        <ng-container
+          *ngIf="planilhasForm.value.idCadernoPlanilhaModelo !== 2 && planilhasForm.value.idCadernoPlanilhaModelo !== 3"
+        >
+          <ng-container *ngTemplateOutlet="checkboxAndar"></ng-container>
+        </ng-container>
+
+        <div class="custom-control custom-checkbox mb-1">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkbox-centro-custo"
+            formControlName="exibeCentroCusto"
+            name="exibeCentroCusto"
+          />
+          <label class="custom-control-label" for="checkbox-centro-custo">Centro de Custo</label>
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="checkbox-item"
+            formControlName="exibeItem"
+            name="exibeItem"
+          />
+          <label class="custom-control-label" for="checkbox-item">Item</label>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-12">
+            <label class="ml-4">selecionar os campos que aparecerão a cada item do orçamento</label>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-item-codigo"
+                formControlName="exibeCodigoItem"
+                name="exibeCodigoItem"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-item-codigo">código do item</label>
+            </div>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-item"
+                formControlName="exibeItemOrcamento"
+                name="exibeItemOrcamento"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-item">item</label>
+            </div>
+
+            <div
+              *ngIf="
+                planilhasForm.value.idCadernoPlanilhaModelo !== 2 && planilhasForm.value.idCadernoPlanilhaModelo !== 1
+              "
+              class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3"
+            >
+              <input
+                class="custom-control-input"
+                id="switch-andares"
+                formControlName="exibeItemAndar"
+                name="exibeItemAndar"
+                type="checkbox"
+                [readonly]="!planilhasForm.value.exibeItem"
+              />
+              <label class="custom-control-label ml-5" for="switch-andares">andares</label>
+            </div>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-quantidade"
+                formControlName="exibeItemQuantidade"
+                name="exibeItemQuantidade"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-quantidade">quantidade</label>
+            </div>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-unitario"
+                formControlName="exibeItemValorUnitario"
+                name="exibeItemValorUnitario"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-unitario">valores unitários</label>
+            </div>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-fornecedor"
+                formControlName="exibeItemFornecedor"
+                name="exibeItemFornecedor"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-fornecedor">nome do fornecedor</label>
+            </div>
+
+            <div class="custom-control custom-switch d-flex justify-content-between mb-1 pl-3">
+              <input
+                class="custom-control-input"
+                id="switch-faturamento"
+                formControlName="exibeItemFaturamento"
+                name="exibeItemFaturamento"
+                type="checkbox"
+              />
+              <label class="custom-control-label ml-5" for="switch-faturamento">tipo do faturamento de cada item</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row my-3">
+          <fieldset class="form-group">
+            <div>
+              <legend class="col-form-label col-12 pt-0 font-weight-bold">
+                Como será apresentado o valor de Imposto?
+              </legend>
+              <div class="col-12 mb-1">
+                <aw-radio
+                  formControlName="idCadernoPlanilhaImposto"
+                  name="idCadernoPlanilhaImposto"
+                  [value]="impostoRadio.ORCAMENTO"
+                >
+                  Em linha única, no final de cada orcamento
+                </aw-radio>
+              </div>
+
+              <div class="col-12 mb-1">
+                <aw-radio
+                  formControlName="idCadernoPlanilhaImposto"
+                  name="idCadernoPlanilhaImposto"
+                  [value]="impostoRadio.FAMILIA"
+                >
+                  Em linha única, no final de cada família
+                </aw-radio>
+              </div>
+
+              <div class="col-12 mb-1">
+                <aw-radio
+                  formControlName="idCadernoPlanilhaImposto"
+                  name="idCadernoPlanilhaImposto"
+                  [value]="impostoRadio.ITEM"
+                >
+                  Diluído e declarado em coluna específica a cada item
+                </aw-radio>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="row my-1">
+          <fieldset class="form-group">
+            <div>
+              <legend class="col-form-label col-sm-2 pt-0 font-weight-bold">Taxa</legend>
+              <div class="col-12 mb-1">
+                <aw-radio
+                  formControlName="idCadernoPlanilhaTaxa"
+                  name="idCadernoPlanilhaTaxa"
+                  [value]="taxaRadio.ORCAMENTO"
+                >
+                  Em linha única, no final de cada orcamento
+                </aw-radio>
+              </div>
+
+              <div class="col-12 mb-1">
+                <aw-radio
+                  formControlName="idCadernoPlanilhaTaxa"
+                  name="idCadernoPlanilhaTaxa"
+                  [value]="taxaRadio.FAMILIA"
+                >
+                  Em linha única, no final de cada família
+                </aw-radio>
+              </div>
+
+              <div class="col-12 mb-1">
+                <aw-radio formControlName="idCadernoPlanilhaTaxa" name="idCadernoPlanilhaTaxa" [value]="taxaRadio.ITEM">
+                  Diluído e declarado em coluna específica a cada item
+                </aw-radio>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 ml-auto">
+          <button
+            class="btn btn-primary btn-block my-3"
+            [disabled]="isLoading.status || (caderno$ | async)?.enviadoCliente || planilhasForm.invalid"
+            type="submit"
+          >
+            Adicionar
+            <i *ngIf="isLoading.loadingId === 'submitting' && isLoading.status" class="icon icon-spin"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #checkboxAndar>
+  <div class="custom-control custom-checkbox mb-1" [formGroup]="planilhasForm">
+    <input
+      type="checkbox"
+      class="custom-control-input"
+      formControlName="exibeAndar"
+      name="exibeAndar"
+      id="checkbox-andar"
+    />
+    <label class="custom-control-label" for="checkbox-andar">Andar</label>
+  </div>
+</ng-template>
+
+<ng-template #semPlanilhasBody>
+  <div class="caderno-content flex-grow-1 d-flex align-items-center justify-content-center">
+    <p>Para começar adicione uma planilha</p>
+  </div>
+</ng-template>

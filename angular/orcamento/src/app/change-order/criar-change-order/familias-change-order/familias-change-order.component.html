@@ -1,0 +1,72 @@
+<div class="familias">
+  <div class="menu">
+    <h6>Família</h6>
+    <div class="list" #list>
+      <div
+        *ngFor="let familia of familias$ | async; trackBy: trackByFamilia"
+        (click)="navigateFamilia(familia)"
+        class="item"
+        [ngClass]="{ active: (activeId$ | async) === familia.id, custom: familia.customizada }"
+        #familiaRef
+      >
+        <div class="title" [title]="familia.descricaoFamilia | titlecase">
+          {{ familia.descricaoFamilia | titlecase }}
+        </div>
+        <button
+          awButton
+          icon="edit"
+          *ngIf="familia.customizada"
+          (click)="
+            $event.stopPropagation();
+            nomeFamiliaCustomizadaControl.setValue(familia.descricaoFamilia);
+            openOverlay(familiaRef, list?.getBoundingClientRect().width, {
+              $implicit: familia.id
+            })
+          "
+        ></button>
+        <span class="badge badge-pill badge-secondary">
+          {{ familia | countGruposSelecionados }}
+        </span>
+      </div>
+      <hr />
+      <div
+        class="add-familia"
+        (click)="
+          nomeFamiliaCustomizadaControl.setValue(''); openOverlay(addFamiliaRef, list?.getBoundingClientRect().width)
+        "
+        #addFamiliaRef
+      >
+        <span class="icon icon-plus-circle"></span>
+        Adicionar Família
+      </div>
+    </div>
+  </div>
+  <div class="grupoes">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<ng-template #familiaCustomizadaRef let-idFamilia>
+  <div class="add-familia-box p-3 bg-white" *ngIf="{ loading: changeOrderFamiliaQuery.loading$ | async } as state">
+    <div class="form-group">
+      <label class="sr-only" for="nomeFamiliaCustomizada">Nome família customizada</label>
+      <input
+        id="nomeFamiliaCustomizada"
+        awInput
+        [formControl]="nomeFamiliaCustomizadaControl"
+        placeholder="Inserir nome família"
+        [disabledControl]="state.loading"
+      />
+    </div>
+    <div class="d-flex justify-content-end">
+      <button
+        awButton
+        link
+        [disabled]="nomeFamiliaCustomizadaControl.invalid || state.loading"
+        (click)="addFamilia(idFamilia)"
+      >
+        {{ idFamilia ? 'Salvar' : 'Adicionar' }}
+      </button>
+    </div>
+  </div>
+</ng-template>

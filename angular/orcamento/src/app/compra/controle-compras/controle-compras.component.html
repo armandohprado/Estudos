@@ -1,0 +1,10 @@
+<div class="shadow mb-5 pb-3" *ngIf="params$ | async as params">
+  <app-header-cc></app-header-cc>
+  <app-links-cc
+    [idProjeto]="params.idProjeto"
+    [idOrcamentoCenario]="params.idOrcamentoCenario"
+    [idOrcamento]="params.idOrcamento"
+  ></app-links-cc>
+  <app-filters-cc></app-filters-cc>
+  <app-collapse-grupos-cc [idOrcamentoCenario]="params.idOrcamentoCenario"></app-collapse-grupos-cc>
+</div>

@@ -1,0 +1,5 @@
+<aw-spinner class="aw-btn-loading-spinner" *ngIf="loading" size="sm"></aw-spinner>
+<ng-content></ng-content>
+<span class="aw-btn-icon" [ngClass]="icon" [style.font-size.px]="iconSize" *ngIf="icon">
+  <span *ngFor="let path of iconPath; trackBy: trackByString" [ngClass]="path"></span>
+</span>

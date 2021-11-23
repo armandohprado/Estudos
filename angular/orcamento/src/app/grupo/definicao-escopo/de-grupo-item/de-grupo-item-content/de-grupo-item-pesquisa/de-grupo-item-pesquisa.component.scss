@@ -1,0 +1,58 @@
+@import 'variables';
+
+$spacingx2: $spacing * 2;
+
+.pesquisa {
+  box-shadow: none;
+  border-radius: 0;
+  border: 0;
+  margin: 0 $spacingx2 $spacingx2 $spacingx2;
+  .card-header {
+    background-color: var(--ice-blue);
+    border: 0;
+    display: flex;
+    align-items: center;
+    .card-title {
+      margin-bottom: 0;
+    }
+  }
+  .card-body {
+    padding: $spacingx2 0;
+    .atributos-badges {
+      display: flex;
+      flex-wrap: wrap;
+      .badge {
+        margin: $spacing * 0.5;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing;
+        white-space: normal;
+        &.inactive {
+          opacity: 0.5;
+        }
+        .atributo {
+          font-size: 12px;
+        }
+      }
+    }
+    .items {
+      height: 392px;
+      overflow-x: hidden;
+      > .row {
+        height: 98px;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .popover-valores {
+    width: auto;
+    .popover-body {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+}

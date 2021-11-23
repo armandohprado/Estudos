@@ -1,0 +1,19 @@
+<div class="col-12 mx-auto mb-5">
+  <div class="tab-header d-flex align-items-center">
+    <aw-toggle [ngModel]="showOnlySelected" (ngModelChange)="setShowOnlySelected()">
+      <label before>Mostrar:</label>
+      <label after>apenas selecionados</label>
+    </aw-toggle>
+  </div>
+  <div class="anexos" [awSpinner]="loading$ | async">
+    <app-ga-anexos-avulsos
+      [anexos]="anexos$ | async"
+      [apenasSelecionados]="showOnlySelected"
+      [allowSelectAll]="true"
+      [allSelectDisabled]="loadingAll$ | async"
+      (download)="onDownload($event)"
+      (anexoToggle)="onAnexoToggle($event)"
+      (allToggle)="onAllToggle($event)"
+    ></app-ga-anexos-avulsos>
+  </div>
+</div>

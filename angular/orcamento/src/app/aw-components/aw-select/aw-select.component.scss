@@ -1,0 +1,186 @@
+@import 'variables';
+@import 'mixins';
+
+aw-select {
+  width: 100%;
+}
+
+.aw-select.form-control {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  display: flex;
+  overflow: hidden;
+  transition: box-shadow 150ms ease-in-out;
+  box-shadow: none;
+  position: relative;
+  &.disabled {
+    pointer-events: none;
+    background-color: #e9ecef;
+    opacity: 0.9;
+  }
+  &.clearable {
+    > .aw-select-selected {
+      grid-template-columns: 1fr 25px 25px;
+    }
+  }
+  &.open,
+  &.multiple {
+    > .aw-select-selected {
+      grid-template-columns: 1fr 25px;
+    }
+  }
+  &:focus,
+  &:focus-within,
+  &.open {
+    color: #495057;
+    background-color: #fff;
+    border-color: #3c3c3c;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.25);
+    &.is-invalid {
+      box-shadow: 0 0 0 0.2rem rgba(251, 37, 37, 0.25);
+    }
+  }
+  &.is-invalid {
+    border-color: #fb2525;
+    color: #fb2525;
+    background-image: none;
+  }
+  > .aw-select-selected {
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: 1fr 25px;
+    > .selected {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      > .item {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      > .aw-select-search-input {
+        border: 0;
+        outline: 0;
+        flex-grow: 1;
+        display: flex;
+      }
+      .badge.badge-pill.badge-secondary {
+        background-color: white;
+        border: 1px solid $secondary;
+        color: $secondary;
+        min-width: 3rem;
+        max-width: 5rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        flex-shrink: 0;
+        grid-gap: 5px;
+        &:not(:last-child) {
+          margin-right: 0.25rem;
+        }
+        > .text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        > .icon {
+          font-size: 7px;
+          cursor: pointer;
+        }
+      }
+    }
+    > .clear,
+    > .arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > .icon {
+        cursor: pointer;
+      }
+    }
+    > .arrow > .icon {
+      font-size: 6px;
+    }
+    > .clear > .icon {
+      font-size: 9px;
+    }
+  }
+}
+
+.cdk-overlay-pane.aw-select-panel {
+  display: grid;
+  background-color: #fff;
+  box-shadow: 0 2px 10px 0 rgba(60, 60, 60, 0.2);
+  border-radius: 3px;
+  padding: 5px 0;
+  > .aw-select-options {
+    background-color: #ffffff;
+    width: 100%;
+    max-height: 8 * 25px;
+    overflow-y: auto;
+    @include custom-scrollbar();
+    > .aw-select-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 25px;
+      padding: 5px 15px;
+      color: var(--greyish-brown);
+      cursor: pointer;
+      > .item {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &.disabled {
+        pointer-events: none;
+        background-color: #e9ecef;
+        opacity: 0.9;
+      }
+      &.no-data-found {
+        cursor: default;
+      }
+      &:hover:not(.no-data-found),
+      &.selected {
+        background-color: var(--cerulean);
+        color: white;
+        .aw-select-checkbox {
+          > .aw-checkbox {
+            color: white;
+          }
+        }
+      }
+      .aw-select-checkbox {
+        > .aw-checkbox {
+          > .aw-checkbox-text {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  > .aw-select-header {
+    padding: 5px 15px 10px 15px;
+    border-bottom: 1px solid #979797;
+  }
+  > .aw-select-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 15px 5px 15px;
+    border-top: 1px solid #979797;
+    > button {
+      min-width: 80px;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.aw-select-backdrop {
+  opacity: 0;
+}

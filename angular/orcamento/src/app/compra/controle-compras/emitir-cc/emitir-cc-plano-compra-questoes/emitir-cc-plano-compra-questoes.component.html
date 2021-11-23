@@ -1,0 +1,13 @@
+<div class="block">
+  <h6 class="title">Plano de compras:</h6>
+  <div class="content">
+    <app-plano-compra-questoes
+      [questoes]="grupo.planoCompraQuestoes || []"
+      (questaoChange)="onQuestaoChange($event)"
+      [showDataFluxoSD]="grupo.flagControleSD"
+      [dataFluxoSD]="dataFluxoSDControl?.value"
+      (dataFluxoSDChange)="dataFluxoSDControl?.setValue($event)"
+      [dataFluxoSDInvalid]="dataFluxoSDControl?.touched && dataFluxoSDControl?.invalid"
+    ></app-plano-compra-questoes>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="grupos">
+  <h5>Grupos</h5>
+  <div class="list">
+    <ng-container *ngIf="!arquivo.grupos?.length; else list"> Não existem grupos para esse arquivo! </ng-container>
+    <ng-template #list>
+      <div class="grupo" *ngFor="let grupo of arquivo.grupos; trackBy: trackByGrupo">
+        <div class="nome">
+          {{ grupo.nome }}
+        </div>
+        <div class="deletar">
+          <button
+            *ngIf="!gerenciadorArquivosService.readonly"
+            awButton
+            icon="close"
+            size="xs"
+            [loading]="grupo.loading"
+            (click)="deleteGrupo(grupo.id)"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div class="add-grupos" *ngIf="!gerenciadorArquivosService.readonly">
+    <div class="btn-add" (click)="addGrupos()">
+      <span class="icon icon-add"></span>
+      Adicionar grupo
+    </div>
+  </div>
+</div>

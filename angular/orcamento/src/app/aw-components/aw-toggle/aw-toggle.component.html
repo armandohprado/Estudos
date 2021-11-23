@@ -1,0 +1,9 @@
+<div class="label before" *ngIf="beforeDirectives?.length">
+  <ng-content select="label[before]"></ng-content>
+</div>
+<div class="aw-toggle" [tabIndex]="disabled ? -1 : 0" (keydown.space)="onSpace($event)">
+  <div class="circle"></div>
+</div>
+<div class="label after" *ngIf="afterDirectives?.length">
+  <ng-content select="label[after]"></ng-content>
+</div>

@@ -1,0 +1,32 @@
+<ng-container *ngIf="familia$ | async as familia">
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Adicionar grupos de <span class="text-lowercase">{{ familia.descricaoFamilia }}</span>
+    </h4>
+    <button (click)="close()" aria-label="Close" class="close btn-icon" type="button">
+      <i class="icon icon-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="pesquisa">
+      <div class="form-group">
+        <label for="pesquisar" class="sr-only">Pesquisar</label>
+        <input awInput type="search" id="pesquisar" [formControl]="searchControl" placeholder="&#xE908; Pesquisar" />
+      </div>
+    </div>
+    <app-grupao
+      *ngFor="let grupao of familia.grupoes | searchGrupaoGrupo: (search$ | async); trackBy: trackBy"
+      [selectionMode]="true"
+      [grupao]="grupao"
+      [showPercentual]="showPercentual"
+      (selectionChange)="onSelectGrupo($event)"
+    ></app-grupao>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button (click)="close()" awButton status="secondary" type="button" [disabled]="saving">Cancelar</button>
+      <button awButton type="button" (click)="save()" [loading]="saving">Confirmar</button>
+    </div>
+  </div>
+</ng-container>

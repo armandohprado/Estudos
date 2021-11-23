@@ -1,0 +1,94 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  > .title {
+    padding: 0.5rem 1rem;
+    background-color: $brownish-grey;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    > h4 {
+      color: white;
+      margin: 0;
+      font-weight: 400;
+    }
+  }
+  > .content {
+    background-color: $light-gray;
+    padding: 1rem;
+    > .project {
+      > .project-name {
+        @include project-name();
+      }
+      padding-bottom: 1rem;
+    }
+    > .values1,
+    > .collapse > .values2 {
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr 100px 1fr 1fr 1fr;
+      font-size: 12px;
+      > .item {
+        padding: 0 0.5rem;
+        text-align: right;
+        &.expand-btn {
+          text-align: left;
+        }
+        &.divider-right {
+          border-right: 1px solid $bluey-grey;
+        }
+        &.imposto-refaturamento {
+          grid-column-start: 5;
+        }
+        > .value {
+          font-size: 18px;
+          font-weight: bold;
+          > span:last-child {
+            margin-left: 5px;
+            font-size: 12px;
+            font-weight: normal;
+          }
+        }
+        > .title {
+          font-style: italic;
+        }
+      }
+      > .expand-btn {
+        ::ng-deep {
+          .aw-btn-icon {
+            color: $primary;
+          }
+        }
+      }
+    }
+    > .collapse > .values2 {
+      border-top: 1px solid $bluey-grey;
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+      > .item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-gap: 0.25rem;
+        &.single {
+          grid-template-columns: 1fr;
+        }
+        &.valor-total-obra {
+          grid-column: span 2;
+        }
+        &:first-child {
+          grid-column: span 1;
+        }
+        &:last-child {
+          display: block;
+        }
+        > .value {
+          font-size: 14px;
+        }
+        > .title {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<div class="side-menu">
+  <h6>Filtrar produtos</h6>
+  <div class="form-group">
+    <label [for]="uniqueId">
+      Buscar por título:
+    </label>
+    <input
+      [id]="uniqueId"
+      type="search"
+      awInput
+      size="sm"
+      [(ngModel)]="term"
+      (ngModelChange)="termSubject.next($event)"
+      placeholder="Insira o título"
+    />
+  </div>
+
+  <div
+    class="list"
+    *ngFor="let filtro of filtros; trackBy: trackByFiltroCatalogo"
+  >
+    <span class="title-list">{{ filtro.nome }}</span>
+    <ul class="list-unstyled">
+      <li *ngFor="let value of filtro.valores; trackBy: trackByFiltroValor">
+        <aw-checkbox
+          class="aw-checkbox-filtro"
+          [ngModel]="value.active"
+          (ngModelChange)="onFiltro(filtro.nome, value.valor)"
+        >
+          {{ value.valor }}
+        </aw-checkbox>
+      </li>
+    </ul>
+  </div>
+</div>

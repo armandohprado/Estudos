@@ -1,0 +1,28 @@
+.side-menu {
+  height: 100%;
+  padding: 15px;
+  border-radius: 3px;
+  background-color: var(--ice-blue);
+  > h6 {
+    margin-bottom: 2rem;
+  }
+  > .list {
+    > .title-list {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    > ul {
+      > li {
+        padding: 5px 0;
+        ::ng-deep {
+          .aw-checkbox-filtro {
+            .aw-checkbox-text {
+              font-size: 0.7rem;
+              font-weight: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}

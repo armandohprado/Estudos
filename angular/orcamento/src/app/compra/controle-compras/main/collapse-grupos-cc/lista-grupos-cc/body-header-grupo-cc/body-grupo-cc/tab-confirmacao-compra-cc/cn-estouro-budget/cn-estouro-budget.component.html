@@ -1,0 +1,79 @@
+<ng-container *ngLet="gruposTransferencia$ | async as gruposTransferencia">
+  <aw-collapse title="Transferir saldo de grupo" *ngIf="gruposTransferencia?.length > 0" [awCollapse]="false">
+    <aw-spinner size="sm" *ngIf="loading$ | async"></aw-spinner>
+    <app-transferir-saldo-grupos
+      [itemsPerPage]="15"
+      [grupos]="gruposTransferencia"
+      [readonlyGruposView]="readonly"
+      [updateGrupo]="false"
+      (changeValue)="updateTransferenciaGrupo($event)"
+    ></app-transferir-saldo-grupos>
+  </aw-collapse>
+</ng-container>
+<ng-container *ngIf="!grupo.grupoNaoPrevisto">
+  <ng-container *ngIf="transferenciaCC$ | async as transferenciaCC">
+    <ng-container *ngIf="gruposTransferenciaCC$ | async as gruposTransferenciaCC">
+      <aw-collapse title="Transferir saldo de CC" *ngIf="transferenciaCC.length && gruposTransferenciaCC.length">
+        <aw-spinner size="sm" *ngIf="loadingCC$ | async"></aw-spinner>
+        <app-transferencia-envio-mapa-container
+          [readonly]="readonly"
+          [idPlanilhaHibrida]="grupo.idPlanilhaHibrida"
+          [listaTransferenciaCC]="transferenciaCC"
+          [listaGrupo]="gruposTransferenciaCC"
+          [payload]="grupo.gruposTransferenciaCC"
+          (payloadChange)="updateTransferenciaGrupoCC($event)"
+        >
+        </app-transferencia-envio-mapa-container>
+      </aw-collapse>
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div class="margem">
+  <ng-container *ngIf="readonly; else notReadonly">
+    <div class="margem-label">Valor ficha</div>
+    <div class="margem-value">{{ readonlyFicha.valor | number: '1.2-2' }}</div>
+  </ng-container>
+  <ng-template #notReadonly>
+    <div class="margem-label">Budget: Limite de compra</div>
+    <div class="margem-value">{{ grupo.valorUtilizado | number: '1.2-2' }}</div>
+    <div class="margem-label">Total Orçado (R$)</div>
+    <div class="margem-value">{{ grupo.grupoOrcamento.valorSelecionado | number: '1.2-2' }}</div>
+    <div class="margem-label">Total margem (R$)</div>
+    <div class="margem-value text-danger">
+      ({{ grupo.valorUtilizado - grupo.grupoOrcamento.valorSelecionado | number: '1.2-2' }})
+    </div>
+  </ng-template>
+</div>
+<hr />
+<app-cn-ficha-form
+  [grupo]="grupo"
+  [valorSelecionado]="grupo.grupoOrcamento.valorSelecionado"
+  [form]="form.value"
+  [readonly]="readonly"
+  [origemCompraLista]="origemCompraLista$ | async"
+  (formChange)="form.patchValue($event)"
+></app-cn-ficha-form>
+<ng-container *ngIf="!readonly">
+  <div
+    class="ficha-action"
+    *ngLet="
+      grupo
+        | cnValidaFichaEstouro
+          : grupo.valorUtilizado - grupo.grupoOrcamento.valorSelecionado
+          : form.invalid as validacaoEstouro
+    "
+  >
+    <div [tooltip]="validacaoEstouro" [isDisabled]="!validacaoEstouro">
+      <button
+        awButton
+        type="button"
+        width="primary"
+        (click)="enviarFicha()"
+        [loading]="enviandoFicha$ | async"
+        [disabled]="!!validacaoEstouro"
+      >
+        Enviar ficha
+      </button>
+    </div>
+  </div>
+</ng-container>

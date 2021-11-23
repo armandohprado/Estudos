@@ -1,0 +1,107 @@
+<div *ngIf="{ cadernos: cadernos$ | async } as state">
+  <div class="d-flex justify-content-between mt-5 mb-3">
+    <h4 class="m-0 align-self-center">Lista de Cadernos</h4>
+    <button awButton (click)="onCreateCaderno()" class="px-5" type="button" [loading]="loadingCreate">
+      Novo Caderno
+    </button>
+  </div>
+
+  <aw-spinner *ngIf="loading" size="lg"></aw-spinner>
+
+  <div *ngFor="let caderno of state.cadernos; trackBy: trackByCaderno" class="card cadernos-card">
+    <div class="card-header">
+      <div class="w-100 d-flex justify-content-between">
+        <div class="description">{{ caderno.nomeCaderno }}</div>
+        <div
+          class="d-flex align-items-center text-primary caret c-pointer"
+          [class.icon-caret-down]="caderno.collapse"
+          [class.icon-caret-up]="!caderno.collapse"
+          (click)="toggleCollapse(caderno.idCaderno)"
+        ></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <div class="mr-5 align-self-center">
+          <strong class="mr-2">Histórico:</strong>
+          {{ caderno.descricaoCaderno }}
+        </div>
+        <div class="d-flex align-items-center">
+          <button
+            awButton
+            icon="file-pdf"
+            title="Visualizar Modal"
+            type="button"
+            (click)="openModalRelatorioCaderno(caderno)"
+            [disabled]="caderno.loading"
+          ></button>
+          <button
+            awButton
+            icon="trash-alt"
+            title="excluir"
+            [disabled]="caderno.enviadoCliente || caderno.loading"
+            (click)="openDeleteModal(caderno)"
+            type="button"
+          ></button>
+          <button
+            awButton
+            (click)="duplicarCaderno(caderno)"
+            [disabled]="caderno.loading"
+            *ngIf="!caderno.enviadoCliente"
+            class="ml-2 px-5"
+            type="button"
+          >
+            Duplicar
+          </button>
+
+          <button
+            awButton
+            [routerLink]="[caderno.idCaderno]"
+            *ngIf="!caderno.enviadoCliente"
+            class="ml-2 px-5"
+            type="button"
+            [disabled]="caderno.loading"
+          >
+            Editar
+          </button>
+          <button
+            awButton
+            class="ml-3 px-5"
+            type="button"
+            *ngIf="caderno.enviadoCliente"
+            [routerLink]="[caderno.idCaderno]"
+          >
+            Visualizar
+          </button>
+        </div>
+      </div>
+      <div class="d-flex" @collapse *ngIf="!caderno.collapse && caderno.cadernoPlanilhaHistoricos?.length">
+        <div class="w-100 m-2">
+          <div class="grid-4 header">
+            <div class="nome justify-content-start">Nome</div>
+            <div class="data">Data e hora</div>
+            <div class="valor">Valor (R$)</div>
+            <div class="arquivo">Arquivo</div>
+            <div class="extensao">Extensão</div>
+          </div>
+          <hr class="light low-margin" />
+          <div class="grid-4">
+            <ng-container
+              *ngFor="let planilhaHistorico of caderno.cadernoPlanilhaHistoricos; trackBy: trackByPlanilhaHistorico"
+            >
+              <div class="nome justify-content-start">{{ planilhaHistorico.funcionario.nomeFantasia }}</div>
+              <div class="data">{{ planilhaHistorico.dataGeracao | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+              <div class="valor">{{ planilhaHistorico.valorTotalPlanilha | number: '1.2-2' }}</div>
+              <div class="arquivo">
+                {{ planilhaHistorico.nome }}
+                <a awButton icon="download" size="sm" [href]="planilhaHistorico.url" target="_blank"></a>
+              </div>
+              <div class="extensao">{{ planilhaHistorico.extensao }}</div>
+            </ng-container>
+          </div>
+          <hr class="light low-margin" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

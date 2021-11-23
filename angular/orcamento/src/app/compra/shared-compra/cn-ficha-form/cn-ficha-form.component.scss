@@ -1,0 +1,6 @@
+@use 'variables' as v;
+
+.form {
+  background-color: v.$gray-secondary;
+  padding: 1rem 25%;
+}

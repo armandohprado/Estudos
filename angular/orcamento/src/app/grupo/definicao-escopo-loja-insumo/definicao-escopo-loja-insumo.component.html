@@ -1,0 +1,21 @@
+<ng-container *ngLet="loading$ | async as loading">
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">Definição de Escopo - Loja Insumo</h5>
+    <button type="button" class="close" (click)="close()">
+      <span class="icon icon-close"></span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <app-deli-header [grupo]="grupo"></app-deli-header>
+      <app-del-grupo-item-list></app-del-grupo-item-list>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button awButton (click)="salvar()" [disabled]="loading">Salvar e continuar mais tarde</button>
+    <button awButton status="secondary" (click)="concluir()" [disabled]="loading || (hasAnyGrupoItemInvalid$ | async)">
+      Concluir
+    </button>
+  </div>
+</ng-container>

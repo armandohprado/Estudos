@@ -1,0 +1,54 @@
+<aw-spinner *ngIf="loading$ | async"></aw-spinner>
+<ng-container *ngIf="{ saving: saving$ | async, hasUpdates: hasUpdates$ | async } as state">
+  <div class="modal-header">
+    <h5 class="modal-title">Adicionar grupos</h5>
+    <button awButton icon="close" type="button" (click)="close()" [disabled]="state.saving"></button>
+  </div>
+  <div class="modal-body" *ngIf="grupoes$ | async as grupoes">
+    <div class="form" [formGroup]="form">
+      <div class="form-group">
+        <label class="sr-only" for="cn-ag-search">Pesquisar</label>
+        <input awInput id="cn-ag-search" placeholder="&#xE908; Pesquisar" formControlName="term" type="search" />
+      </div>
+      <div class="form-group">
+        <aw-checkbox formControlName="onlyUpdated"> Apenas alterados </aw-checkbox>
+      </div>
+    </div>
+    <div
+      class="grupao"
+      *ngFor="let grupao of grupoes; trackBy: trackByGrupao"
+      [class.has-any-grupo-selected]="grupao.hasAnyGrupoSelected"
+    >
+      <div class="grupao-header" (click)="toggleCollapse(grupao.idGrupao)">
+        <span class="grupao-codigo">{{ grupao.numeroGrupao }}</span>
+        <span class="grupo-descricao">{{ grupao.descricaoGrupao }}</span>
+        <button awButton [icon]="grupao.opened ? 'caret-up' : 'caret-down'" [iconSize]="7"></button>
+      </div>
+      <div class="grupao-body" *ngIf="grupao.opened" @collapse>
+        <div class="grupao-inner-body">
+          <app-cn-ag-grupo
+            *ngFor="let grupo of grupao.grupos; trackBy: trackByGrupo"
+            [grupo]="grupo"
+            (grupoChange)="onGrupoChange($event)"
+          ></app-cn-ag-grupo>
+        </div>
+      </div>
+    </div>
+    <div class="no-data-found" *ngIf="!grupoes.length">Nenhum grupo encontrado</div>
+  </div>
+  <div class="modal-footer">
+    <button awButton type="button" (click)="close()" [disabled]="state.saving" status="secondary" width="secondary">
+      Cancelar
+    </button>
+    <button
+      awButton
+      type="button"
+      (click)="save()"
+      [loading]="state.saving"
+      [disabled]="!state.hasUpdates"
+      width="primary"
+    >
+      Confirmar
+    </button>
+  </div>
+</ng-container>

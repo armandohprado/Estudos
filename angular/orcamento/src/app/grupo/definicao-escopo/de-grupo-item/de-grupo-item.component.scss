@@ -1,0 +1,83 @@
+@import 'variables';
+
+.grupo-item {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: $border-radius;
+  background-color: $very-light-blue;
+  margin-bottom: $spacing;
+  position: relative;
+  font-size: 12px;
+  border: 1px solid transparent;
+  .d-f-center {
+    display: flex;
+    align-items: center;
+  }
+  &.ativo {
+    border-color: $sea;
+  }
+  .descricao {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+  .qtde-refer {
+    .unidade-medida {
+      opacity: 0.27;
+      color: $greyish-brown;
+    }
+  }
+  .last-col {
+    .valor-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .valor-total {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .content {
+    > .inner-content {
+      background-color: white;
+      border-radius: $border-radius;
+    }
+  }
+  .form-control {
+    &:disabled {
+      color: rgb(84, 84, 84);
+      cursor: default;
+      background-color: rgb(235, 235, 228);
+      opacity: 0.5;
+    }
+  }
+  .second-line {
+    .tag-invalida {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: $red;
+      font-style: italic;
+    }
+  }
+  .icon-search {
+    opacity: 0.27;
+    &.active {
+      opacity: 1;
+    }
+  }
+  .complemento-title-row {
+    .complemento-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+      span:not(:empty) {
+        margin-right: 5px;
+        &::before {
+          content: '\2022';
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}

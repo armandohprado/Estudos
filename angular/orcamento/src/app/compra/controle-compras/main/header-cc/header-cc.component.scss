@@ -1,0 +1,64 @@
+@import 'variables';
+@import 'mixins';
+
+.grid {
+  display: grid;
+}
+
+.grid-header {
+  min-height: 150px;
+  width: 100%;
+  @extend .grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0 40px;
+}
+
+.thead-gray {
+  color: white;
+  background-color: #787878;
+  border-color: #9ea1ae;
+  font-size: $h4-font-size;
+  font-family: $font-family-base;
+  font-weight: 500;
+}
+.bg-light {
+  background-color: #f7f8f9 !important;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background-color: #bfbfbf;
+  grid-row-gap: 2px;
+  & > div {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 0;
+    align-items: flex-end;
+    background-color: #f7f8f9;
+    font-size: 12px;
+  }
+  & .top {
+    justify-content: flex-end;
+    padding-bottom: 0.5rem;
+  }
+  & .bottom {
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+  }
+}
+.label {
+  font-style: italic;
+  padding-bottom: 0.5rem;
+}
+.number {
+  font-size: 14px !important;
+}
+.a {
+  cursor: pointer;
+  pointer-events: none;
+  color: $primary;
+  &:hover {
+    transform: scale(1.5);
+  }
+}

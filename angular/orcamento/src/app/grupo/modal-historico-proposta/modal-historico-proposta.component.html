@@ -1,0 +1,56 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <h4 class="modal-title">Histórico de propostas</h4>
+  <button (click)="bsModalRef.hide()" awButton icon="close" type="button"></button>
+</div>
+<div class="modal-body">
+  <div class="group-details">
+    <p>
+      <strong>{{ grupo.codigoGrupo }} - {{ grupo.nomeGrupo }}</strong>
+    </p>
+    <p>
+      <strong>{{ nomeFantasia }}</strong>
+    </p>
+    <p><strong>Proposta:</strong> {{ idProposta }}</p>
+  </div>
+  <table *ngIf="!loading" class="table table-borderless fixed-header">
+    <thead>
+      <tr>
+        <th>Versão</th>
+        <th>Data e hora</th>
+        <th>Valor do orçamento <span>(R$)</span></th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="!!propostas.length; else empty">
+        <tr *ngFor="let proposta of propostas; trackBy: trackBy">
+          <td>v{{ proposta.versaoProposta }}</td>
+          <td>
+            {{ proposta.dataRetornoProposta ? (proposta.dataRetornoProposta | date: 'dd/MM/yyyy - HH:mm') : '-' }}
+          </td>
+          <td>
+            {{ proposta.valorTotalProposta !== null ? (proposta.valorTotalProposta | currency: 'R$ ') : '-' }}
+          </td>
+          <td>
+            <button
+              type="button"
+              awButton
+              icon="icon-open-budget"
+              (click)="openReport(proposta.idPropostaHistorico)"
+            ></button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button awButton (click)="bsModalRef.hide()" type="button">Fechar</button>
+</div>
+
+<ng-template #empty>
+  <tr>
+    <td>Não há históricos para esta proposta</td>
+  </tr>
+</ng-template>

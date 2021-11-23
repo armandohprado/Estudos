@@ -1,0 +1,139 @@
+@use 'variables' as v;
+
+// Se for alterar esses valores, precisa alterar no constants.ts
+$ep-header-height: 50px;
+$ep-column-width: 200px;
+$ep-first-column-width: 350px;
+$ep-row-height: 40px;
+$ep-first-column-labels-width: 140px;
+
+@mixin ep-first-column() {
+  .sticky {
+    width: $ep-first-column-width;
+    min-width: $ep-first-column-width;
+    position: sticky;
+    left: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) $ep-first-column-labels-width;
+    grid-gap: 1rem;
+    background-color: white;
+    padding: 1rem 0 0 1rem;
+    border-bottom: 2px solid v.$steel;
+    z-index: 1;
+  }
+  .label {
+    height: $ep-row-height;
+    min-height: $ep-row-height;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &.valor-total {
+      background-color: v.$gray-secondary;
+    }
+    &.valor-unitario {
+      cursor: pointer;
+    }
+  }
+
+  .item {
+    font-weight: 500;
+    .numero {
+      font-weight: normal;
+    }
+    .descricao {
+      cursor: pointer;
+      white-space: pre-line;
+      &.collapsed {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 6;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+@mixin ep-proposta-item-fornecedor() {
+  display: block;
+  width: $ep-column-width;
+  min-width: $ep-column-width;
+  border-right: 1px solid v.$gray-secondary;
+  border-bottom: 2px solid v.$steel;
+  padding: 1rem 0 0 0;
+  transition: opacity 200ms ease-in-out;
+  &.aw-referencia {
+    background-color: v.$very-light-blue;
+    position: sticky;
+    left: $ep-first-column-width;
+    z-index: 1;
+    border-color: v.$steel;
+    .label {
+      justify-content: flex-end;
+    }
+  }
+  &:not(.aw-referencia) {
+    .label {
+      padding-right: 0;
+      display: grid;
+      grid-template-columns: 25px minmax(0, 1fr) 70px;
+      grid-gap: 0.5rem;
+    }
+    &.disabled {
+      opacity: 0.6;
+    }
+  }
+
+  .label {
+    height: $ep-row-height;
+    min-height: $ep-row-height;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &.valor-total {
+      background-color: v.$gray-secondary;
+    }
+    &.quantidade,
+    &.valor-unitario-produto,
+    &.valor-unitario {
+      border-bottom: 1px solid v.$gray-secondary;
+    }
+    .value {
+      text-align: end;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      grid-column-start: 2;
+    }
+    &:not(.valor-unitario) {
+      .value {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .descricao {
+    cursor: pointer;
+    margin: 0.5rem;
+    white-space: pre-line;
+    &.collapsed {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+  }
+}
+
+@mixin ep-title() {
+  background-color: v.$steel;
+  color: white;
+  padding: 0.5rem 0;
+  font-weight: 500;
+  .sticky {
+    position: sticky;
+    left: 1rem;
+    width: calc(#{$ep-first-column-width} + #{$ep-column-width} - 1rem);
+  }
+}

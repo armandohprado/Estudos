@@ -1,0 +1,47 @@
+@import 'variables';
+
+.tabela-planilha-hibrida-opc {
+  table-layout: fixed;
+  min-width: 1580px !important;
+  width: 100%;
+  background: white;
+  tr.header-title-planilha {
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0 $spacing * 4 0 $spacing * 2;
+    text-align: right;
+  }
+
+  td {
+    font-size: 12px;
+  }
+}
+.espaco-footer-desconto {
+  width: 920px !important;
+}
+.espaco-footer-margem {
+  width: 125px !important;
+}
+.espaco-footer-imposto {
+  width: 220px !important;
+}
+.espaco-footer-opp {
+  width: 130px !important;
+}
+.espaco-footer-descontoVP {
+  width: 125px !important;
+}
+.espaco-footer-mix-opp-descotovp {
+  width: 650px !important;
+}
+
+.espaco-footer-mix-opp-imposto {
+  width: 650px !important;
+}
+
+.espaco-footer-mix-opp-imposto-descontovp {
+  width: 650px !important;
+}
+.description {
+  text-transform: capitalize;
+}

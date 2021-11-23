@@ -1,0 +1,70 @@
+@use 'variables' as v;
+@use '../lousa' as l;
+
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.grid-container {
+  @include l.lousa-grid();
+}
+
+.fixa {
+  box-shadow: 3px 0 0 #b0b0b0;
+  margin-right: 3px;
+  grid-column: span 2;
+}
+
+.filter {
+  display: grid;
+  color: #fff;
+  padding: 0.75rem 0.5rem;
+
+  & .one {
+    padding-bottom: 30px;
+  }
+
+  & > .icons {
+    color: v.$grey-light;
+    display: flex;
+    align-items: center;
+
+    & .active {
+      color: yellowgreen;
+    }
+
+    .icon {
+      cursor: pointer;
+    }
+  }
+
+  &.bg-cinza-escuro {
+    background: #555555;
+  }
+
+  &.bg-cinza {
+    background: v.$secondary;
+  }
+}
+
+.sort {
+  display: flex;
+  flex-direction: column;
+  font-size: 6px;
+
+  & .icon-caret-up {
+    padding-bottom: 2px;
+  }
+
+  & .icon-caret-down {
+    padding-top: 2px;
+  }
+}
+
+.icon-caret {
+  transform: rotate(90deg);
+  font-size: 6px;
+  color: v.$light-gray;
+  margin-right: 1rem;
+}

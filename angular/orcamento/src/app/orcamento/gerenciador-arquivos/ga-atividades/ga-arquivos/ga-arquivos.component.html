@@ -1,0 +1,38 @@
+<div
+  class="arquivos"
+  *ngLet="atividade.arquivos | gaArquivosFilter: (gaAtividadeQuery.onlySelected$ | async) as arquivos"
+>
+  <ng-container *ngIf="!arquivos?.length; else arquivosRef"> Nenhum arquivo encontrado! </ng-container>
+  <ng-template #arquivosRef>
+    <div class="arquivo" *ngFor="let arquivo of arquivos; trackBy: trackByArquivo">
+      <div class="header">
+        <div class="nome">
+          <aw-checkbox
+            [ngModel]="arquivo.checked"
+            (ngModelChange)="toggleArquivo(arquivo)"
+            [disabled]="atividade.loading || arquivo.loading || gerenciadorArquivosService.readonly"
+          >
+            {{ arquivo.nome }}
+          </aw-checkbox>
+        </div>
+        <div class="versoes">
+          <app-ga-arquivo-acoes [arquivo]="arquivo"></app-ga-arquivo-acoes>
+        </div>
+        <div class="icon-wrapper">
+          <span
+            class="icon collapse-caret"
+            [ngClass]="{ 'icon-caret-up': arquivo.opened, 'icon-caret-down': !arquivo.opened }"
+            (click)="toggleCollapseArquivo(arquivo)"
+            *ngIf="!arquivo.openedLoading"
+          ></span>
+          <aw-spinner [overlay]="false" size="sm" *ngIf="arquivo.openedLoading"></aw-spinner>
+        </div>
+      </div>
+      <div class="body" *ngIf="arquivo.opened" @collapse>
+        <div class="inner-body">
+          <app-ga-grupos [arquivo]="arquivo"></app-ga-grupos>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

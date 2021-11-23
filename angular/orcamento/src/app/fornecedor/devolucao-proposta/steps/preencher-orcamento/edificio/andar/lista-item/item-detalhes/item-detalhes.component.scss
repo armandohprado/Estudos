@@ -1,0 +1,87 @@
+@import 'variables';
+
+label {
+  font-size: $small-font-size;
+}
+.border-bottom {
+  border-bottom: 1px solid #343a40 !important;
+}
+
+.itens2 {
+  li {
+    margin: 10px 0;
+  }
+}
+.table-cell {
+  display: table-cell;
+}
+
+.secondary-light {
+  background: #e7ecef !important;
+  color: #3c3c3c;
+  display: flex;
+  justify-content: center;
+  opacity: 0.5;
+}
+.secondary-light:hover {
+  color: #3c3c3c;
+  opacity: 1;
+}
+
+ul {
+  &.itens2 {
+    list-style: none;
+    padding: 0;
+
+    & li {
+      margin: 10px 0;
+      list-style: none;
+
+      &:before {
+        content: '\2022';
+        font-size: 45px;
+        vertical-align: middle;
+        line-height: 20px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+.itens {
+  color: #3c3c3c;
+  margin-bottom: 30%;
+  margin-top: 5%;
+  li {
+    margin: 10px 0;
+  }
+}
+.col-3 {
+  padding: 5px;
+}
+
+.nao-orcar-button-position {
+  float: left;
+  bottom: 0;
+  margin-bottom: 2rem;
+  left: 5%;
+}
+
+.omisso-div {
+  padding: 0 6px;
+  width: 165px;
+  top: -4px;
+}
+.border-p {
+  border-bottom: 2px solid #979797 !important;
+}
+.border-t {
+  border-top: 2px solid #979797 !important;
+}
+.line-height {
+  line-height: 35px;
+  margin-left: 5px;
+}
+
+.hide {
+  display: none;
+}

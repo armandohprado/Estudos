@@ -1,0 +1,38 @@
+<div>
+  <div class="label">Fornecedor:</div>
+  <div class="value">
+    {{ resumo.fornecedor.nomeFantasia }}
+  </div>
+</div>
+<div>
+  <div class="label">Detalhe:</div>
+  <div class="value">
+    {{ resumo.detalhe }}
+  </div>
+</div>
+<div>
+  <div class="label">Motivo:</div>
+  <div class="value">
+    {{ resumo.motivo.nome }}
+  </div>
+</div>
+<div>
+  <div class="label">Área que poderia ter evitado o problema:</div>
+  <div class="value">
+    {{ resumo.area.nome }}
+  </div>
+</div>
+<div>
+  <div class="label">Arquivos anexados:</div>
+  <div class="value arquivos">
+    <ng-container *ngIf="resumo.arquivos.length; else noFiles">
+      <div *ngFor="let arquivo of resumo.arquivos">
+        <span class="icon icon-file-pdf"></span>
+        <span class="text">{{ arquivo.nomeOriginal }}</span>
+      </div>
+    </ng-container>
+    <ng-template #noFiles>
+      Nenhum arquivo anexado
+    </ng-template>
+  </div>
+</div>

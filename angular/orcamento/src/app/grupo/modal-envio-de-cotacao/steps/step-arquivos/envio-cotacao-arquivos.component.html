@@ -1,0 +1,67 @@
+<aw-spinner *ngIf="envioDeCotacaoService.sitesLoading || envioDeCotacaoService.stagesLoading"></aw-spinner>
+<ng-container *ngLet="{ stages: stages$ | async, sites: (sites$ | async) } as data">
+  <tabset appScrollableTab *ngIf="data.stages?.length || etapaAnexosAvulsos !== null">
+    <tab
+      (selectTab)="onSelectTab(etapaAnexosAvulsos.idEtapa, $event)"
+      [active]="etapaAnexosAvulsos?.idEtapa === idEtapa"
+      [id]="etapaAnexosAvulsos?.idEtapa?.toString()"
+    >
+      <ng-template tabHeading>
+        <span class="tab-title">{{ etapaAnexosAvulsos?.nomeEtapa }}</span>
+        <span class="tab-counter">
+          {{ etapaAnexosAvulsos?.quantidadeArquivosSelecionados + '/' + etapaAnexosAvulsos?.quantidadeTotalArquivos }}
+        </span>
+      </ng-template>
+      <app-tab-anexos-avulsos
+        *ngIf="etapaAnexosAvulsos?.idEtapa === idEtapa"
+        [grupo]="grupo"
+        [idProjeto]="idProjeto"
+        (fileCounter)="setCounter($event)"
+      ></app-tab-anexos-avulsos>
+    </tab>
+    <tab
+      (selectTab)="onSelectTab(stage.idEtapa, $event)"
+      *ngFor="let stage of data.stages; trackBy: trackByEtapa"
+      [active]="stage.idEtapa === idEtapa"
+      [id]="stage.idEtapa.toString()"
+      customClass="prospecao"
+    >
+      <ng-template tabHeading>
+        <span class="tab-title">{{ stage.nomeEtapa }}</span>
+        <span class="tab-counter">
+          {{ stage.ativo ? stage.quantidadeArquivosSelecionados + '/' + stage.quantidadeTotalArquivos : '0/0' }}
+        </span>
+      </ng-template>
+      <app-tab-content
+        *ngIf="stage.idEtapa === idEtapa"
+        [etapa]="stage"
+        [grupo]="grupo"
+        [idProjeto]="idProjeto"
+        [sites]="data.sites"
+      >
+      </app-tab-content>
+    </tab>
+  </tabset>
+  <div class="container mb-3" *ngIf="data.stages?.length || etapaAnexosAvulsos !== null">
+    <div class="row justify-content-end">
+      <div class="col-3">
+        <button awButton block status="secondary" type="button" (click)="changeSteps(2)">Voltar</button>
+      </div>
+      <div class="col-3">
+        <button
+          awButton
+          block
+          status="secondary"
+          type="button"
+          (click)="openGenrenciadorModal()"
+          [loading]="loadingGerenciador$ | async"
+        >
+          Gerenciador de Arquivos
+        </button>
+      </div>
+      <div class="col-3">
+        <button awButton block type="button" (click)="changeSteps(4)">Próximo</button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,41 @@
+@import 'variables';
+
+.complemento-edit {
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+  padding: 10px;
+  .clamp-3 {
+    overflow: hidden;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+.grupo-item {
+  &.error {
+    border: 1px solid #f35151;
+  }
+  > .header {
+    display: grid;
+    grid-template-columns: 40px 100px 50px repeat(5, minmax(0, 1fr)) 50px;
+    grid-gap: 1rem;
+    > .descricao {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-between;
+    }
+    > .ativo,
+    > .cod-item {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  > .body {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+  }
+}

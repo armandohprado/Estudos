@@ -1,0 +1,108 @@
+@import 'variables';
+
+$spacing: 10px;
+
+.btn {
+  &.btn-modal {
+    width: 200px;
+    padding: $spacing $spacing * 4;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  &.btn-gray {
+    background: rgb(151, 151, 151);
+    background: linear-gradient(180deg, rgba(151, 151, 151, 1) 0%, rgba(122, 122, 122, 1) 100%);
+  }
+  &.btn-blue {
+    background: rgb(0, 177, 237);
+    background: linear-gradient(180deg, rgba(0, 177, 237, 1) 0%, rgba(8, 154, 204, 1) 100%);
+  }
+}
+
+.modal-header {
+  flex-direction: column;
+  padding: 0;
+  div {
+    width: 100%;
+  }
+  div {
+    &:nth-child(1) {
+      flex-direction: row;
+      display: flex;
+      width: 100%;
+      padding: 5px 30px;
+      button {
+        padding: 3px;
+      }
+    }
+    &:nth-child(2) {
+      text-align: right;
+      background-color: #3c3c3c;
+      color: #ffffff;
+      box-shadow: 0 2px 2px 0 rgba(60, 60, 60, 0.3);
+      font-size: 12px;
+      a {
+        color: #fff;
+        padding: 4px 30px;
+        display: block;
+        img {
+          margin: 5px 0;
+          vertical-align: baseline;
+        }
+      }
+    }
+  }
+}
+
+.modal-header {
+  flex-direction: column;
+  padding: 0;
+  div {
+    width: 100%;
+  }
+  div {
+    &:nth-child(1) {
+      flex-direction: row;
+      display: flex;
+      width: 100%;
+      padding: 5px 30px;
+      button {
+        padding: 3px;
+      }
+    }
+    &:nth-child(2) {
+      text-align: right;
+      background-color: #3c3c3c;
+      color: #ffffff;
+      box-shadow: 0 2px 2px 0 rgba(60, 60, 60, 0.3);
+      font-size: 12px;
+      a {
+        color: #fff;
+        padding: 4px 30px;
+        display: block;
+        span {
+          margin: 0 10px;
+          vertical-align: baseline;
+          &.external {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+:host {
+  .envio-stepper {
+    ::ng-deep {
+      .aw-stepper {
+        > .aw-stepper-content {
+          &.step-3 {
+            margin: 0 -2rem;
+          }
+        }
+      }
+    }
+  }
+}

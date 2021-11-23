@@ -1,0 +1,38 @@
+<div class="grid-container box-shadow sticky">
+  <div class="grid-column-1 stick-column-1"></div>
+  <section class="container-flex d-flex grid-column-2 box-shadow bg-white">
+    <div
+      class="item-flex py-2 px-0"
+      *ngFor="
+        let cenario of gerenciadorGruposQuery.cenariosWithTotal$ | async;
+        trackBy: trackByCenario;
+        let $even = even
+      "
+      [class.even]="$even"
+      [class.odd]="!$even"
+    >
+      <ng-container *ngIf="cenario">
+        <div class="border-cenarios h-40">
+          <div>
+            <span [tooltip]="cenario.nomeStatus" class="font-weight-bold" placement="bottom">
+              {{ cenario.nomeOrcamentoCenario }}
+            </span>
+          </div>
+          <div *ngIf="cenario.idCenarioStatus !== cenarioStatusEnum.emEdicao">
+            <span class="text-danger">Cenário bloqueado para edições</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-around pt-2">
+          <div class="d-flex flex-wrap">Controle <br />Cotação</div>
+          <div class="d-flex flex-wrap">Planilha <br />Hibrída</div>
+          <div class="d-flex flex-wrap">Grupo <br />Opcional</div>
+        </div>
+        <div class="grid-container-valores">
+          <div class="grid-column-2 font-weight-bold">
+            {{ cenario.valorTotalOrcado | number: '1.2-2' }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</div>

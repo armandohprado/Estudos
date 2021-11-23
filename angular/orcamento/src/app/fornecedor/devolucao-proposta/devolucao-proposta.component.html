@@ -1,0 +1,89 @@
+<div class="tutorial-fornecedor d-grid p-2" *ngIf="devolucaoProposta.mostrarTutorial">
+  <div class="grid-column-5" (click)="navigateToTutorial()">
+    <span class="aw-icon-video-copy p-1"></span>
+    <span> Como Preencher a proposta para a A/W </span>
+    <span class="aw-icon-external-link-dark-mode p-1"></span>
+  </div>
+</div>
+<div class="row mt-3 border-bottom-0" *ngIf="cabecalho$ | async as cabecalho">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <div class="container-fluid">
+            <div class="row thead-gray p-2">
+              <div class="col-3 p-0">Proposta: {{ cabecalho.idProposta }} Versao: V{{ cabecalho.versaoProposta }}</div>
+              <div class="col-9 text-right">
+                Grupo:
+                <span>{{ cabecalho.codigoGrupo }} </span>
+                <span>{{ cabecalho.nomeGrupo }} </span>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid graphite">
+            <div class="row justify-content-end px-3 pb-0 pt-2 text-right">
+              <div class="col offset-md-3">
+                <label class="label label-cabecalho">Itens Orçamentos</label>
+                <p class="font-size-normal font-cabecalho">
+                  {{ cabecalho.qtdItensOrcados }}/
+                  {{ cabecalho.qtdItensProposta }}
+                </p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Produtos</label>
+                <p class="font-size-normal font-cabecalho">
+                  {{ cabecalho.valorTotalProdutoProposta | currency: 'BRL' }}
+                </p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Serviços </label>
+                <p class="font-size-normal font-cabecalho">
+                  {{ cabecalho.valorTotalServicoProposta | currency: 'BRL' }}
+                </p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Produtos + Serviços </label>
+                <p class="font-size-normal font-cabecalho">
+                  {{ cabecalho.valorTotalProposta | currency: 'BRL' }}
+                </p>
+              </div>
+            </div>
+            <div class="w-100"><hr /></div>
+            <div class="row justify-content-end px-3 pb-3 pt-2 text-right">
+              <div class="col offset-md-3">
+                <label class="label label-cabecalho">Local da Obra</label>
+                <p class="m-0 font-size-base">{{ cabecalho.cidade }}</p>
+                <p class="m-0 font-size-base">{{ cabecalho.estado }}</p>
+              </div>
+
+              <div class="col">
+                <label class="label label-cabecalho">Prazo Obra</label>
+                <p class="m-0 font-size-base">
+                  {{ cabecalho.dataInicioFase | date: 'dd/MM/yyyy' }}
+                </p>
+                <p class="m-0 font-size-base">
+                  {{ cabecalho.dataFimFase | date: 'dd/MM/yyyy' }}
+                </p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Prazo Notas Fiscais</label>
+                <p class="font-size-base">{{ cabecalho.prazoNotasFiscais }} Dias</p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Prazo Pagamento</label>
+                <p class="font-size-base">{{ cabecalho.prazoPagamento }} Dias</p>
+              </div>
+              <div class="col">
+                <label class="label label-cabecalho">Valor mínimo refaturamento</label>
+                <p class="font-size-base">
+                  {{ cabecalho.valorMinimoFaturamento | currency: 'BRL' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,21 @@
+<ng-template #noDataFound>
+  <p *ngIf="!gruposResumo?.length">Nenhuma migração encontrada</p>
+</ng-template>
+<div class="grupos-resumo" *ngIf="gruposResumo?.length; else noDataFound">
+  <div class="header codigo">Código</div>
+  <div class="header nome">Nome</div>
+  <div class="header data">Data</div>
+  <div class="header funcionario">Funcionário</div>
+  <div class="header valor">Valor</div>
+  <hr />
+  <ng-container *ngFor="let grupo of gruposResumo; trackBy: trackBy; let $odd = odd">
+    <div class="codigo" [class.odd]="$odd">{{ cedido ? grupo.codigoGrupo : grupo.codigoGrupoOrigem }}</div>
+    <div class="nome" [class.odd]="$odd">{{ cedido ? grupo.nomeGrupo : grupo.nomeGrupoOrigem }}</div>
+    <div class="data" [class.odd]="$odd">{{ grupo.data | date: 'dd/MM/yyyy' }}</div>
+    <div class="funcionario" [class.odd]="$odd">{{ grupo.nomeFuncionario }}</div>
+    <div class="valor" [class.odd]="$odd">{{ grupo.valorTransferido | number: '1.2-2' }}</div>
+  </ng-container>
+  <hr />
+  <div class="total-label">Total</div>
+  <div class="total-value">{{ total | number: '1.2-2' }}</div>
+</div>

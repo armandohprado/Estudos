@@ -1,0 +1,25 @@
+@import 'variables';
+
+.pc-grid-cell {
+  .value {
+    &.font-light {
+      color: $brownish-grey;
+    }
+    &.font-dark {
+      color: $greyish-brown;
+    }
+    &.white-space {
+      white-space: pre-wrap;
+    }
+  }
+  > .other-info {
+  }
+}
+
+.overlay-comentario {
+  background-color: white;
+  border-radius: 3px;
+  padding: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+  font-size: 11px;
+}

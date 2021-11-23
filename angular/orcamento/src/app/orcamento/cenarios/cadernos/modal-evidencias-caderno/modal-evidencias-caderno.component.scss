@@ -1,0 +1,27 @@
+@import 'variables';
+
+.modal-body {
+  padding: 2rem;
+  .icon {
+    font-size: 80px;
+  }
+  .content {
+    font-size: 14px;
+  }
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.url {
+  color: blue;
+  text-decoration: underline;
+}
+.border-bottom-c {
+  padding: 20px 0;
+  border-bottom: #9ea1ae 1px solid;
+}
+.strong {
+  font-weight: bold;
+}

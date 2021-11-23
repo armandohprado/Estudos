@@ -1,0 +1,24 @@
+<div *ngIf="total$ | async as total">
+  <div class="valor-total" *ngLet="allItensSelected$ | async as allItensSelected">
+    <aw-radio
+      value="{{ idOrcamentoGrupo }}true"
+      name="{{ idOrcamentoGrupo }}"
+      ngModel="{{ idOrcamentoGrupo }}{{ allItensSelected }}"
+      [canUncheck]="true"
+      (ngModelChange)="selecionarTodos(allItensSelected)"
+      [disabled]="fornecedor.loadingSelecionar || (epPropostaItemQuery.loadingSelecionar$ | async)"
+      *ngIf="!fornecedor.indicadorAWReferencia"
+    ></aw-radio>
+    <span *ngLet="total.valorTotal | number: '1.2-2' as valorTotalNumber" [title]="valorTotalNumber">
+      {{ valorTotalNumber }}
+    </span>
+  </div>
+  <div class="valor-parcial">{{ total.valorTotalParcial | number: '1.2-2' }}</div>
+</div>
+<div *ngIf="!fornecedor.indicadorAWReferencia">
+  <app-ep-banner-comparativo
+    type="total"
+    [idFornecedor]="fornecedor.idFornecedor"
+    [hideShadow]="true"
+  ></app-ep-banner-comparativo>
+</div>

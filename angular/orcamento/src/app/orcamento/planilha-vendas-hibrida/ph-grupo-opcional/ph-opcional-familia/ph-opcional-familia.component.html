@@ -1,0 +1,31 @@
+<div class="card-body overflow-auto" #scrollFamilia *ngIf="grupao$ | async as grupoes">
+  <div class="heading" *ngFor="let grupao of grupoes; trackBy: trackByGrupao; let $first = first">
+    <h4 class="grupao-info">
+      <span class="number">
+        {{ grupao.numeroGrupao }}
+      </span>
+      <span class="divider"> - </span>
+      <span class="description text-lowercase">{{ grupao.descricaoGrupao }} </span>
+    </h4>
+    <app-ph-opcional-grupao-header
+      [familia]="familia"
+      [idOrcamentoCenario]="cenario.idOrcamentoCenario"
+      [grupao]="grupao"
+      *ngIf="$first"
+      (atualizarGrupao)="atualizarGrupao($event)"
+    ></app-ph-opcional-grupao-header>
+    <hr class="mt-2" />
+    <app-ph-opcional-grupao-body
+      [familia]="familia"
+      [grupao]="grupao"
+      (atualizarGrupo)="atualizarGrupao($event)"
+    ></app-ph-opcional-grupao-body>
+    <hr />
+  </div>
+  <app-ph-opcional-grupao-footer
+    [familia]="familia"
+    [cenario]="cenario"
+    [isChangeOrder]="isChangeOrder"
+    *ngIf="!cenario?.tipoTaxaAdministrativa"
+  ></app-ph-opcional-grupao-footer>
+</div>

@@ -1,0 +1,34 @@
+<div
+  class="bottom-nav"
+  *ngLet="{
+    superarCount: gaEtapaQuery.superarCount$ | async,
+    superadosCount: gaAtividadeQuery.superadosCount$ | async
+  } as state"
+>
+  <div class="btn-wrapper">
+    <div class="icon-wrapper" (click)="isOpen = !isOpen; changeDetectorRef.markForCheck()">
+      <span class="icon" [ngClass]="{ 'icon-caret-up': !isOpen, 'icon-caret-down': isOpen }"></span>
+    </div>
+  </div>
+  <div class="nav" *ngIf="isOpen" @collapse>
+    <div class="inner-nav">
+      <div class="text">
+        <ng-container *ngIf="state.superarCount; else noArquivos">
+          {{ state.superadosCount | i18nPlural: { '=1': 'Existe #', other: 'Existem #' } }}
+          /
+          {{ state.superarCount | i18nPlural: { '=1': '1 arquivo atualizado', other: '# arquivos atualizados' } }}
+          <ng-container *ngIf="state.superadosCount">, deseja enviar e-mail agora para os fornecedores?</ng-container>
+        </ng-container>
+        <ng-template #noArquivos> Não existem arquivos a serem atualizados </ng-template>
+      </div>
+      <div class="btns">
+        <button awButton status="secondary" [disabled]="!state.superadosCount || loading" (click)="cancelarEnvio()">
+          Cancelar envio
+        </button>
+        <button awButton [disabled]="!state.superadosCount" [loading]="loading" (click)="superar()">
+          Enviar arquivos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

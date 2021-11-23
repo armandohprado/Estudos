@@ -1,0 +1,186 @@
+@import 'variables';
+
+legend {
+  font-size: 14px;
+}
+
+.form-group {
+  label {
+    font-size: 12px;
+  }
+
+  textarea,
+  input[type='text'] {
+    height: auto;
+    width: 570px;
+  }
+
+  .custom-checkbox {
+    margin-bottom: 5px;
+  }
+}
+
+.input-radio {
+  background-color: #f2f5f7;
+  padding: 15px 128px 15px 60px;
+
+  h5,
+  h6 {
+    margin: 20px 0;
+    border: 0;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  textarea,
+  input {
+    background-color: #f2f5f7;
+  }
+
+  .title-size {
+    font-size: 20px;
+  }
+}
+
+.btn-group {
+  .btn {
+    width: 160px;
+    background-color: white;
+    color: $gray;
+    &.active {
+      background-color: #7b8594;
+      color: white;
+    }
+  }
+}
+
+.btn-proximo {
+  margin: 0 100px 50px 0;
+  padding: 7px 70px;
+}
+
+.control-switch {
+  padding-right: 128px;
+  width: 100%;
+}
+
+.btn-bottom {
+  margin-bottom: 30px;
+
+  .btn {
+    padding: 7px 70px;
+  }
+
+  .btn-primary {
+    margin-right: 100px;
+  }
+  .btn-secondary {
+    margin-right: 30px;
+  }
+}
+
+.fat-grupo-aw1 {
+  font-size: 14px;
+}
+
+.background-negative {
+  margin-left: -80px;
+  padding: 15px 128px 15px 80px;
+}
+
+.background {
+  background-color: #f2f5f7;
+  margin-left: -80px;
+  padding: 20px 40px 0 80px;
+  margin-bottom: 10px;
+  .last-form-group {
+    margin-bottom: 10px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    margin-bottom: 5px;
+  }
+}
+
+$custom-radio-width: 160px;
+$background-color-custom-radio: #7b8594;
+
+.new-radio-button {
+  position: relative;
+  max-width: $custom-radio-width;
+  display: inline-block;
+  width: $custom-radio-width;
+  .custom-control-label {
+    position: unset;
+    z-index: 10;
+    color: #fff;
+
+    &:before {
+      display: block;
+      color: #fff;
+      border-color: $background-color-custom-radio;
+      //background-color: $background-color-custom-radio;
+      width: 100%;
+      padding: 15px;
+      z-index: 0;
+      position: absolute;
+      left: 0 !important;
+    }
+
+    &:not(:disabled):active {
+      background-color: lighten($background-color-custom-radio, 20);
+    }
+
+    span {
+      position: absolute;
+      z-index: 20;
+      display: block;
+      width: 100%;
+      left: 50%;
+      top: 2px;
+      padding: 5px 0;
+      color: #aeaeae;
+      text-align: center;
+      -ms-transform: translateX(-45%);
+      transform: translateX(-50%);
+      line-height: 22px;
+    }
+  }
+  &.first {
+    .custom-control-label {
+      &:before {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+    }
+  }
+  &.second {
+    .custom-control-label {
+      &:before {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: $background-color-custom-radio;
+  }
+  .custom-control-input:checked ~ .custom-control-label {
+    span {
+      color: #fff;
+    }
+  }
+  .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+    background-color: lighten($background-color-custom-radio, 20);
+    span {
+      color: #fff;
+    }
+  }
+  .custom-control-label:not(:disabled):active {
+    background-color: transparent;
+  }
+}

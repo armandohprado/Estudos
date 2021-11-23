@@ -1,0 +1,7 @@
+<div class="d-flex justify-content-start">
+  <aw-checkbox
+    [ngModel]="orcamentoService.visualizarGruposEmLista$.asObservable() | async"
+    (ngModelChange)="alterarModoExibicao($event)"
+    >Visualizar por famílias (arquitetura, engenharia e projetos técnicos)
+  </aw-checkbox>
+</div>

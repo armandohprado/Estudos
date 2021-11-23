@@ -1,0 +1,23 @@
+@import 'variables';
+
+.fornecedores {
+  > .title {
+    padding: 0.5rem 1rem;
+    background-color: $gray-secondary;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    > h6 {
+      margin: 0;
+    }
+  }
+  > .values {
+    background-color: $very-light-blue;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    margin-bottom: 0.5rem;
+    > .produto {
+      border-bottom: 1px solid #b5babd;
+      padding: 5px;
+    }
+  }
+}

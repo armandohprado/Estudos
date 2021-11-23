@@ -1,0 +1,134 @@
+@import 'variables';
+
+.w-70 {
+  > .saldo-grupos {
+    > .grupos {
+      > .header,
+      > .body {
+        display: grid;
+        grid-template-columns: 90px repeat(7, minmax(0, 1fr));
+        > .grupo {
+          grid-column: span 3;
+        }
+        > .status,
+        > .data,
+        > .saldo,
+        > .transferido {
+          text-align: right;
+        }
+        > div {
+          padding: 0.4rem;
+        }
+      }
+      > .header {
+        font-size: 12px;
+        > div.cod {
+          padding-left: 0;
+        }
+      }
+      > .body {
+        > div.even {
+          background-color: $light-gray;
+        }
+        > .status,
+        > .data {
+          color: $light-gray-alt;
+        }
+        > .grupo {
+          text-transform: lowercase;
+        }
+      }
+      > hr {
+        margin: 0.4rem 0;
+      }
+    }
+    > .totais {
+      > .title {
+        font-weight: bold;
+      }
+      > .items {
+        display: grid;
+        grid-template-columns: 90px repeat(7, minmax(0, 1fr));
+        grid-row-gap: 0.5rem;
+        > .title {
+          grid-column: 5 / 7;
+          text-align: right;
+          font-weight: bold;
+        }
+        > .value {
+          grid-column: span 2;
+          text-align: right;
+          &.bold {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+  > .fichas {
+    background-color: $light-gray;
+    > .ficha-area-causa {
+      padding: 1rem 3rem;
+      > .item:not(:last-child) {
+        margin-bottom: 0.5rem;
+        > .title {
+          font-size: 12px;
+        }
+        > .value {
+          font-weight: bold;
+          > .arquivo {
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+  > .aprovadores {
+    margin-bottom: 3rem;
+    > .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $bluey-grey;
+      cursor: pointer;
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      > h6 {
+        margin: 0;
+      }
+      > .icon {
+        color: $primary;
+        font-size: 6px;
+      }
+    }
+    > .body {
+      padding: 1rem 3rem;
+      background-color: $light-gray;
+      > .aprovadores,
+      > .cientes {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        > .title {
+          font-size: 12px;
+        }
+        > .list {
+          grid-column: span 4;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          > .aprovador {
+            &::before {
+              content: '\2022';
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+      > .aprovadores {
+        > .list {
+          > .aprovador {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

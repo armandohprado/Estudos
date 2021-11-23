@@ -1,0 +1,118 @@
+<div class="grid-container font-grupos" [ngClass]="{ 'font-grupos-filho': grupo.idOrcamentoGrupoOrigem }">
+  <div
+    class="pl-3 d-flex c-pointer editar-complemento pt-2 grupos-sticky"
+    (click)="toggleOverlay(grupo, true)"
+    [class.border-grupos]="!first && !grupo.idOrcamentoGrupoOrigem"
+    [class.pl-3]="grupo.opcional"
+    [class.text-primary]="grupo.opcional"
+    [ngClass]="{ 'pl-4 border-grupos-filho': grupo.idOrcamentoGrupoOrigem }"
+  >
+    <div class="px-2 min-w-26">
+      <button awButton icon="edit" class="hide"></button>
+    </div>
+    <div class="d-flex flex-wrap mr-1">
+      <b>{{ grupo.codigoGrupo }}</b>
+    </div>
+    <div class="d-flex">-</div>
+    <div class="d-flex flex-wrap ml-1" cdkOverlayOrigin #overlayComplemento="cdkOverlayOrigin">
+      {{ grupo.nomeGrupo }}
+    </div>
+    <ng-container *ngIf="grupo.complementoOrcamentoGrupo">
+      <div class="d-flex mx-1">-</div>
+      <div class="d-flex flex-wrap">
+        {{ grupo.complementoOrcamentoGrupo }}
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="d-flex"
+    [class.border-grupos]="!first && !grupo.idOrcamentoGrupoOrigem"
+    [ngClass]="{ ' border-grupos-filho': grupo.idOrcamentoGrupoOrigem }"
+  >
+    <div
+      *ngFor="let cenario of grupo.cenarios; trackBy: trackByCenario; let $even = even"
+      [class.even]="$even"
+      [class.odd]="!$even"
+      [ngClass]="{ ' border border-primary': cenario?.opcional }"
+    >
+      <div
+        class="grid-container-flags item-conteudo py-1"
+        [class.counterBorder]="cenario?.opcional"
+        *ngIf="cenario; else naoPossui"
+      >
+        <div class="d-flex justify-content-center">
+          <aw-checkbox
+            [checked]="!cenario.excluido"
+            (checkedChange)="updateControleCotacao(cenario)"
+            [disabled]="cenario.disabled"
+          ></aw-checkbox>
+        </div>
+        <div class="d-flex justify-content-center">
+          <aw-checkbox
+            [checked]="cenario.ativo"
+            [disabled]="cenario.disabled"
+            (checkedChange)="updatePlanilhaHibrida(cenario)"
+          ></aw-checkbox>
+        </div>
+        <div class="d-flex justify-content-center">
+          <aw-checkbox
+            [checked]="cenario.opcional"
+            [disabled]="cenario.disabled"
+            (checkedChange)="updateGrupoOpc(grupo, cenario, $event)"
+          ></aw-checkbox>
+        </div>
+        <div class="d-flex justify-content-center grid-column-2 flex-1">
+          {{ cenario.valorOrcado | currency: ' ' }}
+        </div>
+        <ng-template #tipContent>
+          {{ cenario.tipoGrupoOpcional === tipoGrupoOpcionalEnum.troca ? 'TROCA ' : 'COMPLEMENTO' }}
+          <p>{{ cenario.codigoGrupo }} - {{ cenario.nomeGrupo }}</p></ng-template
+        >
+        <div
+          class="d-flex justify-content-center grid-column-3 flex-1"
+          [tooltip]="tipContent"
+          [placement]="'bottom'"
+          *ngIf="cenario.opcional"
+        >
+          {{ cenario.codigoGrupo }}
+        </div>
+      </div>
+      <ng-template #naoPossui>
+        <div class="item-conteudo border-teste"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOpen]="grupo.editandoComplemento"
+  [cdkConnectedOverlayOrigin]="overlayComplemento"
+  [cdkConnectedOverlayPositions]="overlayComplementoPosition"
+  cdkConnectedOverlayPanelClass="overlay-complemento"
+  cdkConnectedOverlayWidth="250px"
+  (backdropClick)="toggleOverlay(grupo, false)"
+  cdkConnectedOverlayFlexibleDimensions="true"
+>
+  <div class="container-fluid complemento-edit" [awSpinner]="!!grupo.loaderComplemento">
+    <div class="d-flex border-secondary border-bottom">Editar complemento</div>
+    <div class="d-flex px-1 bg-light-grey border-secondary border-bottom">
+      <div class="d-flex flex-row my-2 flex-1">
+        <input
+          placeholder="Complemento"
+          awInput
+          resize="none"
+          [ngModel]="grupo.complementoOrcamentoGrupo"
+          (ngModelChange)="editarComplemento($event)"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end my-2">
+      <div class="m-1"><a awButton status="secondary" (click)="toggleOverlay(grupo, false)">Voltar</a></div>
+      <div class="m-1"><a awButton status="primary" (click)="toggleOverlay(grupo, false)">Salvar</a></div>
+    </div>
+  </div>
+</ng-template>

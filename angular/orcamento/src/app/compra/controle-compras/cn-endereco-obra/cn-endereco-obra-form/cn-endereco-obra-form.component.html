@@ -1,0 +1,63 @@
+<h6>{{ titulo }}</h6>
+<div class="block" [formGroup]="form">
+  <div class="endereco">
+    <label for="{{ uid }}-endereco">Endereço</label>
+    <input id="{{ uid }}-endereco" type="text" awInput formControlName="endereco" placeholder="Endereço" />
+  </div>
+  <div class="pais">
+    <label for="{{ uid }}-pais">País</label>
+    <aw-select
+      id="{{ uid }}-pais"
+      formControlName="idPais"
+      placeholder="País"
+      [items]="paises$ | async"
+      bindLabel="nome"
+      bindValue="idPais"
+      [trackBy]="trackByPais"
+      [clearable]="false"
+      [isInvalid]="idPaisControl?.touched && idPaisControl?.invalid"
+    ></aw-select>
+  </div>
+  <div class="estado">
+    <label for="{{ uid }}-estado">Estado</label>
+    <aw-select
+      id="{{ uid }}-estado"
+      formControlName="idEstado"
+      placeholder="Estado"
+      [items]="estados$ | async"
+      bindLabel="nome"
+      bindValue="idEstado"
+      [trackBy]="trackByEstado"
+      [clearable]="false"
+      [isInvalid]="idEstadoControl?.touched && idEstadoControl?.invalid"
+      [loading]="loadingEstados"
+    ></aw-select>
+  </div>
+  <div class="cidade">
+    <label for="{{ uid }}-cidade">Cidade</label>
+    <aw-select
+      id="{{ uid }}-cidade"
+      formControlName="idCidade"
+      placeholder="Cidade"
+      [items]="cidades$ | async"
+      bindLabel="nome"
+      bindValue="idCidade"
+      [trackBy]="trackByCidade"
+      [clearable]="false"
+      [isInvalid]="idCidadeControl?.touched && idCidadeControl?.invalid"
+      [loading]="loadingCidades"
+    ></aw-select>
+  </div>
+  <div class="complemento">
+    <label for="{{ uid }}-complemento">Complemento</label>
+    <input id="{{ uid }}-complemento" type="text" awInput formControlName="complemento" placeholder="Complemento" />
+  </div>
+  <div class="bairro">
+    <label for="{{ uid }}-bairro">Bairro</label>
+    <input id="{{ uid }}-bairro" type="text" awInput formControlName="bairro" placeholder="Bairro" />
+  </div>
+  <div class="cep">
+    <label for="{{ uid }}-cep">CEP</label>
+    <input id="{{ uid }}-cep" type="text" awInput formControlName="cep" placeholder="CEP" [mask]="maskEnum.cep" />
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<button
+  (click)="onSelect()"
+  [class.active]="isActive$ | async"
+  class="btn btn-link site"
+  type="button"
+  [title]="projeto?.nomeProjeto"
+  [disabled]="disabled"
+  *ngIf="!pavimento; else pavimentoRef"
+>
+  {{ projeto?.nomeProjeto }}
+</button>
+
+<ng-template #pavimentoRef>
+  <button
+    (click)="onSelect()"
+    [class.active]="isActive$ | async"
+    [class]="pavimento.type"
+    class="btn btn-link"
+    type="button"
+    [title]="pavimento.nome"
+    [disabled]="disabled"
+  >
+    {{ pavimento.nome }}
+  </button>
+</ng-template>

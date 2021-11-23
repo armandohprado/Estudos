@@ -1,0 +1,129 @@
+<ng-container
+  *ngLet="{
+    loading: envioDeCotacaoService.fornecedoresLoading$ | async,
+    fornecedores: fornecedores$ | async,
+    allSelected: allSelected$ | async,
+    indeterminate: indeterminate$ | async
+  } as state"
+>
+  <aw-spinner *ngIf="state.loading"></aw-spinner>
+  <ng-container *ngIf="!state.fornecedores?.length; else list">
+    <ng-container *ngIf="state.loading; else noFornecedoresFound"> Carregando... </ng-container>
+    <ng-template #noFornecedoresFound> Nenhum fornecedor encontrado! </ng-template>
+  </ng-container>
+  <ng-template #list>
+    <div class="select-all grid-container">
+      <aw-checkbox
+        [ngModel]="state.allSelected"
+        (ngModelChange)="selectAll($event)"
+        [indeterminate]="state.indeterminate"
+        [disabled]="!!idFornecedorAtual"
+      >
+        Selecionar todos
+      </aw-checkbox>
+      <div class="avaliacao">Avaliação</div>
+    </div>
+    <div class="list">
+      <div
+        class="fornecedor"
+        *ngFor="let fornecedor of state.fornecedores; trackBy: trackByFornecedor"
+        [ngClass]="{
+          'cc-emitida': fornecedor.possuiConfirmacaoCompra,
+          'mapa-enviado': fornecedor.possuiMapaEnviado,
+          disabled: fornecedor.fornecedorDisabledEnvioCotacao,
+          'color-white':
+            fornecedor.preHomologado ||
+            fornecedor.precoBaixo ||
+            fornecedor.desomologado ||
+            fornecedor.suspenso ||
+            fornecedor.volumeContratacao,
+          'pre-homologado': fornecedor.preHomologado,
+          'preco-baixo': fornecedor.precoBaixo,
+          desomologado: fornecedor.desomologado,
+          suspenso: fornecedor.suspenso,
+          'volume-contratacao': fornecedor.volumeContratacao
+        }"
+      >
+        <div
+          class="header grid-container"
+          (click)="!fornecedor.fornecedorDisabledEnvioCotacao && toggleFornecedor(fornecedor.idFornecedor)"
+        >
+          <div class="checkbox">
+            <aw-checkbox
+              [ngModel]="fornecedor.selected"
+              (ngModelChange)="toggleFornecedor(fornecedor.idFornecedor)"
+              [disabled]="!!idFornecedorAtual || fornecedor.fornecedorDisabledEnvioCotacao"
+              (click)="$event.stopPropagation()"
+            >
+            </aw-checkbox>
+          </div>
+          <div class="favorito">
+            <span class="icon icon-star-full" *ngIf="fornecedor.favorito"></span>
+          </div>
+          <div class="nome-fantasia">
+            {{ fornecedor.nomeFantasia }}
+          </div>
+          <div class="errors">
+            <span class="error" *ngIf="fornecedor.possuiConfirmacaoCompra"> CC Emitida </span>
+            <span class="error" *ngIf="fornecedor.possuiMapaEnviado && !fornecedor.possuiConfirmacaoCompra">
+              Mapa Enviado
+            </span>
+          </div>
+          <div class="avaliacao">
+            {{ fornecedor.avaliacao | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="body" *ngIf="fornecedor.selected" @collapse>
+          <div class="inner-body">
+            <div class="form-group">
+              <aw-select
+                [clearable]="false"
+                [ngModel]="fornecedor.idContatoFornecedor"
+                (ngModelChange)="updateFornecedor(fornecedor.idFornecedor, { idContatoFornecedor: $event })"
+                [items]="fornecedor.contatos"
+                [bindLabel]="['nome', 'telefonePrincipal', 'email']"
+                bindLabelSeparator=" - "
+                bindValue="idContato"
+                id="contato"
+                [showTooltip]="true"
+                [disabled]="fornecedor.fornecedorDisabledEnvioCotacao"
+                required
+                #idContatoFornecedorControl="ngModel"
+                placeholder="Contato fornecedor"
+                [isInvalid]="idContatoFornecedorControl.touched && idContatoFornecedorControl.hasError('required')"
+              ></aw-select>
+              <label
+                class="error"
+                *ngIf="idContatoFornecedorControl.touched && idContatoFornecedorControl.hasError('required')"
+              >
+                Favor selecionar um contato
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="{{ fornecedor.idFornecedor }}-providerMessage">Mensagem</label>
+              <input
+                awInput
+                id="{{ fornecedor.idFornecedor }}-providerMessage"
+                placeholder="Mensagem para o fornecedor"
+                type="text"
+                [ngModel]="fornecedor.comentarioProposta"
+                [ngModelOptions]="{ updateOn: 'blur' }"
+                (ngModelChange)="updateFornecedor(fornecedor.idFornecedor, { comentarioProposta: $event })"
+                [disabled]="fornecedor.fornecedorDisabledEnvioCotacao"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="row justify-content-end mb-3">
+    <div class="col-3">
+      <button awButton block status="secondary" type="button" (click)="changeStep(1)">Voltar</button>
+    </div>
+    <div class="col-3">
+      <button awButton block type="button" (click)="changeStep(3)">Próximo</button>
+    </div>
+  </div>
+</ng-container>

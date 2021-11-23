@@ -1,0 +1,49 @@
+$height-legenda: 38px;
+
+:host {
+  display: block;
+  position: absolute;
+  top: 60px;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  .planilha {
+    position: relative;
+    height: calc(100% - #{$height-legenda});
+    overflow: hidden;
+  }
+  > .title {
+    display: flex;
+    height: $height-legenda;
+    padding-left: 70px;
+    align-items: center;
+    > h5 {
+      margin: 0 1rem 0 0;
+    }
+  }
+}
+
+.legendas {
+  display: flex;
+  align-items: center;
+  .legenda {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    .color-block {
+      $color-block-size: 16px;
+      min-height: $color-block-size;
+      max-height: $color-block-size;
+      height: $color-block-size;
+      min-width: $color-block-size;
+      max-width: $color-block-size;
+      width: $color-block-size;
+      margin-right: 0.5rem;
+    }
+    .title {
+      white-space: normal;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

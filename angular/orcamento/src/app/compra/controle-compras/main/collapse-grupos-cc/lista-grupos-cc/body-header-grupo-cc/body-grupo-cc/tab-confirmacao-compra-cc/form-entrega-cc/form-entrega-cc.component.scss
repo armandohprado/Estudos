@@ -1,0 +1,30 @@
+@import 'variables';
+
+.title {
+  display: flex;
+  align-items: center;
+  > a {
+    margin-bottom: 0.5rem;
+    font-size: 0.65rem;
+    color: $primary;
+    margin-left: 1rem;
+    cursor: pointer;
+    &:hover {
+      color: lighten($primary, 20%);
+    }
+  }
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  > .bairro,
+  > .endereco {
+    grid-column: span 2;
+  }
+  > .complemento,
+  > .observacao {
+    grid-column: span 4;
+  }
+}

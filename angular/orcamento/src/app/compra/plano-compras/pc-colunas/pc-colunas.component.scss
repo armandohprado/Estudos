@@ -1,0 +1,21 @@
+.colunas {
+  display: grid;
+  grid-gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  > .grupos {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 2rem;
+    > .grupo {
+      > .items {
+        margin-left: 1rem;
+        ::ng-deep {
+          .aw-checkbox {
+            margin: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

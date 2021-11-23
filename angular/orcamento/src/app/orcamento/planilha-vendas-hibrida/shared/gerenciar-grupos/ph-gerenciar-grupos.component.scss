@@ -1,0 +1,109 @@
+@import 'variables';
+
+[class^='-icon-caret-'],
+[class*='icon-caret-'] {
+  font-size: 4.6px;
+  color: $primary;
+}
+
+.grupoes {
+  padding: 1rem;
+  border-radius: $border-radius;
+  background-color: white;
+  > .grupao {
+    background-color: $very-light-blue;
+
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+    border-radius: $border-radius;
+    &.has-groups-selected {
+      border-color: $bluey-grey;
+    }
+    > .header {
+      > .inner-header {
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+    }
+    > .body {
+      > .inner-body {
+        padding: 0.75rem 1rem;
+        > .grupos {
+          background-color: white;
+          > .grupo,
+          > .header {
+            padding: 0.75rem 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 50px)) minmax(0, 100px) minmax(0, 1fr) minmax(0, 80px) minmax(
+                0,
+                20px
+              );
+            grid-gap: 0.25rem;
+          }
+          > .grupo {
+            > .codigo {
+              grid-column-start: 3;
+            }
+            > aw-radio {
+              grid-column-start: 2;
+            }
+            > .acoes {
+              > button:not(:last-child) {
+                margin-right: 0.5rem;
+              }
+            }
+            &.last {
+              border-bottom: 1px solid $bluey-grey;
+            }
+          }
+          > .header {
+            border-bottom: 1px solid $bluey-grey;
+            > .codigo {
+              grid-column-start: 3;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.title,
+::ng-deep .grupo-check .aw-checkbox .aw-checkbox-text {
+  font-weight: bold;
+  > .number {
+    margin-right: 2rem;
+  }
+  > .separator {
+    margin-right: 1rem;
+  }
+}
+
+.editar-grupo {
+  background-color: white;
+  padding: 15px;
+  box-shadow: $box-shadow-overlay;
+  border-radius: $border-radius;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  > .descricao {
+    margin-right: 1rem;
+  }
+  > .complemento {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      border: 0;
+      border-bottom: 1px solid black;
+      outline: 0;
+      &:focus {
+        border-width: 2px;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="select">
+  <aw-select
+    [items]="grupos$ | async"
+    bindLabel="nome"
+    bindValue="id"
+    [clearable]="false"
+    [ngModel]="idOrcamentoGrupo$ | async"
+    (ngModelChange)="onSelect($event)"
+    [trackBy]="trackBy"
+    placeholder="Favor selecionar o grupo"
+    noDataFound="Nenhum grupo encontrado"
+  ></aw-select>
+</div>
+<hr />
+<router-outlet></router-outlet>

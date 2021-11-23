@@ -1,0 +1,67 @@
+<div class="pc-grid-colunas" *ngLet="pcCabecalhoQuery.congelado$ | async as congelado">
+  <div class="tabs">
+    <div class="item colunas" [routerLink]="['colunas']">
+      <span class="icon icon-more-options"></span>
+      <span class="colunas">Colunas</span>
+    </div>
+    <div
+      class="item"
+      [class.active]="
+        pcGridService.activeColumnGroup.length === 1 &&
+        pcGridService.activeColumnGroup[0] === pcGridColumnGroupEnum.tudo
+      "
+      (click)="setGroupsVisible([pcGridColumnGroupEnum.tudo])"
+    >
+      Tudo
+    </div>
+    <div
+      class="item"
+      [class.active]="
+        pcGridService.activeColumnGroup.length === 2 &&
+        pcGridService.activeColumnGroup.includes(pcGridColumnGroupEnum.dnn) &&
+        pcGridService.activeColumnGroup.includes(pcGridColumnGroupEnum.desenvolvimento)
+      "
+      (click)="setGroupsVisible([pcGridColumnGroupEnum.dnn, pcGridColumnGroupEnum.desenvolvimento])"
+    >
+      Metas financeiras
+    </div>
+    <div
+      class="item"
+      [class.active]="
+        pcGridService.activeColumnGroup.length === 1 &&
+        pcGridService.activeColumnGroup[0] === pcGridColumnGroupEnum.responsaveis
+      "
+      (click)="setGroupsVisible([pcGridColumnGroupEnum.responsaveis])"
+    >
+      Responsáveis
+    </div>
+    <div
+      class="item"
+      [class.active]="
+        pcGridService.activeColumnGroup.length === 1 &&
+        pcGridService.activeColumnGroup[0] === pcGridColumnGroupEnum.fornecedores
+      "
+      (click)="setGroupsVisible([pcGridColumnGroupEnum.fornecedores])"
+    >
+      Fornecedores
+    </div>
+    <div
+      class="item"
+      [class.active]="
+        pcGridService.activeColumnGroup.length === 1 &&
+        pcGridService.activeColumnGroup[0] === pcGridColumnGroupEnum.datas
+      "
+      (click)="setGroupsVisible([pcGridColumnGroupEnum.datas])"
+    >
+      Datas
+    </div>
+  </div>
+  <div class="congelar">
+    <button awButton (click)="modalAdicionarGrupo()">Adicionar grupo</button>
+  </div>
+  <div class="congelar">
+    <button awButton (click)="congelar()" [disabled]="congelado">
+      {{ congelado ? 'Plano de compras Congelado' : 'Congelar Plano de compras' }}
+    </button>
+  </div>
+</div>

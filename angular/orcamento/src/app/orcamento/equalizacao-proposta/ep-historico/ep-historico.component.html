@@ -1,0 +1,45 @@
+<aw-spinner-v2 *ngIf="loading"></aw-spinner-v2>
+<div class="modal-header">
+  <h5 class="modal-title">Histórico</h5>
+  <button type="button" awButton icon="close" (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <div class="header">
+    <div class="nome">Nome</div>
+    <div class="data-hora">Data e hora</div>
+    <div class="arquivo">Arquivo</div>
+  </div>
+  <ul class="list-unstyled">
+    <li class="no-data-found" *ngIf="!historico.length && !loading">Nenhum histórico encontrado</li>
+    <ng-container *ngFor="let item of historico; let index = index; trackBy: trackBy">
+      <li
+        tabindex="0"
+        (click)="download.nativeElement.click()"
+        (keydown.enter)="download.nativeElement.click()"
+        #itemTemplateRef
+      >
+        <div class="nome">{{ item.nomeFuncionario }}</div>
+        <div class="data-hora">
+          {{ item.dataGeracao | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </div>
+        <div class="arquivo">
+          <a
+            target="_blank"
+            type="button"
+            awButton
+            tabindex="-1"
+            icon="file-pdf"
+            tooltip="Abrir arquivo"
+            [id]="item.idEqualizacaoHistorico"
+            [delay]="200"
+            [href]="item.url"
+            #download
+          ></a>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button type="button" awButton (click)="close()" status="secondary">Fechar</button>
+</div>

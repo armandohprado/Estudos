@@ -1,0 +1,32 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+  position: fixed;
+  top: 60px;
+  z-index: 2;
+  background-color: v.$greyish-brown;
+  color: white;
+  right: 0;
+  left: 0;
+  height: v.$breadcrumbs-height;
+  min-height: v.$breadcrumbs-height;
+  > .breadcrumbs {
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+    > .icon {
+      font-size: 10px;
+      color: v.$primary;
+    }
+    > .aw-btn {
+      &[disabled],
+      &.btn-disabled,
+      &:disabled {
+        color: white;
+        opacity: 1;
+        pointer-events: none;
+      }
+    }
+  }
+}

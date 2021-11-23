@@ -1,0 +1,80 @@
+<ng-container *ngLet="{ familias: familias$ | async } as state">
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Adicionar grupos ( {{ (state.familias | gaGruposSelecionados).length | i18nPlural: pluralGrupo }} )
+    </h5>
+    <button
+      type="button"
+      awButton
+      icon="close"
+      size="sm"
+      (click)="bsModalRef.hide()"
+      [disabled]="loading || saving"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="!state.familias?.length; else list"> Nenhum grupo encontrado </ng-container>
+    <ng-template #list>
+      <div class="familia" *ngFor="let familia of state.familias; trackBy: trackByFamilia">
+        <div class="header" (click)="updateFamilia(familia.nome, { opened: !familia.opened })">
+          <div class="title">
+            {{ familia.nome }} ( {{ (familia | gaGruposSelecionados).length | i18nPlural: pluralGrupo }} )
+          </div>
+          <div class="icon-wrapper">
+            <span
+              class="icon collapse-caret"
+              [ngClass]="{
+                'icon-caret-up': familia.opened,
+                'icon-caret-down': !familia.opened
+              }"
+            ></span>
+          </div>
+        </div>
+        <div class="body" *ngIf="familia.opened" @collapse>
+          <div class="grupao" *ngFor="let grupao of familia.grupoes; trackBy: trackByGrupao">
+            <div class="header" (click)="updateGrupao(familia.nome, grupao.nome, { opened: !grupao.opened })">
+              <div class="title">{{ grupao.nome }}</div>
+              <div class="icon-wrapper">
+                <span
+                  class="icon collapse-caret"
+                  [ngClass]="{
+                    'icon-caret-up': grupao.opened,
+                    'icon-caret-down': !grupao.opened
+                  }"
+                ></span>
+              </div>
+            </div>
+            <div class="body" *ngIf="grupao.opened" @collapse>
+              <div class="inner-body">
+                <div class="grupo" *ngFor="let grupo of grupao.grupos; trackBy: trackByGrupo">
+                  <aw-checkbox
+                    [ngModel]="grupo.selected"
+                    (ngModelChange)="updateGrupo(familia.nome, grupao.nome, grupo.id, { selected: $event })"
+                  >
+                    {{ grupo.nome }}
+                  </aw-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      awButton
+      status="secondary"
+      width="secondary"
+      (click)="bsModalRef.hide()"
+      [disabled]="loading || saving"
+    >
+      Fechar
+    </button>
+    <button type="button" awButton width="primary" [disabled]="loading" [loading]="saving" (click)="salvar()">
+      Salvar
+    </button>
+  </div>
+</ng-container>

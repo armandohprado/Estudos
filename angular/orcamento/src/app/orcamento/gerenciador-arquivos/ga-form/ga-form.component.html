@@ -1,0 +1,51 @@
+<div class="form" *ngIf="gaEtapaQuery.selected$ | async as etapaSelected">
+  <div class="status" *ngLet="gaPavimentoQuery.isProjetoSelected$ | async as isProjeto">
+    <aw-toggle
+      [ngModel]="etapaSelected.ativo"
+      (ngModelChange)="toggleEtapa(etapaSelected, $event)"
+      [disabled]="isProjeto || etapaSelected.id === 0 || etapaSelected.loading || gerenciadorArquivosService.readonly"
+    >
+      <label before>Status da fase: </label>
+      <label after>{{ etapaSelected.ativo ? 'Ativa' : 'Inativa' }}</label>
+    </aw-toggle>
+  </div>
+  <div class="only-selected" *ngLet="gaAtividadeQuery.onlySelected$ | async as onlySelected">
+    <aw-toggle
+      [ngModel]="onlySelected"
+      (ngModelChange)="toggleOnlySelecionados($event)"
+      [disabled]="etapaSelected.loading || !etapaSelected.ativo"
+    >
+      <label before>Mostrar: </label>
+      <label after>
+        {{ onlySelected ? 'selecionados' : 'todos' }}
+      </label>
+    </aw-toggle>
+  </div>
+  <!--<div class="extensoes">
+    <aw-select
+      [clearable]="true"
+      [closeOnSelect]="false"
+      [items]="gerenciadorArquivosService.extensoes$ | async"
+      [multiple]="true"
+      bindLabel="nome"
+      placeholder="Extensões"
+      noDataFound="Nenhuma extensão encontrada"
+    ></aw-select>
+  </div>-->
+  <!--<div class="download">
+    <div class="btn-group" dropdown placement="bottom right" [isDisabled]="etapaSelected.loading">
+      <button type="button" class="btn btn-block btn-outline-secondary dropdown-toggle" dropdownToggle>
+        Download
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+        <li role="menuitem">
+          <a class="c-p dropdown-item" (click)="download('todos')">Todos</a>
+        </li>
+        <li role="menuitem">
+          <a class="c-p dropdown-item" (click)="download('selecionados')">Selecionados</a>
+        </li>
+      </ul>
+    </div>
+  </div>-->
+</div>

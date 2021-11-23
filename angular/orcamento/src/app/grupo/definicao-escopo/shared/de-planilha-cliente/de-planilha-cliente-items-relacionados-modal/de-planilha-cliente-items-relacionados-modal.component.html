@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Itens relacionados</h4>
+  <button awButton icon="close" size="sm" type="button" (click)="bsModalRef.hide()"></button>
+</div>
+<div class="modal-body">
+  <h5>{{ planilhaClienteItem.codigo }} - {{ planilhaClienteItem.descricao }}</h5>
+  <div class="items">
+    <ng-container *ngFor="let item of planilhaClienteItem.orcamentoGrupoItem; trackBy: trackBy">
+      <div class="descricao">
+        {{ item.descricao }}
+      </div>
+      <div class="icon-wrapper">
+        <button
+          awButton
+          icon="aw-icon-erro"
+          tooltip="Excluir item selecionado"
+          type="button"
+          [loading]="loading[item.id]"
+          (click)="deleteItem(item.id)"
+        ></button>
+      </div>
+    </ng-container>
+    <div class="descricao" *ngIf="!planilhaClienteItem.orcamentoGrupoItem.length">Nenhum item encontrado</div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" awButton status="secondary" width="secondary" (click)="bsModalRef.hide()">Fechar</button>
+</div>

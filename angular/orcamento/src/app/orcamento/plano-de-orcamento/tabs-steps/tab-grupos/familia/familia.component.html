@@ -1,0 +1,50 @@
+<div
+  *ngLet="familia.grupoes | selectionGroupCounter as counter"
+  class="family-group-header"
+  (click)="counter && toggleCollapse()"
+  [attr.aria-expanded]="!isCollapsed"
+>
+  <h5 class="title text-lowercase">
+    {{ familia.descricaoFamilia }}
+    <span *ngIf="hasSelectedGroupsInfo" class="selected-groups-counter">
+      ({{
+        counter
+          | i18nPlural
+            : {
+                '=0': 'Nenhum grupo selecionado',
+                '=1': '# grupo selecionado',
+                other: '# grupos selecionados'
+              }
+      }})
+    </span>
+  </h5>
+  <i class="icon" *ngIf="counter" [class.icon-caret-up]="!isCollapsed" [class.icon-caret-down]="isCollapsed"></i>
+  <div class="actions">
+    <div *ngIf="familia.idFamiliaCustomizada">
+      <button class="btn btn-icon" type="button" (click)="$event.stopPropagation(); editarFamiliaCustomizada()">
+        <i class="icon icon-edit"></i>
+      </button>
+      <button class="btn btn-icon" type="button" (click)="$event.stopPropagation(); apagarFamiliaCustomizada()">
+        <i class="icon icon-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+  <button
+    *ngIf="hasButton"
+    class="btn btn-default gradient-btn"
+    [class.ml-auto]="familia.idFamilia"
+    type="button"
+    (click)="$event.stopPropagation(); abrirModalSelecionarGrupos()"
+  >
+    Selecionar grupos
+  </button>
+</div>
+<div class="collapse-body">
+  <div class="family-group-body" *ngIf="!isCollapsed" @collapse>
+    <app-grupao
+      *ngFor="let grupao of familia.grupoes | awOrderBy: 'numeroGrupao'; trackBy: trackByFn"
+      [selectionMode]="false"
+      [grupao]="grupao"
+    ></app-grupao>
+  </div>
+</div>

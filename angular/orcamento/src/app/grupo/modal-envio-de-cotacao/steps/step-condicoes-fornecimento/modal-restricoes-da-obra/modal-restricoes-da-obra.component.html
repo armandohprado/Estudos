@@ -1,0 +1,151 @@
+<div class="modal-header">
+  <h4 class="modal-title">Restrições da obra</h4>
+  <p class="mb-0 ml-auto mr-5 text-lowercase">
+    {{ grupo.codigoGrupo + ' - ' + grupo.nomeGrupo }}
+  </p>
+  <button (click)="bsModalRef.hide()" aria-label="Close" class="close btn-icon" type="button">
+    <i class="icon icon-close"></i>
+  </button>
+</div>
+
+<div class="modal-body pb-0">
+  <div class="row">
+    <div class="col-9">
+      <p class="font-weight-bold">
+        Quais são as restrições de horários de trabalho, estabelecidos pela sua empresa para a obra?
+      </p>
+    </div>
+  </div>
+  <form (ngSubmit)="processForm()" [formGroup]="formRestricoes">
+    <ng-container
+      *ngFor="let restricao of grupoRestricaoObra; trackBy: trackBy"
+      [formGroupName]="restricao.idRestricaoObra"
+    >
+      <ng-container *ngIf="formRestricoes.get('' + restricao.idRestricaoObra) as restricaoControl">
+        <div class="row">
+          <div class="col-9">
+            <div class="form-group mb-10">
+              <aw-checkbox formControlName="restricaoCheck">{{ restricao.nome }}</aw-checkbox>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="restricaoControl.get('restricaoCheck')?.value && !restricaoControl.get('restricaoComentario')"
+          [@inOutAnimation]
+          class="row bg-ice"
+        >
+          <div class="col-3">
+            <div class="form-group">
+              <label [for]="'restricao-de-' + restricao.idRestricaoObra" class="font-weight-normal"
+                >a partir das
+              </label>
+              <input
+                [id]="'restricao-de-' + restricao.idRestricaoObra"
+                appHourFormat
+                class="form-control"
+                formControlName="restricaoObraHoraInicio"
+                placeholder="ex.: 00:00"
+                type="text"
+              />
+              <!--            <label-->
+              <!--              *ngIf="-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraInicio').dirty &&-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraInicio').errors &&-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraInicio').errors.format-->
+              <!--              "-->
+              <!--              [for]="'restricao-de-' + restricao?.idRestricaoObra"-->
+              <!--              class="error"-->
+              <!--            >-->
+              <!--              o formato da hora “à partir das” é inválido.-->
+              <!--            </label>-->
+              <!--            <label-->
+              <!--              *ngIf="-->
+              <!--                formRestricoes.get(restricao.idRestricaoObra.toString())-->
+              <!--                  .errors &&-->
+              <!--                formRestricoes?.get(restricao.idRestricaoObra.toString())-->
+              <!--                  ?.errors?.diff-->
+              <!--              "-->
+              <!--              [for]="'restricao-de-' + restricao?.idRestricaoObra"-->
+              <!--            >-->
+              <!--              a hora “à partir das” não pode ser superior à data “até”.-->
+              <!--            </label>-->
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label [for]="'restricao-ate-' + restricao.idRestricaoObra" class="font-weight-normal">até</label>
+              <input
+                [id]="'restricao-ate-' + restricao.idRestricaoObra"
+                appHourFormat
+                class="form-control"
+                formControlName="restricaoObraHoraFim"
+                placeholder="ex.: 00:00"
+                type="text"
+              />
+              <!--            <label-->
+              <!--              *ngIf="-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraFim').dirty &&-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraFim').errors &&-->
+              <!--                formRestricoes-->
+              <!--                  .get(restricao.idRestricaoObra.toString())-->
+              <!--                  .get('restricaoObraHoraFim').errors.format-->
+              <!--              "-->
+              <!--              [for]="'restricao-de-' + restricao?.idRestricaoObra"-->
+              <!--              class="error"-->
+              <!--            >-->
+              <!--              o formato da hora “até” é inválido.-->
+              <!--            </label>-->
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            restricaoControl.get('restricaoCheck')?.value &&
+            restricaoControl.get('restricaoComentario')?.value &&
+            restricao.exibeComentario
+          "
+          @inOutAnimation
+          class="row bg-ice"
+        >
+          <div class="col-9">
+            <div class="form-group">
+              <label class="font-weight-normal" for="comentario">Comente</label>
+              <textarea
+                awInput
+                resize="vertical"
+                rows="3"
+                formControlName="restricaoComentario"
+                id="comentario"
+                placeholder="insira comentário"
+              >
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="d-flex justify-content-end">
+      <button (click)="bsModalRef.hide()" awButton status="secondary" type="button">Voltar</button>
+      <button
+        awButton
+        tooltip="Verifique os campos marcados em vermelho no formulário. Clique em cada campo para ver os detalhes de preenchimento."
+        [isDisabled]="formRestricoes.valid"
+        [disabled]="formRestricoes.invalid"
+        type="submit"
+      >
+        Alterar
+      </button>
+    </div>
+  </form>
+</div>

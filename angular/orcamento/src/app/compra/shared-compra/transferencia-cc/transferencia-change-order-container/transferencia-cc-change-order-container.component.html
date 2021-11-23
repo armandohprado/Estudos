@@ -1,0 +1,72 @@
+<div
+  class="group mt-4"
+  *ngLet="listaCCTransferencia | filterFamiliaGrupoTransferenciaCc: filtroFamilia:filtroGrupo as gruposFilter"
+>
+  <div class="font-weight-bolder">Transferir Saldo das CC</div>
+  <ng-container *ngIf="!readonly">
+    <div class="row justify-content-center">
+      <div class="col-6 d-flex align-items-center">
+        <aw-select
+          [(ngModel)]="filtroFamilia"
+          [items]="listaFamilia"
+          multiple
+          [bindLabel]="['idOrcamentoFamilia', 'nomeOrcamentoFamilia']"
+          bindValue="idOrcamentoFamilia"
+          placeholder="Todas Familias"
+          size="md"
+          class="flex-grow-1"
+        >
+        </aw-select>
+      </div>
+      <div class="col-6 d-flex align-items-center">
+        <aw-select
+          [(ngModel)]="filtroGrupo"
+          [items]="listaGrupo"
+          multiple
+          [bindLabel]="['codigo', 'nome']"
+          bindValue="idCompraNegociacaoGrupo"
+          placeholder="Todas Grupos"
+          size="md"
+          class="flex-grow-1"
+        >
+        </aw-select>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #resumo>
+    <app-resumo-transferir-saldo-cc [listaGrupo]="listaGrupo" [readonly]="readonly"></app-resumo-transferir-saldo-cc>
+  </ng-template>
+  <div class="mx-3" *ngIf="!readonly; else resumo">
+    <div *ngFor="let listaTransferencia of gruposFilter; trackBy: trackByTransferencia" class="m-2">
+      <aw-collapse
+        [title]="listaTransferencia.nomeOrcamentoCenario"
+        *ngIf="gruposFilter?.length > 0"
+        [awCollapse]="false"
+      >
+        <div
+          class="mx-3 bg-white rounded"
+          *ngFor="let familias of listaTransferencia.familias; trackBy: trackByFamilia"
+        >
+          <div class="my-2 p-2">Familia : {{ familias.nomeOrcamentoFamilia }}</div>
+          <app-lista-grupo-transferir-saldo-cc
+            [grupos]="familias.grupos"
+            (recalcular)="recalcularValorTotal($event)"
+            [idPlanilhaHibrida]="idPlanilhaHibrida"
+            [payload]="payload"
+          ></app-lista-grupo-transferir-saldo-cc>
+        </div>
+      </aw-collapse>
+    </div>
+  </div>
+  <div class="footer">
+    <ng-container>
+      <hr />
+      <div class="grid-container-2">
+        <div class="font-weight-bold column-start-4">Total</div>
+        <div class="font-weight-bold column-start-6 text-right mr-3">
+          {{ valorTotal | default: '0' | number: '1.2-2' }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+<aw-collapse
+  [awCollapse]="!expanded"
+  (expanded)="toggleAwCollapse($event)"
+  [border]="grupo.opcional"
+  [class.highlight]="highlight"
+>
+  <div collapseHeader class="grid-container-header-body w-100" [class.text-primary]="grupo.opcional">
+    <div class="font-weight-bold d-flex column-3 pt-2">
+      <div>{{ grupo.codigoGrupo }}</div>
+      <div class="mx-2">-</div>
+      <div>{{ grupo.nomeGrupo }}</div>
+    </div>
+    <div class="d-flex column-3 column-mid align-items-center">
+      <form (click)="$event.stopPropagation()" [formGroup]="formComments">
+        <div>
+          <label class="sr-only" for="complementGroup-{{ grupo.idOrcamentoGrupo }}-{{ grupo.idFamilia }}">
+            Complemento do grupo
+          </label>
+          <input
+            (blur)="submit()"
+            autocomplete="off"
+            awInput
+            formControlName="complementoGrupo"
+            [loading]="loadingComplemento"
+            id="complementGroup-{{ grupo.idOrcamentoGrupo }}-{{ grupo.idFamilia }}"
+            placeholder="inserir complemento"
+            type="text"
+            #inputComplemento
+          />
+        </div>
+      </form>
+    </div>
+    <div class="d-flex column-3 column-last align-items-center justify-content-start ml-n3">
+      <ng-container *ngIf="datas?.length; else noDatasRef">
+        <div class="d-flex align-items-center" *ngFor="let data of datas; trackBy: trackByString">
+          {{ data | date: 'dd/MM/yyyy' }}
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center mr-3">
+      <ng-container *ngIf="!datas?.length">
+        {{ grupo.valorSelecionado | number: '1.2-2' }}
+      </ng-container>
+    </div>
+  </div>
+  <ng-container>
+    <div class="grid-container-header-body pr-5 pl-3 pt-3">
+      <div class="responsaveis">
+        <ng-container *ngIf="responsaveis?.length; else noResponsaveisRef">
+          <div
+            *ngFor="let responsavel of responsaveis; trackBy: trackByResponsavel"
+            [class.imagens-mesmo-tamanho]="responsaveisImgMesmoTamanho"
+          >
+            <app-funcionario-popover
+              [canChange]="false"
+              [funcionario]="responsavel"
+              [idOrcamentoCenario]="idOrcamentoCenario"
+              [idOrcamento]="idOrcamento"
+              [idGrupo]="grupo.idGrupo"
+              placement="auto"
+            ></app-funcionario-popover>
+          </div>
+        </ng-container>
+      </div>
+      <div class="column-last d-flex justify-content-start">
+        <label>Ações do grupo</label>
+      </div>
+    </div>
+    <div class="grid-container-header-body pr-5 pl-3 pb-5 pt-1">
+      <div class="column-3" [formGroup]="formComments">
+        <label class="w-100">
+          Comentários (Uso Interno)
+          <textarea
+            *ngIf="comentario | isDefined; else noComentarioRef"
+            awInput
+            resize="none"
+            [loading]="loadingComplemento"
+            [formControl]="comentarioControl"
+            placeholder="Escrever comentário"
+            maxlength="250"
+          ></textarea>
+          <ng-template #noComentarioRef>
+            <textarea
+              (keydown.enter)="inputComentario.blur()"
+              (blur)="submit()"
+              awInput
+              resize="none"
+              [loading]="loadingComplemento"
+              formControlName="comentarioGrupo"
+              placeholder="Escrever comentário"
+              maxlength="250"
+              #inputComentario
+            ></textarea>
+          </ng-template>
+        </label>
+      </div>
+      <div class="column-last d-flex justify-content-start">
+        <div class="icon-actions">
+          <button
+            awButton
+            [loading]="loadingDefinicaoEscopo"
+            (click)="openModalDefinicaoEscopo()"
+            icon="action"
+            type="button"
+            delay="400"
+            tooltip="Definição de Escopo"
+          ></button>
+          <button
+            awButton
+            icon="send"
+            (click)="envioCotacao()"
+            [loading]="loadingEnvioCotacao"
+            type="button"
+            delay="400"
+            tooltip="Envio de Cotação"
+          ></button>
+          <button
+            awButton
+            icon="resend"
+            type="button"
+            (click)="openEqualizacao()"
+            delay="400"
+            tooltip="Equalização de Proposta"
+            [disabled]="equalizacaoDisabled"
+            *ngIf="equalizacaoRouterLink"
+          ></button>
+          <button
+            awButton
+            icon="add-provider"
+            type="button"
+            (click)="navigate(adicionarFornecedorRouterLink)"
+            *ngIf="adicionarFornecedor"
+            delay="400"
+            tooltip="Adicionar Fornecedor"
+          ></button>
+          <button
+            awButton
+            (click)="toggleFornecedoresStatus = !toggleFornecedoresStatus"
+            type="button"
+            delay="400"
+            [tooltip]="!toggleFornecedoresStatus ? 'Esconder propostas inativas' : 'Mostrar apenas propostas ativas'"
+            [icon]="toggleFornecedoresStatus ? 'dashed-eye' : 'eye-open'"
+          ></button>
+          <button
+            awButton
+            type="button"
+            icon="trash-alt"
+            tooltip="Excluir grupo"
+            delay="400"
+            (click)="excluirGrupo()"
+            *ngIf="!hideExcluir"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="px-3">
+    <app-proposta
+      [grupo]="grupo"
+      [showLinkLoginTemporario]="showLinkLoginTemporario || (showLinkLoginTemporarioData$ | async)"
+      [devolucaoPropostaRouterLink]="devolucaoPropostaRouterLink"
+      [idOrcamento]="idOrcamento"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+      [idProjeto]="idProjeto"
+      [routerLinkQueryParams]="routerLinkQueryParams"
+      [toggleFornecedoresStatus]="toggleFornecedoresStatus"
+      [equalizacaoDisabled]="equalizacaoDisabled"
+      [isControleCompras]="isControleCompras"
+      [loadingPropostas]="loadingPropostas"
+      (propostaSelecionada)="propostaSelecionada.emit($event)"
+      (propostaChange)="propostaChange.emit($event)"
+    ></app-proposta>
+  </div>
+</aw-collapse>
+<ng-template #noDatasRef>
+  <div class="d-flex align-items-center">
+    <ng-container *ngIf="grupo.dataLimiteRecebimento">
+      <i
+        *ngIf="!grupo.custoEntregue"
+        [class.text-danger]="grupo.dataLimiteRecebimento | isAfterNow"
+        class="icon mr-1 icon-timer"
+      ></i>
+      <i *ngIf="grupo.custoEntregue" class="icon mr-1 icon-check"></i>
+      {{ grupo.dataLimiteRecebimento | date: 'dd/MM/yyyy - HH:mm' }}
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #noResponsaveisRef>
+  <app-funcionario-popover
+    *ngFor="let responsavel of grupo.responsaveis | fill: responsaveisQtde; trackBy: trackByFuncionario"
+    [funcionario]="responsavel"
+    [idOrcamentoCenario]="idOrcamentoCenario"
+    [idOrcamento]="idOrcamento"
+    [canChange]="false"
+    [idGrupo]="grupo.idGrupo"
+    placement="auto"
+  >
+  </app-funcionario-popover>
+</ng-template>

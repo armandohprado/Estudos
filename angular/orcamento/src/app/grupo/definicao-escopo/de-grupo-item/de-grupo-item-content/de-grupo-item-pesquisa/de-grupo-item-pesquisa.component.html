@@ -1,0 +1,173 @@
+<div class="card pesquisa">
+  <div class="card-header">
+    <h6 class="card-title">Pesquisa do Item</h6>
+  </div>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row" [formGroup]="formPesquisa">
+        <div class="col-5 form-group" *ngLet="grupoItem.idOrcamentoGrupoItem + 'pesquisa-search' as idPesquisaSearch">
+          <!-- Gimme a better name -->
+          <label [for]="idPesquisaSearch">&nbsp;</label>
+          <input
+            awInput
+            type="search"
+            placeholder="&#xE908; Pesquisar"
+            formControlName="search"
+            [id]="idPesquisaSearch"
+          />
+        </div>
+        <div
+          class="col-4 form-group"
+          *ngLet="grupoItem.idOrcamentoGrupoItem + 'pesquisa-projetos' as idPesquisaProjeto"
+        >
+          <label [for]="idPesquisaProjeto">Projetos</label>
+          <aw-select
+            [id]="idPesquisaProjeto"
+            [items]="pesquisaReferencia?.projetos || []"
+            trackBy="idProjeto"
+            placeholder="Filtrar"
+            bindLabel="nomeProjeto"
+            noDataFound="Nenhum projeto encontrado"
+            formControlName="projeto"
+          ></aw-select>
+        </div>
+        <div class="col-3 form-group" *ngLet="grupoItem.idOrcamentoGrupoItem + 'pesquisa-periodo' as idPesquisaPeriodo">
+          <label [for]="idPesquisaPeriodo">Período</label>
+          <aw-select
+            [id]="idPesquisaPeriodo"
+            [items]="periodos"
+            trackBy="periodo"
+            [clearable]="false"
+            [searchable]="false"
+            bindLabel="label"
+            formControlName="periodo"
+          ></aw-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 atributos-badges" *ngIf="pesquisaReferencia">
+          <span
+            *ngFor="let atributo of atributosArr | valueFormatter: filterVoid; trackBy: trackByAtributo"
+            class="badge badge-pill badge-secondary mr-2"
+            [class.inactive]="!pesquisaReferencia.atributoAtivo[atributo]"
+          >
+            <span class="atributo mr-2">
+              {{ grupoItem['atributo' + atributo] }}
+            </span>
+            <span
+              class="icon icon-close c-pointer"
+              *ngIf="pesquisaReferencia.atributoAtivo[atributo]"
+              (click)="pesquisaAtributo(atributo, 'del')"
+            ></span>
+            <span
+              class="icon icon-check c-pointer"
+              *ngIf="!pesquisaReferencia.atributoAtivo[atributo]"
+              (click)="pesquisaAtributo(atributo, 'add')"
+            ></span>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="container-fluid">
+            <div class="row pb-2 font-weight-bold">
+              <div class="col-5">Item</div>
+              <div class="col-3">Fornecedor</div>
+              <div class="col-2">Data</div>
+              <div class="col-2">Valor unit.</div>
+            </div>
+            <div class="row" #viewportHeight>
+              <div class="col-5 py-1">
+                <div class="row">
+                  <div class="col-11 height-col"></div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noDataFound>
+              <div class="row py-1">
+                <div class="col-12">Nenhum item encontrado</div>
+              </div>
+            </ng-template>
+            <ng-container
+              *ngIf="
+                grupoItem?.pesquisaReferencia?.confirmacoesCompraValorReferencia
+                  | awSearch: ['descricaoGrupoItem', 'nomeFantasia']:(search$ | async)
+                  | awSearch: 'idProjeto':(projeto$ | async) as items
+              "
+            >
+              <cdk-virtual-scroll-viewport
+                *ngIf="items.length; else noDataFound"
+                [itemSize]="itemSize"
+                [style.height]="viewportSize + 'px'"
+                class="items"
+              >
+                <div
+                  class="row py-1"
+                  style="border-bottom: 1px solid #979797"
+                  *cdkVirtualFor="let item of items; trackBy: trackByItem"
+                >
+                  <div class="col-5 item-col">
+                    <div class="row" [style.height]="itemSize + 'px'">
+                      <div class="col-11">
+                        {{ item.descricaoGrupoItem }}
+                      </div>
+                      <div class="col-1">
+                        <a [href]="BUDGET_URL + item.idConfirmacaoCompra" target="_blank">
+                          <span class="aw-icon-abrir-budget"></span
+                        ></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3 item-col">{{ item.nomeFantasia }}</div>
+                  <div class="col-2 item-col">
+                    {{ item.dataConfirmacaoCompra | date: 'dd/MM/yyyy' }}
+                  </div>
+                  <div class="col-2 item-col">
+                    <div class="row">
+                      <div class="col-8">
+                        <span
+                          [popover]="valores"
+                          container=".modal-definir-escopo .modal-body"
+                          containerClass="popover-valores"
+                          placement="left"
+                          triggers="mouseenter:mouseleave"
+                        >
+                          {{ item.valorTotal | number: '1.2-2' }}
+                        </span>
+                        <ng-template #valores>
+                          <div class="form-group">
+                            <label>Valor produto</label>
+                            <div>
+                              {{ item.itemConfirmacaoCompraValorUnitarioProduto | currency: 'BRL' }}
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label>Valor serviço</label>
+                            <div>
+                              {{ item.itemConfirmacaoCompraValorUnitarioServico | currency: 'BRL' }}
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div class="col">
+                        <span
+                          class="icon icon-copy c-pointer"
+                          (click)="
+                            copiarValor({
+                              valorUnitarioProdutoReferencia: item.itemConfirmacaoCompraValorUnitarioProduto,
+                              valorUnitarioServicoReferencia: item.itemConfirmacaoCompraValorUnitarioServico
+                            })
+                          "
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </cdk-virtual-scroll-viewport>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

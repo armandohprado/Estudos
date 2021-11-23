@@ -1,0 +1,89 @@
+@import 'variables';
+
+$unchecked: #9c9fac;
+$checked: #01d46c;
+
+:host {
+  display: flex;
+  align-items: center;
+  &.is-invalid {
+    > .aw-toggle {
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(251, 37, 37, 0.25);
+      }
+    }
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+  > .label {
+    font-weight: 500;
+    &.before {
+      margin-right: 0.5rem;
+    }
+    &.after {
+      margin-left: 0.5rem;
+    }
+    ::ng-deep > label {
+      margin-bottom: 0;
+    }
+  }
+  > .aw-toggle {
+    background-color: $unchecked;
+    padding: 3px;
+    height: 25px;
+    width: 50px;
+    border-radius: 25px;
+    position: relative;
+    outline: 0;
+    transition: box-shadow 150ms ease-in-out;
+    box-shadow: none;
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.25);
+    }
+    > .circle {
+      left: 3px;
+      position: absolute;
+      background-color: white;
+      height: 19px;
+      width: 19px;
+      border-radius: 100%;
+      transition: left 200ms ease;
+    }
+  }
+  &.small {
+    > .label {
+      font-size: 0.75rem;
+    }
+    > .aw-toggle {
+      height: 15px;
+      width: 30px;
+      padding: 2px;
+      > .circle {
+        height: 11px;
+        width: 11px;
+      }
+    }
+  }
+  &.checked {
+    > .aw-toggle {
+      background-color: $checked;
+    }
+    > .aw-toggle {
+      > .circle {
+        left: calc(50px - 19px - 3px);
+      }
+    }
+    &.small {
+      > .aw-toggle {
+        > .circle {
+          left: calc(30px - 10px - 3px);
+        }
+      }
+    }
+  }
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}

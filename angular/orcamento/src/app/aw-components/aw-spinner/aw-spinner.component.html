@@ -1,0 +1,11 @@
+<div
+  class="aw-spinner"
+  [class.aw-spinner--small]="size === 'sm'"
+  [class.aw-spinner--medium]="size === 'md'"
+  [class.aw-spinner--large]="size === 'lg'"
+>
+  <div class="aw-spinner__internal"></div>
+</div>
+<div class="aw-spinner__loading-text" [style.z-index]="zIndex">
+  <ng-content></ng-content>
+</div>

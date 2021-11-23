@@ -1,0 +1,107 @@
+<div class="info">
+  <hr class="my-1" />
+  <p class="m-0"><strong>Informações da proposta</strong></p>
+  <hr class="my-1" />
+  <ul class="m-0 p-0">
+    <li class="d-flex justify-content-between">
+      Valor total produto:
+      <span>{{ proposta?.valorTotalProdutoProposta | currency: 'R$ ' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Valor total serviço:
+      <span>{{ proposta?.valorTotalServicoProposta | currency: 'R$ ' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Total da proposta:
+      <span>{{ proposta?.valorTotalProposta | currency: 'R$ ' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Previsão entrega:
+      <span>{{ proposta?.prazoEntrega ? (proposta?.prazoEntrega | date: 'dd/MM/yy HH:mm') : '-' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Prazo de execução:
+      <span>{{ proposta?.prazoExecucao ? (proposta?.prazoExecucao | date: 'dd/MM/yy HH:mm') : '-' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Data de solicitação da proposta:
+      <span>{{
+        proposta?.dataSolicitacaoProposta ? (proposta?.dataSolicitacaoProposta | date: 'dd/MM/yy HH:mm') : '-'
+      }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Data retorno da proposta:
+      <span>
+        {{ proposta?.dataRetornoProposta ? (proposta?.dataRetornoProposta | date: 'dd/MM/yy HH:mm') : '-' }}
+      </span>
+    </li>
+  </ul>
+  <hr class="my-1" />
+  <p class="m-0"><strong>Dados da Empresa - Homologada no grupo</strong></p>
+  <hr class="my-1" />
+  <ul class="p-0 m-0">
+    <li class="d-flex justify-content-between">
+      Nome Fantasia:
+      <span>{{ fornecedor.nomeFantasia }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Razão Social:<span>{{ fornecedor.razaoSocial }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Endereço:<span>{{ fornecedor.logradouro }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      CNPJ:<span>{{ fornecedor.cnpj | mask: maskEnum.cnpj }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      IE:<span>{{ fornecedor.inscricaoEstadual | default: '-':'loose' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      IM:<span>{{ fornecedor.inscricaoMunicipal | default: '-':'loose' }}</span>
+    </li>
+  </ul>
+
+  <hr class="my-1" />
+  <p class="m-0"><strong>Contatos</strong></p>
+  <hr class="my-1" />
+  <ul
+    class="p-0 mb-3"
+    *ngFor="
+      let contato of fornecedor.contatos | slice: 0:(showMore ? fornecedor.contatos.length : 3);
+      trackBy: trackByContato
+    "
+  >
+    <li class="d-flex justify-content-between">
+      Nome: <span> {{ contato.nome }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Email: <span> {{ contato.email ? contato.email : '-' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Tel:
+      <span>{{ contato.telefonePrincipal ? (contato.telefonePrincipal | formattedTel) : '-' }}</span>
+    </li>
+    <li class="d-flex justify-content-between">
+      Tel:
+      <span>{{ contato.celularPrincipal ? (contato.celularPrincipal | formattedTel) : '-' }}</span>
+    </li>
+  </ul>
+  <div class="d-flex justify-content-center" *ngIf="fornecedor.contatos.length > 3">
+    <button awButton type="button" status="secondary" (click)="toggleShowMore()">
+      {{ showMore ? 'Mostrar menos' : 'Mostrar mais' }}
+    </button>
+  </div>
+  <ng-container *ngIf="proposta.declinadaProposta"
+    ><p class="m-0"><strong>Motivo Declinio Proposta</strong></p>
+    <hr class="my-1" />
+    <ul class="p-0 m-0">
+      <li class="d-flex justify-content-between">
+        Nome:<span>{{ proposta.declinadaPropostaNome }}</span>
+      </li>
+      <li class="d-flex justify-content-between">
+        Motivo:
+        <span>{{ proposta.declinadaPropostaMotivo }}</span>
+      </li>
+    </ul>
+  </ng-container>
+</div>

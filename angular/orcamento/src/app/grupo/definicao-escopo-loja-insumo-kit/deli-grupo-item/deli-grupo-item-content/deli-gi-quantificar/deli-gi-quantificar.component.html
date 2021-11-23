@@ -1,0 +1,47 @@
+<tabset class="tabset-definicao-escopo">
+  <tab
+    (selectTab)="selectTab(grupoItemDELITab.quantificar)"
+    [active]="activeTab === grupoItemDELITab.quantificar"
+    heading="Quantificar"
+    class="distribuir"
+    [tabOrder]="0"
+  >
+    <div *ngIf="activeTab === grupoItemDELITab.quantificar" [awSpinner]="isLoading">
+      <div class="row">
+        <div class="col-12">
+          <alert [dismissible]="true">
+            <span class="icon aw-icon-alerta-cheio mr-3"></span>
+            Clique nos campos abaixo e preencha com a quantidade necessária em cada item divididos por Fase, Andar e
+            Centros de Custo.
+          </alert>
+        </div>
+      </div>
+      <div class="row" *ngIf="quantitativo">
+        <div class="col-12">
+          <app-de-distribuir-quantitativo
+            tipo="definicao-escopo"
+            [quantitativo]="quantitativo"
+            [mapQuantitativo]="false"
+            [planilhaCliente]="definicaoEscopoLojaInsumoKitService.cenarioPadrao.existePlanilhaCliente"
+            (atualizarCentroCusto)="updateQuantitativo($event)"
+            (qtdeTotal)="updateTotal($event)"
+          ></app-de-distribuir-quantitativo>
+        </div>
+      </div>
+    </div>
+  </tab>
+  <tab
+    (selectTab)="selectTab(grupoItemDELITab.eapCliente)"
+    [active]="activeTab === grupoItemDELITab.eapCliente"
+    heading="EAP Cliente"
+    [tabOrder]="1"
+    *ngIf="definicaoEscopoLojaInsumoKitService.cenarioPadrao.existePlanilhaCliente"
+  >
+    <app-de-planilha-cliente
+      *ngIf="activeTab === grupoItemDELITab.eapCliente"
+      [idOrcamentoGrupoItem]="idOrcamentoGrupoItem"
+      [idOrcamento]="definicaoEscopoLojaInsumoKitService.grupo.idOrcamento"
+      (destroyHasUpdates)="refreshQuantitativo()"
+    ></app-de-planilha-cliente>
+  </tab>
+</tabset>

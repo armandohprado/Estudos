@@ -1,0 +1,19 @@
+.grid-container-2 {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 1fr;
+  padding: 10px;
+}
+.column-start-4 {
+  grid-column-start: 4;
+}
+.column-start-6 {
+  grid-column-start: 6;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+}
+.grid-6 {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+}

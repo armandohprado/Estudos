@@ -1,0 +1,77 @@
+<div [awSpinner]="gerenciadorGruposQuery.selectLoading$ | async"></div>
+<ng-container *ngIf="(gerenciadorGruposQuery.cenarios$ | async)?.length * 277 > 1300">
+  <div class="icones">
+    <div class="d-flex flex-column justify-content-between">
+      <button icon="icon-right-arrow" awButton circle (click)="move(true)"></button>
+      <button icon="icon-left-arrow" awButton circle (click)="move(false)"></button>
+    </div>
+  </div>
+</ng-container>
+<div class="m-1 mt-3 bg-white" [style.width.px]="(gerenciadorGruposQuery.cenarios$ | async)?.length * 277">
+  <app-cenarios-cabecalho-gg></app-cenarios-cabecalho-gg>
+  <div class="" *ngFor="let familia of familias$ | async; trackBy: trackByFamilia; let last = last" [class.pb-5]="last">
+    <div class="grid-container linha-familia">
+      <div
+        class="border-familias pl-1 font-familias d-flex align-items-end c-pointer familia-styck"
+        (click)="toggleGrupoes(familia.idOrcamentoFamilia)"
+      >
+        <div class="d-flex h-30">
+          <div
+            [class.icon-caret-down]="familia.isCollapse"
+            [class.icon-caret-up]="!familia.isCollapse"
+            class="px-2 d-flex align-items-center"
+          ></div>
+          <div class="align-items-end">
+            {{ familia.descricaoFamilia | uppercase }}
+          </div>
+        </div>
+      </div>
+      <div class="d-flex border-familias">
+        <div
+          *ngFor="let cenario of familia.orcamentoCenarioFamilias; trackBy: trackByFamiliaCenario; let $even = even"
+          [class.even]="$even"
+          [class.odd]="!$even"
+          class="item-conteudo"
+        >
+          <div class="d-flex justify-content-around border-cenarios w-100 align-items-end pb-1" *ngIf="cenario">
+            <div class="grid-container-icons">
+              <div class="d-flex justify-content-center mr-7">
+                <button
+                  awButton
+                  icon="aw-icon-engrenagem"
+                  size="xs"
+                  [disabled]="cenario.disabled"
+                  [loading]="cenario.loaderAdcGrupo"
+                  tooltip="Incluir Grupos"
+                  (click)="abrirModalAdcGrupos(familia, cenario)"
+                ></button>
+              </div>
+              <div class="d-flex justify-content-center mr-7">
+                <button
+                  awButton
+                  icon="aw-icon-duplicate"
+                  [disabled]="cenario.disabled"
+                  [loading]="cenario.loaderDuplicarGrupo"
+                  tooltip="Duplicar Grupos"
+                  (click)="openModalGerenciarGrupos(familia, cenario)"
+                  size="xs"
+                ></button>
+              </div>
+              <div class="d-flex justify-content-center mr-7">
+                <button
+                  awButton
+                  icon="aw-icon-abrir-budget"
+                  [disabled]="true"
+                  tooltip="Marcar Grupo Opcional"
+                  size="xs"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-familia-corpo-gerenciador-grupos [familia]="familia"></app-familia-corpo-gerenciador-grupos>
+    <div></div>
+  </div>
+</div>

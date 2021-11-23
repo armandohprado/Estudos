@@ -1,0 +1,171 @@
+<div role="rowgroup">
+  <div class="brad-t-l brad-t-r mt-1 overflow-hidden" role="row">
+    <div class="justify-content-start" role="gridcell">{{ changeOrder.identificador }} - {{ changeOrder.nome }}</div>
+    <div class="font-weight-normal justify-content-start" role="gridcell">REV.{{ changeOrder.revisao }}</div>
+    <div class="justify-content-end" role="gridcell">
+      {{ changeOrder.valorImpostoRefaturamento | number: '1.2-2' }}
+    </div>
+    <div class="justify-content-end" role="gridcell">
+      {{ changeOrder.valorLucroPrevisto | number: '1.2-2' }}
+      <small class="ml-1">{{ changeOrder.percentualLucroPrevisto }}%</small>
+    </div>
+    <div class="justify-content-end" role="gridcell">
+      {{ changeOrder.valorTotalACobrar | number: '1.2-2' }}
+    </div>
+
+    <div class="justify-content-end buttons" role="gridcell">
+      <div
+        class="btn-group"
+        container="body"
+        dropdown
+        placement="bottom left"
+        [isDisabled]="changeOrder.idCenarioStatus === cenarioStatusEnum.reprovados"
+      >
+        <button class="btn btn-icon" dropdownToggle type="button">
+          <i class="icon icon-more-options"></i>
+        </button>
+        <ul *dropdownMenu aria-labelledby="button-animated" class="dropdown-menu cenario-dropdown" role="menu">
+          <li role="menuitem" *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.emEdicao">
+            <a class="dropdown-item" [routerLink]="['editar', changeOrder.idOrcamentoChangeOrder]">
+              <i class="icon icon-edit"></i> Editar Change Order
+            </a>
+          </li>
+          <li role="menuitem" *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.emEdicao">
+            <a class="dropdown-item" [routerLink]="[changeOrder.idOrcamentoCenario, 'planilha-vendas-hibrida']">
+              <i class="icon icon-edit"></i> Editar Planilha
+            </a>
+          </li>
+          <li
+            role="menuitem"
+            *ngIf="![cenarioStatusEnum.emEdicao, cenarioStatusEnum.reprovados].includes(changeOrder.idCenarioStatus)"
+          >
+            <a class="dropdown-item" (click)="openReport()">
+              <i class="icon icon-copy"></i> Gerar Planilha Orçamentária
+            </a>
+          </li>
+          <li
+            role="menuitem"
+            *ngIf="
+              [
+                cenarioStatusEnum.emEdicao,
+                cenarioStatusEnum.propostaAprovada,
+                cenarioStatusEnum.analiseCliente
+              ].includes(changeOrder.idCenarioStatus)
+            "
+          >
+            <hr />
+            <span>Mover para:</span>
+            <button
+              class="dropdown-item"
+              (click)="reprovar(changeOrder.idOrcamentoCenario, changeOrder.idOrcamentoChangeOrder)"
+            >
+              <i class="icon icon-archive-solid"></i> Reprovados
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-row brad-b-l brad-b-r" role="row">
+    <hr />
+    <div class="description" role="row">
+      <div class="description">
+        <div class="descricao-rfi">
+          {{ changeOrder.descricaoRfi }}
+        </div>
+        <div class="descricao">
+          {{ changeOrder.descricao }}
+        </div>
+      </div>
+      <div class="actions-buttons justify-content-start" role="gridcell">
+        <div>
+          <button
+            awButton
+            status="ghost"
+            [routerLink]="[changeOrder.idOrcamentoCenario, 'cotacao']"
+            [disabled]="changeOrder.idCenarioStatus === cenarioStatusEnum.congelado"
+          >
+            Controle de Cotação
+          </button>
+          <button
+            awButton
+            status="ghost"
+            [routerLink]="[changeOrder.idOrcamentoCenario, 'planilha-vendas-hibrida']"
+            [disabled]="changeOrder.idCenarioStatus !== cenarioStatusEnum.emEdicao"
+          >
+            Planilha de Venda Híbrida
+          </button>
+          <button
+            awButton
+            status="ghost"
+            [disabled]="changeOrder.idCenarioStatus !== cenarioStatusEnum.congelado"
+            [routerLink]="[changeOrder.idOrcamentoCenario, 'controle-compra']"
+          >
+            Controle de Compras e Negociação
+          </button>
+        </div>
+      </div>
+
+      <div class="justify-content-end buttons-wrapper" role="gridcell">
+        <button
+          awButton
+          class="mr-2"
+          type="button"
+          status="secondary"
+          *ngIf="
+            ![
+              cenarioStatusEnum.emEdicao,
+              cenarioStatusEnum.arquivados,
+              cenarioStatusEnum.congelado,
+              cenarioStatusEnum.reprovados
+            ].includes(changeOrder.idCenarioStatus)
+          "
+          (click)="revisar(changeOrder)"
+          [disabled]="changingStatus"
+        >
+          Revisar
+        </button>
+        <a
+          awButton
+          class="mr-2"
+          type="button"
+          *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.propostaAprovada"
+          [routerLink]="[changeOrder.idOrcamentoCenario, 'planilha-vendas-hibrida']"
+        >
+          Congelar
+        </a>
+
+        <button
+          (click)="modifyChangeOrderStatus(cenarioStatusEnum.emEdicao, changeOrder)"
+          class="ml-auto mr-2"
+          type="button"
+          awButton
+          *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.arquivados"
+          [disabled]="changingStatus"
+        >
+          Mover para "Em edição"
+        </button>
+        <button
+          (click)="modifyChangeOrderStatus(cenarioStatusEnum.analiseCliente, changeOrder)"
+          class="ml-auto mr-2"
+          type="button"
+          awButton
+          *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.emEdicao"
+          [disabled]="changingStatus"
+        >
+          Enviar para Cliente
+        </button>
+
+        <button
+          awButton
+          (click)="openModalAprovarChangeOrder(cenarioStatusEnum.propostaAprovada, changeOrder)"
+          class="mr-2"
+          *ngIf="changeOrder.idCenarioStatus === cenarioStatusEnum.analiseCliente"
+        >
+          Aprovar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

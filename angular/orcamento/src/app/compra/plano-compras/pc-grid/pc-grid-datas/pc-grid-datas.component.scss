@@ -1,0 +1,34 @@
+@import 'variables';
+.grid-overlay {
+  width: 100%;
+  position: relative;
+  box-shadow: $box-shadow-overlay;
+  border-radius: $border-radius;
+  background: #fff;
+  .grid-custom-overlay {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .pc-grid-responsaveis-overlay {
+      padding: 15px;
+      position: relative;
+      > .header {
+        padding-top: 5px;
+        padding-left: 10px;
+        border-bottom: 1px solid var(--light-blue-grey);
+
+        .flagInclurTodos {
+          display: flex;
+          align-items: center;
+          padding-top: 5px;
+          padding-bottom: 5px;
+        }
+      }
+
+      > .lista {
+        font-size: 12px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

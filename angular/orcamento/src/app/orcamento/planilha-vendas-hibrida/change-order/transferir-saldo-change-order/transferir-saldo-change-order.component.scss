@@ -1,0 +1,15 @@
+.totais {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-gap: 0.5rem;
+  > .title {
+    grid-column: 5 / 7;
+    text-align: end;
+    padding: 0 0.5rem;
+    font-weight: bold;
+  }
+  > .value {
+    grid-column: span 2;
+    text-align: end;
+  }
+}

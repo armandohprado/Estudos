@@ -1,0 +1,40 @@
+<ng-container *ngIf="epPropostaItemQuery.fornecedoresSelecionados$ | async as fornecedoresSelecionados">
+  <header>
+    <app-ep-header [idOrcamentoCenario]="idOrcamentoCenario" [idOrcamentoGrupo]="idOrcamentoGrupo"></app-ep-header>
+    <app-ep-header-fornecedores
+      [fornecedores]="fornecedoresSelecionados"
+      [idProjeto]="idProjeto"
+      [idOrcamento]="idOrcamento"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+      [idOrcamentoGrupo]="idOrcamentoGrupo"
+      epTotalWidth
+    ></app-ep-header-fornecedores>
+    <app-ep-header-totais
+      epTotalWidth
+      [fornecedores]="fornecedoresSelecionados"
+      [idOrcamentoGrupo]="idOrcamentoGrupo"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+    ></app-ep-header-totais>
+  </header>
+  <main>
+    <app-ep-proposta-item
+      *ngFor="let propostaItem of epPropostaItemQuery.uniqueItens$ | async; trackBy: trackByEpPropostaItem"
+      [propostaItem]="propostaItem"
+      epTotalWidth
+      [classificacao]="epPropostaItemQuery.classficacao$ | async"
+      [idOrcamentoCenario]="idOrcamentoCenario"
+    ></app-ep-proposta-item>
+    <ng-container *ngIf="epPropostaItemQuery.itensOmisso$ | async as itensOmissos">
+      <app-ep-itens-omissos
+        *ngIf="itensOmissos.length"
+        epTotalWidth
+        [propostaItens]="itensOmissos"
+        [idOrcamentoCenario]="idOrcamentoCenario"
+        [idOrcamentoGrupo]="idOrcamentoGrupo"
+      ></app-ep-itens-omissos>
+    </ng-container>
+  </main>
+  <footer>
+    <app-ep-fornecedores-info [fornecedores]="fornecedoresSelecionados" epTotalWidth></app-ep-fornecedores-info>
+  </footer>
+</ng-container>

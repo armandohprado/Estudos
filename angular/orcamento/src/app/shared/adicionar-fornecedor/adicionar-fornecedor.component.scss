@@ -1,0 +1,20 @@
+@import 'variables';
+
+:host {
+  .content {
+    padding: 15px;
+    ::ng-deep.aw-alert {
+      margin-bottom: 2rem;
+    }
+    > .body {
+      background-color: $light-gray;
+      border-radius: 3px;
+      padding: 15px;
+    }
+    > .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+}

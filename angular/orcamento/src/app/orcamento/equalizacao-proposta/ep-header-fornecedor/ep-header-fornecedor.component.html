@@ -1,0 +1,62 @@
+<ng-container *ngIf="fornecedor">
+  <div class="title" [title]="fornecedor.nomeFantasia">
+    {{ fornecedor.nomeFantasia }}
+  </div>
+  <div class="actions">
+    <div class="icons">
+      <button
+        awButton
+        [icon]="fornecedor.indicadorAWReferencia ? 'aw-icon-seta-direita' : 'aw-icon-seta-esquerda'"
+        [loading]="fornecedor.loadingTransferencia"
+        (click)="transferir()"
+      ></button>
+      <button
+        type="button"
+        awButton
+        icon="send"
+        (click)="openEnvioCotacao()"
+        [disabled]="fornecedor.loadingEnvioCotacao"
+        *ngIf="!fornecedor.indicadorAWReferencia && !fornecedor.indicadorAWEstimado"
+      ></button>
+      <button
+        type="button"
+        awButton
+        [icon]="fornecedor.lc ? 'aw-icon-last-call' : 'aw-icon-last-call-inative'"
+        [disabled]="fornecedor.loadingLastCall"
+        (click)="atualizarLastCall()"
+        *ngIf="!fornecedor.indicadorAWReferencia"
+      ></button>
+    </div>
+    <div class="valor" *ngIf="!fornecedor.indicadorAWReferencia">
+      {{ fornecedor.quantidadeItensOrcado }}/{{ fornecedor.quantidadeItens }}
+    </div>
+  </div>
+  <div *ngIf="!fornecedor.indicadorAWReferencia">
+    <div @collapse *ngIf="!collapsed">
+      <div class="more-info">
+        <div class="item proposta">
+          <div class="label">Proposta</div>
+          <div class="value">{{ fornecedor.idProposta }} V{{ fornecedor.versaoProposta }}</div>
+        </div>
+        <div class="item">
+          <div class="label">Nome do responsável</div>
+          <div class="value">{{ fornecedor.nomeResponsavelProposta || 'N/A' }}</div>
+        </div>
+        <div class="item">
+          <div class="label">Telefone</div>
+          <div class="value">
+            {{ (fornecedor.telefone | formattedTel) || 'N/A' }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">Data da proposta</div>
+          <div class="value">{{ (fornecedor.dataRetornoProposta | date: 'dd/MM/yyyy') || 'N/A' }}</div>
+        </div>
+        <div class="item">
+          <div class="label">Validade da proposta</div>
+          <div class="value">{{ (fornecedor.dataValidadeProposta | date: 'dd/MM/yyyy') || 'N/A' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,26 @@
+<div class="row" *ngIf="projeto$ | async as projeto">
+  <div class="col-8">
+    <strong class="text-success mr-1">
+      {{ projeto.numeroProjeto }}
+    </strong>
+    <span>{{ projeto.nomeProjeto }}</span>
+  </div>
+  <div class="col-2 text-right">
+    <label>Segmentação</label>
+    <div>{{ projeto.categoria }}</div>
+  </div>
+  <div class="col-2 text-right">
+    <label> Valor da meta <span class="small">(R$)</span> </label>
+    <div>
+      {{ grupo.valorMetaGrupo | number: '1.2-2' }}
+    </div>
+  </div>
+</div>
+<div class="row my-2">
+  <div class="col-12">
+    <strong>
+      {{ grupo.codigoGrupo }} - {{ grupo.nomeGrupo }}
+      <ng-container *ngIf="grupo.complementoGrupo"> - {{ grupo.complementoGrupo }} </ng-container>
+    </strong>
+  </div>
+</div>

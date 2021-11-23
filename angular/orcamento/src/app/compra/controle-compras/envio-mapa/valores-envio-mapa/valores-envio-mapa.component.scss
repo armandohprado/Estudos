@@ -1,0 +1,14 @@
+@use 'variables' as v;
+
+.selects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 1rem;
+}
+
+.plano-compra-questoes {
+  background-color: v.$very-light-blue;
+  border-radius: v.$border-radius;
+  padding: 1rem;
+  justify-content: center;
+}

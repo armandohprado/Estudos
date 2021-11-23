@@ -1,0 +1,212 @@
+<div class="col-12 p-0">
+  <div class="row mb-3">
+    <div
+      class="offset-4 col-6"
+      *ngLet="
+        item.exibirCamposFornecedor ||
+        !!formGroupDirective?.form.get('idFornecedorSubServico').value ||
+        !!formGroupDirective?.form.get('idFornecedorSubProduto').value as exibirCampos
+      "
+    >
+      <button
+        awButton
+        status="secondary"
+        block
+        size="sm"
+        class="secondary-light"
+        [loading]="loadingFornecedor"
+        *ngIf="!exibirCampos"
+        (click)="setarSubFornecedores()"
+      >
+        Adicionar Subfornecedor
+      </button>
+      <div *ngIf="exibirCampos">
+        <div class="row">
+          <div
+            class="col-6"
+            [class.omisso]="
+              devolucaoProposta.cabecalhoProposta.enviadoAprovacaoFornecedor ||
+              (devolucaoProposta.cabecalhoProposta.retornoProposta && !supply) ||
+              ((devolucaoProposta.cabecalhoProposta.classificacao | bloqueiaProduto) && !supply)
+            "
+          >
+            <div *ngLet="subFornecedores$ | async as subfornecedorBusca">
+              <aw-select
+                [clearable]="true"
+                [items]="subfornecedorBusca"
+                bindLabel="nomeFantasia"
+                placeholder="Selecione"
+                bindValue="idFornecedorRelacionado"
+                formControlName="idFornecedorSubProduto"
+                [loading]="item.status?.idFornecedorSubProduto === 'loading'"
+              >
+              </aw-select>
+            </div>
+          </div>
+
+          <div
+            class="col-6"
+            [class.omisso]="
+              devolucaoProposta.cabecalhoProposta.enviadoAprovacaoFornecedor ||
+              (devolucaoProposta.cabecalhoProposta.retornoProposta && !supply) ||
+              ((devolucaoProposta.cabecalhoProposta.classificacao | bloqueiaServico) && !supply)
+            "
+          >
+            <div *ngLet="subFornecedores$ | async as subfornecedorBusca">
+              <aw-select
+                [clearable]="true"
+                [items]="subfornecedorBusca"
+                bindLabel="nomeFantasia"
+                placeholder="Selecione"
+                bindValue="idFornecedorRelacionado"
+                formControlName="idFornecedorSubServico"
+                [loading]="item.status?.idFornecedorSubServico === 'loading'"
+              >
+              </aw-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row border border-left-0 border-right-0 p-2 py-4 text-right">
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6 p-0">
+          <label [class.text-hide]="!omisso">Quantidade</label>
+          <div class="form-control bg-light">
+            {{ item?.quantidade | number }}
+          </div>
+        </div>
+        <div class="col-6 d-flex align-items-center mt-3 font-weight-bold" *ngIf="!omisso">
+          {{ item?.unidadeMedida }}
+        </div>
+        <div class="col-6 d-flex-inline align-items-center p-0 pl-1 font-weight-bold" *ngIf="omisso">
+          <label>unidade</label>
+          <ng-container *ngIf="unidades$ | async as uni">
+            <aw-select
+              [clearable]="false"
+              [items]="uni"
+              bindLabel="descricao"
+              bindValue="idUnidadeMedida"
+              placeholder="Selecione"
+              formControlName="idUnidade"
+            >
+            </aw-select>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-6 p-0">
+          <button
+            awButton
+            block
+            size="sm"
+            popover="Esse mesmo item repete-se em outros andares ou divide-se em centros de custos \ fases. Utilize o botão acima para quantificar."
+            triggers="mouseenter:mouseleave"
+            (click)="quantificar()"
+            class="popoverQuantificar"
+            [disabled]="
+              devolucaoProposta.cabecalhoProposta.enviadoAprovacaoFornecedor ||
+              devolucaoProposta.cabecalhoProposta.retornoProposta ||
+              supply
+            "
+            [class.omisso]="!item.idPropostaItem"
+          >
+            Quantificar
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--input + botao-->
+    <div class="col-6 font-weight-normal">
+      <!-- 2 inputs + botao-->
+      <div class="row">
+        <!--2 inputs-->
+        <div class="col-6">
+          <div class="text-right">
+            <label class="font-weight-normal"> Valor Unitário (R$) </label>
+            <div [awSpinner]="item.status?.valorUnitarioProduto === 'loading'">
+              <input awInput formControlName="valorUnitarioProduto" currencyMask />
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <label class="font-weight-normal"> Valor Unitário (R$) </label>
+            <div [awSpinner]="item.status?.valorUnitarioServico === 'loading'">
+              <input awInput formControlName="valorUnitarioServico" currencyMask />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!--botao | 2 inputs desconto-->
+        <div
+          class="col-12 mt-1"
+          *ngLet="
+            item.exibirCamposDesconto ||
+            +formGroupDirective?.form.get('descontoUnitarioProduto').value > 0 ||
+            +formGroupDirective?.form.get('descontoUnitarioServico').value > 0 as exibirCamposDesconto
+          "
+        >
+          <button
+            awButton
+            status="secondary"
+            block
+            size="sm"
+            class="secondary-light"
+            *ngIf="!exibirCamposDesconto"
+            (click)="item.exibirCamposDesconto = true"
+          >
+            Aplicar Desconto
+          </button>
+          <div *ngIf="exibirCamposDesconto">
+            <div class="row pt-2">
+              <div class="col-6 text-right">
+                <div class="">
+                  <label class="font-weight-normal"> Desconto Unitário (%) </label>
+                  <div [awSpinner]="item.status?.descontoUnitarioProduto === 'loading'">
+                    <input awInput formControlName="descontoUnitarioProduto" currencyMask />
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <label class="font-weight-normal"> Valor do Desconto </label>
+                  <br />
+                  <span>{{ item?.valorTotalProdutoDesconto | currency: 'BRL' }}</span>
+                </div>
+              </div>
+              <div class="col-6 text-right">
+                <div class="">
+                  <label class="font-weight-normal"> Desconto Unitário (%) </label>
+                  <div [awSpinner]="item.status?.descontoUnitarioServico === 'loading'">
+                    <input awInput formControlName="descontoUnitarioServico" currencyMask />
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <label class="font-weight-normal"> Valor do Desconto </label>
+                  <br />
+                  <span>{{ item.valorTotalServicoDesconto | currency: 'BRL' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--vazio-->
+  </div>
+  <!--segunda linha-->
+  <div class="row my-3">
+    <div class="offset-4 col-3 text-right pr-4">
+      <span>Total </span> <br /><span class="text-right">{{ item?.valorTotalProduto | currency: 'BRL' }}</span>
+    </div>
+    <div class="col-3 text-right pr-4">
+      <span>Total </span> <br /><span class="text-right">{{ item?.valorTotalServico | currency: 'BRL' }}</span>
+    </div>
+    <div class="col-2 p-1 font-weight-bold text-left">
+      {{ item?.valorTotal | currency: 'BRL' }}
+    </div>
+  </div>
+  <!--terceira linha-->
+</div>

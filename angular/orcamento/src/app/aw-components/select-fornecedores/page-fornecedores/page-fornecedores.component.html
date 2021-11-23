@@ -1,0 +1,22 @@
+<aw-wrapper-page
+  titulo="Adicionar fornecedor"
+  [subTitulo]="'Grupo: ' + codigoGrupo + ' ' + nomeGrupo"
+  (voltar)="voltar.emit($event)"
+>
+  <div class="d-flex justify-content-center p-5 position-relative">
+    <aw-spinner *ngIf="loading" size="md"></aw-spinner>
+    <aw-select-fornecedores
+      [(ngModel)]="value"
+      (selected)="onSelect($event)"
+      (removed)="onRemove($event)"
+      [idOrcamentoGrupo]="idOrcamentoGrupo"
+      [idOrcamento]="idOrcamento"
+      [idGrupo]="idGrupo"
+      [isFornecedorDisabled]="isFornecedorDisabled"
+    ></aw-select-fornecedores>
+  </div>
+  <div footer>
+    <button awButton status="secondary" (click)="voltar.emit($event)">Voltar</button>
+    <button awButton (click)="onConfirmar()">Confirmar</button>
+  </div>
+</aw-wrapper-page>

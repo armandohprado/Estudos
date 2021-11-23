@@ -1,0 +1,88 @@
+<div class="create-change-order-wrapper">
+  <p>
+    Para iniciar uma Change Order, preencha os campos abaixo e adicione grupos.
+  </p>
+
+  <form [formGroup]="form">
+    <div class="form-group nome">
+      <label for="nome">Nome</label>
+      <input
+        id="nome"
+        awInput
+        type="text"
+        placeholder="Inserir nome da Change Order"
+        name="nome"
+        formControlName="nome"
+      />
+    </div>
+
+    <div class="form-group descricao">
+      <label for="descricao">Descrição</label>
+      <textarea
+        id="descricao"
+        awInput
+        rows="5"
+        placeholder="Descreva em poucas palavras"
+        name="descricao"
+        formControlName="descricao"
+      ></textarea>
+    </div>
+
+    <div class="form-group rfi">
+      <label for="rfi">RFI</label>
+      <aw-select
+        id="rfi"
+        [items]="rfiService.all$ | async"
+        [trackBy]="trackByRfi"
+        [clearable]="false"
+        formControlName="idRfi"
+        placeholder="RFI"
+        bindLabel="descricao"
+        bindValue="id"
+      ></aw-select>
+    </div>
+
+    <div class="form-group data-finalizacao">
+      <label for="dataFinalizacao">
+        Data para finalização <br />
+        do serviço / produto
+      </label>
+      <input
+        id="dataFinalizacao"
+        awInput
+        type="text"
+        bsDatepicker
+        [bsConfig]="{ adaptivePosition: true }"
+        placeholder="dd/mm/aaaa"
+        name="dataFinalizacao"
+        formControlName="dataFinalizacao"
+      />
+    </div>
+
+    <div class="form-group prazo-validade">
+      <label for="prazoValidade">
+        Prazos de validade <br />
+        da Change Order
+      </label>
+      <input
+        id="prazoValidade"
+        awInput
+        type="text"
+        placeholder="0"
+        name="prazoValidade"
+        formControlName="prazoValidade"
+      />
+    </div>
+
+    <div class="form-group destacar-impostos">
+      <aw-checkbox formControlName="destacarImpostos">
+        Destacar Impostos na Change Order
+      </aw-checkbox>
+    </div>
+    <div class="form-group omitir-detalhamento-cc">
+      <aw-checkbox formControlName="omitirDetalhamento">
+        Omitir detalhamento da CC aproveitada na Change Order
+      </aw-checkbox>
+    </div>
+  </form>
+</div>

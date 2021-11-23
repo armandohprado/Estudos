@@ -1,0 +1,49 @@
+@import 'variables';
+
+.card {
+  box-shadow: none;
+  border: 0;
+  height: 100%;
+  > .card-header {
+    background-color: var(--steel);
+    color: #ffffff;
+    &.filtros {
+      > .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.3rem 0.8em;
+        margin: 5px;
+        > .icon {
+          font-size: 7px;
+        }
+      }
+    }
+  }
+  > .card-body {
+    background-color: var(--ice-blue);
+    > .pages {
+      display: flex;
+      justify-content: center;
+      &.bottom {
+        margin-top: 1rem;
+      }
+    }
+    > .catalogo-items {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      > aw-alert {
+        grid-column: 1 / -1;
+      }
+      > .catalogo-item {
+        margin: 5px;
+        border-radius: 3px;
+        box-shadow: 0 0 3px 0 rgba(60, 60, 60, 0.15);
+        background-color: #ffffff;
+        border: 1px solid transparent;
+        &.selecionado {
+          border-color: $sea;
+        }
+      }
+    }
+  }
+}

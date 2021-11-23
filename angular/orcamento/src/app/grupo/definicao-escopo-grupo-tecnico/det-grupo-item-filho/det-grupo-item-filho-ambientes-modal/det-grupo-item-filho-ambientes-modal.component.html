@@ -1,0 +1,188 @@
+<ng-container
+  *ngLet="{
+    loading: loading$ | async,
+    grupoItemFilho: grupoItemFilho$ | async,
+    savingPavimento: savingPavimento$ | async
+  } as state"
+>
+  <aw-spinner *ngIf="state.loading || state.grupoItemFilho?.savingAmbientes"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">Ambientes</h5>
+    <button type="button" awButton icon="close" size="sm" (click)="bsModalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="header">
+      <div class="projeto" *ngIf="projeto$ | async as projeto">
+        <h6 class="project-name">
+          <strong class="text-success">
+            {{ projeto.numeroProjeto }}
+          </strong>
+          {{ projeto.nomeProjeto }}
+        </h6>
+      </div>
+      <div class="andar">
+        <div class="title">Pavimento:</div>
+        <div class="value">{{ pavimento.nomePavimento }}</div>
+      </div>
+      <ng-container [formGroup]="formPavimento">
+        <div class="item pavimento-info">
+          <div class="title">Área</div>
+          <div class="value">
+            <input awInput size="sm" formControlName="area" currencyMask [options]="currencyOptions" />
+          </div>
+        </div>
+        <div class="item pavimento-info">
+          <div class="title">Número de pessoas</div>
+          <div class="value">
+            <input awInput size="sm" formControlName="numeroPessoas" currencyMask [options]="currencyOptions" />
+          </div>
+        </div>
+      </ng-container>
+      <div class="item">
+        <div class="title">Item:</div>
+        <div class="value">{{ grupoItemFilho.descricao }}</div>
+      </div>
+    </div>
+    <div class="body">
+      <div class="list">
+        <div class="header">
+          <div class="ambiente">Ambiente</div>
+          <div class="metragem number">Metragem</div>
+          <div class="pe-direito number">Pé Direito</div>
+          <div class="forro">Forro</div>
+          <div class="spk">Necessita SPK</div>
+        </div>
+        <div class="body" *ngLet="ambientes$ | async as ambientes">
+          <ng-container *ngIf="ambientes.length; else noDataFound">
+            <div
+              [awSpinner]="ambiente.saving || ambiente.deleting"
+              class="item"
+              *ngFor="let ambiente of ambientes; trackBy: trackByAmbiente"
+            >
+              <ng-container *ngIf="form[ambiente.idProjetoAmbiente] as formGroup">
+                <ng-container [formGroup]="formGroup" *ngLet="edit[ambiente.idProjetoAmbiente] as editMode">
+                  <div class="check">
+                    <aw-checkbox
+                      *ngIf="!editMode"
+                      [ngModel]="
+                        ambiente.selecionado || ambiente.idProjetoAmbiente === grupoItemFilho.idProjetoAmbiente
+                      "
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="toggleAmbiente(ambiente)"
+                      [disabled]="
+                        ambiente.idProjetoAmbiente === grupoItemFilho.idProjetoAmbiente ||
+                        ambiente.idProjetoAmbiente <= 0
+                      "
+                    ></aw-checkbox>
+                    <ng-container *ngIf="ambiente.idProjetoAmbiente !== grupoItemFilho.idProjetoAmbiente">
+                      <button
+                        awButton
+                        icon="edit"
+                        type="button"
+                        *ngIf="!editMode"
+                        (click)="setEdit(ambiente)"
+                        tooltip="Editar"
+                        delay="400"
+                      ></button>
+                      <button
+                        awButton
+                        icon="check"
+                        *ngIf="editMode"
+                        (click)="save(ambiente)"
+                        [disabled]="
+                          form[ambiente.idProjetoAmbiente].invalid || form[ambiente.idProjetoAmbiente].pristine
+                        "
+                        tooltip="Salvar"
+                        delay="400"
+                      ></button>
+                      <button
+                        awButton
+                        icon="close"
+                        type="button"
+                        *ngIf="editMode"
+                        (click)="setEdit(ambiente, false)"
+                        tooltip="Cancelar edição"
+                        delay="400"
+                      ></button>
+                    </ng-container>
+                  </div>
+                  <div class="ambiente">
+                    <input awInput formControlName="nomeAmbiente" *ngIf="editMode; else notEditAmbiente" />
+                    <ng-template #notEditAmbiente>{{ ambiente.nomeAmbiente }}</ng-template>
+                  </div>
+                  <div class="metragem number">
+                    <input awInput formControlName="metragem" currencyMask *ngIf="editMode; else notEditMetragem" />
+                    <ng-template #notEditMetragem>{{ ambiente.metragem | number: '1.2-2' }}</ng-template>
+                  </div>
+                  <div class="pe-direito number">
+                    <input awInput formControlName="peDireito" currencyMask *ngIf="editMode; else notEditPeDireito" />
+                    <ng-template #notEditPeDireito>{{ ambiente.peDireito | number: '1.2-2' }}</ng-template>
+                  </div>
+                  <div class="forro">
+                    <aw-select
+                      [items]="tipoForroList"
+                      [trackBy]="trackByTipoForro"
+                      [clearable]="false"
+                      [searchable]="false"
+                      bindValue="idTipoForro"
+                      bindLabel="descricao"
+                      formControlName="idTipoForro"
+                      *ngIf="editMode; else notEditIdTipoForro"
+                    ></aw-select>
+                    <ng-template #notEditIdTipoForro>{{ ambiente.forro }}</ng-template>
+                  </div>
+                  <div class="spk">
+                    <aw-select
+                      [items]="spkList"
+                      bindValue="key"
+                      bindLabel="value"
+                      [clearable]="false"
+                      [searchable]="false"
+                      [ngModel]="ambiente.idSpk"
+                      (ngModelChange)="updateSpk(ambiente.idProjetoAmbiente, $event)"
+                      [ngModelOptions]="{ standalone: true }"
+                      [disabled]="editMode || grupoItemFilho.idProjetoAmbiente === ambiente.idProjetoAmbiente"
+                    ></aw-select>
+                  </div>
+                  <div class="excluir">
+                    <button
+                      awButton
+                      icon="trash-alt"
+                      type="button"
+                      (click)="excluir(ambiente)"
+                      tooltip="Excluir ambiente"
+                      delay="400"
+                      [disabled]="
+                        grupoItemFilho.idProjetoAmbiente === ambiente.idProjetoAmbiente ||
+                        ambiente.idProjetoAmbiente <= 0
+                      "
+                    ></button>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-template #noDataFound> <div class="no-data-found">Nenhum ambiente encontrado</div> </ng-template>
+        </div>
+        <div class="add-ambiente">
+          <div class="btn-add" (click)="addAmbiente()">
+            <span class="icon icon-add"></span>
+            Adicionar ambiente
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button status="secondary" width="secondary" type="button" awButton (click)="bsModalRef.hide()">Fechar</button>
+    <button
+      awButton
+      width="primary"
+      type="button"
+      (click)="salvar()"
+      [disabled]="!state.grupoItemFilho?.ambientesSelecionados?.length || state.savingPavimento"
+    >
+      Salvar ambientes
+    </button>
+  </div>
+</ng-container>

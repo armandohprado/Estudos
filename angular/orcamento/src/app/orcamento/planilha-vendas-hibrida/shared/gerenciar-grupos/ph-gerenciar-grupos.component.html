@@ -1,0 +1,176 @@
+<ng-container *ngLet="{ hasAnyGrupoLoading: hasAnyGrupoLoading$ | async, grupoes: grupoes$ | async } as state">
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">Gerenciador de Grupos</h5>
+    <button
+      awButton
+      type="button"
+      icon="close"
+      (click)="close()"
+      [disabled]="loading || loadingDuplicar || state.hasAnyGrupoLoading"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <h5>{{ descricaoFamilia }}</h5>
+    <div class="grupoes">
+      <div class="grupao" *ngFor="let grupao of state.grupoes; trackBy: trackByGrupao">
+        <ng-container *ngLet="grupao.opened as opened">
+          <div class="header" (click)="toggleCollapse(grupao.idGrupao)">
+            <div class="inner-header">
+              <div class="title">
+                <span class="number">{{ grupao.numeroGrupao }}</span>
+                <span class="separator">-</span>
+                <span class="nome">{{ grupao.nomeGrupao }}</span>
+              </div>
+              <div class="icon">
+                <span
+                  class="icon"
+                  [ngClass]="{
+                    'icon-caret-down': !opened,
+                    'icon-caret-up': opened
+                  }"
+                ></span>
+              </div>
+            </div>
+          </div>
+          <div class="body" *ngIf="opened" @collapse>
+            <div class="inner-body">
+              <div class="grupos">
+                <div class="header">
+                  <div class="codigo">Cód.</div>
+                  <div class="grupo">Grupo</div>
+                  <div class="acoes">Ações</div>
+                </div>
+                <div
+                  *ngFor="let grupo of grupao.grupos; trackBy: trackByGrupo"
+                  class="grupo"
+                  [class.last]="grupo.isLast"
+                >
+                  <ng-container *ngIf="!gerenciadorGrupos">
+                    <aw-checkbox
+                      [ngModel]="grupo.enabled"
+                      (ngModelChange)="toggleOrigin(grupao, grupo.idGrupo, $event)"
+                      [disabled]="grupo.loading"
+                      *ngIf="grupo.principal"
+                    ></aw-checkbox>
+                    <aw-radio
+                      [name]="'' + grupo.idGrupo"
+                      [value]="grupo.idGrupo + true"
+                      [ngModel]="grupo.idGrupo + grupo.ativo"
+                      (ngModelChange)="toggleGrupo(grupao.idGrupao, grupo)"
+                      [disabled]="!grupo.enabled || grupo.loading"
+                    ></aw-radio>
+                  </ng-container>
+                  <div class="codigo">{{ grupo.codigoGrupo }}</div>
+                  <div class="grupo">{{ grupo.nomeGrupo }} - {{ grupo.complementoOrcamentoGrupo }}</div>
+                  <div class="acoes">
+                    <button
+                      awButton
+                      type="button"
+                      icon="edit"
+                      (click)="openComplementoGrupo(complemento.elementRef.nativeElement, grupo)"
+                      [disabled]="(!grupo.enabled || grupo.loading) && !gerenciadorGrupos"
+                      #complemento
+                      [attr.idGrupo]="grupo.idGrupo"
+                      [attr.idOrcamentoGrupo]="grupo.idOrcamentoGrupo"
+                    ></button>
+                    <button
+                      awButton
+                      type="button"
+                      icon="information"
+                      [popover]="popoverCenarios"
+                      [outsideClick]="true"
+                      triggers=""
+                      (click)="getCenarios(grupo, popoverRef)"
+                      placement="left"
+                      [loading]="grupo.loadingCenarios"
+                      [disabled]="(!grupo.enabled || grupo.loading) && !gerenciadorGrupos"
+                      #popoverRef="bs-popover"
+                    ></button>
+                    <ng-template #popoverCenarios>
+                      <h6>Este grupo faz parte dos cenários:</h6>
+                      <ul class="list-unstyled">
+                        <li *ngFor="let cenario of grupo.cenarios; trackBy: trackByCenario">
+                          {{ cenario.nome }}
+                        </li>
+                        <li *ngIf="!grupo.cenarios?.length">Nenhum cenário encontrado</li>
+                      </ul>
+                    </ng-template>
+                    <button
+                      awButton
+                      type="button"
+                      icon="aw-icon-duplicate"
+                      (click)="openDuplicar(duplicarBtnRef.elementRef.nativeElement, grupo)"
+                      #duplicarBtnRef
+                      [disabled]="(!grupo.enabled || grupo.loading) && !gerenciadorGrupos"
+                    ></button>
+                  </div>
+                  <div class="copia" *ngIf="!grupo.principal">
+                    <span class="icon aw-icon-icon-tooltip" tooltip="Cópia"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      awButton
+      status="secondary"
+      (click)="close()"
+      type="button"
+      [disabled]="loading || loadingDuplicar || state.hasAnyGrupoLoading"
+    >
+      Cancelar
+    </button>
+    <button
+      awButton
+      (click)="close()"
+      type="button"
+      [disabled]="loading || loadingDuplicar || state.hasAnyGrupoLoading"
+    >
+      Confirmar
+    </button>
+  </div>
+
+  <ng-template #duplicarRef let-grupo>
+    <app-ph-gerenciar-grupos-duplicar
+      [grupo]="grupo"
+      [loading]="loadingDuplicar"
+      (duplicar)="duplicarGrupo($event)"
+      (closeDuplicar)="closeDuplicar()"
+    ></app-ph-gerenciar-grupos-duplicar>
+  </ng-template>
+
+  <ng-template #complementoRef let-grupo>
+    <div
+      class="editar-grupo"
+      *ngLet="complementoControlValue$ | async | default: grupo.complementoOrcamentoGrupo as newComplemento"
+    >
+      <div class="descricao">{{ grupo.nomeGrupo }} - {{ newComplemento }}</div>
+      <div class="complemento">
+        <div>
+          <label for="complemento" class="sr-only">Complemento</label>
+          <input id="complemento" type="text" [formControl]="complementoControl" autocomplete="off" />
+        </div>
+        <div class="d-flex">
+          <button [disabled]="loadingComplemento" awButton type="button" link (click)="closeComplemento()">
+            Cancelar
+          </button>
+          <button
+            [disabled]="loadingComplemento || newComplemento === grupo.complementoOrcamentoGrupo"
+            awButton
+            type="button"
+            link
+            (click)="atualizarComplemento(grupo)"
+          >
+            Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>

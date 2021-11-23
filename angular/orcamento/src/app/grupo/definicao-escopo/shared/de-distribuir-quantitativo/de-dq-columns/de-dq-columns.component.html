@@ -1,0 +1,78 @@
+<div class="column centro-custo">
+  <div class="header">Centro de custo</div>
+  <div class="body">
+    <div class="spacing item">&nbsp;</div>
+    <div class="item" *ngFor="let centroCusto of edificio.centrosDeCusto; trackBy: trackByCentroCusto">
+      {{ centroCusto.descricaoProjetoCentroCusto }}
+    </div>
+  </div>
+</div>
+<div class="column pavimento">
+  <div class="header">Pavimento</div>
+  <div class="body">
+    <div class="column-centro-custo" *ngIf="planilhaCliente ? edificio.site?.permitido : edificio.site">
+      <app-de-dq-column
+        [loading]="loading"
+        [canChangeValue]="canChangeValue"
+        [enableAmbiente]="enableAmbiente"
+        [fase]="fase"
+        [idOrcamentoGrupoItem]="idOrcamentoGrupoItem"
+        [pavimento]="edificio.site"
+        [quantidadeProperty]="quantidadeProperty"
+        [sugestaoQtdeReferencia]="sugestaoQtdeReferencia"
+        [tipoQuantitativo]="tipoQuantitativo"
+        (ambiente)="ambiente.emit($event)"
+        (atualizaCentroCusto)="atualizaCentroCusto.emit($event)"
+      ></app-de-dq-column>
+    </div>
+    <div class="column-centro-custo" *ngIf="planilhaCliente ? edificio.permitido : edificio">
+      <app-de-dq-column
+        [loading]="loading"
+        [canChangeValue]="canChangeValue"
+        [enableAmbiente]="enableAmbiente"
+        [fase]="fase"
+        [idOrcamentoGrupoItem]="idOrcamentoGrupoItem"
+        [pavimento]="edificio"
+        [quantidadeProperty]="quantidadeProperty"
+        [sugestaoQtdeReferencia]="sugestaoQtdeReferencia"
+        [tipoQuantitativo]="tipoQuantitativo"
+        (ambiente)="ambiente.emit($event)"
+        (atualizaCentroCusto)="atualizaCentroCusto.emit($event)"
+      ></app-de-dq-column>
+    </div>
+    <ng-container *ngIf="edificio.andares.length">
+      <div
+        class="column-centro-custo"
+        [class.last]="$last"
+        *ngFor="let andar of edificio.andares; trackBy: trackByAndar; let $last = last"
+      >
+        <app-de-dq-column
+          [loading]="loading"
+          [canChangeValue]="canChangeValue"
+          [enableAmbiente]="enableAmbiente"
+          [fase]="fase"
+          [idOrcamentoGrupoItem]="idOrcamentoGrupoItem"
+          [pavimento]="andar"
+          [quantidadeProperty]="quantidadeProperty"
+          [sugestaoQtdeReferencia]="sugestaoQtdeReferencia"
+          [tipoQuantitativo]="tipoQuantitativo"
+          [last]="$last"
+          (ambiente)="ambiente.emit($event)"
+          (atualizaCentroCusto)="atualizaCentroCusto.emit($event)"
+        ></app-de-dq-column>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="column total">
+  <div class="header">Total</div>
+  <div class="body">
+    <div class="spacing item">&nbsp;</div>
+    <div class="item" *ngFor="let centroCusto of edificio.centrosDeCusto; trackBy: trackByCentroCusto">
+      {{ edificio | deTotalCentroCusto: centroCusto.idProjetoCentroCusto:quantidadeProperty | number }}
+    </div>
+  </div>
+  <div class="bottom">
+    {{ total | number }}
+  </div>
+</div>

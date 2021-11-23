@@ -1,0 +1,43 @@
+@import 'variables';
+
+:host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  .pc-header {
+    color: var(--greyish-brown);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    white-space: pre-line;
+    > .nome {
+      overflow: hidden;
+    }
+    > .icons {
+      display: flex;
+      margin-top: 10px;
+      margin-bottom: 1px;
+      min-height: 20px;
+      .icon {
+        cursor: pointer;
+        color: $bluey-grey;
+        &.active,
+        &:hover {
+          color: darken($bluey-grey, 25%);
+        }
+      }
+      > div {
+        padding: 0 4px;
+      }
+      > .filter {
+        font-size: 15px;
+      }
+      > .sort {
+        font-size: 5px;
+        display: grid;
+      }
+    }
+  }
+}

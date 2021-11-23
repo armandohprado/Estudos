@@ -1,0 +1,12 @@
+::ng-deep {
+  .row {
+    position: relative;
+  }
+  .f-12 {
+    font-size: 12px;
+  }
+  .ng-select.ng-select-single .ng-select-container {
+    min-height: 32px;
+    max-height: 32px;
+  }
+}

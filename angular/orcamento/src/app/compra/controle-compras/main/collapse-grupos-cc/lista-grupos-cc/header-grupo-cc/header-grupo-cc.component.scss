@@ -1,0 +1,53 @@
+@import 'variables';
+
+app-header-grupo-cc {
+  .header-grupo {
+    display: grid;
+    grid-template-columns: 90px repeat(14, minmax(0, 1fr)) 25px;
+    padding: 5px;
+    border: 2px solid transparent;
+    > .grid-item,
+    > app-header-grupo-cc-col {
+      padding: 5px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &.nome {
+        grid-column: span 6;
+      }
+      &.alterar-tipo-faturamento {
+        grid-column: span 5;
+      }
+    }
+  }
+
+  .icons {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    min-height: 20px;
+
+    .icon {
+      cursor: pointer;
+      color: $bluey-grey;
+
+      &.active,
+      &:hover {
+        color: darken($bluey-grey, 25%);
+      }
+    }
+
+    > .sort {
+      font-size: 5px;
+      display: grid;
+    }
+  }
+  .min-h-icons {
+    min-height: 1.92rem;
+  }
+}
+
+.btn-small {
+  line-height: 0.8;
+}

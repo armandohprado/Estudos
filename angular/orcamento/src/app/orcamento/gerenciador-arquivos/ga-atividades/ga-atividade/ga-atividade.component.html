@@ -1,0 +1,27 @@
+<div class="atividade">
+  <div class="header" [class.loading]="atividade.loading" (click)="collapse()">
+    <div class="inner-header">
+      <div class="title">
+        <h6>{{ atividade.nomeAtividade }}</h6>
+      </div>
+      <div class="superar">
+        <span *ngIf="atividade.qtdeSuperar as count" class="badge badge-pill badge-danger">
+          {{ count }}
+        </span>
+      </div>
+      <div class="icon-wrapper">
+        <span
+          class="icon collapse-caret"
+          [ngClass]="{ 'icon-caret-up': atividade.opened, 'icon-caret-down': !atividade.opened }"
+          *ngIf="!atividade.loading"
+        ></span>
+        <aw-spinner [overlay]="false" size="sm" *ngIf="atividade.loading"></aw-spinner>
+      </div>
+    </div>
+  </div>
+  <div class="body" *ngIf="atividade.opened" @collapse>
+    <div class="inner-body">
+      <app-ga-arquivos [atividade]="atividade"></app-ga-arquivos>
+    </div>
+  </div>
+</div>

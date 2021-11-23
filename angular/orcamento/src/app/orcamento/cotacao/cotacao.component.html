@@ -1,0 +1,176 @@
+<aw-spinner *ngIf="loading" fullScreen></aw-spinner>
+<ng-container *ngIf="projeto$ | async as projeto">
+  <ng-container *ngIf="cenarioPadrao$ | async as cenarioPadrao">
+    <div class="sticky">
+      <div class="pre-header">
+        <a awButton status="light" routerLink="curva-abc" queryParamsHandling="preserve">
+          <span class="icon icon-curva-abc"></span> Curva ABC
+        </a>
+        <a awButton status="light" routerLink="gerenciador-arquivos" queryParamsHandling="preserve">
+          <span class="icon icon-files-list"></span> Lista de arquivos
+        </a>
+        <button awButton status="light" (click)="navigateToCenarios($event)">
+          <span class="icon icon-spreadsheet"></span> Planilha de venda
+        </button>
+        <a
+          awButton
+          status="light"
+          [href]="urlPlanilhaCliente$ | async"
+          target="_blank"
+          *ngIf="cenarioPadrao.existePlanilhaCliente"
+        >
+          <span class="icon icon-upload-document"></span> Planilha cliente
+        </a>
+        <a awButton status="light" routerLink="gerenciador-grupos" queryParamsHandling="preserve">
+          <span class="icon icon-more-options"></span>
+          Gerenciador de grupos
+        </a>
+        <app-box-info
+          *ngIf="cenarioPadrao.dataRecebimentoTodosCustos as data"
+          [boxWidth]="300"
+          [valor]="data | date: 'dd/MM/yyyy'"
+          class="ml-auto"
+          label="Data limite da proposta"
+        ></app-box-info>
+      </div>
+      <app-orcamento-header
+        *ngIf="projeto"
+        [nomeOrcamento]="cenarioPadrao.nomeOrcamento"
+        [nomeProjeto]="projeto.nomeProjeto"
+        [numeroProjeto]="projeto.numeroProjeto"
+      ></app-orcamento-header>
+
+      <div class="filtros">
+        <div class="filtros-selects">
+          <div class="form-group">
+            <label for="select-cenario-propostas">Cenários</label>
+            <aw-select
+              [clearable]="false"
+              [items]="cenariosRelacionados"
+              placeholder="Selecione o cenário"
+              bindLabel="nomeOrcamentoCenario"
+              bindValue="idOrcamentoCenario"
+              [showTooltip]="true"
+              [ngModel]="idOrcamentoCenario$ | async"
+              (ngModelChange)="selectCenario($event)"
+              id="select-cenario-propostas"
+            >
+            </aw-select>
+          </div>
+          <div class="form-group">
+            <label for="filtro">Filtro</label>
+            <aw-select
+              id="filtro"
+              multiple
+              [items]="gruposCombo"
+              [minWidthPane]="350"
+              [showTooltip]="true"
+              [closeOnSelect]="false"
+              [(ngModel)]="idOrcamentoGruposFiltro"
+              footer
+              [footerOptions]="gruposComboFooterOptions"
+              bindValue="idOrcamentoGrupo"
+              bindLabel="label"
+              placeholder="Filtrar grupos"
+              #select
+              (primaryBtn)="select._close(); onFiltroGrupos()"
+              (secondaryBtn)="select._close(); onFiltroGrupoClear()"
+            ></aw-select>
+          </div>
+          <div class="form-group">
+            <label for="intervalo">Intervalo</label>
+            <aw-select
+              [clearable]="false"
+              [searchable]="false"
+              [items]="paginacaoMetadataRange"
+              [(ngModel)]="paginaAtual"
+              (ngModelChange)="getFamiliasPaginacao($event, totalPorPagina)"
+              [disabled]="!!idOrcamentoGruposFiltroAplicado.length"
+              bindLabel="descricao"
+              bindValue="pagina"
+              placeholder="Intervalo"
+              id="intervalo"
+            ></aw-select>
+          </div>
+          <div class="form-group">
+            <label for="quantidade-grupos">Qtde grupos</label>
+            <aw-select
+              [clearable]="false"
+              [searchable]="false"
+              [items]="totalPorPaginaOptions"
+              [disabled]="!!idOrcamentoGruposFiltroAplicado.length"
+              [(ngModel)]="totalPorPagina"
+              (ngModelChange)="totalPorPaginaChange($event)"
+              placeholder="Quantidade grupos"
+              id="quantidade-grupos"
+            ></aw-select>
+          </div>
+        </div>
+        <div class="filtros-valor-total-selecionado">
+          <app-box-info
+            [boxWidth]="300"
+            [valor]="totalSelecionado$ | async | number: '1.2-2'"
+            class="ml-auto"
+            label="Total selecionado"
+          ></app-box-info>
+        </div>
+      </div>
+    </div>
+
+    <aw-collapse
+      bg="quaternary"
+      colorFont="white"
+      bgBody="white"
+      sizeTitle="md"
+      [awCollapse]="collapses[cotacaoCollapseEnum.familia + familia.idOrcamentoFamilia]"
+      (expanded)="toggleCollapse(cotacaoCollapseEnum.familia, familia.idOrcamentoFamilia)"
+      *ngFor="let familia of familias$ | async; trackBy: trackByFamilia"
+    >
+      <div collapseHeader class="d-flex justify-content-between w-100">
+        <div class="title">
+          {{ familia.descricaoFamilia }}
+        </div>
+        <div class="familia-total-selecionado">Total família: {{ familia.totalSelecionado | number: '1.2-2' }}</div>
+      </div>
+      <div class="card-body">
+        <div class="collapse-all">
+          <button
+            type="button"
+            awButton
+            icon="caret-up"
+            [iconSize]="7"
+            tooltip="Fechar todos"
+            [delay]="300"
+            (click)="onCollapseAll(familia.grupos)"
+          ></button>
+          <button
+            type="button"
+            awButton
+            icon="caret-down"
+            [iconSize]="7"
+            tooltip="Abrir todos"
+            [delay]="300"
+            (click)="onExpandAll(familia.grupos)"
+          ></button>
+        </div>
+        <app-grupo-proposta
+          *ngFor="let grupo of familia.grupos; trackBy: trackByGrupo"
+          [expanded]="!collapses[cotacaoCollapseEnum.grupo + grupo.idOrcamentoGrupo]"
+          (expandedChange)="toggleCollapse(cotacaoCollapseEnum.grupo, grupo.idOrcamentoGrupo)"
+          [grupo]="grupo"
+          [idProjeto]="projeto.idProjeto"
+          [adicionarFornecedor]="true"
+          [routerLinkQueryParams]="{ idOrcamentoGrupo: grupo.idOrcamentoGrupo }"
+          [adicionarFornecedorRouterLink]="['adicionar-fornecedor', grupo.idOrcamentoGrupo]"
+          [equalizacaoRouterLink]="['equalizacao-proposta', grupo.idOrcamentoGrupo]"
+          [devolucaoPropostaRouterLink]="['proposta']"
+          [idOrcamentoCenario]="idOrcamentoCenario$ | async"
+          [idOrcamento]="grupo.idOrcamento"
+          (propostaChange)="onPropostaChange($event)"
+          (grupoChange)="onGrupoChange($event)"
+          (grupoExcluir)="onGrupoExcluir($event)"
+        ></app-grupo-proposta>
+      </div>
+    </aw-collapse>
+  </ng-container>
+</ng-container>

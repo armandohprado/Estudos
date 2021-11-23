@@ -1,0 +1,62 @@
+@import 'variables';
+
+legend {
+  font-size: 14px;
+  max-width: 600px;
+}
+
+.row {
+  label {
+    color: #7b8594;
+  }
+
+  input {
+    color: #3c3c3c;
+  }
+
+  .custom-control {
+    padding-left: 1rem;
+  }
+}
+
+.input-upload {
+  background-color: #e7ecef;
+  margin: 0 auto;
+  width: 80%;
+
+  .btn {
+    margin: 13px;
+    width: 145px;
+  }
+
+  .drop-files {
+    width: inherit;
+  }
+}
+
+.btn-proximo {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.background {
+  background-color: $light-gray;
+
+  .form-control {
+    background-color: $light-gray;
+    margin-left: 25px;
+  }
+}
+
+.padding-left {
+  padding-left: 80px;
+}
+
+.btn {
+  margin-top: 30px;
+  padding: 7px 70px;
+}

@@ -1,0 +1,44 @@
+@import 'variables';
+
+.input-radio {
+  background-color: #f2f5f7;
+  padding: 15px 100px 15px 80px;
+
+  input {
+    background-color: #f2f5f7;
+    height: auto;
+  }
+}
+
+.premissa-horarios {
+  position: absolute;
+}
+
+.content-horario {
+  width: 100%;
+
+  legend {
+    margin-left: 80px;
+  }
+
+  .custom-checkbox {
+    margin-left: 80px;
+  }
+
+  .input-radio {
+    position: relative;
+  }
+}
+
+textarea {
+  background-color: #f2f5f7;
+}
+
+.btn {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.btn-secondary {
+  margin-right: 30px;
+}

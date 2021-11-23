@@ -1,0 +1,102 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+}
+
+.bg-collapse-group {
+  background-color: v.$very-light-blue;
+  border: 2px solid transparent;
+  transition: border 200ms ease;
+  &.grupo-nao-previsto {
+    border-color: v.$primary;
+  }
+  &.highlight {
+    border-color: v.$green-alt;
+  }
+}
+
+.grupo {
+  display: grid;
+  grid-template-columns: 90px repeat(14, minmax(0, 1fr)) 25px;
+  padding: 5px;
+  > .grid-item {
+    padding: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.nome {
+      grid-column: span 6;
+    }
+    &.alterar-tipo-faturamento {
+      grid-column: span 3;
+    }
+    &.grupo-nao-previsto {
+      color: v.$primary;
+      grid-column: span 2;
+    }
+  }
+}
+
+.icon-direction-arrow {
+  transform: rotate(90deg);
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+.icons {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 1px;
+  min-height: 20px;
+
+  .icon {
+    cursor: pointer;
+    color: v.$bluey-grey;
+
+    &.active,
+    &:hover {
+      color: darken(v.$bluey-grey, 25%);
+    }
+  }
+
+  > .sort {
+    font-size: 5px;
+    display: grid;
+  }
+}
+
+.caret {
+  color: #048dbc;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 6px;
+}
+
+.complemento-grupo-overlay {
+  background-color: white;
+  padding: 15px;
+  box-shadow: v.$box-shadow-overlay;
+  border-radius: v.$border-radius;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  > .descricao {
+    margin-right: 1rem;
+  }
+  > .complemento {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      border: 0;
+      border-bottom: 1px solid black;
+      outline: 0;
+      &:focus {
+        border-width: 2px;
+      }
+    }
+  }
+}

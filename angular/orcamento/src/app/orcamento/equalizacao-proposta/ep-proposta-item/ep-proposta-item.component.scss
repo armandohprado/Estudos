@@ -1,0 +1,32 @@
+@use '../equalizacao-proposta' as ep;
+@use 'variables' as v;
+
+:host {
+  display: flex;
+}
+
+@include ep.ep-first-column();
+
+.label.quantidade {
+  cursor: pointer;
+  &.loading {
+    cursor: default;
+  }
+}
+
+.quantitativos {
+  .nivel-0 {
+    font-weight: bold;
+  }
+  .nivel-1 {
+    padding-left: 1rem;
+    font-weight: 500;
+  }
+  .nivel-2 {
+    padding-left: 2rem;
+  }
+  > .label {
+    background-color: #eff1f3;
+    border-bottom: 1px solid v.$gray-secondary;
+  }
+}

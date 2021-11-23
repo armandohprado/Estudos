@@ -1,0 +1,178 @@
+<form [formGroup]="form" class="form-group px-5">
+  <h4 class="font-weight-bold">Dados da empresa</h4>
+
+  <h5 class="font-weight-bold">Empresas de Faturamento</h5>
+  <p class="padding-left mt-2 mb-4">
+    * A empresa de faturamento deve pertencer ao mesmo estado em que a obra irá acontecer
+  </p>
+
+  <div formArrayName="empresasGroup" class="empresa-wrapper">
+    <ng-container *ngFor="let empresa of empresas.controls; let i = index">
+      <div [formGroupName]="i">
+        <div class="control-switch d-flex mb-4">
+          <i class="icon icon-close" (click)="deleteEmpresa(i)"></i>
+          <aw-toggle [id]="'quantitativo' + i" formControlName="active" vertical="true">
+            <label after>Premissa</label>
+          </aw-toggle>
+          <div class="col-10">
+            <h6 class="font-weight-bold mb-4">Empresa {{ i + 1 }}</h6>
+
+            <div class="file-upload mt-2 mb-2">
+              <label class="inputCnpjFile" [for]="'input-upload-cnpj-' + i">
+                <span class="btn btn-sm btn-primary mr-auto text-white">anexar cartão CNPJ</span>
+                <span class="ml-auto" *ngIf="!files[i].fileName && !isLoading.status">anexar arquivo</span>
+                <span *ngIf="fileUploadError" class="ml-auto error">houve um erro ao realizar o upload</span>
+                <span *ngIf="files[i].fileName && !isLoading.status && !fileUploadError" class="files-length pl-2">
+                  {{ files[i].fileName || '' | ellipsis: 30 }}{{ files[i].fileExtension }}</span
+                >
+                <i *ngIf="isLoading.status && isLoading.btnId === 'uploadCNPJ'" class="icon icon-spin"></i>
+              </label>
+              <input
+                (change)="onUploadFile($any($event.target).files[0], 'uploadCNPJ', i + 1)"
+                [id]="'input-upload-cnpj-' + i"
+                name="image"
+                type="file"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_RAZAO + '-' + i" class="font-size"
+                >Razão Social</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_RAZAO + '-' + i"
+                placeholder="ex: Empresa Ltda"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_RAZAO"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO + '-' + i" class="font-size">Endereço</label>
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO + '-' + i"
+                placeholder="ex: Av. Engenheiro Luis Carlos Berrini, 00"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_COMPLEMENTO + '-' + i" class="font-size"
+                >Complemento</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_COMPLEMENTO + '-' + i"
+                placeholder="ex: 13º andar"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_COMPLEMENTO"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_BAIRRO + '-' + i" class="font-size"
+                >Bairro</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_BAIRRO + '-' + i"
+                placeholder="ex: Itaim Bibi"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_BAIRRO"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_CNPJ + '-' + i" class="font-size">CNPJ</label>
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_CNPJ + '-' + i"
+                placeholder="ex: 00.000.000/0000-00"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_CNPJ"
+              />
+            </div>
+
+            <div class="custom-control">
+              <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_INSCRICAO + '-' + i" class="font-size"
+                >Inscrição Estadual</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_INSCRICAO + '-' + i"
+                placeholder="ex: isento"
+                [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_ESTADO"
+              />
+            </div>
+
+            <div class="row m-0">
+              <div class="custom-control col-md-5">
+                <label [for]="this.questionarioEnum.QUESTIONARIO_EMPRESA_ESTADO + '-' + i" class="font-size"
+                  >Estado</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  [id]="this.questionarioEnum.QUESTIONARIO_EMPRESA_ESTADO + '-' + i"
+                  placeholder="ex: SP"
+                  [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_ESTADO"
+                />
+              </div>
+
+              <div class="custom-control col-md-7 pr-0">
+                <label for="data" class="font-size">Cidade</label>
+                <input type="text" class="form-control" id="data" placeholder="ex: São Paulo" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <button class="btn btn-empresa d-flex mt-4" (click)="addEmpresa()">
+      <span class="circle-icon-plus">
+        <i class="icon icon-plus"></i>
+      </span>
+      Adicionar Empresa
+    </button>
+  </div>
+
+  <h5>Endereço de Entrega</h5>
+
+  <div class="control-switch d-flex my-4">
+    <aw-toggle
+      [vertical]="true"
+      id="quantitativoEntrega"
+      #quantitativoEntrega
+      [checked]="form.get(questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO_ENTREGA).value"
+    >
+      <label after>Premissa</label>
+    </aw-toggle>
+
+    <fieldset [class.disabled]="!quantitativoEntrega.checked">
+      <legend class="custom-control font-weight-bold my-4">Informe o endereço de entrega</legend>
+
+      <div *ngIf="empresas.controls.length > 0">
+        <ng-container *ngFor="let empresa of empresas.controls; let i = index">
+          <aw-radio
+            *ngIf="empresa.get(questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO).value"
+            [formControlName]="questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO_ENTREGA"
+            [value]="i"
+          >
+            {{ empresa.get(questionarioEnum.QUESTIONARIO_EMPRESA_ENDERECO).value | ellipsis: 90 }}
+          </aw-radio>
+        </ng-container>
+      </div>
+    </fieldset>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end btn-bottom">
+  <button class="btn btn-secondary gradient-btn" type="button" (click)="backTabQuestionario()">voltar</button>
+
+  <button class="btn btn-primary gradient-btn" type="button" (click)="sendForm()">próximo</button>
+</div>

@@ -1,0 +1,96 @@
+@import 'variables';
+:host ::ng-deep {
+  .custom-switch {
+    width: 80px;
+    padding: 0;
+
+    label {
+      padding: 0;
+      font-size: 12px;
+      margin-left: 38px;
+    }
+
+    span {
+      font-size: 11px;
+      color: #7b8594;
+      display: block;
+      margin-top: 4px;
+    }
+
+    &::before {
+      width: 50px;
+      background-color: #9ea1ae;
+      border-radius: 2.5rem;
+      height: 25px;
+      left: -2.35rem;
+      top: -1.5px;
+      box-shadow: none;
+      border-color: transparent;
+    }
+
+    &::after {
+      height: 19px;
+      width: 19px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: calc(0.15625rem + -1px);
+    }
+  }
+
+  .form-group {
+    margin-bottom: 50px;
+
+    h4 {
+      font-size: 20px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid rgba(192, 192, 192, 0.5);
+      margin-bottom: 10px;
+    }
+
+    h5 {
+      margin-top: 50px;
+      margin-left: 80px;
+    }
+  }
+
+  .padding-left {
+    padding-left: 80px;
+  }
+
+  button {
+    justify-content: center;
+    align-items: center;
+
+    .circle-icon-plus {
+      background-color: white;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      display: inline-block;
+      margin-right: 10px;
+
+      i {
+        font-size: 20px;
+        line-height: 2;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .disabled {
+    cursor: default;
+    * {
+      pointer-events: none;
+      color: $grey-light;
+      user-select: none;
+      label {
+        color: $grey-light;
+        &::before {
+          background-color: $light-gray;
+          border-color: $light-gray;
+        }
+      }
+    }
+  }
+}

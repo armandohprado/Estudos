@@ -1,0 +1,26 @@
+@use 'variables' as v;
+
+.search {
+  margin-bottom: 1rem;
+}
+
+.grupo {
+  display: grid;
+  grid-template-columns: minmax(0, 16px) minmax(0, 100px) minmax(0, 1fr);
+  padding: 1rem 1.25rem;
+  background-color: v.$very-light-blue;
+  border-radius: v.$border-radius;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  grid-gap: 1rem;
+  border: 2px solid transparent;
+  transition: border-color 200ms ease;
+  cursor: pointer;
+  &.ativo {
+    border-color: v.$bluey-grey;
+  }
+}
+
+.nome {
+  font-weight: bold;
+}

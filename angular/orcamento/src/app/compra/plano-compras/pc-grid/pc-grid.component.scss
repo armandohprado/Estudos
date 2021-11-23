@@ -1,0 +1,158 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .ag-aw {
+    // ------- tela - header-app - voltar - header - numbers - grupos - spacing
+    height: calc(100vh - 60px - 60px - 10px - 250px - 52px - 5px);
+    &.minified {
+      transition: height ease 200ms;
+      // -----tela - header-app - voltar - header - numbers - spacing
+      height: calc(100vh - 60px - 76px - 55px - 32px - 10px);
+    }
+    ::-webkit-scrollbar {
+      height: 4px;
+    }
+    .ag-root-wrapper {
+      border: 0;
+    }
+    .ag-root {
+      border: 0;
+      > .ag-header {
+        border-bottom: 2px solid #000;
+        > .ag-pinned-left-header {
+          > .ag-header-row:last-child {
+            border-bottom: 1px solid #000;
+            > .ag-header-cell.last {
+              border-right: 1px solid var(--very-light-blue);
+            }
+          }
+        }
+        .ag-header-cell {
+          background-color: #fff;
+          border-top: 0;
+        }
+        .ag-header-group-cell {
+          background-color: var(--very-light-blue);
+          &.dnn {
+            border-right: 2px solid var(--very-light-blue);
+          }
+          &.dnn,
+          &.desenvolvimento {
+            background-color: var(--light-blue-grey);
+
+            > .ag-header-group-cell-label {
+              justify-content: center;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+    .ag-menu {
+      border-radius: $border-radius;
+      overflow-y: visible;
+    }
+    .ag-row {
+      &.ag-row-odd {
+        background-color: white;
+      }
+      &.ag-row-even {
+        background-color: #f2f5f7;
+      }
+      .ag-cell {
+        &.ag-cell-inline-editing {
+          border: 0;
+          padding: 0 11px;
+          height: 100%;
+        }
+        &.font-light {
+          color: $brownish-grey;
+        }
+        &.font-dark {
+          color: $greyish-brown;
+        }
+        &.limite-compra {
+          background-color: var(--light-blue-grey);
+        }
+        &.nome-grupo {
+          > .ag-cell-wrapper {
+            > .ag-cell-value {
+              white-space: normal;
+            }
+          }
+        }
+        .ag-cell-wrapper {
+          > .ag-cell-value {
+            height: 100%;
+            width: 100%;
+            display: block;
+            padding-top: 0.7rem;
+            padding-bottom: 0.7rem;
+            font-size: 11px;
+            line-height: normal;
+            .pc-grid-fornecedores-custom {
+              display: grid;
+              grid-template-columns: repeat(3, 115px);
+              color: $brownish-grey;
+              > .item {
+                display: grid;
+                grid-template-columns: 15px 100px;
+                > .indicator {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  > .icon {
+                    &.nothing {
+                      border-radius: 50%;
+                      height: 4px;
+                      width: 4px;
+                      background-color: $brownish-grey;
+                      display: inline-block;
+                    }
+                    > .path2::before {
+                      margin-left: -1.5em;
+                    }
+                  }
+                }
+                > .nome {
+                  width: 100px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+              }
+            }
+
+            .pc-grid-cell-custom {
+              .value {
+                &.font-light {
+                  color: $brownish-grey;
+                }
+                &.font-dark {
+                  color: $greyish-brown;
+                }
+                &.white-space {
+                  white-space: pre-wrap;
+                }
+              }
+              .other-info {
+                .value {
+                  font-size: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.ag-theme-balham .ag-ltr .ag-header-cell::after,
+    &.ag-theme-balham .ag-ltr .ag-header-group-cell::after {
+      display: none;
+    }
+    .ag-center-cols-viewport {
+      &.grab {
+        cursor: grabbing;
+      }
+    }
+  }
+}

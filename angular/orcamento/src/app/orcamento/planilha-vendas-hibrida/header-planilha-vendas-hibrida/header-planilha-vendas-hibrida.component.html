@@ -1,0 +1,145 @@
+<div class="title">
+  <h5>Planilha de Vendas Híbrida - {{ cenario.nomeOrcamentoCenario }}</h5>
+</div>
+<div class="header" [class.sticky]="planilhaVendasHibridaService.sticky" *ngIf="header$ | async as header">
+  <div class="row">
+    <div class="total-custo" title="Total Custo Direto de Obra (R$)">
+      <div class="title">Total Custo Direto de Obra (R$)</div>
+      <div class="value has-percent">
+        {{ header.totalCustoDiretoObraSemDesconto | default: 0 | number: '1.2-2' }}
+        <span class="percent">
+          {{ header.percentualCustoDiretoObraSemDesconto | default: 0 | number: '1.2-2' }}
+          %
+        </span>
+      </div>
+    </div>
+    <div class="total-desconto" title="Total de Descontos (R$)">
+      <div class="title">Total de Descontos (R$)</div>
+      <div class="value has-percent">
+        {{ header.totalDescontos | default: 0 | number: '1.2-2' }}
+        <span class="percent">
+          {{ header.percentualTotalDescontos | default: 0 | number: '1.2-2' }}
+          %
+        </span>
+      </div>
+    </div>
+    <div class="total-custo-total-disconto" title="Total Custo Direto da Obra - Total de Descontos (R$)">
+      <div class="title">Total Custo Direto da Obra - Total de Descontos (R$)</div>
+      <div class="value has-percent">
+        {{ header.totalCustoComDesconto | default: 0 | number: '1.2-2' }}
+        <span class="percent">
+          {{ header.percentualTotalCustoComDesconto | default: 0 | number: '1.2-2' }}
+          %
+        </span>
+      </div>
+    </div>
+    <div class="margem-contribuicao" title="Margem de Contribuição">
+      <div class="title">Margem de Contribuição</div>
+      <div class="value has-percent">
+        {{ header.valorMargemContribuicao | default: 0 | number: '1.2-2' }}
+        <span class="percent">
+          {{ header.percentualMargemContribuicao | default: 0 | number: '1.2-2' }}
+          %
+        </span>
+      </div>
+    </div>
+    <div class="valor-venda" title="Valor de Venda">
+      <div class="title">Valor de Venda</div>
+      <div class="value">
+        {{ header.valorVenda | default: 0 | number: '1.2-2' }}
+      </div>
+    </div>
+    <div class="imposto-refaturamento" title="Imposto de Refaturamento">
+      <div class="title">Imposto de Refaturamento</div>
+      <div class="value has-percent">
+        {{ header.valorImpostoRefaturamento | default: 0 | number: '1.2-2' }}
+        <span class="percent">
+          {{ header.percentualImpostoRefaturamento | default: 0 | number: '1.2-2' }}
+          %
+        </span>
+      </div>
+    </div>
+    <div class="valor-total" title="Valor Total com Impostos">
+      <div class="title">Valor Total com Impostos</div>
+      <div class="value">
+        {{ header.valorTotalComImposto | default: 0 | number: '1.2-2' }}
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row-2">
+    <div class="total-custo">
+      <div class="title">Custo Direto</div>
+      <div class="value">
+        {{ header.valorCustoDireto | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">{{ header.percentualCustoDireto | default: 0 | number: '1.2-2' }} %</div>
+      <div class="title">Equipe</div>
+      <div class="value">
+        {{ header.valorEquipe | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">{{ header.percentualEquipe | default: 0 | number: '1.2-2' }} %</div>
+      <div class="title">Projetos</div>
+      <div class="value">
+        {{ header.valorProjeto | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">{{ header.percentualProjeto | default: 0 | number: '1.2-2' }} %</div>
+    </div>
+    <div class="base-orcamento">
+      <div class="title span">Base de Orçamento</div>
+      <div class="title">Fornecedor</div>
+      <div class="value">
+        {{ header.baseOrcamentoFornecedor | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">
+        {{ header.percentualBaseOrcamentoFornecedor | default: 0 | number: '1.2-2' }}
+        %
+      </div>
+      <div class="title">AW Estimado</div>
+      <div class="value">
+        {{ header.baseOrcamentoReferenciaAW | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">
+        {{ header.percentualBaseOrcamentoReferenciaAW | default: 0 | number: '1.2-2' }}
+        %
+      </div>
+    </div>
+    <div class="margem-contribuicao">
+      <div class="title">Margem Embutida</div>
+      <div class="value">
+        {{ header.valorMargemEmbutida | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">
+        {{ header.percentualMargemEmbutida | default: 0 | number: '1.2-2' }}
+        %
+      </div>
+      <div class="title">Taxa Administrativa</div>
+      <div class="value">
+        {{ header.valorTaxaAdmistrativa | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">
+        {{ header.percentualTaxaAdministrativa | default: 0 | number: '1.2-2' }}
+        %
+      </div>
+      <div class="title">Oportunidade</div>
+      <div class="value">
+        {{ header.valorOportunidade | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="percent">{{ header.percentualOportunidade | default: 0 | number: '1.2-2' }} %</div>
+    </div>
+    <div class="refaturamento">
+      <div class="title">Refaturamento de</div>
+      <div class="value">{{ header.percentualRefaturamento | default: 0 | number: '1.2-2' }} % do valor de venda</div>
+    </div>
+    <div class="desconto-comercial" *ngIf="!isChangeOrder">
+      <div class="title">Desconto comercial (R$)</div>
+      <div class="value">
+        {{ header.valorDescontoComercial | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="value">
+        {{ header.percentualDescontoComercial | default: 0 | number: '1.2-2' }}
+        %
+      </div>
+    </div>
+  </div>
+</div>

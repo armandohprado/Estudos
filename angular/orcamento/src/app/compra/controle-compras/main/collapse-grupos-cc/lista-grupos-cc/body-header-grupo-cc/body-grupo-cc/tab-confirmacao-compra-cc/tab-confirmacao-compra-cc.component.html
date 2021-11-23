@@ -1,0 +1,205 @@
+<div class="confirmacao-compra" [formGroup]="form" *ngIf="loadingState$ | async as loadingState">
+  <aw-toggle
+    [checked]="
+      grupo.tipo === cnTipoGrupoEnum.Direto
+        ? grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Miscellaneous
+        : grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Revenda
+    "
+    (checkedChange)="onConfirmacaoCompraModoChange()"
+  >
+    <label before>Fornecedor</label>
+    <label after>{{ grupo.tipo === cnTipoGrupoEnum.Direto ? 'Miscellaneous' : 'Revenda' }}</label>
+  </aw-toggle>
+
+  <ng-container
+    *ngIf="grupo.permitidoEmitirCcSemMapa && grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Fornecedor"
+  >
+    <div class="block estouro-budget-fichas" *ngIf="grupo.permitidoEmitirCcSemMapa">
+      <h6 class="title">Fichas abertas</h6>
+      <div class="content" [awSpinner]="loadingState.loadingFichas">
+        <app-cn-estouro-budget-fichas [fichas]="grupo.fichas || []"></app-cn-estouro-budget-fichas>
+      </div>
+    </div>
+    <div class="block estouro-budget" *ngIf="grupo.necessidadeAberturaFichaEstouro">
+      <h6 class="title">Estouro budget</h6>
+      <div class="content">
+        <app-cn-estouro-budget [grupo]="grupo" [idOrcamento]="grupo.idOrcamento" [idProjeto]="idProjeto">
+        </app-cn-estouro-budget>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngLet="grupo | cnExibeFormConfirmacaoCompra as exibeFormConfirmacaoCompra">
+    <ng-container *ngIf="exibeFormConfirmacaoCompra">
+      <div class="block dados-grupo">
+        <h6 class="title">Dados do grupo</h6>
+        <div class="content" [awSpinner]="loadingState.loadingDadosGrupo">
+          <div class="info">
+            <div class="label">Projeto</div>
+            <div class="value" *ngIf="projeto$ | async as projeto">
+              {{ projeto.numeroProjeto }} - {{ projeto.nomeProjeto }}
+            </div>
+            <div class="label">Grupo</div>
+            <div class="value font-weight-bold">
+              {{ grupo.codigo + ' ' + grupo.nome }}
+            </div>
+            <div class="label">Faturamento</div>
+            <div class="value">{{ grupo.tipo }}</div>
+          </div>
+          <hr />
+          <div class="form" formGroupName="dadosGrupo">
+            <div
+              class="form-group classificacao"
+              *ngLet="grupo.idCompraNegociacaoGrupo + '-classificacao' as classificacaoId"
+            >
+              <label [for]="classificacaoId"> Classificação </label>
+              <aw-select
+                *ngIf="grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Revenda; else classficacaoNotRevenda"
+                [id]="classificacaoId"
+                [clearable]="false"
+                placeholder="Selecione"
+                [items]="grupo.classificacoesRevenda"
+                bindLabel="nomeConfirmacaoCompraClassificacao"
+                [itemDisabled]="itemDisabled"
+                [loading]="loadingState.loadingClassificacoes"
+                formControlName="classificacaoRevenda"
+              ></aw-select>
+              <ng-template #classficacaoNotRevenda>
+                <aw-select
+                  [id]="classificacaoId"
+                  [clearable]="false"
+                  placeholder="Selecione"
+                  [items]="grupo.classificacoes"
+                  bindLabel="nomeConfirmacaoCompraClassificacao"
+                  [itemDisabled]="itemDisabled"
+                  [loading]="loadingState.loadingClassificacoes"
+                  formControlName="classificacao"
+                ></aw-select>
+              </ng-template>
+            </div>
+            <div class="form-group prazo-entrega">
+              <label for="{{ grupo.idCompraNegociacaoGrupo }}-prazo-entrega">Prazo de <br />Entrega na obra</label>
+              <input
+                id="{{ grupo.idCompraNegociacaoGrupo }}-prazo-entrega"
+                awInput
+                currencyMask
+                [options]="currencyOptions"
+                formControlName="prazoEntregaObra"
+                placeholder="0"
+              />
+            </div>
+            <div class="form-group prazo-execucao">
+              <label for="{{ grupo.idCompraNegociacaoGrupo }}-prazo-execucao">Prazo de <br />Execução na obra</label>
+              <input
+                id="{{ grupo.idCompraNegociacaoGrupo }}-prazo-execucao"
+                awInput
+                currencyMask
+                [options]="currencyOptions"
+                formControlName="prazoExecucaoObra"
+                placeholder="0"
+              />
+            </div>
+            <div class="form-group condicao-pagamento">
+              <label for="{{ grupo.idCompraNegociacaoGrupo }}-condicao-pagamento"> Condição de Pagamento </label>
+              <textarea
+                id="{{ grupo.idCompraNegociacaoGrupo }}-condicao-pagamento"
+                awInput
+                formControlName="condicaoPagamento"
+                resize="none"
+                rows="3"
+                placeholder="Detalhe em poucas palavras"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block cliente" formGroupName="cliente">
+        <h6 class="title">Cliente</h6>
+        <div class="content" [awSpinner]="loadingState.loadingCliente">
+          <div class="info">
+            <div class="label">N° Interno do Cliente</div>
+            <div class="value">
+              <input awInput placeholder="000000" formControlName="numeroInterno" />
+              <span
+                class="icon aw-icon-icon-tooltip c-pointer"
+                popover="Ordem de compra ou Pedido de compra"
+                [outsideClick]="true"
+              ></span>
+            </div>
+          </div>
+          <hr />
+          <div class="forms">
+            <div class="documentos" formGroupName="entregaDocumentos">
+              <app-form-entrega-cc
+                titulo="Entrega de Documentos"
+                tipo="entregaDocumentos"
+                [loading]="loadingState.loadingCliente"
+              ></app-form-entrega-cc>
+            </div>
+            <div class="produtos-servicos" formGroupName="entregaProdutosServicos">
+              <app-form-entrega-cc
+                titulo="Entrega de Produtos / Serviços"
+                tipo="entregaProdutosServicos"
+                [loading]="loadingState.loadingCliente"
+                [observacao]="true"
+              ></app-form-entrega-cc>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="block fornecedores" *ngIf="grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Fornecedor">
+      <h6 class="title">Fornecedores</h6>
+      <div class="content" [awSpinner]="loadingState.loadingFornecedores">
+        <app-lista-emitir-cc
+          [tipo]="tipoListaEmitirCcEnum.Fornecedores"
+          [lista]="grupo.confirmacaoCompraFornecedores"
+          [idCompraNegociacaoGrupo]="grupo.idCompraNegociacaoGrupo"
+          [grupoTaxa]="grupo.grupoTaxa"
+          [permitidoEmitirCcSemMapa]="grupo.permitidoEmitirCcSemMapa"
+          [emitirCcDisabled]="form.invalid || !exibeFormConfirmacaoCompra"
+          [centralCompras]="grupo.centralCompras"
+        ></app-lista-emitir-cc>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="block miscellaneous" *ngIf="grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Miscellaneous">
+    <h6 class="title">Miscellaneous</h6>
+    <div class="content" [awSpinner]="loadingState.loadingMisc">
+      <app-lista-emitir-cc
+        [tipo]="tipoListaEmitirCcEnum.Miscellaneous"
+        [lista]="grupo.confirmacaoCompraMiscellaneous"
+        [idCompraNegociacaoGrupo]="grupo.idCompraNegociacaoGrupo"
+        [emitirCcDisabled]="form.invalid"
+        [haTransacoesPendentes]="grupo.haTransacoesPendentes"
+      ></app-lista-emitir-cc>
+    </div>
+  </div>
+
+  <div class="block revenda" *ngIf="grupo.confirmacaoCompraModo === cnConfirmacaoCompraModo.Revenda">
+    <h6 class="title">Revenda</h6>
+    <div class="content" [awSpinner]="loadingState.loadingRevenda">
+      <div class="info-revenda">
+        <div class="title">Total CC de Revenda</div>
+        <div class="value">{{ grupo.valorVendaCongelada | number: '1.2-2' }}</div>
+        <div class="title">CC de Revenda Emitida</div>
+        <div class="value">{{ grupo.confirmacaoCompraEmitidoRevenda | number: '1.2-2' }}</div>
+        <div class="title">Saldo CC de Revenda</div>
+        <div class="value">
+          {{ grupo.confirmacaoCompraSaldoRevenda | number: '1.2-2' }}
+        </div>
+      </div>
+      <hr />
+      <app-lista-emitir-cc
+        [tipo]="tipoListaEmitirCcEnum.Revenda"
+        [lista]="grupo.confirmacaoCompraRevenda"
+        [idCompraNegociacaoGrupo]="grupo.idCompraNegociacaoGrupo"
+        [emitirCcDisabled]="form.invalid"
+        [haTransacoesPendentes]="grupo.haTransacoesPendentes"
+        [confirmacaoCompraSaldoRevenda]="grupo.confirmacaoCompraSaldoRevenda"
+        (itemChange)="onRevendaItemChange($event)"
+      ></app-lista-emitir-cc>
+    </div>
+  </div>
+</div>

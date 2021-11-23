@@ -1,0 +1,28 @@
+<div class="pc-header">
+  <div class="nome" *ngIf="params.displayName">{{ params.displayName }}</div>
+  <div class="icons">
+    <div
+      class="filter"
+      *ngIf="params.enableMenu"
+      (click)="$event.stopPropagation(); params.showColumnMenu(menu)"
+      #menu
+    >
+      <span
+        class="icon icon-filter"
+        [class.active]="params.column.isFilterActive()"
+      ></span>
+    </div>
+    <div class="sort" *ngIf="params.enableSorting">
+      <span
+        class="icon icon-caret-up"
+        [class.active]="sort === 'asc'"
+        (click)="$event.stopPropagation(); _sort('asc', $event)"
+      ></span>
+      <span
+        class="icon icon-caret-down"
+        [class.active]="sort === 'desc'"
+        (click)="$event.stopPropagation(); _sort('desc', $event)"
+      ></span>
+    </div>
+  </div>
+</div>

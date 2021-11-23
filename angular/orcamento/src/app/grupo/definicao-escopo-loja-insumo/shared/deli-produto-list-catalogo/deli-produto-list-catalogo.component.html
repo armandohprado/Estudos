@@ -1,0 +1,72 @@
+<div
+  class="card"
+  *ngLet="
+    catalogo
+      | deliFiltroProdutosCatalogo: filtrosAtivos:term as catalogoFiltered
+  "
+>
+  <div class="card-header filtros">
+    Filtros Selecionados:
+    <span
+      *ngFor="let filtro of filtrosAtivos; trackBy: trackByFiltro"
+      class="badge badge-pill badge-light d-flex-inline align-items-center"
+    >
+      {{ filtro.valor }}
+      <span
+        class="icon icon-close c-pointer ml-1"
+        (click)="inactivateFilter(filtro)"
+      ></span>
+    </span>
+  </div>
+  <div class="card-body" #cardProdutos>
+    <div class="pages top" *ngIf="catalogoFiltered.length > 12">
+      <pagination
+        [totalItems]="catalogoFiltered.length"
+        [itemsPerPage]="12"
+        [(ngModel)]="currentPage"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        [maxSize]="15"
+        (pageChanged)="onPageChange()"
+      ></pagination>
+    </div>
+    <div class="catalogo-items">
+      <aw-alert tipo="warning" *ngIf="!catalogoFiltered.length">
+        Nenhum produto encontrado!
+      </aw-alert>
+      <aw-alert
+        tipo="info"
+        *ngIf="!showCheckbox && catalogoFiltered.length"
+        [dismissible]="true"
+      >
+        Clique na imagem do produto para selecionar
+      </aw-alert>
+      <app-deli-produto-catalogo
+        class="catalogo-item"
+        [class.selecionado]="produtoCatalogo.selecionadoCatalogo"
+        *ngFor="
+          let produtoCatalogo of catalogoFiltered
+            | slice: (currentPage - 1) * 12:currentPage * 12;
+          trackBy: trackByProduto
+        "
+        [produtoCatalogo]="produtoCatalogo"
+        [isSelecionado]="produtoCatalogo.selecionadoCatalogo"
+        [showCheckbox]="showCheckbox"
+        [showVariacoes]="showVariacoes"
+        (modalDetalhesOpened)="modalDetalhesOpened.emit($event)"
+        (produtoSelecionado)="produtoSelecionado.emit($event)"
+      ></app-deli-produto-catalogo>
+    </div>
+    <div class="pages bottom" *ngIf="catalogoFiltered.length > 12">
+      <pagination
+        [totalItems]="catalogoFiltered.length"
+        [itemsPerPage]="12"
+        [(ngModel)]="currentPage"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        [maxSize]="15"
+        (pageChanged)="onPageChange()"
+      ></pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.list-group {
+  position: relative;
+}
+
+.list-group-item {
+  .cronograma {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    font-weight: 500;
+    height: 100%;
+    min-height: 32px;
+    .numero-projeto {
+      font-weight: bold;
+    }
+  }
+}

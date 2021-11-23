@@ -1,0 +1,124 @@
+@import 'variables';
+
+$spacing: 5px;
+
+.navbar {
+  align-items: center;
+  height: 60px;
+  box-shadow: 0 1px 4px 0 rgba(136, 136, 136, 0.5);
+  background-color: #ffffff;
+  z-index: 1030;
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-nav {
+    align-items: center;
+  }
+
+  .nav-item {
+    &:not(:last-of-type) {
+      margin-right: 25px;
+    }
+
+    &.v-divider {
+      &:after {
+        content: '';
+        position: absolute;
+        border: 0.5px solid $body-color;
+        top: 16px;
+        height: 30px;
+        margin-right: 25px;
+      }
+    }
+    .toggle-user-menu {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      .dropdown-header {
+        min-width: 125px;
+        color: $body-color;
+        padding: 0 10px 0 0;
+        text-decoration: none;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: left;
+        font-family: $font-family-base, sans-serif;
+        .user-name {
+          width: 100%;
+        }
+        hr {
+          margin-top: 3px;
+          margin-bottom: 0;
+          border-top-color: $body-color;
+          width: 100%;
+        }
+        .user-position {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          .icon-caret-down {
+            font-size: 4px;
+          }
+        }
+      }
+
+      .user-img {
+        box-shadow: 0 1px 2px 0 rgba(136, 136, 136, 0.7);
+        border: solid 1.5px #ffffff;
+        width: 44px;
+        height: 44px;
+      }
+    }
+  }
+
+  .btn {
+    &.btn-circle,
+    &.btn-icon {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon {
+        margin-top: -2px;
+      }
+    }
+
+    &.btn-circle {
+      box-shadow: 0 1px 4px 0 rgba(136, 136, 136, 0.5);
+    }
+  }
+}
+
+::ng-deep {
+  .user-dropdown-menu {
+    border-top-left-radius: 0;
+    margin-top: 7px;
+    border-top-right-radius: 0;
+    box-shadow: 0 1px 4px 0 rgba(136, 136, 136, 0.5);
+  }
+}
+
+.breadcrumb {
+  position: fixed;
+  top: 60px;
+  .icon {
+    span {
+      padding-left: $spacing;
+      font-family: $font-family-base;
+      vertical-align: middle;
+      font-size: $font-size-sm;
+    }
+    &:before {
+      vertical-align: middle;
+    }
+  }
+}
+.top-devolucao {
+  top: 100px;
+}

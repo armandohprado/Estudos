@@ -1,0 +1,12 @@
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  div {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+}
+.border-bottomm {
+  border-bottom: #9ea1ae 1px solid;
+}

@@ -1,0 +1,19 @@
+<div class="pl-2">
+  <aw-checkbox [ngModel]="allSelected" (ngModelChange)="selectAll($event)"> Selecionar todos</aw-checkbox>
+  <hr />
+  <div *ngFor="let filtro of filtros; trackBy: trackBy">
+    <div *ngIf="!nome2">
+      <aw-checkbox [checked]="filtro.exibe" (checkedChange)="update($event, filtro)">{{ filtro[nome1] }}</aw-checkbox>
+      <hr />
+    </div>
+
+    <div *ngIf="nome2">
+      <div>
+        <aw-checkbox [checked]="filtro.exibe" (checkedChange)="update($event, filtro)"
+          >{{ filtro[nome1] }} - {{ filtro[nome2] }}</aw-checkbox
+        >
+        <hr />
+      </div>
+    </div>
+  </div>
+</div>

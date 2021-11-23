@@ -1,0 +1,76 @@
+@import 'variables';
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+[class^='-icon-caret-'],
+[class*='icon-caret-'] {
+  font-size: 4.6px;
+  color: $primary;
+  margin-left: 15px;
+}
+
+.border-bottom-divisor {
+  border-bottom: solid 1px $light-gray-alt;
+}
+
+.min-item-height {
+  min-height: 40px;
+  box-sizing: content-box;
+}
+
+.pt-pb-15 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.th-area {
+  p {
+    font-size: 12px;
+    font-weight: 500;
+    color: #7b8594;
+  }
+}
+
+.line-group {
+  font-size: 12px;
+  padding: 15px 0;
+}
+
+.pill {
+  background: $light-gray;
+  border-radius: 3px;
+  padding: 5px 5px 5px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  width: 100%;
+
+  .icon {
+    font-size: 14px;
+  }
+
+  & ~ .pill {
+    margin-top: 5px;
+  }
+}
+
+.color-custom-grey {
+  color: $greyish-brown;
+  opacity: 1;
+}
+
+.wrapper {
+  height: 100%;
+}
+
+.fornecedor-info {
+  font-size: 11px;
+  font-weight: normal;
+  margin: 0;
+  color: $gray;
+}

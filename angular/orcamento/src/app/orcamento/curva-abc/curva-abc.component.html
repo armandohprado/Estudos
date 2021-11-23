@@ -1,0 +1,56 @@
+<ng-container
+  *ngIf="{
+    projeto: projeto$ | async,
+    sumGrupos: sumGrupos$ | async,
+    filtro: filtroState$ | async,
+    sumGruposOpcionais: sumGruposOpcionais$ | async
+  } as state"
+>
+  <ng-container *ngIf="orcamento$ | async as orcamento">
+    <app-orcamento-header
+      *ngIf="state.projeto"
+      [nomeProjeto]="state.projeto.nomeProjeto"
+      [numeroProjeto]="state.projeto.numeroProjeto"
+      [nomeOrcamento]="orcamento.nomeOrcamento"
+    ></app-orcamento-header>
+  </ng-container>
+
+  <app-header-curva
+    *ngIf="state.filtro?.filtroGrupos"
+    [curvaAbcGrupos]="state.filtro.filtroGrupos.grupos"
+    [totalEstimatedValue]="state.sumGrupos.totalEstimatedValue"
+    [totalGoalValue]="state.sumGrupos.totalGoalValue"
+    [totalFiltrado]="state.filtro.filtroGrupos.totalFiltrado"
+  >
+  </app-header-curva>
+  <app-curva-abc-table
+    *ngIf="state.sumGrupos"
+    [idProjeto]="state.projeto?.idProjeto"
+    [idOrcamentoCenario]="idOrcamentoCenario$ | async"
+    [familias]="familias$ | async"
+    [grupos]="grupos$ | async"
+    (filtroEvent)="onFiltroEvent($event, 'filtroGrupos')"
+    [totalEstimatedValue]="state.sumGrupos.totalEstimatedValue"
+    (refreshOrcamento)="refreshOrcamento()"
+  ></app-curva-abc-table>
+  <hr />
+  <div class="grupos-opcionais">Grupos opcionais</div>
+  <app-header-curva
+    *ngIf="state.filtro?.filtroGruposOpcionais"
+    [curvaAbcGrupos]="state.filtro.filtroGruposOpcionais.grupos"
+    [totalEstimatedValue]="state.sumGruposOpcionais.totalEstimatedValue"
+    [totalGoalValue]="state.sumGruposOpcionais.totalGoalValue"
+    [totalFiltrado]="state.filtro.filtroGruposOpcionais.totalFiltrado"
+  >
+  </app-header-curva>
+  <app-curva-abc-table
+    *ngIf="state.sumGruposOpcionais"
+    [idProjeto]="state.projeto?.idProjeto"
+    [idOrcamentoCenario]="idOrcamentoCenario$ | async"
+    [familias]="familiasOpcionais$ | async"
+    [grupos]="gruposOpcionais$ | async"
+    (filtroEvent)="onFiltroEvent($event, 'filtroGruposOpcionais')"
+    [totalEstimatedValue]="state.sumGruposOpcionais.totalEstimatedValue"
+    (refreshOrcamento)="refreshOrcamento()"
+  ></app-curva-abc-table>
+</ng-container>

@@ -1,0 +1,22 @@
+<ng-container *ngLet="epPropostaItemQuery.collapseFornecedorHeader$ | async as collapsed">
+  <div class="item sticky">
+    <button awButton link type="button" (click)="toggleCollapse()" size="sm">
+      Mais informações
+      <span class="icon" [ngClass]="{ 'icon-caret-down': collapsed, 'icon-caret-up': !collapsed }"></span>
+    </button>
+  </div>
+  <app-ep-header-fornecedor
+    *ngFor="let fornecedor of fornecedores; trackBy: trackByEpFornecedor"
+    [fornecedor]="fornecedor"
+    [collapsed]="collapsed"
+    class="item"
+    [class.aw-referencia]="fornecedor.indicadorAWReferencia"
+    [idOrcamentoGrupo]="idOrcamentoGrupo"
+    [idOrcamentoCenario]="idOrcamentoCenario"
+    [idOrcamento]="idOrcamento"
+    [idProjeto]="idProjeto"
+  ></app-ep-header-fornecedor>
+  <app-ep-header-fornecedor
+    *ngFor="let offsetColumn of epPropostaItemQuery.offsetColumns$ | async"
+  ></app-ep-header-fornecedor>
+</ng-container>

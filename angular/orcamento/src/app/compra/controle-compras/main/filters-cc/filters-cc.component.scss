@@ -1,0 +1,14 @@
+@import 'variables';
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: #fff;
+  grid-gap: 20px;
+  padding: 10px 20px;
+}
+
+.grid-item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

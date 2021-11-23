@@ -1,0 +1,6 @@
+<div cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="niveis">
+  <div cdkDrag *ngFor="let nivel of niveis | awOrderBy: 'ordem'; trackBy: trackByNiveis">
+    <aw-checkbox [checked]="nivel.exibe" (checkedChange)="output($event, nivel)"> {{ nivel.nivel }}</aw-checkbox>
+    <hr />
+  </div>
+</div>

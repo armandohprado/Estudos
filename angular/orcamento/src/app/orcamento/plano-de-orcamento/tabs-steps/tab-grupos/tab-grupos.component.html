@@ -1,0 +1,26 @@
+<ng-container *ngIf="familias$ | async as families">
+  <aw-spinner *ngIf="saveLoading$ | async" fullScreen></aw-spinner>
+  <div class="d-flex justify-content-between mb-40">
+    <app-modo-exibicao></app-modo-exibicao>
+    <button class="btn gradient-btn btn-success" type="button" (click)="criarNovaFamilia()">
+      Criar novo grupo família
+    </button>
+  </div>
+
+  <div
+    class="dropArea mb-40"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="families"
+    [cdkDropListDisabled]="!(orcamentoService.visualizarGruposEmLista$ | async)"
+  >
+    <app-familia cdkDrag *ngFor="let familia of families; trackBy: trackByFn" [familia]="familia"></app-familia>
+  </div>
+</ng-container>
+<div class="d-flex justify-content-end mt-auto">
+  <button type="button" awButton cdkStepperPrevious class="btn-custom ml-4">Voltar</button>
+  <button type="button" awButton status="success" (click)="salvar()" class="btn-custom ml-4">Salvar</button>
+  <button type="button" awButton class="btn-custom ml-4" (click)="salvar(true)" [disabled]="!existeGrupos">
+    Próximo
+  </button>
+</div>

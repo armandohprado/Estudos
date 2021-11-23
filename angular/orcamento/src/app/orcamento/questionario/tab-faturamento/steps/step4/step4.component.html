@@ -1,0 +1,831 @@
+<form [formGroup]="form" class="form-group px-5" *ngIf="form">
+  <h4 class="font-weight-bold">Pagamento</h4>
+  <h5 class="font-weight-bold mb-4">Condições de Pagamento</h5>
+
+  <div class="d-flex mb-3">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="pag-contrato"
+        #quantitativo1
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONDICAO_MEDICAO).value"
+      />
+      <label class="custom-control-label" for="pag-contrato"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo1.checked">
+      <legend class="font-weight-bold">
+        Os pagamentos ocorrerão sempre por medição. Qual o intervalo de dias para ocorrer essas medições?
+      </legend>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONDICAO_MEDICAO" value="Quinzenal">
+        Quinzenal
+      </aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONDICAO_MEDICAO" value="Mensal">
+        Mensal
+      </aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="pag-nf"
+        #quantitativo2
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONDICAO_INSS).value"
+      />
+      <label class="custom-control-label" for="pag-nf"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo2.checked">
+      <legend class="font-weight-bold">
+        Para notas fiscais de empreitada, a empresa retêm INSS sobre o valor de serviço ou sobre o valor total da nota
+        fiscal
+      </legend>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONDICAO_INSS" value="Total da nota"
+        >Total da nota</aw-radio
+      >
+      <aw-radio
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONDICAO_INSS"
+        value="Apenas valor de serviço"
+        >Apenas valor de serviço
+      </aw-radio>
+    </fieldset>
+  </div>
+
+  <h5 class="font-weight-bold mb-4 mt-4">Medição</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="pag-medicao"
+        #quantitativo3
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_MEDICAO_ALOCADO).value"
+      />
+      <label class="custom-control-label" for="pag-medicao"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo3.checked">
+      <legend class="font-weight-bold">
+        As medições serão acompanhadas e liberadas pelo profissional da AW alocado na obra. Você está de acordo?
+      </legend>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_MEDICAO_ALOCADO" value="sim">Sim</aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_MEDICAO_ALOCADO" value="nao">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="custom-control input-radio" [class.disabled]="!quantitativo3.checked">
+    <div class="mt-3">
+      <label for="aprovacaoMedicoes">Quem aprovará as medições?</label>
+      <input
+        type="text"
+        id="aprovacaoMedicoes"
+        class="form-control"
+        placeholder="ex: nome do responsável"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_MEDICAO_APROVACAO"
+      />
+    </div>
+
+    <div class="mt-3 pb-3" [class.disabled]="!quantitativo7.checked">
+      <label for="aprovacaoMedicoes1"
+        >Após a submissão por parte dos fornecedores / AW, quantos dias o representante do cliente necessita para se
+        posicionar?</label
+      >
+      <input
+        type="text"
+        id="aprovacaoMedicoes1"
+        class="form-control"
+        placeholder="ex: 10"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_MEDICAO_DIAS"
+      />
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold mb-3">Prazo</h5>
+
+  <div class="d-flex mb-5">
+    <div class="custom-switch pt-2">
+      <input
+        class="custom-control-input p-2"
+        id="radio-pagamento-cliente"
+        #quantitativo4
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO)?.value"
+      />
+      <label class="custom-control-label" for="radio-pagamento-cliente"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="d-flex align-items-start flex-column w-75" [class.disabled]="!quantitativo4.checked">
+      <div class="d-flex">
+        <h6>
+          Após a liberação das medições e envio dos documentos fiscais/cobrança, quantos dias o cliente necessita para
+          processar o pagamento
+        </h6>
+      </div>
+      <div class="d-flex align-items-center justify-content-around">
+        <div class="mr-3">
+          <label for="fat-grupo-aw">Faturamento Cliente</label>
+          <input
+            type="text"
+            class="form-control w-100"
+            id="fat-grupo-aw"
+            placeholder="ex: 10"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO"
+          />
+        </div>
+        <span class="mt-3">dias</span>
+
+        <!-- Btn Radio Group Style    -->
+        <div class="ml-3 mt-2">
+          <div class="new-radio-button first">
+            <input
+              class="custom-control-input rounded-circle"
+              id="pagamento-cliente-uteis"
+              [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO_DIAS_TIPO"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO_DIAS_TIPO"
+              type="radio"
+              value="uteis"
+            />
+            <label class="custom-control-label" for="pagamento-cliente-uteis">
+              <span> úteis </span>
+            </label>
+          </div>
+          <div class="new-radio-button second">
+            <input
+              class="custom-control-input rounded-circle"
+              id="pagamento-cliente-corridos"
+              [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO_DIAS_TIPO"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FATURAMENTO_DIAS_TIPO"
+              type="radio"
+              value="corridos"
+            />
+            <label class="custom-control-label" for="pagamento-cliente-corridos">
+              <span> corridos </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="cadastro-forma-de-pagamento"
+        #quantitativo5
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO).value"
+      />
+      <label class="custom-control-label" for="cadastro-forma-de-pagamento"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo5.checked">
+      <p class="mb-3 font-weight-bold">Forma de pagamento</p>
+      <aw-radio
+        value="Sem datas específicas"
+        [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+        >Sem datas específicas
+      </aw-radio>
+
+      <aw-radio
+        value="Dias específicos do mês"
+        [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+      >
+        Dias específicos do mês
+      </aw-radio>
+
+      <aw-radio
+        value="Dias específicos da semana"
+        [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_PRAZO_FORMADEPAGAMENTO"
+      >
+        Dias específicos da semana
+      </aw-radio>
+    </div>
+  </div>
+
+  <h6 class="padding-left font-weight-bold mb-3">Para contratação AW</h6>
+
+  <div class="d-flex mb-5">
+    <div class="custom-switch pt-2">
+      <input
+        class="custom-control-input p-2"
+        id="premissa-prazo-contratacaoaw-cliente"
+        #quantitativo6
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PRAZO).value"
+      />
+      <label class="custom-control-label" for="premissa-prazo-contratacaoaw-cliente"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="d-flex align-items-center w-75" [class.disabled]="!quantitativo6.checked">
+      <div class="mr-3">
+        <label for="fat-grupo-aw1">Faturamento Grupo AW</label>
+        <input
+          type="text"
+          class="form-control w-100"
+          id="fat-grupo-aw1"
+          placeholder="ex: 10"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PRAZO"
+        />
+      </div>
+      <span class="mt-3">dias</span>
+
+      <!-- Btn Radio Group Style    -->
+      <div class="ml-3 mt-2">
+        <div class="new-radio-button first">
+          <input
+            class="custom-control-input rounded-circle"
+            id="pagamento-contratacaoaw-uteis"
+            [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_DIAS_TIPO"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_DIAS_TIPO"
+            type="radio"
+            value="uteis"
+          />
+          <label class="custom-control-label" for="pagamento-contratacaoaw-uteis">
+            <span> úteis </span>
+          </label>
+        </div>
+        <div class="new-radio-button second">
+          <input
+            class="custom-control-input rounded-circle"
+            id="pagamento-contratacaoaw-corridos"
+            [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_DIAS_TIPO"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_DIAS_TIPO"
+            type="radio"
+            value="corridos"
+          />
+          <label class="custom-control-label" for="pagamento-contratacaoaw-corridos">
+            <span> corridos </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="prefPagamento"
+        #quantitativo7
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PREFERENCIA).value"
+      />
+      <label class="custom-control-label" for="prefPagamento"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo7.checked">
+      <legend class="font-weight-bold mb-3">Preferência de Pagamento</legend>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PREFERENCIA" value="Boleto"
+        >Boleto</aw-radio
+      >
+      <aw-radio
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PREFERENCIA"
+        value="Depósito Bancário"
+        >Depósito Bancário</aw-radio
+      >
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_PREFERENCIA" value="Ambos"
+        >Ambos</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premissaObs"
+        #quantitativo8
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_OBSERVACAO).value"
+      />
+      <label class="custom-control-label" for="premissaObs"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo8.checked">
+      <legend class="mb-3">Observações</legend>
+
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          id="observacoes"
+          rows="5"
+          placeholder="observações"
+          [name]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_OBSERVACAO"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTRATACAOAW_OBSERVACAO"
+        ></textarea>
+      </div>
+    </fieldset>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-2">Data de Corte</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="dataCortePremissa"
+        #quantitativo9
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DATADECORTE).value"
+      />
+      <label class="custom-control-label" for="dataCortePremissa"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo9.checked">
+      <p class="mb-1 font-weight-bold">
+        Trabalham com data de corte para recebimento de NFs?<br />
+        <small class="mb-3">
+          Lembramos que “corte” para recebimento de NFs de Produto poderá impactar o andamento da obra
+        </small>
+      </p>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE" value="Sim">Sim</aw-radio>
+      <!-- background -->
+      <div
+        class="custom-control input-radio background-negative"
+        *ngIf="form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE).value === 'Sim'"
+      >
+        <div class="mt-3">
+          <label for="nf-servico">NFs Serviço (Faturamento Cliente)</label>
+          <input
+            type="text"
+            id="nf-servico"
+            class="form-control"
+            placeholder="ex: nome do responsável"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_NF_SERVICO_CLIENTE"
+          />
+        </div>
+
+        <div class="mt-3">
+          <label for="nf-produto">NFs Produto (Faturamento Cliente)</label>
+          <input
+            type="text"
+            id="nf-produto"
+            class="form-control"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_NF_PRODUTO_CLIENTE"
+            placeholder="ex: 10"
+          />
+        </div>
+
+        <div class="mt-3">
+          <label for="nf-servico-aw">NFs Serviço (Faturamento Grupo AW)</label>
+          <input
+            type="text"
+            id="nf-servico-aw"
+            class="form-control"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_NF_SERVICO_GRUPO"
+            placeholder="ex: 10"
+          />
+        </div>
+
+        <div class="mt-3 pb-3">
+          <label for="nf-produto-aw">NFs Produto (Faturamento Grupo AW)</label>
+          <input
+            type="text"
+            id="nf-produto-aw"
+            class="form-control"
+            [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_NF_PRODUTO_GRUPO"
+            placeholder="ex: 10"
+          />
+        </div>
+      </div>
+      <!-- end of Background -->
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE" value="Nao">Não</aw-radio>
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-3">Data de Corte</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premissaCorte"
+        #quantitativo10
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO).value"
+      />
+      <label class="custom-control-label" for="premissaCorte"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo10.checked">
+      <p class="mb-1 font-weight-bold">Deverá ser destacado algum nº do PO nas NFs?</p>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO" value="Sim">Sim</aw-radio>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO" value="Não">Não</aw-radio>
+    </div>
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="radio-premissa-datacorte-espelho"
+        #quantitativo11
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DATADECORTE_ESPELHO).value"
+      />
+      <label class="custom-control-label" for="radio-premissa-datacorte-espelho"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo11.checked">
+      <p class="mb-1 font-weight-bold">É necessário envio de espelho de nota fiscal</p>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_ESPELHO" value="Sim"
+        >Sim</aw-radio
+      >
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_ESPELHO" value="Não"
+        >Não</aw-radio
+      >
+    </div>
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="radio-premissa-datacorte-po-faturado"
+        #quantitativo12
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO_FATURA).value"
+      />
+      <label class="custom-control-label" for="radio-premissa-datacorte-po-faturado"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo12.checked">
+      <p class="mb-1 font-weight-bold">Uma PO poderá ser faturada através de diversas NFs?</p>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO_FATURA" value="Sim"
+        >Sim</aw-radio
+      >
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO_FATURA" value="Não"
+        >Não</aw-radio
+      >
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          id="corteObservacoes"
+          rows="5"
+          placeholder="observações"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DATADECORTE_PO_FATURA_OBS"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-2">Encaminhar documentação para</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="docPremissa"
+        #quantitativo13
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO).value"
+      />
+      <label class="custom-control-label" for="docPremissa"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo13.checked">
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO" value="fisica"
+        >Física</aw-radio
+      >
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO" value="eletronica"
+        >Eletrônica</aw-radio
+      >
+
+      <!-- background -->
+      <div
+        class="background"
+        *ngIf="form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO).value === 'eletronica'"
+      >
+        <fieldset>
+          <legend class="mb-1">Nome</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="ex: luiza silva"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NOME"
+            />
+          </div>
+
+          <legend class="mb-1">Email</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="ex: luiza.silva@aw.com.br"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_EMAIL"
+            />
+          </div>
+
+          <legend class="mb-1">Telefone</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="(11)98545-6545"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TELEFONE"
+            />
+          </div>
+
+          <legend class="mb-1">Cargo</legend>
+
+          <div class="form-group last-form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="Gerente de Obras"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_CARGO"
+            />
+          </div>
+        </fieldset>
+      </div>
+      <!-- background -->
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO" value="ambos"
+        >Física + eletrônica
+      </aw-radio>
+      <!-- background -->
+      <div
+        class="background"
+        *ngIf="form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TIPO).value === 'ambos'"
+      >
+        <fieldset>
+          <legend class="mb-1">Nome</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="ex: luiza silva"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NOME"
+            />
+          </div>
+
+          <legend class="mb-1">Email</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="ex: luiza.silva@aw.com.br"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_EMAIL"
+            />
+          </div>
+
+          <legend class="mb-1">Telefone</legend>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="(11)98545-6545"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_TELEFONE"
+            />
+          </div>
+
+          <legend class="mb-1">Cargo</legend>
+
+          <div class="form-group last-form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="arquivoXml"
+              placeholder="Gerente de Obras"
+              [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_CARGO"
+            />
+          </div>
+        </fieldset>
+      </div>
+      <!-- background -->
+    </div>
+  </div>
+
+  <div class="d-flex mb-4 padding-left">
+    <fieldset [class.disabled]="!quantitativo13.checked">
+      <legend class="mb-3">Encaminhar Arquivo XML para:</legend>
+
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="arquivoXml"
+          placeholder="ex: luiza.silva@aw.com.br"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_XML"
+        />
+      </div>
+    </fieldset>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-2">
+    Favor Informar o Contato Financeiro para qualquer esclarecimento da cobrança
+  </h5>
+
+  <div class="d-flex">
+    <div class="custom-switch pt-2">
+      <input
+        class="custom-control-input p-2"
+        id="contatoFinanPremissaNome"
+        #quantitativo14
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONTATOFINANCEIRO_NOME).value"
+      />
+      <label class="custom-control-label" for="contatoFinanPremissaNome"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo14.checked">
+      <div class="form-group">
+        <label for="contato-nome">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="contato-nome"
+          placeholder="ex: Luiza Silva"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTATOFINANCEIRO_NOME"
+        />
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch pt-2">
+      <input
+        class="custom-control-input p-2"
+        id="radio-premissa-documentacao-contato-financeiro"
+        #quantitativo15
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONTATOFINANCEIRO_TELEFONE).value"
+      />
+      <label class="custom-control-label" for="radio-premissa-documentacao-contato-financeiro"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="form-group col-3 px-0" [class.disabled]="!quantitativo15.checked">
+      <label for="esclarecimento-telefone">Telefone</label>
+      <input
+        type="text"
+        class="form-control w-100"
+        id="esclarecimento-telefone"
+        placeholder="ex: (00) 0000-0000"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTATOFINANCEIRO_TELEFONE"
+      />
+    </div>
+
+    <div class="form-group col-6 pr-0">
+      <label for="esclarecimento-email">E-mail</label>
+      <input
+        type="text"
+        class="form-control w-100"
+        id="esclarecimento-email"
+        placeholder="ex: luiza.silva@aw.com.br"
+        [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONTATOFINANCEIRO_EMAIL"
+      />
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-2">Sinal</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="sinalPremissa"
+        #quantitativo16
+        type="checkbox"
+        [checked]="
+          form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NF_VALORTOTAL).value ||
+          form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NF_VALORSINAL).value ||
+          form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_RECIBO).value ||
+          form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_OUTRO).value
+        "
+      />
+      <label class="custom-control-label" for="sinalPremissa"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4 pl-2" [class.disabled]="!quantitativo16.checked">
+      <p class="mb-3 font-weight-bold">
+        Em casos específicos (quando o sinal é obrigatório para o grupo), quais documentos você necessita para processar
+        este sinal?
+      </p>
+
+      <div class="custom-control custom-checkbox">
+        <input
+          class="custom-control-input"
+          id="sinal-nf-total"
+          type="checkbox"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NF_VALORTOTAL"
+        />
+        <label class="custom-control-label" for="sinal-nf-total"> NF Entrega Futura no valor total do pedido </label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input
+          class="custom-control-input"
+          id="sinal-nf-sinal"
+          type="checkbox"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_NF_VALORSINAL"
+        />
+        <label class="custom-control-label" for="sinal-nf-sinal"> NF Entrega Futura no valor do sinal </label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input
+          class="custom-control-input"
+          id="sinal-nf-recibo"
+          type="checkbox"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_RECIBO"
+        />
+        <label class="custom-control-label" for="sinal-nf-recibo">
+          Recibo
+          {{ form.get(questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_RECIBO).value }}
+        </label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input
+          class="custom-control-input"
+          id="sinal-nf-outro"
+          type="checkbox"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_DOCUMENTACAO_OUTRO"
+        />
+        <label class="custom-control-label" for="sinal-nf-outro"> Outro </label>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold mb-3 mt-2">Considerações Finais</h5>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premissaObsFim"
+        type="checkbox"
+        #quantitativo17
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_PAGAMENTO_CONSIDERACOES_FINAIS).value"
+      />
+      <label class="custom-control-label" for="premissaObsFim"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo17.checked">
+      <legend class="mb-3">Considerações Finais</legend>
+
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          id="observacoesFim"
+          rows="5"
+          placeholder="observações"
+          [formControlName]="questionarioEnum.QUESTIONARIO_PAGAMENTO_CONSIDERACOES_FINAIS"
+        ></textarea>
+      </div>
+    </fieldset>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end btn-bottom">
+  <button class="btn btn-secondary gradient-btn" type="button" (click)="backTabQuestionario()">voltar</button>
+
+  <button class="btn btn-primary gradient-btn" type="button" (click)="sendForm()">enviar para o financeiro</button>
+</div>

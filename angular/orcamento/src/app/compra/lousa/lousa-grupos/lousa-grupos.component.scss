@@ -1,0 +1,86 @@
+@use 'variables' as v;
+@use '../lousa' as l;
+
+.grid-container {
+  @include l.lousa-grid();
+}
+
+.linha {
+  color: #a5a9ab;
+  font-size: 12px;
+  padding: 0.75rem 0.5rem;
+  border-bottom: solid 1px v.$secondary;
+
+  &.status {
+    display: flex;
+  }
+
+  &.font-claro {
+    color: v.$grey-light;
+  }
+
+  &.font-escura {
+    color: #000;
+    font-weight: bold;
+  }
+
+  &.cinza-claro {
+    background: v.$very-light-blue;
+  }
+
+  & .percents {
+    font-size: 10px;
+
+    &.red {
+      color: v.$red;
+    }
+
+    &.green {
+      color: v.$green-alt2;
+    }
+  }
+}
+
+.fixa {
+  box-shadow: 3px 0 0 #b0b0b0;
+  margin-right: 3px;
+  grid-column: span 2;
+}
+
+.circulo {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 12px;
+
+  &.red {
+    background: v.$red;
+  }
+
+  &.green {
+    background: v.$green-alt2;
+  }
+
+  &.grey {
+    background: v.$very-light-blue;
+  }
+}
+
+.confirmacao-compra {
+  grid-column: span 4;
+  display: grid;
+  padding: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  > .linha {
+    border-color: transparentize(v.$secondary, 0.5);
+
+    &.last {
+      border-bottom: 0;
+    }
+  }
+  &.hidden-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-column: span 3;
+  }
+}

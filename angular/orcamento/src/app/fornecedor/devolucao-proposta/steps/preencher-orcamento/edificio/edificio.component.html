@@ -1,0 +1,44 @@
+<div class="bg-secondary-aw customPadding titleEdificio">
+  <accordion [isAnimated]="true">
+    <accordion-group [isOpen]="toggleAccordion" (isOpenChange)="toggleAccordion = $event">
+      <div class="row font-weight-bold font-size-normal" accordion-heading>
+        <div class="col-sm-11">
+          {{ proposta.edificios[0]?.nomeFantasia }}
+        </div>
+        <div class="col-sm-1">
+          <span
+            class="display-6"
+            [ngClass]="{
+              'icon-caret-down': !toggleAccordion,
+              'icon-caret-up': toggleAccordion
+            }"
+          ></span>
+        </div>
+      </div>
+      <div class="bg-white">
+        <app-andar
+          *ngFor="let edificio of proposta.edificios; trackBy: trackByEdificio; index as i"
+          [pavimento]="edificio"
+          [index]="i"
+          [id]="edificio.idEdificio"
+        ></app-andar>
+        <app-andar
+          *ngFor="let site of proposta.sites; trackBy: trackBySite; index as i"
+          [pavimento]="site"
+          [index]="i"
+          [id]="site.idCondominio"
+        ></app-andar>
+        <app-andar
+          *ngFor="
+            let andar of proposta.andares | filterPavimentoAndares: devolucaoProposta.andaresFiltrados;
+            trackBy: trackByAndar;
+            index as i
+          "
+          [pavimento]="andar"
+          [id]="andar.idPavimento"
+          [index]="i"
+        ></app-andar>
+      </div>
+    </accordion-group>
+  </accordion>
+</div>

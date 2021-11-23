@@ -1,0 +1,31 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+  position: relative;
+}
+
+.ficha-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.margem {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  padding: 10px;
+  grid-gap: 0.5rem;
+  .margem-label,
+  .margem-value {
+    font-weight: bold;
+  }
+  .margem-label {
+    grid-column: 6/8;
+  }
+  .margem-value {
+    grid-column-start: 8;
+    text-align: end;
+  }
+}

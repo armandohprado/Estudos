@@ -1,0 +1,97 @@
+<accordion class="py-3" *ngIf="!devolucaoProposta.cabecalhoProposta.visaoExcel; else excel">
+  <accordion-group (isOpenChange)="itemCollapse($event)" [panelClass]="'pavimentoTab'" [isOpen]="pavimento.open">
+    <div class="row font-weight-bold" accordion-heading>
+      <div class="col-sm-9">
+        {{
+          (pavimento.tipo == 'Andar' && 'Andar ' + pavimento.siglaPavimento + '°' + pavimento.nomePavimento) ||
+            pavimento.nomePavimento
+        }}
+      </div>
+      <div class="col-sm-1">{{ pavimento.qtdItensOrcados }}/{{ pavimento.qtdItens }}</div>
+      <div class="row col-sm-2">
+        <div class="col-sm-10 p-0 pl-4">
+          {{ total$ | async | currency: 'BRL' }}
+        </div>
+        <div class="col-sm-1 p-0 pl-3">
+          <span
+            class="display-6"
+            [ngClass]="{
+              'icon-caret-down': !pavimento.open,
+              'icon-caret-up': pavimento.open
+            }"
+          ></span>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="pavimento.open">
+      <div class="rounded px-1 bg-white">
+        <div></div>
+        <app-lista-item
+          [item]="item"
+          *ngFor="let item of pavimento.itens; trackBy: trackByItem; let i = index; let first = first; let last = last"
+          [pavimento]="pavimento"
+          [first]="first"
+          [last]="last"
+          [omisso]="false"
+        ></app-lista-item>
+      </div>
+      <div *ngIf="pavimento.omissos.length > 0 || addItemOmisso">
+        <h5 class="row p-4 hr" style="background: #e7ecef">
+          <span class="d-flex"> Itens Omissos </span>
+          <div class="col border-bottom border-dark" style="margin: 10px"></div>
+        </h5>
+      </div>
+      <div class="bg-white rounded">
+        <app-lista-item
+          [item]="item"
+          *ngFor="
+            let item of pavimento.omissos;
+            trackBy: trackByItem;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+          [pavimento]="pavimento"
+          [first]="first"
+          [last]="last"
+          [omisso]="true"
+        ></app-lista-item>
+      </div>
+      <div class="bg-white rounded" *ngIf="pavimento.addOmisso" [class.mt-4]="pavimento.omissos.length > 0">
+        <app-item-omisso
+          [pavimento]="pavimento"
+          [itemOmisso]="pavimento.addOmisso"
+          [quantitativo]="quantitativo"
+        ></app-item-omisso>
+      </div>
+      <div
+        class="icone"
+        (click)="addItem()"
+        [awSpinner]="loaderOmisso"
+        [class.hide]="devolucaoProposta.cabecalhoProposta.retornoProposta"
+      >
+        <i class="icon icon-plus"></i>
+      </div>
+    </ng-container>
+  </accordion-group>
+</accordion>
+<ng-template #excel>
+  <div class="grid-container primary my-3 rounded">
+    <div class="grid-span-3">
+      {{ pavimento.tipo == 'Andar' ? 'Andar ' + pavimento.siglaPavimento + '°' : pavimento.nomePavimento }}
+    </div>
+    <div>{{ pavimento.qtdItensOrcados }}/{{ pavimento.qtdItens }}</div>
+    <div>{{ total$ | async | currency: 'BRL' }}</div>
+    <div>
+      <a
+        awButton
+        [routerLink]="['pavimento', pavimento.idPavimento]"
+        status="primary"
+        size="sm"
+        queryParamsHandling="merge"
+      >
+        Definir valores
+      </a>
+    </div>
+  </div>
+</ng-template>

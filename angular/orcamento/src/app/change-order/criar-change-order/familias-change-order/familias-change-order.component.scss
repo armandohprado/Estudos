@@ -1,0 +1,78 @@
+@import 'variables';
+
+:host {
+  padding: 2rem 4rem;
+  > .familias {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    grid-gap: 2rem;
+    background-color: $light-gray;
+    border-radius: $border-radius;
+    padding: 1rem;
+    > .menu {
+      > .list {
+        > .item {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          justify-content: space-between;
+          border: 1px solid transparent;
+          padding: 0.5rem 0.5rem 0.5rem 1rem;
+          border-radius: 0 2.5rem 2.5rem 0;
+          cursor: pointer;
+          &.custom {
+            grid-template-columns: 1fr 25px auto;
+          }
+          > .title {
+            font-weight: bold;
+            color: $steel;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          > .badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 30px;
+          }
+          &.active {
+            border-color: $green-alt;
+            > .title {
+              color: $green-alt;
+            }
+            > .badge {
+              background-color: $green-alt;
+            }
+          }
+          &:hover:not(.active) {
+            $hover-green: lighten($green-alt, 20%);
+            border-color: $hover-green;
+            > .title {
+              color: $hover-green;
+            }
+            > .badge {
+              background-color: $hover-green;
+            }
+          }
+        }
+        > .add-familia {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            color: $primary;
+          }
+          > .icon {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.add-familia-box {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-overlay;
+  width: 100%;
+}

@@ -1,0 +1,103 @@
+<div
+  class="d-flex flex-column justify-content-start wrapper"
+  [awSpinner]="(loading$ | async) || (saveLoading$ | async)"
+  *ngIf="familias$ | async as familias"
+>
+  <div class="py-2 my-2">
+    <app-modo-exibicao></app-modo-exibicao>
+  </div>
+  <app-collapse>
+    <app-collapse-group
+      *ngFor="let familia of familias; trackBy: trackByFamilia; let $indexFamilia = index"
+      class="mb-40 d-block"
+      [(isOpen)]="collapses['isOpen_' + $indexFamilia]"
+    >
+      <ng-container collapse-heading>
+        <h1
+          class="family-group-header d-flex align-items-center text-lowercase"
+          (click)="collapses['isOpen_' + $indexFamilia] = !collapses['isOpen_' + $indexFamilia]"
+        >
+          {{ familia.descricaoFamilia }}
+          <i
+            *ngIf="familia.grupoes?.length > 0"
+            class="icon"
+            [class.icon-caret-up]="collapses['isOpen_' + $indexFamilia]"
+            [class.icon-caret-down]="!collapses['isOpen_' + $indexFamilia]"
+          ></i>
+        </h1>
+      </ng-container>
+      <ng-container *ngIf="collapses['isOpen_' + $indexFamilia] && familia.grupoes?.length > 0">
+        <div class="d-flex align-items-center border-bottom-divisor py-3 th-area">
+          <p class="mb-0 w-55 p-0">Grupos</p>
+          <p class="mb-0 w-45 p-0">Fornecedores</p>
+        </div>
+
+        <ng-container *ngIf="familia.grupoes | reduceTo: 'grupos' | awOrderBy: orderByCodigo as grupos">
+          <div
+            class="d-flex line-group border-bottom-divisor align-items-center min-item-height"
+            *ngFor="let grupo of grupos; trackBy: trackByGrupo; let iGroup = index"
+          >
+            <div class="w-55 p-0 d-flex align-items-center">
+              <p class="mb-0">{{ grupo.codigoGrupo }}</p>
+              <span class="mr-3 ml-3">-</span>
+              <p class="mb-0 text-lowercase">{{ grupo.nomeGrupo }}</p>
+            </div>
+            <ng-container *ngIf="grupo.fornecedores?.length; else defaultFornecedorSelecionado">
+              <div class="w-32 p-0 pr-4 d-flex align-items-start flex-column h-100" [attr.data-index]="iGroup">
+                <ng-container
+                  *ngFor="let fornecedor of grupo.fornecedores; trackBy: trackByFornecedor; let iPill = index"
+                >
+                  <div class="pill" [attr.data-index]="iPill">
+                    {{ fornecedor.nomeFantasia | titlecase }}
+
+                    <span class="fornecedor-info"> CNPJ {{ fornecedor.cnpj | mask: maskEnum.cnpj }} </span>
+
+                    <button
+                      class="btn btn-icon"
+                      type="button"
+                      (click)="setFav(grupo.idOrcamentoGrupo, grupo.idGrupo, fornecedor)"
+                    >
+                      <i
+                        class="icon pointer-events-none"
+                        [class.icon-star-full]="fornecedor.favorito"
+                        [class.icon-star-empty]="!fornecedor.favorito"
+                      ></i>
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+            <ng-template #defaultFornecedorSelecionado>
+              <div class="w-32 p-0 pr-4 d-flex align-items-center justify-content-start">
+                <p class="m-0 color-custom-grey">Nenhum fornecedor selecionado</p>
+              </div>
+            </ng-template>
+            <div
+              class="w-13 p-0 d-flex align-items-center justify-content-end"
+              *ngLet="
+                !(
+                  grupo.idTipoGrupo | any: [tipoGrupoEnum.Insumo, tipoGrupoEnum.InsumoKit, tipoGrupoEnum.Tecnico]
+                ) as addBtnCondition
+              "
+              [class.min-item-height]="!addBtnCondition"
+            >
+              <button
+                *ngIf="addBtnCondition"
+                class="btn btn-plus btn-circle mr-1"
+                type="button"
+                (click)="openFornecedoresModal(grupo)"
+              >
+                <i class="icon icon-plus"></i>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </app-collapse-group>
+  </app-collapse>
+
+  <div class="d-flex align-self-end">
+    <button awButton cdkStepperNext width="secondary" class="btn-custom ml-4">Próximo</button>
+    <button awButton width="secondary" status="success" class="btn-custom ml-4">Salvar</button>
+  </div>
+</div>

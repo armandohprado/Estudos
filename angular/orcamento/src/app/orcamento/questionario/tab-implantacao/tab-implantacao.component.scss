@@ -1,0 +1,120 @@
+@import 'variables';
+
+:host ::ng-deep {
+  legend {
+    font-size: 14px;
+  }
+
+  .custom-switch {
+    width: 80px;
+    padding: 0;
+
+    label {
+      padding: 0;
+      font-size: 12px;
+      margin-left: 38px;
+      cursor: pointer;
+    }
+
+    span {
+      font-size: 11px;
+      color: #7b8594;
+      display: block;
+      margin-top: 4px;
+      &::before {
+        content: 'Premissa';
+      }
+    }
+
+    &::before {
+      width: 50px;
+      background-color: #9ea1ae;
+      border-radius: 2.5rem;
+      height: 25px;
+      left: -2.35rem;
+      top: -1.5px;
+      box-shadow: none;
+      border-color: transparent;
+    }
+
+    &::after {
+      height: 19px;
+      width: 19px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: calc(0.15625rem + -1px);
+    }
+
+    .custom-control-input {
+      &:checked ~ span {
+        color: #00d46c;
+
+        &::before {
+          margin-left: 8px;
+          content: 'Cliente';
+        }
+      }
+    }
+  }
+
+  .premissa-position {
+    position: absolute;
+  }
+
+  .content-position {
+    width: 100%;
+
+    legend {
+      margin-left: 80px;
+    }
+
+    .custom-checkbox {
+      margin-left: 80px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 50px;
+
+    h4 {
+      font-size: 20px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid rgba(192, 192, 192, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .disabled {
+      cursor: default;
+      * {
+        pointer-events: none;
+        color: $grey-light;
+        label {
+          color: $grey-light;
+          &::before {
+            background-color: $light-gray;
+            border-color: $light-gray;
+          }
+        }
+      }
+    }
+  }
+}
+
+button {
+  justify-content: center;
+  align-items: center;
+
+  .circle-icon-plus {
+    background-color: white;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    margin-right: 10px;
+
+    i {
+      font-size: 20px;
+      line-height: 2;
+    }
+  }
+}

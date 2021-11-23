@@ -1,0 +1,15 @@
+<div
+  class="banner"
+  *ngLet="percent$ | async as percentual"
+  [ngClass]="{
+    positive: percentual > 0,
+    negative: percentual < 0,
+    'show-color': showColor$ | async,
+    'hide-shadow': hideShadow
+  }"
+>
+  <span class="arrow" [ngClass]="{ 'arrow-up': percentual > 0, 'arrow-down': percentual < 0 }"></span>
+  <span class="value" *ngLet="percentual | percent: '1.0-2' as percentualFormatted" [title]="percentualFormatted">
+    {{ percentualFormatted }}
+  </span>
+</div>

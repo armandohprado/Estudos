@@ -1,0 +1,124 @@
+<div class="row" [formGroup]="formGrupoItem">
+  <div class="col-12">
+    <div class="container-fluid">
+      <div class="row mt-3 mb-1">
+        <div class="col-1">Cód. Item</div>
+        <div class="col-3">Item(s)</div>
+        <div class="col-2 text-right">Quantidade refer.</div>
+        <div class="col-2 text-center">Valor refer. serviço <small class="smaller">(R$)</small></div>
+        <div class="col-2 text-center">Valor refer. produto <small class="smaller">(R$)</small></div>
+        <div class="col-2">Valor total refer. <small class="smaller">(R$)</small></div>
+      </div>
+    </div>
+    <div class="grupo-item" *ngIf="grupoItem$ | async as grupoItem">
+      <div class="row">
+        <div class="col-1 d-flex">
+          <input awInput size="xs" type="text" formControlName="tag" />
+        </div>
+        <div class="col-3">
+          <div class="input-group input-group-xs">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">{{ novaNumeracao }} -&nbsp;</span>
+            </div>
+            <input awInput size="xs" formControlName="descricao" />
+          </div>
+        </div>
+        <div class="col-2 d-flex qtde-refer">
+          <span class="quantidade mr-1">{{ qtdeTotal$ | async }}</span>
+          <aw-select
+            formControlName="UM"
+            [clearable]="false"
+            [searchable]="false"
+            bindLabel="descricao"
+            [trackBy]="trackByUM"
+            [loading]="UMLoading"
+            position="bottom"
+            loadingText="Carregando..."
+            [items]="UMList$ | async"
+            size="xs"
+            class="flex-grow-1"
+          >
+          </aw-select>
+        </div>
+        <div class="col-2 d-flex">
+          <input awInput size="xs" formControlName="valorServico" currencyMask />
+        </div>
+        <div class="col-2 d-flex">
+          <input awInput size="xs" class="mr-1" formControlName="valorProduto" currencyMask />
+        </div>
+        <div class="col-2 last-col">
+          <div class="valor-icons">
+            <ng-container *ngLet="total$ | async as total">
+              <div class="valor-total" [tooltip]="total | number: '1.2-2'" [isDisabled]="total < 9999999999.99">
+                {{ total | number: '1.2-2' }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row second-line mt-1"
+        *ngIf="formGrupoItem.get('tag').invalid && formGrupoItem.get('tag').errors.invalidTag"
+      >
+        <div class="col-3">
+          <alert type="danger">Já existe um item com este código.</alert>
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-12">
+          <div class="content pt-3 mt-3">
+            <tabset #tabset class="tabset-definicao-escopo">
+              <tab heading="Complemento">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="complemento-text">Comentário: </label>
+                      <textarea
+                        awInput
+                        resize="vertical"
+                        id="complemento-text"
+                        rows="6"
+                        formControlName="complemento"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 d-flex justify-content-end">
+                    <button awButton status="secondary" class="mx-1" (click)="close()">Cancelar</button>
+                    <button awButton class="mx-1" (click)="nextTab()" [disabled]="formGrupoItem.invalid">
+                      Próximo
+                    </button>
+                  </div>
+                </div>
+              </tab>
+              <tab heading="Distribuir Item / Quantidade" class="distribuir" [disabled]="formGrupoItem.invalid">
+                <div class="distribuir-content mt-2">
+                  <app-de-distribuir-quantitativo
+                    [updateInternalBehavior]="true"
+                    [quantitativo]="quantitativo$ | async"
+                    [mapQuantitativo]="true"
+                    (qtdeTotal)="updateQtdeTotal($event)"
+                    (atualizarCentroCusto)="newCentroCusto($event)"
+                    tipo="definicao-escopo"
+                  ></app-de-distribuir-quantitativo>
+                </div>
+                <div class="buttons p-3 d-flex justify-content-end">
+                  <button awButton (click)="close()" class="mx-1">Cancelar</button>
+                  <button awButton [disabled]="formGrupoItem.invalid || !novaNumeracao" (click)="save()" class="mx-1">
+                    Concluir item
+                  </button>
+                </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="errorApi$ | async as errorApi">
+      <app-de-tentar-novamente (tentarNovamente)="tentarNovamente(errorApi.callAgain, errorApi.args)">
+        {{ errorApi.error }}
+      </app-de-tentar-novamente>
+    </ng-container>
+  </div>
+</div>

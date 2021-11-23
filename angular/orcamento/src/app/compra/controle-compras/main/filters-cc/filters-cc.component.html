@@ -1,0 +1,26 @@
+<div class="grid-container">
+  <div class="grid-item">
+    <aw-select
+      placeholder="Contrato Principal"
+      [searchable]="false"
+    ></aw-select>
+  </div>
+  <div class="grid-item">
+    <aw-select
+      placeholder="Todos os grupos"
+      [items]="ccGruposQuery.listAll$ | async"
+      [bindLabel]="['codigo', 'nome']"
+      bindLabelSeparator=" - "
+      bindValue="idGrupo"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [clearSearch]="false"
+      [ngModel]="grupos"
+      selectedText="grupo"
+      [footer]="true"
+      [footerOptions]="gruposFooterOptions"
+      (primaryBtn)="controleComprasService.updateFilterGrupos($event.data)"
+      (secondaryBtn)="controleComprasService.updateFilterGrupos([])"
+    ></aw-select>
+  </div>
+</div>

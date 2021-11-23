@@ -1,0 +1,94 @@
+@import 'variables';
+.xXx::before {
+  content: 'x';
+  color: #fff;
+  margin: 0 auto;
+}
+.grid-container-proposta {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr) 30px;
+  grid-gap: 1rem;
+  .column-span-2 {
+    grid-column: span 2;
+  }
+  .column-2 {
+    grid-column-start: 2;
+  }
+  .column-10 {
+    grid-column-start: 10;
+  }
+  .column-6 {
+    grid-column-start: 6;
+  }
+  .column-5 {
+    grid-column-start: 5;
+  }
+  .valor-orcamento {
+    grid-column: 9/11;
+  }
+  & {
+    & div {
+      display: flex;
+      align-items: center;
+    }
+    &.min-h-36 {
+      min-height: 36px;
+    }
+    &.desativada {
+      color: rgb(192, 192, 192);
+    }
+  }
+}
+// circulo dos status
+.rounded-circle {
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  &:not(.red):not(.green):not(.blue) {
+    border: solid 1px #979797;
+  }
+  &.green {
+    background-color: var(--shamrock-green);
+  }
+  &.red {
+    background-color: var(--orangey-red);
+  }
+  &.blue {
+    background-color: $blue-alt;
+  }
+}
+// triangulo pro valor indicado
+.triangle {
+  clip-path: polygon(68% 0%, 100% 0%, 100% 100%, 68% 100%, 30% 50%);
+  width: 16px;
+  background-color: var(--greyblue);
+  transition: all 0.5s ease-in-out;
+  margin-right: -24px;
+}
+
+.value-indicator {
+  .rectangle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 6px;
+    justify-content: center;
+    border-radius: $border-radius;
+    transition: background-color 0.5s ease-in-out;
+    cursor: pointer;
+    &.active {
+      background-color: var(--greyblue);
+      color: white;
+      font-weight: bold;
+    }
+  }
+  .rectangle,
+  .triangle {
+    height: 27px;
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}

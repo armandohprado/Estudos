@@ -1,0 +1,21 @@
+<div class="header status">Status</div>
+<div class="header tipo">Tipo</div>
+<div class="header data">Data</div>
+<div class="header data-aprovacao">Data aprovação</div>
+<div class="header detalhes">Detalhes</div>
+<div class="header origem-estouro">Origem estouro</div>
+<div class="header valor">Valor</div>
+<hr class="header" />
+
+<ng-container *ngFor="let ficha of fichas; trackBy: trackBy">
+  <div class="body status">{{ ficha.compraNegociacaoStatus }}</div>
+  <div class="body tipo">{{ ficha.tiposJoined }}</div>
+  <div class="body data">{{ ficha.data | date: 'dd/MM/yyyy' }}</div>
+  <div class="body data-aprovacao">{{ ficha.dataAprovacao | date: 'dd/MM/yyyy' }}</div>
+  <div class="body detalhes">{{ ficha.detalhe }}</div>
+  <div class="body origem-estouro">{{ ficha.descricaoTipoFicha }}</div>
+  <div class="body valor">{{ ficha.valor | number: '1.2-2' }}</div>
+  <hr />
+</ng-container>
+
+<div class="no-data-found" *ngIf="!fichas.length">Nenhuma ficha encontrada</div>

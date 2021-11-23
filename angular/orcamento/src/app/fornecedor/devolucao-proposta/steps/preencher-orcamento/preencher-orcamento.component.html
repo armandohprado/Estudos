@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-body p-0">
+    <div
+      *ngIf="
+        devolucaoProposta.proposta$
+          | async
+          | filterEdificio: devolucaoProposta.edificioSelecionado
+          | filterPavimentoItens: devolucaoProposta.itensFiltrados as proposta
+      "
+    >
+      <app-lista-documentos [interno]="interno" [proposta]="proposta"></app-lista-documentos>
+      <div>
+        <app-edificio [proposta]="proposta"></app-edificio>
+        <div class="py-3 d-flex justify-content-end">
+          <button
+            class="mx-2"
+            awButton
+            *ngIf="supply && !cabecalho.enviadoAprovacaoFornecedor"
+            (click)="salvarSupply()"
+            [loading]="salvando"
+          >
+            Enviar proposta para fornecedor
+          </button>
+          <button class="mx-2" awButton *ngIf="interno" cdkStepperNext>Próximo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

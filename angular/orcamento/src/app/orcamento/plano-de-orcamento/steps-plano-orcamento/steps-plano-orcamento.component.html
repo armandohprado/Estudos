@@ -1,0 +1,29 @@
+<aw-stepper
+  [breakLabel]="false"
+  vertical
+  verticalSizeConector="sm"
+  (selectionChange)="mudarStep($event.selectedIndex)"
+  [selectedIndex]="selectedIndex$ | async"
+  class="px-3"
+  #stepper
+  *ngLet="existeGrupoes$ | async as validacaoGrupoes"
+>
+  <aw-step label="Datas">
+    <app-tab-datas *ngIf="stepper.selectedIndex === PlanoOrcamentoTabsEnum.datas"></app-tab-datas>
+  </aw-step>
+  <aw-step label="Grupos">
+    <app-tab-grupos
+      *ngIf="stepper.selectedIndex === PlanoOrcamentoTabsEnum.grupos"
+      [existeGrupos]="validacaoGrupoes"
+    ></app-tab-grupos>
+  </aw-step>
+  <aw-step label="Responsáveis e datas" [editable]="validacaoGrupoes">
+    <app-tab-responsaveis *ngIf="stepper.selectedIndex === PlanoOrcamentoTabsEnum.responsaveis"></app-tab-responsaveis>
+  </aw-step>
+  <aw-step label="Fornecedores" [editable]="validacaoGrupoes">
+    <app-tab-fornecedores *ngIf="stepper.selectedIndex === PlanoOrcamentoTabsEnum.fornecedores"></app-tab-fornecedores>
+  </aw-step>
+  <aw-step label="Anotações" [editable]="validacaoGrupoes">
+    <app-tab-anotacoes *ngIf="stepper.selectedIndex === PlanoOrcamentoTabsEnum.anotacoes"></app-tab-anotacoes>
+  </aw-step>
+</aw-stepper>

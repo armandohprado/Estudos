@@ -1,0 +1,79 @@
+<form [formGroup]="form" (ngSubmit)="formSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      {{ cenario ? 'Editar nome do cenário' : 'Novo cenário' }}
+    </h4>
+    <button
+      awButton
+      icon="close"
+      size="sm"
+      type="button"
+      [disabled]="loaderSubmit"
+      (click)="bsModalRef.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div *ngLet="form.get('nomeOrcamentoCenario') as nomeOrcamentoCenarioControl" class="form-group">
+      <label for="nomeOrcamentoCenario">Nome</label>
+      <input class="form-control" formControlName="nomeOrcamentoCenario" id="nomeOrcamentoCenario" type="text" />
+      <label
+        *ngIf="nomeOrcamentoCenarioControl.hasError('required') && nomeOrcamentoCenarioControl.touched"
+        class="error"
+      >
+        Campo obrigatório.
+      </label>
+    </div>
+    <ng-container *ngIf="!cenario">
+      <div class="form-group" *ngLet="form.get('idOrcamentoCenarioOrigem') as idOrcamentoCenarioOrigemControl">
+        <label for="idOrcamentoCenarioOrigem">Utilizar dados do cenário</label>
+        <aw-select
+          formControlName="idOrcamentoCenarioOrigem"
+          id="idOrcamentoCenarioOrigem"
+          [items]="cenariosService.cenarios$ | async | default: []"
+          trackBy="idOrcamentoCenario"
+          bindLabel="nomeOrcamentoCenario"
+          bindValue="idOrcamentoCenario"
+          [clearable]="false"
+          [isInvalid]="idOrcamentoCenarioOrigemControl.hasError('required') && idOrcamentoCenarioOrigemControl.touched"
+        ></aw-select>
+        <label
+          *ngIf="idOrcamentoCenarioOrigemControl.hasError('required') && idOrcamentoCenarioOrigemControl.touched"
+          class="error"
+        >
+          Campo obrigatório.
+        </label>
+      </div>
+    </ng-container>
+    <div class="form-group" *ngLet="form.get('descricaoOrcamentoCenario') as descricaoOrcamentoCenarioControl">
+      <label for="descricaoOrcamentoCenario">Descrição</label>
+      <textarea
+        awInput
+        resize="vertical"
+        rows="3"
+        formControlName="descricaoOrcamentoCenario"
+        id="descricaoOrcamentoCenario"
+      >
+      </textarea>
+      <label
+        *ngIf="descricaoOrcamentoCenarioControl.hasError('required') && descricaoOrcamentoCenarioControl.touched"
+        class="error"
+      >
+        Campo obrigatório.
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer d-flex justify-content-center" (mouseenter)="form.markAllAsTouched()">
+    <button (click)="bsModalRef.hide()" awButton status="secondary" type="button" [disabled]="loaderSubmit">
+      Cancelar
+    </button>
+    <button
+      awButton
+      [loading]="loaderSubmit"
+      [disabled]="form.invalid || form.pristine"
+      [isDisabled]="form.valid"
+      tooltip="Verifique os campos marcados em vermelho no formulário. Clique em cada campo para ver os detalhes de preenchimento."
+    >
+      Confirmar
+    </button>
+  </div>
+</form>

@@ -1,0 +1,47 @@
+<div class="form-group">
+  <aw-select
+    placeholder="Digite pelo menos 4 carecteres para pesquisar"
+    searchPlaceholder="Digite pelo menos 4 carecteres para pesquisar"
+    [items]="fornecedores"
+    [bindLabel]="['cnpj', 'nomeFantasia']"
+    bindLabelSeparator=" - "
+    [clearable]="false"
+    [loading]="loadingFornecedores"
+    (search)="$event.length >= 4 ? search.emit($event) : null"
+    formControlName="fornecedor"
+    [clearSearch]="false"
+  ></aw-select>
+</div>
+<div class="form-group">
+  <label for="detalhe" class="sr-only"></label>
+  <textarea
+    rows="6"
+    awInput
+    resize="none"
+    placeholder="Detalhe em poucas palavras"
+    formControlName="detalhe"
+    id="detalhe"
+  ></textarea>
+</div>
+<div class="form-group radio nao-homologado">
+  <aw-radio name="tipo" [value]="adicionarFornecedorTipoEnum.naoHomologado" formControlName="tipo">
+    Não homologado
+  </aw-radio>
+</div>
+<div class="form-group radio suspenso">
+  <aw-radio name="tipo" [value]="adicionarFornecedorTipoEnum.suspenso" formControlName="tipo"> Suspenso </aw-radio>
+</div>
+<div class="form-group">
+  <aw-select
+    placeholder="Motivo"
+    [items]="listaCausa | awFilter: 'idFichaArea':(fornecedorTipo === adicionarFornecedorTipoEnum.suspenso ? 8 : 7)"
+    [clearable]="false"
+    [searchable]="false"
+    bindLabel="nome"
+    formControlName="motivo"
+  ></aw-select>
+</div>
+<div class="form-group">
+  <label>Arquivos para aprovação</label>
+  <aw-file multiple clearable formControlName="files"></aw-file>
+</div>

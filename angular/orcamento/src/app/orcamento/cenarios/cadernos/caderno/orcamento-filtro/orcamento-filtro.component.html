@@ -1,0 +1,112 @@
+<div class="bg-white rounded position-relative" *ngLet="cadernosService.caderno$ | async as caderno">
+  <aw-spinner *ngIf="loader$ | async"></aw-spinner>
+  <div *ngIf="successFeedback$ | async" class="planilha-adicionada d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <i class="icon icon-check"></i>
+      <p class="font-weight-bold mt-3">Filtros salvos</p>
+    </div>
+  </div>
+  <div class="grid-3 p-2">
+    <div>
+      <label for="nomeCaderno" class="w-100"
+        >Nome do Caderno
+        <input
+          class="form-control"
+          awInput
+          [ngModel]="caderno.nomeCaderno"
+          required
+          #nomeCaderno="ngModel"
+          id="nomeCaderno"
+          (ngModelChange)="updateCaderno($event)"
+        />
+      </label>
+      <div *ngIf="nomeCaderno.invalid && (nomeCaderno.dirty || nomeCaderno.touched)" class="alert alert-danger">
+        <div *ngIf="nomeCaderno.errors.required">Nome é obrigatório</div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-3 p-2 c-pointer title" (click)="alterarTab()">
+    <ng-container *ngIf="tab2; else cabecalhoTab2">
+      <div class="border-right pl-3">Andar</div>
+      <div class="border-right pl-3">Centro custo</div>
+      <div class="d-flex justify-content-between pl-3">
+        <div>Grupo</div>
+        <div class=""><span class="icon aw-icon-seta-direita px-5" tooltip="Alterar Tab"></span></div>
+      </div>
+    </ng-container>
+    <ng-template #cabecalhoTab2>
+      <div class="border-right pl-3">Níveis</div>
+      <div class="border-right pl-3">Colunas</div>
+      <div class="d-flex justify-content-between pl-3">
+        <div>Tipo</div>
+        <div class=""><span class="icon aw-icon-seta-direita px-5" tooltip="Alterar Tab"></span></div>
+      </div>
+    </ng-template>
+  </div>
+  <ng-container *ngIf="!tab2">
+    <div class="grid-3 px-3 rolagem">
+      <div class="">
+        <div class="min-vh-20">
+          <app-orcamento-filtro-niveis
+            [niveis]="caderno.cadernoConfiguracaoNivel"
+            (selecionado)="updateCadernoNiveis($event)"
+          ></app-orcamento-filtro-niveis>
+        </div>
+      </div>
+      <div class="pl-2">
+        <div class="min-vh-20">
+          <app-orcamento-filtro-colunas
+            [colunas]="caderno.cadernoConfiguracaoColunasTipo"
+            (selecionado)="updateCadernoConfiguracao($event)"
+          ></app-orcamento-filtro-colunas>
+        </div>
+      </div>
+      <div class="pl-2 min-vh-20">
+        <aw-radio
+          [ngModel]="caderno.cadernoConfiguracaoColunasTipo[0]?.exibeAndaresColunados"
+          (ngModelChange)="updateCadernoConfiguracao({ event: $event, value: 'exibeAndaresColunados' })"
+          [value]="true"
+          name="colunados"
+        >
+          Andares colunados
+        </aw-radio>
+        <hr />
+        <aw-radio
+          [ngModel]="caderno.cadernoConfiguracaoColunasTipo[0]?.exibeAndaresColunados"
+          (ngModelChange)="updateCadernoConfiguracao({ event: $event, value: 'exibeAndaresColunados' })"
+          [value]="false"
+          name="colunados"
+        >
+          Andares em linhas
+        </aw-radio>
+        <hr />
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="tab2">
+    <div class="grid-3 px-3 rolagem">
+      <app-orcamento-filtro-pavimento
+        [filtros]="caderno.cadernoConfiguracaoAndar"
+        [nome1]="'nomePavimento'"
+        [trackBy]="trackByAndar"
+        (selecionado)="updateCadernoTab2($event, 'cadernoConfiguracaoAndar', 'idProjetoEdificioPavimento')"
+      ></app-orcamento-filtro-pavimento>
+      <app-orcamento-filtro-pavimento
+        [filtros]="caderno.cadernoConfiguracaoCentroCusto"
+        [nome1]="'descricaoProjetoCentroCusto'"
+        [trackBy]="trackByCentroCusto"
+        (selecionado)="updateCadernoTab2($event, 'cadernoConfiguracaoCentroCusto', 'idProjetoCentroCusto')"
+      ></app-orcamento-filtro-pavimento>
+      <app-orcamento-filtro-pavimento
+        [filtros]="caderno.cadernoConfiguracaoGrupo"
+        [nome1]="'codigoGrupo'"
+        [nome2]="'nomeGrupo'"
+        [trackBy]="trackByGrupo"
+        (selecionado)="updateCadernoTab2($event, 'cadernoConfiguracaoGrupo', 'idOrcamentoGrupo')"
+      ></app-orcamento-filtro-pavimento>
+    </div>
+  </ng-container>
+  <div class="px-3 py-2 d-flex justify-content-end">
+    <button awButton (click)="salvar()" [disabled]="!caderno.nomeCaderno">Salvar filtros</button>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="header-grupo grid-container pb-0">
+  <div class="codigo grid-item justify-content-end flex-column">
+    <div>Cód</div>
+    <div class="min-h-icons"></div>
+  </div>
+  <app-header-grupo-cc-col
+    name="Grupo"
+    propertyGrupo="nome"
+    type="text"
+    [tipo]="tipo"
+    [sort]="sort"
+    class="nome justify-content-start"
+  ></app-header-grupo-cc-col>
+  <div class="alterar-tipo-faturamento grid-item"></div>
+  <app-header-grupo-cc-col
+    [name]="
+      tipo === cnTipoGrupoEnum.Direto
+        ? 'Total de venda <br /> congelada (R$)'
+        : 'Total de venda <br/>com impostos congelada (R$)'
+    "
+    propertyGrupo="valorVendaCongelada"
+    type="number"
+    [tipo]="tipo"
+    [sort]="sort"
+    class="justify-content-start"
+  ></app-header-grupo-cc-col>
+  <app-header-grupo-cc-col
+    [name]="tipo === cnTipoGrupoEnum.Direto ? 'CC emitida' : 'Total de compra <br/>com impostos CC emitida (R$)'"
+    propertyGrupo="valorEmissaoCC"
+    type="number"
+    [tipo]="tipo"
+    [sort]="sort"
+    class="justify-content-start"
+  ></app-header-grupo-cc-col>
+  <app-header-grupo-cc-col
+    name="Saldo (R$)"
+    propertyGrupo="valorSaldoAtualizado"
+    type="number"
+    [tipo]="tipo"
+    [sort]="sort"
+    class="justify-content-start"
+  ></app-header-grupo-cc-col>
+</div>

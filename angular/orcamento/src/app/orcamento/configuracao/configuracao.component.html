@@ -1,0 +1,126 @@
+<ng-container *ngIf="projeto$ | async as projeto">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Contrato principal</h3>
+    </div>
+    <div class="card-body">
+      <h6 class="project-name">
+        <strong class="text-success">{{ projeto.numeroProjeto }}</strong>
+        {{ projeto.nomeProjeto }}
+      </h6>
+    </div>
+  </div>
+  <div class="my-2">
+    <button awButton (click)="openModalOrcamento(projeto)">Cadastrar configuração de orçamento</button>
+  </div>
+  <div class="card orcamentos mb-2">
+    <div class="card-header">
+      <div>Nome do orçamento (Site)</div>
+      <div>Edifícios</div>
+      <div>Fases</div>
+      <div class="acoes">Ações</div>
+    </div>
+    <div class="card-body" [awSpinner]="loadingOrcamentos">
+      <h6 *ngIf="!projeto.orcamentos.length" class="empty-message">Nenhuma configuração de orçamento cadastrada</h6>
+      <ng-container *ngFor="let orcamento of projeto.orcamentos; trackBy: trackByOrcamento; let $lastOrcamento = last">
+        <div class="orcamento">{{ orcamento.nomeOrcamento }}</div>
+        <div class="edificios">
+          <div *ngFor="let edificio of orcamento.edificios; trackBy: trackByEdificio">
+            {{ edificio.nomeEdificio }}
+          </div>
+        </div>
+        <div class="fases">
+          <div *ngFor="let fase of orcamento.fases; trackBy: trackByFase">
+            {{ fase.nomeFase }} - {{ fase.dataInicioFase | date: 'dd/MM/yyyy' }} >
+            {{ fase.dataFimFase | date: 'dd/MM/yyyy' }}
+          </div>
+        </div>
+        <div class="acoes">
+          <div class="icons">
+            <ng-container *ngIf="orcamento.orcamentoCenarioPadrao as orcamentoCenario; else orcamentoCenarioNotFound">
+              <button
+                awButton
+                icon="budget-plan"
+                [routerLink]="[
+                  orcamento.idOrcamento,
+                  'cenarios',
+                  orcamentoCenario.idOrcamentoCenario,
+                  'plano-de-orcamento'
+                ]"
+                fragment="datas"
+                [state]="{ projeto: projeto }"
+                tooltip="Plano de Orçamento"
+                delay="400"
+              ></button>
+              <button
+                awButton
+                icon="budget-configuration"
+                [routerLink]="[orcamento.idOrcamento, 'cenarios', orcamentoCenario.idOrcamentoCenario, 'cotacao']"
+                tooltip="Controle de cotação"
+                delay="400"
+              ></button>
+              <div class="divider"></div>
+              <a
+                awButton
+                icon="upload-document"
+                tooltip="Planilha cliente"
+                delay="400"
+                href="{{ urlPlanilhaCliente }}{{ orcamento.idOrcamento }}"
+                target="_blank"
+              ></a>
+              <div class="divider"></div>
+              <button
+                [disabled]="!orcamentoCenario.existePlanoCompra"
+                awButton
+                icon="spreadsheet"
+                [routerLink]="[
+                  orcamento.idOrcamento,
+                  'cenarios',
+                  orcamentoCenario.idOrcamentoCenario,
+                  'compras',
+                  'plano-compras'
+                ]"
+                tooltip="Plano de Compra"
+                delay="400"
+              ></button>
+              <button
+                [disabled]="!orcamentoCenario.existeCompraNegociacao"
+                awButton
+                icon="aw-icon-dolly-flatbed"
+                [routerLink]="[
+                  orcamento.idOrcamento,
+                  'cenarios',
+                  orcamentoCenario.idOrcamentoCenario,
+                  'compras',
+                  'controle-compra'
+                ]"
+                tooltip="Controle de Compra e Negociação"
+                delay="400"
+              ></button>
+              <div class="divider"></div>
+              <button
+                awButton
+                icon="edit"
+                (click)="openModalOrcamento(projeto, orcamento)"
+                tooltip="Editar Orçamento"
+                delay="400"
+              ></button>
+              <button
+                awButton
+                icon="trash-alt"
+                class="last"
+                (click)="openDeleteModalOrcamento(orcamento.idOrcamento)"
+                tooltip="Excluir Orçamento"
+                delay="400"
+              ></button>
+            </ng-container>
+            <ng-template #orcamentoCenarioNotFound>
+              <span class="text-danger"> Orçamento Cenário Padrão não encontrado </span>
+            </ng-template>
+          </div>
+        </div>
+        <div class="divider" *ngIf="!$lastOrcamento"></div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

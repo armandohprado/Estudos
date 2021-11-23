@@ -1,0 +1,36 @@
+:host {
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+
+  &.active {
+    display: flex;
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 0 rgba(120, 120, 120, 0.14);
+  background-color: #fafafa;
+  display: block;
+}
+
+app-familia {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+}
+
+.cdk-drop-list-dragging {
+  &:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  app-familia {
+    cursor: grabbing;
+  }
+}

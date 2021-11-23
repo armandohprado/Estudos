@@ -1,0 +1,39 @@
+.icons {
+  display: flex;
+  align-items: center;
+  margin-right: 3px;
+  .icon {
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 2px;
+    &.caret {
+      font-size: 6px;
+      color: var(--cerulean);
+    }
+  }
+}
+
+::ng-deep {
+  .popover-duplicar {
+    max-width: 170px;
+    width: 170px;
+    .popover-body {
+      padding: 0.25rem;
+      .list-duplicar {
+        li.item {
+          border-bottom: 0.5px solid #f0eeee;
+          padding: 1px 10px;
+        }
+      }
+    }
+  }
+}
+
+.numero-copias {
+  text-align: center;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

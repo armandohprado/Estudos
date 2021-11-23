@@ -1,0 +1,37 @@
+@use 'variables' as v;
+
+.header {
+  border-bottom: 1px solid v.$bluey-grey;
+}
+
+.header,
+li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 200px) minmax(0, 75px);
+  grid-gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+li {
+  cursor: pointer;
+  transition: background-color 200ms ease;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: v.$very-light-blue;
+  }
+  outline: none;
+}
+
+.arquivo {
+  display: flex;
+  justify-content: center;
+}
+
+.no-data-found {
+  grid-column: 1/-1;
+  cursor: default;
+  &:hover {
+    background-color: transparent;
+  }
+}

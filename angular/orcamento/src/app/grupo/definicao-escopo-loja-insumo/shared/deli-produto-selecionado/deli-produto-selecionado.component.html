@@ -1,0 +1,43 @@
+<div class="produto-selecionado">
+  <div class="produto">
+    <div class="mr-1">
+      <aw-radio
+        [name]="idUnico"
+        [value]="idUnico + true"
+        [ngModel]="idUnico + produtoCatalogo.selecionado"
+        (ngModelChange)="produtoSelecionado.emit(produtoCatalogo)"
+      >
+        <div class="produto-img-desc">
+          <div class="img mr-3">
+            <img
+              [src]="produtoCatalogo | deliProdutoCatalogoImagem"
+              [alt]="produtoCatalogo.descricao"
+              [awImgOnError]="noImage"
+            />
+          </div>
+          <div class="desc-title">
+            <div class="title">{{ produtoCatalogo.descricao }}</div>
+            <div class="descricao">{{ produtoCatalogo.nome }}</div>
+          </div>
+        </div>
+      </aw-radio>
+    </div>
+    <div>
+      <button awButton icon="search" size="sm" (click)="openModal()"></button>
+    </div>
+  </div>
+  <div class="qtde"></div>
+  <div class="preco">
+    {{ produtoCatalogo.precoRegiao | number: '1.2-2' }}
+  </div>
+  <div class="total"></div>
+  <div class="acoes">
+    <button
+      awButton
+      icon="trash-alt"
+      type="button"
+      (click)="produtoDeletado.emit(produtoCatalogo)"
+      *ngIf="canDelete"
+    ></button>
+  </div>
+</div>

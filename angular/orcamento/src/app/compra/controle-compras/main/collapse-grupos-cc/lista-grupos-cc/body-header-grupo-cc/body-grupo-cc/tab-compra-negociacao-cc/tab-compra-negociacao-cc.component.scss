@@ -1,0 +1,28 @@
+.icon-caret-down,
+.icon-caret-up {
+  font-size: 6px;
+}
+.aw-icon-erro:before {
+  content: '';
+  color: #000;
+}
+.after-traco {
+  content: ' | ';
+  margin-right: 10px;
+}
+.click {
+  cursor: pointer;
+}
+::ng-deep {
+  .popover.popover-tab-compra-negociacao {
+    .popover-body {
+      padding: 5px;
+    }
+  }
+}
+
+.bord:before {
+  content: '|';
+  font-size: 15px;
+  margin: 0 10px;
+}

@@ -1,0 +1,197 @@
+<form *ngLet="buildings$ | async as edificios" (ngSubmit)="salvarOrcamento(edificios)" [formGroup]="form">
+  <div class="modal-header">
+    <h4 class="modal-title">Configuração de orçamento</h4>
+    <button
+      type="button"
+      awButton
+      icon="close"
+      size="sm"
+      [disabled]="savingOrcamento"
+      (click)="bsModalRef.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <h6 *ngIf="projeto" class="project-name">
+      <strong class="text-success">{{ projeto.numeroProjeto }}</strong>
+      {{ projeto.nomeProjeto }}
+    </h6>
+    <div
+      *ngLet="{
+        hasError: nomeOrcamentoControl.invalid && nomeOrcamentoControl.touched,
+        hasSuccess: nomeOrcamentoControl.valid && nomeOrcamentoControl.dirty
+      } as state"
+      [ngClass]="{ 'has-danger': state.hasError, 'has-success': state.hasSuccess }"
+      class="form-group has-label"
+    >
+      <label for="name">Nome:</label>
+      <input awInput formControlName="nomeOrcamento" id="name" type="text" />
+      <label *ngIf="state.hasError" class="error"> Campo obrigatório. </label>
+    </div>
+    <label>Edifícios:</label>
+    <app-draggable-list
+      (selectedData)="saveBuildings($event)"
+      [list]="edificios"
+      [selectedList]="form.get('edificios').value"
+      fieldValue="idEdificio"
+      fieldLabel="nomeEdificio"
+    ></app-draggable-list>
+    <div class="table-responsive">
+      <div class="add-fase d-flex align-items-center">
+        <label>Fases</label>
+        <button awButton icon="plus" circle (click)="addFase()"></button>
+      </div>
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th>Fase</th>
+            <th class="w-25">Data início</th>
+            <th class="w-25">Data fim</th>
+            <th class="acoes">Ações</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="fases">
+          <ng-container *ngFor="let control of fasesControls; trackBy: trackBy; let i = index">
+            <tr [formGroupName]="i" class="fases">
+              <td
+                *ngLet="{
+                  hasError: control.get('nomeFase').invalid && control.get('nomeFase').touched,
+                  hasSuccess: control.get('nomeFase').valid && control.get('nomeFase').dirty
+                } as state"
+                [ngClass]="{ 'has-danger': state.hasError, 'has-success': state.hasSuccess }"
+                class="form-group"
+              >
+                <label [for]="'faseName_' + i" class="sr-only"></label>
+                <input [id]="'faseName_' + i" awInput formControlName="nomeFase" placeholder="Fase única" type="text" />
+                <label *ngIf="state.hasError" class="error">Campo obrigatório.</label>
+              </td>
+              <td>
+                <div
+                  [class.has-danger]="control.get('dataInicioFase').invalid && control.get('dataInicioFase').touched"
+                  class="input-group"
+                >
+                  <input
+                    awInput
+                    [bsConfig]="bsConfig"
+                    [id]="'startDate_' + i"
+                    [maxDate]="control.get('dataFimFase').value"
+                    dateMask
+                    autocomplete="off"
+                    bsDatepicker
+                    formControlName="dataInicioFase"
+                    maxlength="11"
+                    placeholder="___ /___ /______"
+                    placement="top"
+                    type="text"
+                  />
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <i class="icon icon-calendar"></i>
+                    </div>
+                  </div>
+                  <label
+                    *ngIf="control.get('dataInicioFase').hasError('required') && control.get('dataInicioFase').touched"
+                    class="error"
+                    >Campo obrigatório.</label
+                  >
+                  <label
+                    *ngIf="
+                      control.get('dataInicioFase').hasError('invalidDate') &&
+                      !control.get('dataInicioFase').hasError('required')
+                    "
+                    class="error"
+                  >
+                    Data inválida. Informe uma data válida.
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div
+                  [class.has-danger]="control.get('dataFimFase').invalid && control.get('dataFimFase').touched"
+                  class="input-group"
+                >
+                  <input
+                    awInput
+                    [bsConfig]="bsConfig"
+                    [id]="'endDate_' + i"
+                    [minDate]="control.get('dataInicioFase').value"
+                    dateMask
+                    autocomplete="off"
+                    bsDatepicker
+                    formControlName="dataFimFase"
+                    maxlength="11"
+                    placeholder="___ /___ /______"
+                    placement="top"
+                    type="text"
+                  />
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <i class="icon icon-calendar"></i>
+                    </div>
+                  </div>
+                  <label
+                    *ngIf="control.get('dataFimFase').hasError('required') && control.get('dataFimFase').touched"
+                    class="error"
+                    >Campo obrigatório.</label
+                  >
+                  <label
+                    *ngIf="
+                      control.get('dataFimFase').hasError('invalidDate') &&
+                      !control.get('dataFimFase').hasError('required')
+                    "
+                    class="error"
+                  >
+                    Data inválida. Informe uma data válida.
+                  </label>
+                  <label
+                    *ngIf="
+                      control.get('dataFimFase').hasError('minDate') && !control.get('dataFimFase').hasError('required')
+                    "
+                    class="error"
+                  >
+                    A data fim deve ser maior que a data início.
+                  </label>
+                </div>
+              </td>
+              <td class="acoes" *ngLet="control.get('canRemove') as canRemoveControl">
+                <button
+                  [disabled]="!canRemoveControl.value"
+                  awButton
+                  icon="trash-alt"
+                  (click)="removeFase(i)"
+                  type="button"
+                ></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center align-items-center flex-column">
+      <h6 *ngIf="!fasesControls.length" class="no-fases">Nenhuma fase cadastrada</h6>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      awButton
+      status="secondary"
+      (click)="bsModalRef.hide()"
+      width="secondary"
+      [disabled]="savingOrcamento"
+      type="button"
+    >
+      Cancelar
+    </button>
+    <button
+      awButton
+      type="submit"
+      [tooltip]="tooltipText"
+      container="body"
+      width="primary"
+      [isDisabled]="form.valid"
+      (click)="setFormTouched()"
+      [loading]="savingOrcamento"
+    >
+      Confirmar
+    </button>
+  </div>
+</form>

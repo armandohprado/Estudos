@@ -1,0 +1,26 @@
+<app-grupo-proposta
+  *ngIf="grupoOrcamento; else noGrupoFound"
+  [grupo]="grupoOrcamento"
+  [expanded]="!!grupo.grupoOrcamento.propostas?.length"
+  [adicionarFornecedor]="true"
+  [adicionarFornecedorRouterLink]="[grupo.idCompraNegociacaoGrupo, 'adicionar-fornecedor']"
+  [equalizacaoRouterLink]="['equalizacao-proposta', grupoOrcamento.idOrcamentoGrupo]"
+  [devolucaoPropostaRouterLink]="['proposta']"
+  [responsaveis]="grupo.responsaveis"
+  [responsaveisImgMesmoTamanho]="true"
+  [responsaveisQtde]="2"
+  [datas]="[grupo.dataPlanejamentoBatidaMartelo, grupo.dataAprovacaoMapa | default: grupo.dataPlanejamentoEmissaoCC]"
+  [comentario]="grupo.comentarioCompras"
+  [idOrcamentoCenario]="grupo.idOrcamentoCenario"
+  [idOrcamento]="grupo.idOrcamento"
+  [idProjeto]="idProjeto"
+  [routerLinkQueryParams]="{ idCompraNegociacaoGrupo: grupo.idCompraNegociacaoGrupo }"
+  [isControleCompras]="true"
+  (comentarioChange)="onComentarioChange($event)"
+  (propostaSelecionada)="onPropostaSelecionada()"
+  hideExcluir
+  showLinkLoginTemporario
+></app-grupo-proposta>
+<ng-template #noGrupoFound>
+  <aw-alert tipo="warning">Grupo não encontrado no orçamento</aw-alert>
+</ng-template>

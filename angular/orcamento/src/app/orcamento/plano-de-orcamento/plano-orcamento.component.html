@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12" *ngIf="orcamento$ | async as orcamento">
+    <div class="card" *ngIf="projeto$ | async as projeto">
+      <div class="card-header">
+        <h3 class="card-title">
+          {{ orcamento.nomeOrcamento }}
+        </h3>
+      </div>
+      <div class="card-sub-header bg-light-grey">
+        <div class="project-name-goal d-flex justify-content-between">
+          <div class="col-md-6">
+            <h6 class="project-name">
+              <strong class="text-success">{{ projeto.numeroProjeto }}</strong>
+              {{ projeto.nomeProjeto }}
+            </h6>
+            <p>
+              <strong>Edifícios:</strong>
+              <ng-container *ngFor="let edificio of orcamento.edificios; trackBy: trackByEdificio; last as last">
+                {{ edificio.nomeEdificio }}{{ !last ? ', ' : '' }}
+              </ng-container>
+            </p>
+            <div class="d-flex">
+              <p>
+                <strong>Área:</strong> {{ projeto.metragemAbsoluta | number }}
+                <sup>m2</sup>
+              </p>
+              <p class="ml-5"><strong>Segmentação:</strong> 3.0d</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <app-steps-plano-orcamento></app-steps-plano-orcamento>
+      </div>
+    </div>
+  </div>
+</div>

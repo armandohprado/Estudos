@@ -1,0 +1,37 @@
+<h2>Descongelar cronogramas</h2>
+<hr />
+<div class="form-group">
+  <label for="search">Pesquisar</label>
+  <input id="search" class="form-control" placeholder="Pesquisar" [formControl]="termoControl" />
+</div>
+<hr />
+<ng-container *ngLet="termo$ | async as termo">
+  <ul class="list-group" *ngIf="state$ | async as state">
+    <aw-spinner *ngIf="state.loading"></aw-spinner>
+    <li class="list-group-item" *ngIf="!state.cronogramas?.length">
+      <ng-container *ngIf="state.loading; else termCheck">Carregando...</ng-container>
+      <ng-template #termCheck>
+        <ng-container *ngIf="(termo?.length || 0) < 3; else noCronogramasFound">
+          Digite pelo menos 3 caracteres para pesquisar
+        </ng-container>
+      </ng-template>
+      <ng-template #noCronogramasFound>Nenhum cronograma encontrado.</ng-template>
+    </li>
+    <li class="list-group-item" *ngFor="let cronograma of state.cronogramas; trackBy: trackBy">
+      <aw-spinner *ngIf="cronograma.loading" size="sm"></aw-spinner>
+      <div class="cronograma">
+        <span class="projeto">
+          <span class="numero-projeto">{{ cronograma.numeroProjeto }}</span> {{ cronograma.nomeProjeto }}
+        </span>
+        <button
+          class="btn btn-primary btn-sm"
+          *ngIf="cronograma.publicado"
+          type="button"
+          (click)="descongelarCronograma(cronograma)"
+        >
+          Descongelar cronograma
+        </button>
+      </div>
+    </li>
+  </ul>
+</ng-container>

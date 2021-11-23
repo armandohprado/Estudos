@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-sub-header bg-light-grey">
+        <h2>Questionário</h2>
+      </div>
+      <div class="card-body">
+        <tabset #staticTabs class="questionario-tab">
+          <tab heading="Condições de faturamento e pagamento">
+            <app-tab-faturamento [projeto]="projeto"></app-tab-faturamento>
+          </tab>
+          <tab heading="Premissas de implantação">
+            <app-tab-implantacao [tabsetElement]="tabsetElement" [projeto]="projeto"></app-tab-implantacao>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

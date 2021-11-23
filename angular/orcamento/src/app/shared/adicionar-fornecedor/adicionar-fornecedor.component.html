@@ -1,0 +1,54 @@
+<ng-container [formGroup]="form">
+  <aw-wrapper-page
+    titulo="Adicionar fornecedor"
+    (voltar)="voltar.emit()"
+    subTitulo="Grupo: {{ codigoGrupo }} {{ nomeGrupo }}"
+  >
+    <div class="container content" [awSpinner]="loading">
+      <aw-alert #alert tipo="danger" [dismissible]="true">
+        O fornecedor não homologado precisa de aprovação. Selecione o fornecedor, justifique a escolha dessa fornecedor
+        e submeta para aprovação.
+      </aw-alert>
+      <div class="title">
+        <h6>Fornecedor não homologado / Suspenso</h6>
+        <a
+          *ngIf="projeto"
+          awButton
+          link
+          href="{{ urlNovoCadastro }}?IdCategoria={{ projeto.idCategoria }}&IdProjeto={{ projeto.idProjeto }}"
+          target="_blank"
+        >
+          Novo cadastro
+        </a>
+      </div>
+      <div class="body">
+        <app-adicionar-fornecedor-form
+          *ngIf="mode === adicionarFornecedorMode.form"
+          [fornecedores]="fornecedores$ | async"
+          [loadingFornecedores]="loadingFornecedores"
+          [listaCausa]="listaCausa"
+          [fornecedorTipo]="form.get('tipo').value"
+          (search)="search$.next($event)"
+        ></app-adicionar-fornecedor-form>
+        <app-adicionar-fornecedor-resumo
+          *ngIf="mode === adicionarFornecedorMode.resumo"
+          [resumo]="form.value"
+        ></app-adicionar-fornecedor-resumo>
+      </div>
+    </div>
+    <div footer>
+      <button awButton status="secondary" width="secondary" (click)="voltarPageOrStep()" [disabled]="loading">
+        Voltar
+      </button>
+      <button
+        awButton
+        width="primary"
+        [disabled]="form.invalid"
+        [loading]="loading || uploadingFiles"
+        (click)="submeterOrNext()"
+      >
+        {{ mode === adicionarFornecedorMode.form ? 'Submeter para aprovação' : 'Confirmar envio' }}
+      </button>
+    </div>
+  </aw-wrapper-page>
+</ng-container>

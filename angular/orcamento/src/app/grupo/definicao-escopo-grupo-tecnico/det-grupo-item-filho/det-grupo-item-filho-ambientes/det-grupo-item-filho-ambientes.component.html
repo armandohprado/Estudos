@@ -1,0 +1,54 @@
+<ng-container *ngIf="list$ | async as list">
+  <ng-container *ngIf="list.length; else noPavimentoFound">
+    <ng-container *ngFor="let tuple of list; trackBy: trackByPavimento">
+      <ng-container *ngIf="{ pavimento: tuple[0], ambientes: tuple[1] } as state">
+        <div class="pavimento">
+          <div class="header">
+            <h5>{{ state.pavimento.nomePavimento }}</h5>
+            <button
+              awButton
+              icon="edit"
+              (click)="editAmbientes(state.pavimento)"
+              tooltip="Editar ambientes"
+              delay="400"
+            ></button>
+          </div>
+          <div class="body">
+            <div class="header-ambiente">
+              <div class="nome">Ambiente</div>
+              <div class="metragem">Metragem</div>
+              <div class="pe-direito">Pé Direito</div>
+              <div class="forro">Forro</div>
+              <div class="spk">Necessita SPK</div>
+            </div>
+            <div class="list">
+              <ng-container *ngIf="state.ambientes.length; else noDataFound">
+                <div class="ambiente" *ngFor="let ambiente of state.ambientes; trackBy: trackByProjetoAmbiente">
+                  <div class="nome">
+                    {{ ambiente.nomeAmbiente }}
+                  </div>
+                  <div class="metragem">
+                    {{ ambiente.metragem | number: '1.2-2' }}
+                  </div>
+                  <div class="pe-direito">
+                    {{ ambiente.peDireito | number: '1.2-2' }}
+                  </div>
+                  <div class="forro">
+                    {{ ambiente.forro }}
+                  </div>
+                  <div class="spk">
+                    {{ ambiente.idSpk | toSpk }}
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noDataFound>Nenhum ambiente selecionado</ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-template #noPavimentoFound>
+    <p>Nenhum pavimento foi selecionado no quantitativo</p>
+  </ng-template>
+</ng-container>

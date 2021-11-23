@@ -1,0 +1,141 @@
+<ng-container *ngLet="loading$ | async as loading">
+  <aw-spinner *ngIf="loading.loadingInicial"></aw-spinner>
+  <ng-container *ngIf="!loading.loadingInicial">
+    <div class="planilha-cliente-link-wrapper">
+      <a awButton [href]="urlPlanilhaCliente$ | async" target="_blank">
+        <span class="icon icon-upload-document"></span> Planilha cliente
+      </a>
+    </div>
+    <div class="item-associado">
+      <div class="title">Selecionado:</div>
+      <div class="item" *ngIf="itemAssociado$ | async as itemAssociado; else itemAssociadoNotFound">
+        <div class="descricao">{{ itemAssociado.codigo }} - {{ itemAssociado.descricao }}</div>
+        <div class="unidade-medida">
+          {{ itemAssociado.unidadeMedida }}
+        </div>
+        <div class="icon-wrapper">
+          <button
+            awButton
+            icon="aw-icon-erro"
+            tooltip="Excluir item selecionado"
+            type="button"
+            [loading]="loading.loadingDelete"
+            (click)="deleteItem(itemAssociado)"
+          ></button>
+        </div>
+        <div class="icon-wrapper" *ngIf="itemAssociado.itemUtilizado">
+          <button
+            awButton
+            icon="star-full"
+            tooltip="Item utilizado"
+            type="button"
+            [disabled]="loading.loadingModal"
+            (click)="openModalItemsRelacionados(itemAssociado)"
+          ></button>
+        </div>
+      </div>
+      <ng-template #itemAssociadoNotFound>
+        <div class="item">Nenhum item selecionado</div>
+      </ng-template>
+    </div>
+    <ng-container *ngLet="idOrcamentoGrupoItem$ | async as idOrcamentoGrupoItem">
+      <div class="forms">
+        <div class="filtros">
+          <aw-radio
+            *ngIf="firstFiltro$ | async as nivel"
+            name="planilha-cliente-nivel-{{ idOrcamentoGrupoItem }}"
+            value="{{ idOrcamentoGrupoItem }}true"
+            ngModel="{{ idOrcamentoGrupoItem }}{{ nivel.selecionado }}"
+            (ngModelChange)="selecionarFiltro(nivel.id)"
+            [disabled]="loading.loadingItens"
+          >
+            {{ nivel.descricao }}
+          </aw-radio>
+          <div class="omisso">
+            <div class="title">Omisso</div>
+            <div class="itens">
+              <aw-radio
+                *ngFor="let nivel of filtrosWithoutFirst$ | async; trackBy: trackByFiltro"
+                name="planilha-cliente-nivel-{{ idOrcamentoGrupoItem }}"
+                value="{{ idOrcamentoGrupoItem }}true"
+                ngModel="{{ idOrcamentoGrupoItem }}{{ nivel.selecionado }}"
+                (ngModelChange)="selecionarFiltro(nivel.id)"
+                [disabled]="loading.loadingItens"
+              >
+                {{ nivel.descricao }}
+              </aw-radio>
+            </div>
+          </div>
+        </div>
+        <div class="termo">
+          <label for="planilha-cliente-termo-{{ idOrcamentoGrupoItem }}" class="sr-only">Pesquisar</label>
+          <input
+            id="planilha-cliente-termo-{{ idOrcamentoGrupoItem }}"
+            awInput
+            type="search"
+            [formControl]="termoControl"
+            placeholder="&#xE908; Pesquisar (mínimo 3 caracteres)"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+      <div class="position-relative">
+        <aw-spinner *ngIf="loading.loadingItens"></aw-spinner>
+        <div class="planilha-cliente-itens" *ngIf="filtroAtivo$ | async as filtroAtivo">
+          <ng-container *ngLet="itens$ | async as itens">
+            <div *ngIf="!itens.length">
+              <ng-container *ngIf="loading.loadingItens; else notLoading"> Carregando... </ng-container>
+              <ng-template #notLoading>
+                <ng-container *ngIf="termoControl.value?.length < 3; else noDataFound">
+                  Pelo menos 3 caracteres são necessários para fazer a busca
+                </ng-container>
+                <ng-template #noDataFound> Nenhum item encontrado </ng-template>
+              </ng-template>
+            </div>
+            <ng-container *ngFor="let planilhaClienteItem of itens; trackBy: trackByPlanilhaClienteItem">
+              <div class="radio-wrapper">
+                <aw-radio
+                  [style.margin-left.rem]="planilhaClienteItem.nivel"
+                  name="planilha-cliente-item-{{ idOrcamentoGrupoItem }}"
+                  value="{{ idOrcamentoGrupoItem }}true"
+                  ngModel="{{ idOrcamentoGrupoItem }}{{ planilhaClienteItem.selecionado }}"
+                  (ngModelChange)="selecionarItem(planilhaClienteItem)"
+                  [disabled]="
+                    loading.loadingDelete ||
+                    loading.loadingAssociado ||
+                    loading.loadingItens ||
+                    planilhaClienteItem.nivel !== filtroAtivo.id ||
+                    planilhaClienteItem.itemBloqueado
+                  "
+                >
+                  {{ planilhaClienteItem.codigo }} - {{ planilhaClienteItem.descricao }}
+                </aw-radio>
+              </div>
+              <div class="unidade-medida">
+                {{ planilhaClienteItem.unidadeMedida }}
+              </div>
+              <div class="icon-wrapper">
+                <button
+                  *ngIf="planilhaClienteItem.itemUtilizado"
+                  awButton
+                  icon="star-full"
+                  tooltip="Item utilizado"
+                  type="button"
+                  [disabled]="
+                    loading.loadingModal || loading.loadingDelete || loading.loadingAssociado || loading.loadingItens
+                  "
+                  (click)="openModalItemsRelacionados(planilhaClienteItem)"
+                ></button>
+                <span
+                  class="icon icon-information"
+                  tooltip="Item selecionado como taxa ou imposto"
+                  *ngIf="planilhaClienteItem.itemBloqueado"
+                ></span>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

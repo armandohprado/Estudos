@@ -1,0 +1,109 @@
+<div class="title">
+  <h4>Controle de Change Order</h4>
+</div>
+<div class="content">
+  <div class="project" *ngIf="projeto$ | async as projeto">
+    <h6 class="project-name">
+      <strong class="text-success">
+        {{ projeto.numeroProjeto }}
+      </strong>
+      {{ projeto.nomeProjeto }}
+    </h6>
+  </div>
+  <ng-container *ngIf="headerInfo$ | async as header">
+    <div class="values1">
+      <div class="item expand-btn">
+        <button
+          awButton
+          [icon]="expanded ? 'caret-up' : 'caret-down'"
+          [iconSize]="6"
+          (click)="expanded = !expanded"
+        ></button>
+      </div>
+      <div class="item divider-right">
+        <div class="title">Valor Total CO Congelada (R$)</div>
+        <div class="value">
+          {{ header.valorTotalCOCongelada | number: '1.2-2' }}
+        </div>
+      </div>
+      <div class="item">
+        <div class="title">Valor Total Transferido CP (R$)</div>
+        <div class="value">
+          {{ header.valorTotalTransferidoCP | number: '1.2-2' }}
+        </div>
+      </div>
+      <div class="item imposto-refaturamento">
+        <div class="title">Imposto de Refaturamento (R$)</div>
+        <div class="value">
+          <span>
+            {{ header.valorImpostoRefaturamento | number: '1.2-2' }}
+          </span>
+          <span>
+            {{ header.percentualImpostoRefaturamento | number: '1.2-2' }}
+          </span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="title">Margem Prevista (R$)</div>
+        <div class="value">
+          <span>
+            {{ header.valorLucroPrevisto | number: '1.2-2' }}
+          </span>
+          <span>
+            {{ header.percentualLucroPrevisto | number: '1.2-2' }}
+          </span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="title">Valor Total a Cobrar (R$)</div>
+        <div class="value">
+          {{ header.valorTotalACobrar | number: '1.2-2' }}
+        </div>
+      </div>
+    </div>
+    <div class="collapse" [collapse]="!expanded" [isAnimated]="true">
+      <div class="values2">
+        <div class="item single">
+          <div class="title">Direto</div>
+          <div class="title">Refaturado</div>
+        </div>
+        <div class="item single">
+          <div class="value">
+            <span>
+              {{ header.valorTotalCOCongeladaDireto | number: '1.2-2' }}
+            </span>
+            <span>
+              {{ header.percentualCOCongeladaDireto | number: '1.2-2' }}
+            </span>
+          </div>
+          <div class="value">
+            <span>
+              {{ header.valorTotalCOCongeladaRefaturado | number: '1.2-2' }}
+            </span>
+            <span>
+              {{ header.percentualCOCongeladaRefaturado | number: '1.2-2' }}
+            </span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="title">Saldo à comprar no CP</div>
+          <div class="value">
+            {{ header.valorSaldoTotalCP | number: '1.2-2' }}
+          </div>
+          <div class="title">Valor Total CP</div>
+          <div class="value">
+            {{ header.valorTotalCP | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="item single"></div>
+        <div class="item"></div>
+        <div class="item valor-total-obra">
+          <div class="title">Valor Total Obra (R$)</div>
+          <div class="value">
+            {{ header.valorTotalObra | number: '1.2-2' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

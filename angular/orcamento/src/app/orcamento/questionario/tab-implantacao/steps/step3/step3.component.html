@@ -1,0 +1,549 @@
+<form [formGroup]="formImplantacaoStep3" class="form-group px-5">
+  <h4 class="font-weight-bold">Condições do ambiente / local da obra</h4>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premissaLocalObra"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LOCAL_DISPONIVEL_PREMISSA"
+      />
+      <label class="custom-control-label" for="premissaLocalObra"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LOCAL_DISPONIVEL_PREMISSA).value !==
+        true
+      "
+    >
+      <legend class="font-weight-bold">Como o local da obra será disponibilizado?</legend>
+
+      <aw-radio
+        value="utilizado parcialmente pelo cliente"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LOCAL_DISPONIVEL"
+      >
+        Utilizado parcialmente pelo cliente
+      </aw-radio>
+
+      <aw-radio
+        value="utilizado totalmente pelo cliente"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LOCAL_DISPONIVEL"
+      >
+        Utilizado totalmente pelo cliente
+      </aw-radio>
+
+      <aw-radio value="vazio" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LOCAL_DISPONIVEL"
+        >Vazio</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch premissa-position">
+      <input
+        class="custom-control-input p-2"
+        id="premissaRestricoes"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_PREMISSA"
+      />
+      <label class="custom-control-label" for="premissaRestricoes"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      class="content-position"
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Quais são as restrições de horários de trabalho, estabelecidos pela sua empresa para a obra?
+      </legend>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-1"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SEM_RESTRICAO"
+        />
+        <label class="custom-control-label" for="checkbox-option-1"> Liberado sem restrições </label>
+      </div>
+
+      <div
+        class="custom-control input-radio my-3"
+        *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SEM_RESTRICAO).value"
+      >
+        <div class="row">
+          <div class="mr-3 col-4">
+            <label for="horarioApartir1">a partir das</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioApartir1"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SEM_RESTRICAO_INICIO"
+              maxlength="200"
+            />
+          </div>
+          <div class="col-4">
+            <label for="horarioAte1">até</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioAte1"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SEM_RESTRICAO_FIM"
+              maxlength="200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-2"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE"
+        />
+        <label class="custom-control-label" for="checkbox-option-2"> Liberado à noite </label>
+      </div>
+
+      <div
+        class="custom-control input-radio my-3"
+        *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE).value"
+      >
+        <div class="row">
+          <div class="mr-3 col-4">
+            <label for="horarioApartir2">a partir das</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioApartir2"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_INICIO"
+              maxlength="200"
+            />
+          </div>
+          <div class="col-4">
+            <label for="horarioAte2">até</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioAte2"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_FIM"
+              maxlength="200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-3"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_FDS"
+        />
+        <label class="custom-control-label" for="checkbox-option-3"> liberado aos fins de semana </label>
+      </div>
+
+      <div
+        class="custom-control input-radio my-3"
+        *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_FDS).value"
+      >
+        <div class="row">
+          <div class="mr-3 col-4">
+            <label for="horarioApartir3">a partir das</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioApartir3"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_FDS_INICIO"
+              maxlength="200"
+            />
+          </div>
+          <div class="col-4">
+            <label for="horarioAte3">até</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioAte3"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_FDS_FIM"
+              maxlength="200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-4"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_FDS"
+        />
+        <label class="custom-control-label" for="checkbox-option-4"> Liberado à noite e aos fins de semana </label>
+      </div>
+
+      <div
+        class="custom-control input-radio my-3"
+        *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_FDS).value"
+      >
+        <div class="row">
+          <div class="mr-3 col-4">
+            <label for="horarioApartir4">a partir das</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioApartir4"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_FDS_INICIO"
+              maxlength="200"
+            />
+          </div>
+          <div class="col-4">
+            <label for="horarioAte4">até</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioAte4"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_NOITE_FDS_FIM"
+              maxlength="200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-5"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SOMENTE_DIA"
+        />
+        <label class="custom-control-label" for="checkbox-option-5"> Liberado somente de dia </label>
+      </div>
+
+      <div
+        class="custom-control input-radio my-3"
+        *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SOMENTE_DIA).value"
+      >
+        <div class="row">
+          <div class="mr-3 col-4">
+            <label for="horarioApartir5">a partir das</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioApartir5"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SOMENTE_DIA_INICIO"
+              maxlength="200"
+            />
+          </div>
+          <div class="col-4">
+            <label for="horarioAte5">até</label>
+            <input
+              type="text"
+              class="form-control"
+              id="horarioAte5"
+              placeholder="ex: 00:00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_SOMENTE_DIA_FIM"
+              maxlength="200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox mt-2 mb-3">
+        <input
+          class="custom-control-input"
+          id="checkbox-option-6"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_OUTROS"
+        />
+        <label class="custom-control-label" for="checkbox-option-6"> Outros </label>
+      </div>
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_OUTROS).value"
+  >
+    <label for="comentarioHorario">comente</label>
+    <textarea
+      id="comentarioHorario"
+      class="form-control"
+      rows="3"
+      placeholder="insira comentário"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIBERADO_OUTROS_JUSTIFICATIVA"
+      maxlength="200"
+    ></textarea>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="vaga-garagem"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM_PREMISSA"
+      />
+      <label class="custom-control-label" for="vaga-garagem"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      class="ml-4"
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Existe condição de disponibilizar vagas de garagem para estacionamento e armazenamento de material devidamente
+        protegido, sinalizado e organizado?
+      </legend>
+
+      <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM"
+        >Sim</aw-radio
+      >
+      <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM"
+        >Não</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM).value"
+  >
+    <label for="comentarioVaga">comente</label>
+    <textarea
+      id="comentarioVaga"
+      class="form-control"
+      rows="3"
+      placeholder="insira comentário"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_VAGAS_GARAGEM_JUSTIFICATIVA"
+      maxlength="200"
+    ></textarea>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="inicio-obra"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA_PREMISSA"
+      />
+      <label class="custom-control-label" for="inicio-obra"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">O local já possui energia elétrica, água e esgoto para iniciar a obra?</legend>
+
+      <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA">Sim</aw-radio>
+      <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA).value"
+  >
+    <label for="comentarioVaga1">comente</label>
+    <textarea
+      id="comentarioVaga1"
+      class="form-control"
+      rows="3"
+      placeholder="insira comentário"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENERGIA_JUSTIFICATIVA"
+      maxlength="200"
+    ></textarea>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="consumo"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA_PREMISSA"
+      />
+      <label class="custom-control-label" for="consumo"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Como você gostaria de tratar a questão do consumo de água e luz durante a obra?
+      </legend>
+
+      <aw-radio value="cliente" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA"
+        >Custo do cliente</aw-radio
+      >
+      <aw-radio value="aw" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA"
+        >Custo da AW</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA).value === 'aw'"
+  >
+    <fieldset>
+      <legend class="font-weight-bold">
+        No caso do custo ser da A|W o mesmo deve constar na planilha orçamentária ou deverá ser tratado a parte?
+      </legend>
+      <aw-radio
+        value="planilha orçamentária"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA_ORGANIZACAO"
+      >
+        Planilha orçamentária
+      </aw-radio>
+      <aw-radio
+        value="tratado a parte"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CONSUMO_AGUA_ORGANIZACAO"
+        >Tratado a parte
+      </aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="bombeiro"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO_PREMISSA"
+      />
+      <label class="custom-control-label" for="bombeiro"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO_PREMISSA)
+          .value !== true
+      "
+    >
+      <legend class="font-weight-bold">Acompanhamento Bombeiro</legend>
+
+      <aw-radio value="cliente" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO"
+        >Custo do cliente</aw-radio
+      >
+
+      <aw-radio value="aw" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO"
+        >Custo da AW</aw-radio
+      >
+
+      <aw-radio value="N/A" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO"
+        >N/A</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="
+      this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO).value === 'aw'
+    "
+  >
+    <fieldset>
+      <legend class="font-weight-bold">
+        No caso do custo ser da A|W o mesmo deve constar na planilha orçamentária ou deverá ser tratado a parte?
+      </legend>
+
+      <aw-radio
+        value="planilha orçamentária"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO_JUSTIFICATIVA"
+        >Planilha orçamentária</aw-radio
+      >
+      <aw-radio
+        value="tratado a parte"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ACOMPANHAMENTO_BOMBEIRO_JUSTIFICATIVA"
+        >Tratado a parte</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="aprovacao"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS_PREMISSA"
+      />
+      <label class="custom-control-label" for="aprovacao"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS_PREMISSA).value !==
+        true
+      "
+    >
+      <legend class="font-weight-bold">Aprovação de projetos</legend>
+
+      <aw-radio value="cliente" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS"
+        >Custo do cliente</aw-radio
+      >
+      <aw-radio value="aw" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS"
+        >Custo da AW</aw-radio
+      >
+
+      <aw-radio value="N/A" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS"
+        >N/A
+      </aw-radio>
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep3.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS).value === 'aw'"
+  >
+    <fieldset>
+      <legend class="font-weight-bold">
+        No caso do custo ser da A|W o mesmo deve constar na planilha orçamentária ou deverá ser tratado a parte?
+      </legend>
+
+      <aw-radio
+        value="planilha orçamentária"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS_JUSTIFICATIVA"
+        >Planilha orçamentária</aw-radio
+      >
+      <aw-radio
+        value="tratado a parte"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_APROVACAO_PROJETOS_JUSTIFICATIVA"
+      >
+        Tratado a parte</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary gradient-btn" type="button" (click)="goToTab(2)">voltar</button>
+    <button class="btn btn-primary gradient-btn" type="button" (click)="sendForm()">próximo</button>
+  </div>
+</form>

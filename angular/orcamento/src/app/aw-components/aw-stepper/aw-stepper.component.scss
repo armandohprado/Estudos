@@ -1,0 +1,62 @@
+@import 'variables';
+
+:host.flex-grow-1 {
+  .aw-stepper-header {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.aw-stepper {
+  &.vertical {
+    display: flex;
+    > .aw-stepper-header {
+      margin-right: 4rem;
+      > .aw-stepper-steps {
+        flex-flow: column;
+        > .aw-step-connector {
+          width: 2px;
+          &.xs {
+            height: 1rem;
+          }
+          &.sm {
+            height: 2rem;
+          }
+          &.md {
+            height: 3rem;
+          }
+          &.lg {
+            height: 5rem;
+          }
+        }
+      }
+    }
+  }
+  &:not(.vertical) {
+    > .aw-stepper-header {
+      > .aw-stepper-steps {
+        > .aw-step-connector {
+          &.min-width-connector {
+            min-width: 5rem;
+          }
+        }
+      }
+    }
+  }
+  > .aw-stepper-header {
+    > .aw-stepper-steps {
+      display: flex;
+      justify-content: space-between;
+      > .aw-step-connector {
+        height: 2px;
+        flex: auto;
+        margin: 1rem;
+        background-color: $greyish-brown;
+      }
+    }
+  }
+  > .aw-stepper-content {
+    padding: 1rem;
+    width: 100%;
+  }
+}

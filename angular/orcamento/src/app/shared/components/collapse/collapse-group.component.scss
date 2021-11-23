@@ -1,0 +1,20 @@
+@import 'variables';
+
+$fontsize: 16px;
+$spacing: 8px;
+
+::ng-deep {
+  .family-group-header {
+    font-size: $fontsize;
+    color: $headings-color;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+}
+
+[class^='-icon-caret-'],
+[class*='icon-caret-'] {
+  font-size: 4.6px;
+  color: $primary;
+  margin-left: 15px;
+}

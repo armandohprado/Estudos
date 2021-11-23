@@ -1,0 +1,103 @@
+<ng-container *ngIf="grupoConfirmacaoCompra">
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ grupo.idConfirmacaoCompraLegado }} {{ grupo.nomeFantasia }}</h5>
+    <button type="button" class="close" (click)="close()">
+      <span class="icon icon-close"></span>
+    </button>
+  </div>
+  <div class="mx-1 modal-body">
+    <div class="sup mb-4">
+      <div class="grid-4 titulo-grupo">
+        <div>Código</div>
+        <div>Grupo</div>
+        <div class="d-flex justify-content-end">Valor CC (R$)</div>
+        <div class="d-flex justify-content-end">Total Medido (R$)</div>
+        <div class="d-flex justify-content-end">Saldo (R$)</div>
+      </div>
+      <hr />
+      <div class="grid-4 my-2 p-2 rounded conteudo-grupo">
+        <div>{{ grupoConfirmacaoCompra.codigo }}</div>
+        <div>{{ grupoConfirmacaoCompra.nome }}</div>
+        <div class="d-flex justify-content-end">
+          {{ grupoConfirmacaoCompra.valorTotalNegociado | default: 0 | number: '1.2-2' }}
+        </div>
+        <div class="d-flex justify-content-end">
+          <div>
+            {{ grupoConfirmacaoCompra.valorTotalMedido | default: 0 | number: '1.2-2' }}
+            <br />
+            <span class="titulo-grupo">{{ grupoConfirmacaoCompra.percentualTotalMedido }}%</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          {{ grupoConfirmacaoCompra.valorTotalSaldo | default: 0 | number: '1.2-2' }}
+        </div>
+      </div>
+      <hr />
+    </div>
+
+    <div class="mx-1 conteudo-grupo pb-2">Itens</div>
+    <hr />
+
+    <div class="grid-6 titulo-grupo mt-4">
+      <div>Código</div>
+      <div>Descrição</div>
+      <div class="d-flex justify-content-end">Quant.</div>
+      <div>Valor Un.</div>
+      <div class="d-flex justify-content-end">Valor Total (R$)</div>
+      <div class="d-flex justify-content-end">Medição (R$)</div>
+      <div class="d-flex justify-content-end">Saldo</div>
+      <div class="d-flex justify-content-end">Valor a transferir</div>
+    </div>
+    <hr />
+    <div class="grid-6 mx-1 my-4 titulo-grupo" *ngFor="let item of grupoConfirmacaoCompra.itens; trackBy: trackByItem">
+      <div>{{ item.numeracaoPropostaItem }}</div>
+      <div>
+        {{ item.descricaoPropostaItem }}
+      </div>
+      <div class="d-flex justify-content-end">{{ item.quantidade }}</div>
+      <div>{{ item.valorUnitario }} {{ item.unidade }}</div>
+      <div class="d-flex justify-content-end">
+        {{ item.valorTotal | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="d-flex justify-content-end">
+        <div>
+          {{ item.valorMedicao }}
+          <br />
+          {{ item.percentualMedicao }}%
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        {{ item.valorSaldo | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="d-flex justify-content-end">
+        <input
+          style="width: 80%"
+          type="text"
+          tooltip="Valor Transferido"
+          [delay]="200"
+          awInput
+          size="sm"
+          placeholder="0,00"
+          [disabled]="grupo.haTransacoesPendentes"
+          [ngModel]="item.valorTransferido"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+          (ngModelChange)="calcular($event, item)"
+          currencyMask
+          [options]="{ allowNegative: false }"
+        />
+      </div>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-end">
+      <div>
+        <strong>Total a Transferir</strong>
+        {{ totalTransferir | default: 0 | number: '1.2-2' }}
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button awButton status="secondary" width="secondary" [disabled]="loading" (click)="close()">Cancelar</button>
+    <button awButton status="primary" width="primary" (click)="confirmar()" [disabled]="loading">Confirmar</button>
+  </div>
+</ng-container>

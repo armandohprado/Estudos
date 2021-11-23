@@ -1,0 +1,68 @@
+@import 'variables';
+
+.grid-container-2 {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  padding: 10px;
+  grid-column-gap: 0.5rem;
+}
+
+.total-label,
+.total-value {
+  font-weight: bold;
+}
+
+.total-label {
+  grid-column-start: 6;
+}
+
+.total-value {
+  grid-column-start: 8;
+  text-align: end;
+}
+
+:host ::ng-deep {
+  pager {
+    > ul {
+      margin: 0;
+    }
+  }
+}
+
+.header,
+.body {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  padding: 10px;
+  grid-column-gap: 0.5rem;
+  > div {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+  }
+  > .grupo {
+    grid-column: span 3;
+  }
+  > .end {
+    justify-content: flex-end;
+  }
+}
+
+.header {
+  font-size: 12px;
+  > div {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+.body {
+  &.odd {
+    background-color: $light-gray;
+  }
+}
+
+.divider-grupos {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}

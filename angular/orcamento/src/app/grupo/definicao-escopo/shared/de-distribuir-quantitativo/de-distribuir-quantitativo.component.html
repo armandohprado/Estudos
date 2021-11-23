@@ -1,0 +1,35 @@
+<tabset class="tabset-fases" *ngIf="fases$ | async as fases">
+  <tab
+    *ngFor="let fase of fases; let $faseIndex = index; trackBy: trackByFase"
+    [active]="faseActive === $faseIndex"
+    [heading]="fase.nomeFase"
+    (selectTab)="faseActive = $faseIndex; changeDetectorRef.markForCheck()"
+  >
+    <tabset class="tabset-edificios">
+      <tab
+        *ngFor="let edificio of fase.edificios; let $edificioIndex = index; trackBy: trackByPavimento"
+        [active]="edificioActive === $edificioIndex"
+        [heading]="edificio.nomePavimento"
+        (selectTab)="edificioActive = $edificioIndex; changeDetectorRef.markForCheck()"
+      >
+        <div *ngLet="total$ | async as total">
+          <app-de-dq-columns
+            [edificio]="edificio"
+            [tipoQuantitativo]="tipo"
+            [sugestaoQtdeReferencia]="sugestaoQtdeReferencia"
+            [quantidadeProperty]="quantidadeProperty"
+            [idOrcamentoGrupoItem]="edificio.idOrcamentoGrupoItem"
+            [fase]="fase"
+            [enableAmbiente]="enableAmbiente"
+            [canChangeValue]="canChangeValue"
+            [loading]="loading$ | async"
+            [total]="total[edificio.idProjetoEdificioPavimento]"
+            [planilhaCliente]="planilhaCliente"
+            (ambiente)="ambiente.emit($event)"
+            (atualizaCentroCusto)="atualizaCentroCusto(fase, $event.pavimento, $event)"
+          ></app-de-dq-columns>
+        </div>
+      </tab>
+    </tabset>
+  </tab>
+</tabset>

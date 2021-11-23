@@ -1,0 +1,61 @@
+@import 'variables';
+
+.margin-left {
+  margin-left: 70px;
+
+  button {
+    margin-left: 80px;
+  }
+}
+
+.input-radio {
+  background-color: #f2f5f7;
+  padding: 15px 0 15px 70px;
+}
+
+.background {
+  background-color: #f7f7f7;
+  width: 590px;
+
+  button {
+    margin: 13px;
+  }
+
+  div {
+    margin: 20px 90px 15px;
+  }
+}
+
+.btn-bottom {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.btn-secondary {
+  margin-right: 30px;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.inputFileIsencao {
+  padding: 10px 15px;
+  margin: 16px 100px 40px 80px;
+  cursor: pointer;
+  display: flex;
+  background-color: #f7f7f7;
+  align-items: center;
+  border-radius: $border-radius;
+
+  span {
+    display: inline-flex;
+    color: var(--brownish-grey);
+    text-transform: lowercase;
+    font-size: $small-font-size;
+    font-weight: normal;
+    &.error {
+      color: $red;
+    }
+  }
+}

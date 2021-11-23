@@ -1,0 +1,27 @@
+<ng-container *ngIf="grupoItem?.length > 0; else listaVazia">
+  <aw-alert tipo="warning" [dismissible]="true">
+    Abaixo, os itens que não possuem quantitativos definidos nos respectivos pavimentos<br />
+    É necessário definí-los para que seja possível enviar a cotação deste grupo.
+  </aw-alert>
+
+  <ul class="list-unstyled mt-20">
+    <li *ngFor="let item of grupoItem; trackBy: trackByValidacaoItem; let $odd = odd">
+      <div
+        [class.bg-cinza-secondary]="!$odd"
+        class="d-flex justify-content-start pl-2 py-2 rounded c-pointer"
+        (click)="abrirDefinicao(item.idOrcamentoGrupoItem)"
+      >
+        <div class="font-weight-bold">{{ item.numeracaoGrupoItem + ' - ' }}</div>
+        <div class="pl-2">{{ item.descricaoGrupoItem }}</div>
+      </div>
+    </li>
+  </ul>
+</ng-container>
+<ng-template #listaVazia>
+  <aw-alert tipo="info" [dismissible]="true"> Não existem itens com inconsistência!</aw-alert>
+</ng-template>
+<div class="row justify-content-end mb-3 mt-20">
+  <div class="col-3">
+    <button awButton block type="button" (click)="changeStep(1)" [disabled]="!!grupoItem?.length">Próximo</button>
+  </div>
+</div>

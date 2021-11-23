@@ -1,0 +1,107 @@
+<app-de-tentar-novamente
+  (tentarNovamente)="tentarNovamente(grupoItem.errorApi.callAgain, grupoItem.errorApi.args)"
+  *ngIf="grupoItem.errorApi"
+>
+  {{ grupoItem.errorApi?.error }}
+</app-de-tentar-novamente>
+<ng-container *ngIf="grupoItem.activeMode === 'atributos'; else pesquisa">
+  <tabset class="tabset-definicao-escopo" #tabset>
+    <ng-container *ngIf="grupoItem.atributos?.length">
+      <tab
+        *ngFor="let grupoItemAtributo of grupoItem.atributos; trackBy: trackByAtributo; let $index = index"
+        [heading]="'Atributo ' + grupoItemAtributo.ordem"
+        [id]="'atributo' + grupoItemAtributo.ordem"
+        [tabOrder]="$index"
+        [active]="grupoItem.activeTab === 'atributo' + grupoItemAtributo.ordem"
+        (selectTab)="setActiveTab(grupoItemAtributo.ordem)"
+      >
+        <div class="row" *ngIf="grupoItem.activeTab === 'atributo' + grupoItemAtributo.ordem">
+          <div class="col-12">
+            <app-de-grupo-item-atributo
+              [grupoItem]="grupoItem"
+              [grupoItemAtributo]="grupoItemAtributo"
+            ></app-de-grupo-item-atributo>
+          </div>
+        </div>
+      </tab>
+    </ng-container>
+    <tab
+      id="complemento"
+      heading="Complemento"
+      [tabOrder]="grupoItem.atributos?.length"
+      [active]="grupoItem.activeTab === 'complemento'"
+      (selectTab)="setActiveTab('complemento')"
+    >
+      <div class="row" *ngIf="grupoItem.activeTab === 'complemento'">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="complemento-text">Comentário: </label>
+            <textarea
+              id="complemento-text"
+              rows="6"
+              class="form-control"
+              [formControl]="complementoControl"
+              style="height: auto; resize: vertical"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+          <button
+            awButton
+            (click)="definicaoEscopoService.setGrupoItemNextTab(grupoItem.idOrcamentoGrupoItem, grupoItem.activeTab)"
+          >
+            Próximo
+          </button>
+        </div>
+      </div>
+    </tab>
+    <tab
+      id="eap-cliente"
+      class="eap-cliente"
+      [tabOrder]="grupoItem.atributos?.length + 1"
+      heading="EAP Cliente"
+      [active]="grupoItem.activeMode === 'eap-cliente'"
+      (selectTab)="setActiveTab('eap-cliente')"
+      *ngIf="definicaoEscopoService.cenarioPadrao.existePlanilhaCliente"
+    >
+      <div class="row" *ngIf="grupoItem.activeTab === 'eap-cliente'">
+        <div class="col-12">
+          <app-de-planilha-cliente
+            [idOrcamento]="definicaoEscopoService.grupo.idOrcamento"
+            [idOrcamentoGrupoItem]="grupoItem.idOrcamentoGrupoItem"
+            (destroyHasUpdates)="refreshQuantitativo()"
+          ></app-de-planilha-cliente>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+          <button
+            awButton
+            (click)="definicaoEscopoService.setGrupoItemNextTab(grupoItem.idOrcamentoGrupoItem, grupoItem.activeTab)"
+          >
+            Próximo
+          </button>
+        </div>
+      </div>
+    </tab>
+    <tab
+      id="distribuir"
+      class="distribuir"
+      [tabOrder]="grupoItem.atributos?.length + 2"
+      [heading]="'Distribuir item e quantidade (' + grupoItem.unidadeMedida + ')'"
+      [active]="grupoItem.activeTab === 'distribuir'"
+      (selectTab)="setActiveTab('distribuir')"
+    >
+      <div class="row" *ngIf="grupoItem.activeTab === 'distribuir'">
+        <div class="col-12">
+          <app-de-grupo-item-distribuir [grupoItem]="grupoItem"></app-de-grupo-item-distribuir>
+        </div>
+      </div>
+    </tab>
+  </tabset>
+</ng-container>
+<ng-template #pesquisa>
+  <app-de-grupo-item-pesquisa [grupoItem]="grupoItem"></app-de-grupo-item-pesquisa>
+</ng-template>

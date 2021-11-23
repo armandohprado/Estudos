@@ -1,0 +1,144 @@
+<form [formGroup]="formImplantacaoStep4" class="form-group px-5">
+  <h4 class="font-weight-bold">Documentação</h4>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="despachante"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA_PREMISSA"
+      />
+      <label class="custom-control-label" for="despachante"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      class="ml-2 pl-3"
+      [class.disabled]="
+        this.formImplantacaoStep4.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA_PREMISSA).value !==
+        true
+      "
+    >
+      <legend class="font-weight-bold">
+        Se o projeto estiver considerando aumento de área ou mudança de uso, a Athié Wohnrath sempre recomenda a
+        contratação de um despachante. Como deseja proceder?
+      </legend>
+
+      <aw-radio
+        value="Cliente indica despachante"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA"
+        >Cliente indica despachante</aw-radio
+      >
+      <aw-radio
+        value="AW indica despachante"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA"
+        >A | W indica despachante</aw-radio
+      >
+      <aw-radio
+        value="Não pretendo contratar despachante"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA"
+        >Não pretendo contratar despachante</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="pl-2 margin-left"
+    [class.disabled]="
+      this.formImplantacaoStep4.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_AUMENTO_AREA_PREMISSA).value !== true
+    "
+  >
+    Upload de anexo de isenção de responsabilidade AW
+    <button class="btn btn-primary gradient-btn" type="button">
+      <i class="icon icon-download mr-2"></i>
+      download models
+    </button>
+  </div>
+
+  <div>
+    <label class="inputFileIsencao" for="input-upload-isencao">
+      <span class="btn btn-sm btn-primary mr-auto text-white">anexar arquivo</span>
+      <span class="mr-auto" *ngIf="!fileIsencao && !fileIsencaoMessage">anexar arquivo</span>
+      <span *ngIf="fileIsencao && fileIsencaoMessage" class="mr-auto">
+        {{ fileIsencaoMessage }}
+      </span>
+      <span *ngIf="fileIsencao && !fileIsencaoMessage" class="files-length pl-2">
+        {{ fileIsencao || '' | ellipsis: 30 }}</span
+      >
+    </label>
+    <input
+      (change)="fileIsencaoUpload($any($event.target).files[0])"
+      id="input-upload-isencao"
+      name="image"
+      type="file"
+    />
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="habite-se"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE_PREMISSA"
+      />
+      <label class="custom-control-label" for="habite-se"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep4.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Sua empresa necessita obter HABITE-SE do edifício ou andar onde a obra será realizada? Como você deseja
+        proceder?
+      </legend>
+
+      <aw-radio
+        value="Cliente indica despachante"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE"
+      >
+        Cliente indica despachante
+      </aw-radio>
+      <aw-radio value="aw" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE"
+        >A | W indica despachante</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control input-radio my-3"
+    *ngIf="this.formImplantacaoStep4.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE).value === 'aw'"
+  >
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep4.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Nesse caso os custos decorrentes deverão constar na planilha orçamentária ou serão tratados a parte?
+      </legend>
+
+      <aw-radio
+        value="Planilha orçamentária"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE_ORGANIZACAO"
+      >
+        Planilha orçamentária</aw-radio
+      >
+      <aw-radio
+        value="Tratado a parte"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DOC_HABITESE_ORGANIZACAO"
+      >
+        Tratado a parte
+      </aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary gradient-btn btn-bottom" type="button" (click)="goToTab(3)">voltar</button>
+    <button class="btn btn-primary gradient-btn btn-bottom" type="button" (click)="sendForm()">próximo</button>
+  </div>
+</form>

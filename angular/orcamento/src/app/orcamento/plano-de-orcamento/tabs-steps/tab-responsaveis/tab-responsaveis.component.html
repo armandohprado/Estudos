@@ -1,0 +1,172 @@
+<form #responsaveisForm="ngForm" [awSpinner]="(loading$ | async) || (saveLoading$ | async)" class="d-flex flex-column">
+  <div class="py-2 my-2">
+    <app-modo-exibicao></app-modo-exibicao>
+  </div>
+  <ul class="lista-principais-responsaveis mb-40 d-flex align-items-center" *ngIf="projeto$ | async as projeto">
+    <ng-container *ngFor="let responsavel of projeto.responsaveis; trackBy: trackByFn; let i = index">
+      <li>
+        <app-funcionario-popover
+          placement="auto"
+          [canChange]="false"
+          [showActionBtn]="false"
+          [funcionario]="responsavel"
+        >
+        </app-funcionario-popover>
+        <p class="d-inline-block">
+          <ng-container *ngIf="i === 0"> DEN</ng-container>
+          <ng-container *ngIf="i === 1"> Lider de Engenharia e Orçamento</ng-container>
+        </p>
+      </li>
+    </ng-container>
+  </ul>
+
+  <div class="d-flex flex-column justify-content-start mb-40">
+    <app-collapse>
+      <ng-container *ngFor="let familia of familias$ | async; let i = index; trackBy: trackByFnFamilia">
+        <app-collapse-group class="mb-40 d-block" [(isOpen)]="collapses['isOpen_' + i]" *ngIf="familia.grupoes?.length">
+          <ng-container collapse-heading>
+            <h1
+              class="family-group-header d-flex align-items-center text-lowercase"
+              (click)="collapses['isOpen_' + i] = !collapses['isOpen_' + i]"
+            >
+              {{ familia.descricaoFamilia }}
+              <i
+                class="icon"
+                [class.icon-caret-up]="collapses['isOpen_' + i]"
+                [class.icon-caret-down]="!collapses['isOpen_' + i]"
+              ></i>
+            </h1>
+          </ng-container>
+          <table *ngIf="collapses['isOpen_' + i]">
+            <thead>
+              <tr>
+                <th>Grupos</th>
+                <th>Responsável</th>
+                <th>Data limite definição do escopo (opcional)</th>
+                <th>Data limite recebimento de custos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="
+                  let grupo of familia.grupoes | reduceTo: 'grupos' | awOrderBy: orderByCodigo;
+                  index as i;
+                  trackBy: trackGrupoFn
+                "
+              >
+                <tr>
+                  <td>
+                    <span class="group-item-id">{{ grupo.codigoGrupo }}</span>
+                    <span class="divider">-</span>
+                    <span class="group-item-name">{{ grupo.nomeGrupo }}</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <ng-container *ngFor="let responsavel of grupo.responsaveis | fill: 4; trackBy: trackByFn">
+                        <app-funcionario-popover
+                          *ngLet="responsavel?.flagResponsavel | default: flagResponsavel.ResponsavelAssistente as flag"
+                          [tipoResponsavel]="tipoResponsavel.RESPONSAVEL"
+                          (openResponsavelModal)="
+                            openModal(grupo, flag, tipoResponsavel.RESPONSAVEL, responsavel?.idFuncionario)
+                          "
+                          [funcionario]="responsavel"
+                          [idGrupo]="grupo.idGrupo"
+                          placement="auto"
+                        ></app-funcionario-popover>
+                      </ng-container>
+                    </div>
+                  </td>
+                  <td>
+                    <label [for]="'dataLimiteDefinicao_' + grupo.idOrcamentoGrupo">
+                      <input
+                        [(ngModel)]="grupo.dataLimiteDefinicao"
+                        [bsConfig]="{
+                          isAnimated: true,
+                          containerClass: 'theme-primary',
+                          dateInputFormat: 'DD/MM/YYYY [às] HH:mm',
+                          maxDate: grupo.dataLimiteRecebimento
+                        }"
+                        [id]="'dataLimiteDefinicao_' + grupo.idOrcamentoGrupo"
+                        [name]="'dataLimiteDefinicao_' + grupo.idOrcamentoGrupo"
+                        [timeFormat]="true"
+                        dateMask
+                        autocomplete="off"
+                        bsDatepicker
+                        class="form-control"
+                        placeholder="ex: 00/00/0000 às 00:00"
+                        placement="top"
+                        type="text"
+                      />
+                    </label>
+                  </td>
+                  <td>
+                    <label [for]="'dataLimiteRecebimento_' + grupo.idOrcamentoGrupo">
+                      <input
+                        [(ngModel)]="grupo.dataLimiteRecebimento"
+                        [bsConfig]="{
+                          isAnimated: true,
+                          containerClass: 'theme-primary',
+                          dateInputFormat: 'DD/MM/YYYY [às] HH:mm',
+                          minDate: grupo.dataLimiteDefinicao
+                        }"
+                        [id]="'dataLimiteRecebimento_' + grupo.idOrcamentoGrupo"
+                        [name]="'dataLimiteRecebimento_' + grupo.idOrcamentoGrupo"
+                        [timeFormat]="true"
+                        dateMask
+                        autocomplete="off"
+                        bsDatepicker
+                        class="form-control"
+                        appDateValidator
+                        placeholder="ex: 00/00/0000 às 00:00"
+                        placement="top"
+                        required
+                        type="text"
+                      />
+                    </label>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </app-collapse-group>
+      </ng-container>
+    </app-collapse>
+  </div>
+
+  <div class="d-flex justify-content-end mt-auto">
+    <button
+      (click)="onSubmit(responsaveisForm)"
+      [outsideClick]="true"
+      [popoverContext]="{ errors: formErrors }"
+      [popover]="formErrors?.length ? popoverErrorTmpl : ''"
+      containerClass="formErrorMessage"
+      placement="top"
+      class="btn gradient-btn btn-success btn-custom ml-4"
+      popoverTitle="Campo(s) com data inválida"
+    >
+      Salvar
+    </button>
+    <button
+      (click)="onSubmit(responsaveisForm, true)"
+      [outsideClick]="true"
+      [popoverContext]="{ errors: formErrors }"
+      [popover]="formErrors?.length ? popoverErrorTmpl : ''"
+      containerClass="formErrorMessage"
+      placement="top"
+      class="btn gradient-btn btn-primary btn-custom ml-4"
+      popoverTitle="Campo(s) com data inválida"
+    >
+      Próximo
+    </button>
+  </div>
+</form>
+
+<ng-template #popoverErrorTmpl let-errors="errors">
+  <ng-container *ngFor="let error of errors; index as i">
+    <p *ngIf="error?.maxDateLimiteRecebimento">
+      {{ i + 1 }}. A data de definição de escopo não pode ser maior que a data de limite de recebimento de custos
+    </p>
+    <p *ngIf="error?.required">{{ i + 1 }}. É necessário escolher a data de recebimento de custos</p>
+    <p *ngIf="error?.invalidDate">{{ i + 1 }}. Todas as datas precisam ser validas</p>
+  </ng-container>
+</ng-template>

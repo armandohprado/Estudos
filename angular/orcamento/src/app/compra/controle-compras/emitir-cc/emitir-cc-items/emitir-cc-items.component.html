@@ -1,0 +1,83 @@
+<div class="block produtos-servicos">
+  <h6 class="title">Produtos / Serviços</h6>
+  <div class="content">
+    <div class="info">
+      <div class="label">Proposta</div>
+      <div class="value font-weight-bold">
+        {{ emitirCc.idProposta }}
+      </div>
+      <div class="end">
+        <span>Total</span>
+        <span class="font-weight-bold">{{ emitirCc.valorTotal | number: '1.2-2' }}</span>
+      </div>
+    </div>
+    <hr />
+    <div class="info">
+      <div class="label">Grupo</div>
+      <div class="value font-weight-bold">
+        {{ emitirCc.codigo + ' ' + emitirCc.nome }}
+      </div>
+      <div class="end font-weight-bold">
+        {{ emitirCc.valorTotal | number: '1.2-2' }}
+      </div>
+    </div>
+    <ng-container *ngFor="let pavimento of emitirCc.pavimentos; trackBy: trackByPavimento">
+      <div class="info">
+        <div class="label">Andar</div>
+        <div class="value">
+          {{ pavimento.nomePavimento }}
+        </div>
+        <div class="end">
+          {{ pavimento.valorTotal | number: '1.2-2' }}
+        </div>
+      </div>
+      <ng-container *ngFor="let centroCusto of pavimento.centrosCustos; trackBy: trackByCentroCusto">
+        <div class="info">
+          <div class="label">Centro de Custo</div>
+          <div class="value">
+            {{ centroCusto.descricaoProjetoCentroCusto }}
+          </div>
+          <div class="end">
+            {{ centroCusto.valorTotal | number: '1.2-2' }}
+          </div>
+        </div>
+        <hr class="light" />
+        <div class="lista">
+          <div class="header">
+            <div class="codigo">Cód.</div>
+            <div class="item">Item</div>
+            <div class="atributos">Atributos</div>
+            <div class="valor-total">Valor Total</div>
+          </div>
+          <hr class="light low-margin" />
+          <div
+            class="body"
+            *ngFor="let item of centroCusto.itens; trackBy: trackByItem; let $even = even"
+            [class.bg-white]="$even"
+          >
+            <div class="codigo">
+              <div *ngIf="item.tag" class="font-weight-bold mb-1">
+                {{ item.tag }}
+              </div>
+              <div>{{ item.numeracao }}</div>
+            </div>
+            <div class="item">{{ item.descricao }}</div>
+            <div class="atributos">
+              <ul>
+                <li *ngIf="item.atributo1" [innerHTML]="item.atributo1"></li>
+                <li *ngIf="item.atributo2" [innerHTML]="item.atributo2"></li>
+                <li *ngIf="item.atributo3" [innerHTML]="item.atributo3"></li>
+                <li *ngIf="item.atributo4" [innerHTML]="item.atributo4"></li>
+                <li *ngIf="item.complemento">{{ item.complemento }}</li>
+              </ul>
+            </div>
+            <div class="valor-total">
+              {{ item.valorTotal | number: '1.2-2' }}
+            </div>
+          </div>
+        </div>
+        <hr />
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

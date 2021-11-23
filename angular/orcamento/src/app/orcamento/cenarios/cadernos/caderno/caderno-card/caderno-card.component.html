@@ -1,0 +1,44 @@
+<form
+  *ngLet="invalid$ | async as formInvalid"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="caderno-content flex-grow-1 container"
+>
+  <div class="row pt-3">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="{{ idNome }}">Nome</label>
+        <input awInput id="{{ idNome }}" class="form-control" formControlName="nome" />
+        <label *ngIf="formInvalid && form.touched" for="{{ idNome }}" class="error"> Campo obrigatório/inválido </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-3">
+    <div class="col-md-12">
+      <div class="form-group" *ngLet="descricaoInvalid$ | async as descricaoInvalid">
+        <ckeditor
+          [class.error]="descricaoInvalid"
+          [config]="ckEditorConfig"
+          formControlName="descricao"
+          [editor]="editor"
+        >
+        </ckeditor>
+        <p class="error-detail" *ngIf="descricaoInvalid">Limite máximo é de 1000 caracteres</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 ml-auto">
+      <button
+        awButton
+        block
+        [loading]="loading$ | async"
+        [disabled]="caderno.enviadoCliente || !caderno[enabledProperty] || formInvalid"
+      >
+        Adicionar
+      </button>
+    </div>
+  </div>
+</form>

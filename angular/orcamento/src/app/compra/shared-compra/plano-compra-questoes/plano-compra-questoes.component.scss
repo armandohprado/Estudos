@@ -1,0 +1,31 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 140px);
+  grid-gap: 1rem;
+}
+
+.descricao {
+  word-break: break-word;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+aw-radio:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+.data-fluxo-sd-form-group {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 150px);
+  grid-gap: 1rem;
+  align-items: center;
+}

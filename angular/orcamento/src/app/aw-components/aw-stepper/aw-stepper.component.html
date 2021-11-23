@@ -1,0 +1,44 @@
+<section class="aw-stepper" [class.vertical]="vertical">
+  <header class="aw-stepper-header" [ngClass]="headerClass">
+    <div class="aw-stepper-steps" [style.width]="vertical ? 'auto' : headerWidth">
+      <ng-container *ngFor="let step of steps; trackBy: trackByStep; let $index = index; let $last = last">
+        <aw-step-header
+          *ngLet="
+            !step.interacted &&
+            linear &&
+            $index !== selectedIndex + 1 &&
+            $index !== selectedIndex &&
+            !step.optional as linear
+          "
+          [disabled]="!step.editable"
+          [breakLabel]="step.breakLabel || (!(step.breakLabel | isDefined) && breakLabel)"
+          [active]="selectedIndex === $index"
+          [index]="$index"
+          [interacted]="step.interacted"
+          [label]="step.label"
+          [linear]="linear"
+          [optional]="step.optional"
+          [vertical]="vertical"
+          [tabIndex]="!step.editable || linear ? -1 : 0"
+          [attr.aria-posinset]="$index + 1"
+          [attr.aria-setsize]="steps.length"
+          [attr.aria-controls]="_getStepContentId($index)"
+          [attr.aria-selected]="selectedIndex === $index"
+          [attr.aria-label]="step.ariaLabel || null"
+          [attr.aria-labelledby]="!step.ariaLabel && step.ariaLabelledby ? step.ariaLabelledby : null"
+          (keydown)="_onKeydown($event)"
+          (click)="step.editable && onClick($index)"
+        ></aw-step-header>
+        <div
+          class="aw-step-connector"
+          [ngClass]="verticalSizeConector"
+          *ngIf="!$last"
+          [class.min-width-connector]="minWidthConnector"
+        ></div>
+      </ng-container>
+    </div>
+  </header>
+  <div class="aw-stepper-content" [ngClass]="selected?.customClass">
+    <ng-container [ngTemplateOutlet]="selected?.content"></ng-container>
+  </div>
+</section>

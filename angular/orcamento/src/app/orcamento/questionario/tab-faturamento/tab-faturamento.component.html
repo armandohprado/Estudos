@@ -1,0 +1,48 @@
+<form [formGroup]="faturamentoSteps" class="form">
+  <h3 class="project-name">
+    <span>{{ projeto.numeroProjeto }}</span>
+    {{ projeto.nomeProjeto }}
+  </h3>
+  <tabset type="pills" class="questionario-steps" #staticTabs>
+    <tab id="1">
+      <ng-template tabHeading>
+        <span class="tab-indicator" (click)="setActiveTab(0)">1</span>
+        <span class="title" (click)="setActiveTab(0)">Informações e Fornecedores</span>
+      </ng-template>
+      <ng-container *ngIf="questionario?.passos?.passo1">
+        <app-step1-faturamento [formParent]="questionario"></app-step1-faturamento>
+      </ng-container>
+    </tab>
+    <tab id="2">
+      <ng-template tabHeading>
+        <span class="tab-indicator" (click)="setActiveTab(1)">2</span>
+        <span class="title" (click)="setActiveTab(1)">Dados da empresa</span>
+      </ng-template>
+
+      <ng-container *ngIf="questionario?.passos?.passo2">
+        <app-step2-faturamento
+          [idQuestionario]="questionario?.idQuestionario"
+          [formParent]="questionario"
+        ></app-step2-faturamento>
+      </ng-container>
+    </tab>
+    <tab id="3">
+      <ng-template tabHeading>
+        <span class="tab-indicator" (click)="setActiveTab(2)">3</span>
+        <span class="title" (click)="setActiveTab(2)">Informações sobre contratação</span>
+      </ng-template>
+      <ng-container *ngIf="questionario?.passos?.passo3">
+        <app-step3-faturamento [formParent]="questionario"></app-step3-faturamento>
+      </ng-container>
+    </tab>
+    <tab id="4">
+      <ng-template tabHeading>
+        <span class="tab-indicator" (click)="setActiveTab(3)">4</span>
+        <span class="title" (click)="setActiveTab(3)">Pagamento</span>
+      </ng-template>
+      <ng-container *ngIf="questionario?.passos?.passo4">
+        <app-step4-faturamento [formParent]="questionario"></app-step4-faturamento>
+      </ng-container>
+    </tab>
+  </tabset>
+</form>

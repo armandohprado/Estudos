@@ -1,0 +1,25 @@
+<div [awSpinner]="isLoading">
+  <div class="row">
+    <div class="col-12 mt-15">
+      <alert [dismissible]="true">
+        <span class="icon aw-icon-alerta-cheio mr-3"></span>Clique nos campos abaixo e preencha com a quantidade
+        necessária em cada item divididos por Fase, Andar e Centros de Custo.
+      </alert>
+    </div>
+  </div>
+  <div class="row" *ngIf="quantitativo">
+    <div class="col-12">
+      <app-de-distribuir-quantitativo
+        tipo="definicao-escopo"
+        [quantitativo]="quantitativo"
+        [mapQuantitativo]="false"
+        [enableAmbiente]="enableAmbiente"
+        [canChangeValue]="!grupoItemFilho.campoCalculado"
+        [planilhaCliente]="definicaoEscopoGrupoTecnicoService.cenarioPadrao.existePlanilhaCliente"
+        (ambiente)="ambiente($event)"
+        (atualizarCentroCusto)="updateQuantitativo($event)"
+        (qtdeTotal)="updateTotal($event)"
+      ></app-de-distribuir-quantitativo>
+    </div>
+  </div>
+</div>

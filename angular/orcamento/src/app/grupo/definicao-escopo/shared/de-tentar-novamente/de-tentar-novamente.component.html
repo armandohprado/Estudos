@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="row">
+    <div [ngClass]="_col">
+      <alert [type]="type">
+        <div
+          class="d-flex align-items-center justify-content-center flex-column"
+        >
+          <ng-content></ng-content>
+          <button
+            class="btn btn-danger gradient-btn btn-sm mt-2"
+            (click)="tentarNovamente.emit()"
+          >
+            Tentar novamente
+          </button>
+          <button
+            *ngIf="moreInfo"
+            (click)="openModalMoreInfo(moreInfoModal)"
+            class="btn btn-secondary gradient-btn btn-sm ml-2 mt-2"
+          >
+            Mais informações
+          </button>
+        </div>
+      </alert>
+    </div>
+  </div>
+</div>
+<ng-template #moreInfoModal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ moreInfo?.title
+      }}{{ moreInfo?.code ? '- (' + moreInfo.code + ')' : '' }}
+    </h5>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="bsModalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{ moreInfo?.info }}
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      (click)="bsModalRef.hide()"
+    >
+      Fechar
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,41 @@
+@import 'variables';
+
+.aw-alert {
+  padding: 15px;
+  border: 1px solid $bluey-grey;
+  border-radius: $border-radius;
+  background-color: $light-gray;
+  font-weight: 500;
+  &.danger {
+    background-color: $light-red;
+    border-color: $red;
+  }
+  &.dismissible {
+    padding-top: 10px;
+  }
+  > .close-alert {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    > .icon {
+      cursor: pointer;
+      font-size: 10px;
+    }
+  }
+  > .content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    &.no-icon {
+      grid-template-columns: none;
+    }
+    > .icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    > div {
+      padding: 5px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<ng-container
+  *ngLet="{
+    nomePavimentoSelected: gaPavimentoQuery.nomePavimentoSelected$ | async,
+    isLoading: gaAtividadeQuery.isLoading$ | async,
+    atividades: gaAtividadeQuery.atividades$ | async | default: defaultAtividades
+  } as state"
+>
+  <div class="atividades" [awSpinner]="state.isLoading">
+    <h3>{{ state.nomePavimentoSelected }}</h3>
+    <div class="list">
+      <ng-container *ngIf="!state.isLoading && !state.atividades?.length; else list">
+        Não existem atividades!
+      </ng-container>
+      <ng-template #list>
+        <app-ga-atividade
+          *ngFor="let atividade of state.atividades; trackBy: trackByAtividade"
+          [atividade]="atividade"
+        ></app-ga-atividade>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

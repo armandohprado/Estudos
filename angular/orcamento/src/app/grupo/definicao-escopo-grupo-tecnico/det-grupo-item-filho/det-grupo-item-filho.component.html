@@ -1,0 +1,53 @@
+<div class="grupo-item-filho" [awSpinner]="grupoItemFilho.loading" [size]="grupoItemFilho.opened ? 'md' : 'default'">
+  <div class="header">
+    <div class="cod-item">
+      {{ grupoItemFilho.numeracaoGrupoItem }}
+    </div>
+    <div class="descricao">
+      {{ grupoItemFilho.descricao }}
+    </div>
+    <div class="qtde">
+      <div class="qtde">
+        {{ grupoItemFilho.quantidade | number: '1.0-2' }}
+        <span class="qtde-um">{{ grupoItem.unidadeMedida }}</span>
+      </div>
+      <div class="coeficiente">
+        {{ grupoItemFilho.coeficiente | number: '1.0-4' }}
+      </div>
+    </div>
+    <div class="valor-produto">
+      {{ grupoItemFilho.valorProduto | number: '1.2-2' }}
+    </div>
+    <div class="valor-total">
+      {{ grupoItemFilho.quantidade * grupoItemFilho.valorProduto | number: '1.2-2' }}
+    </div>
+    <div class="acoes">
+      <div class="icon-wrapper">
+        <button awButton icon="trash-alt" tooltip="Excluir" delay="400" (click)="excluir()"></button>
+      </div>
+      <div class="icon-wrapper">
+        <button
+          awButton
+          icon="copy"
+          *ngIf="grupoItemFilho.duplicaFilho"
+          tooltip="Duplicar"
+          delay="400"
+          (click)="duplicar()"
+        ></button>
+      </div>
+      <span
+        *ngIf="grupoItemFilho.itemHabilitaAmbiente || !grupoItemFilho.campoCalculado"
+        class="icon caret"
+        [ngClass]="{ 'icon-caret-down': !grupoItemFilho.opened, 'icon-caret-up': grupoItemFilho.opened }"
+        (click)="collapse()"
+      ></span>
+    </div>
+  </div>
+  <div class="body" *ngIf="grupoItemFilho.opened" @collapse>
+    <app-deli-grupo-item-filho-content
+      [grupoItemFilho]="grupoItemFilho"
+      [idOrcamentoGrupoItemPai]="grupoItem.idOrcamentoGrupoItem"
+    >
+    </app-deli-grupo-item-filho-content>
+  </div>
+</div>

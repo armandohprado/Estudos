@@ -1,0 +1,52 @@
+<div class="graphic row align-items-center">
+  <p class="title col-1">Base de Orçamento</p>
+  <div class="info col-4" *ngIf="curvaAbcGrupos">
+    <p
+      class="fornecedor"
+      *ngIf="
+        curvaAbcGrupos
+          | awFilter
+            : {
+                regraFornecedor: {
+                  filterType: 'conditional',
+                  type: 'text',
+                  conditional: { term: 'AAW ESTIMADO', condition: 'naoIgual' }
+                }
+              } as fornecedor
+      "
+    >
+      <ng-container *ngLet="fornecedor | awSumBy: 'total' as fornecedorSoma"
+        ><span class="title">
+          <span class="label">Fornecedor:</span>
+          <span class="value">{{ fornecedorSoma * 100 | number: '1.2-2' }}%</span>
+        </span>
+        <span class="w-100"> <span class="bars" [ngStyle]="{ 'width.%': fornecedorSoma * 100 }"> </span> </span
+      ></ng-container>
+    </p>
+    <p class="especialista" *ngIf="curvaAbcGrupos | awFilter: 'regraFornecedor':'AAW ESTIMADO' as awEstimado">
+      <ng-container *ngLet="awEstimado | awSumBy: 'total' as estimadoSoma"
+        ><span class="title">
+          <span class="label" style="display: contents">Aw Estimado:</span>
+          <span class="value">{{ estimadoSoma * 100 | number: '1.2-2' }}%</span>
+        </span>
+        <span class="w-100"> <span class="bars" [ngStyle]="{ 'width.%': estimadoSoma * 100 }"> </span> </span
+      ></ng-container>
+    </p>
+  </div>
+  <div class="col"></div>
+  <div class="valores col">
+    <app-box-info
+      *ngIf="totalGoalValue as valor"
+      [@fadeInOut]
+      [valor]="valor | number: '1.2-2'"
+      label="Valor meta"
+    ></app-box-info>
+    <app-box-info
+      *ngIf="totalEstimatedValue as valor"
+      [@fadeInOut]
+      [valor]="valor | number: '1.2-2'"
+      label="Valor Total"
+    ></app-box-info>
+    <app-box-info @fadeInOut [valor]="totalFiltrado | number: '1.2-2'" label="Valor Filtrado"> </app-box-info>
+  </div>
+</div>

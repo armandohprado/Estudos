@@ -1,0 +1,56 @@
+@import 'variables';
+:host ::ng-deep {
+  &.card {
+    background-color: $very-light-blue;
+  }
+
+  &.pavimentoTab {
+    background-color: $very-light-blue;
+
+    & .card-header {
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 0;
+      background-color: $very-light-blue;
+      border-bottom: none;
+      border-radius: 3px;
+
+      :host ::ng-deep {
+        &.card {
+          background-color: $very-light-blue;
+        }
+
+        &.pavimentoTab {
+          background-color: $very-light-blue;
+
+          & .card-header {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: $very-light-blue;
+            border-bottom: none;
+            border-radius: 3px;
+          }
+        }
+
+        .icone.hide {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 20px;
+  padding: 10px 20px;
+  align-items: center;
+}
+.grid-span-3 {
+  grid-column: span 3;
+}
+.icone.hide {
+  display: none !important;
+}
+.primary {
+  background: $very-light-blue;
+}

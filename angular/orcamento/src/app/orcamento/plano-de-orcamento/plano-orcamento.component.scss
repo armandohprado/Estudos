@@ -1,0 +1,52 @@
+@import 'variables';
+.card {
+  margin-bottom: 20px;
+  .card-header {
+    background-color: $secondary;
+    padding: 8px 10px 8px 20px;
+    .card-title {
+      margin-bottom: 0;
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  .card-sub-header {
+    flex: 1 1 auto;
+    padding: 1.25rem 1.25rem 14px;
+
+    p {
+      font-weight: normal;
+      font-size: $small-font-size;
+      color: $headings-color;
+      margin-bottom: 0.878rem;
+      strong {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .card-body {
+    .color-green-strong {
+      color: $green;
+    }
+  }
+
+  .project-name {
+    margin-bottom: 16px;
+  }
+}
+.toggle-modal {
+  width: 313px;
+}
+
+.bg-light-grey {
+  background-color: #f2f5f7;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 0 10px;
+  padding: 10px;
+  grid-gap: 10px;
+}

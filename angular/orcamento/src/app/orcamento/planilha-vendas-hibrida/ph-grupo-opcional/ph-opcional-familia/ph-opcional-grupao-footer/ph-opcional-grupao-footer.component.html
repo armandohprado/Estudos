@@ -1,0 +1,81 @@
+<div>
+  <table class="tabela-planilha-hibrida-opc">
+    <tr class="taxa-administrativa text-right" *ngIf="!cenario?.tipoTaxaAdministrativa">
+      <td class="grupo-codigo">
+        <span class="number"> </span>
+      </td>
+      <td class="grupo-descricao text-left">
+        <span class="description"> Taxa Administrativa </span>
+      </td>
+      <td class="grupo-subtotal-valortotal"></td>
+      <td class="grupo-percentual"></td>
+      <td class="grupo-percentual">
+        <span class="acrescimo-grupo">
+          <div class="float-right">
+            <span>{{ familia.percentualTaxaAdministrativa | number: '1.1-2' }}%</span>
+          </div>
+        </span>
+      </td>
+      <td class="grupo-valor">
+        <span class="desconto-grupo">
+          <div>
+            <span>{{ familia.valorTaxaAdministrativa | number: '1.1-2' }}</span>
+          </div>
+        </span>
+      </td>
+      <td class="grupo-valor espaco-footer-desconto" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+      <td class="grupo-valor espaco-footer-margem" *ngIf="!planilhaVendasHibridaService.hideColMargem"></td>
+      <td class="grupo-valor espaco-footer-imposto" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+      <td class="grupo-valor espaco-footer-opp" *ngIf="!planilhaVendasHibridaService.hideColOportunidade"></td>
+      <td class="grupo-valor espaco-footer-descontoVP" *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN"></td>
+      <td
+        class="grupo-valor espaco-footer-mix-opp-descotovp"
+        *ngIf="
+          !planilhaVendasHibridaService.hideColDescontoVPDNN &&
+          !planilhaVendasHibridaService.hideColOportunidade &&
+          planilhaVendasHibridaService.hideColDesconto &&
+          planilhaVendasHibridaService.hideColImposto
+        "
+      ></td>
+      <td
+        class="grupo-valor espaco-footer-mix-opp-imposto"
+        *ngIf="
+          !planilhaVendasHibridaService.hideColImposto &&
+          !planilhaVendasHibridaService.hideColOportunidade &&
+          planilhaVendasHibridaService.hideColDesconto &&
+          planilhaVendasHibridaService.hideColDescontoVPDNN
+        "
+      ></td>
+      <td
+        class="grupo-valor espaco-footer-mix-opp-imposto-descontovp"
+        *ngIf="
+          !planilhaVendasHibridaService.hideColImposto &&
+          !planilhaVendasHibridaService.hideColOportunidade &&
+          planilhaVendasHibridaService.hideColDesconto &&
+          !planilhaVendasHibridaService.hideColDescontoVPDNN
+        "
+      ></td>
+      <td colspan="16"></td>
+    </tr>
+    <tr class="taxa-administrativa text-right mt-0" *ngIf="!cenario?.tipoTaxaAdministrativa">
+      <td colspan="2" class="p-0"></td>
+      <td colspan="16" class="p-0">
+        <hr class="line-divisor-row" />
+      </td>
+    </tr>
+    <tr class="taxa-administrativa text-right last" *ngIf="!cenario?.tipoTaxaAdministrativa">
+      <td class="grupo-codigo"></td>
+      <td class="grupo-descricao">
+        <div class="description"></div>
+      </td>
+      <td class="grupo-subtotal-valortotal"></td>
+      <td class="grupo-percentual pr-3"></td>
+      <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+      <td></td>
+      <td colspan="16"></td>
+    </tr>
+    <tr>
+      <td class="pt-3"></td>
+    </tr>
+  </table>
+</div>

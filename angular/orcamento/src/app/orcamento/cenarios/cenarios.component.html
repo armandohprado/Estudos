@@ -1,0 +1,35 @@
+<div class="card cenarios-card" *ngIf="cenariosGrouped$ | async as cenariosGroups">
+  <div class="card-header">
+    <h4 *ngIf="cenarioPadrao$ | async as cenarioPadrao" class="card-title">
+      {{ cenarioPadrao.nomeOrcamento }}
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="d-flex justify-content-between p-2">
+      <div class="d-flex justify-content-start project-name h6 pb-5" *ngIf="projeto$ | async as projeto">
+        <div class="font-weight-bold text-sucess">{{ projeto.numeroProjeto }}</div>
+        <div class="mx-1">{{ projeto.nomeProjeto }}</div>
+      </div>
+      <div class="d-flex justify-content-end h-25">
+        <a awButton routerLink="gerenciador-grupos">Gerenciador de grupos</a>
+      </div>
+    </div>
+    <div class="container-grid">
+      <div class="span-2 d-flex justify-content-center">Versão</div>
+      <div class="d-flex justify-content-end">Faturamento</div>
+      <div class="d-flex justify-content-end">Lucro Previsto (R$)</div>
+      <div class="d-flex justify-content-end">Impostos (R$)</div>
+      <div class="d-flex justify-content-end pr-3">Valor Venda (R$)</div>
+    </div>
+    <ng-container *ngFor="let group of cenariosGroups; trackBy: trackByStatus">
+      <div class="section-divider mt-15 mb-2" [ngClass]="group.class">
+        <label class="divider-label">{{ group.nome }}</label>
+      </div>
+      <app-cenario
+        *ngFor="let cenario of group.cenarios; trackBy: trackByCenario"
+        [cenario]="cenario"
+        (openModal)="openModal($event)"
+      ></app-cenario>
+    </ng-container>
+  </div>
+</div>

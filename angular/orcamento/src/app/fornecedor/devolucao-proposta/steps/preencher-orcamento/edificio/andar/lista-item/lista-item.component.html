@@ -1,0 +1,61 @@
+<ng-container *ngIf="omisso; else ItemOmisso">
+  <div class="p-1  pt-4 border-detalhes" [ngClass]="{ hide: !first }">
+    <div class="col-12 py-2">
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-2">Cód.</div>
+            <div class="col-10">Produto / Serviço</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-3 offset-1">Quantidade</div>
+            <div class="col text-right">Produto</div>
+            <div class="col text-right">Serviço</div>
+            <div class="col font-weight-bold text-center">Total (R$)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="omisso">
+    <app-item-detalhes
+      [item]="item"
+      [pavimento]="pavimento"
+      [last]="last"
+      [omisso]="omisso"
+    ></app-item-detalhes>
+  </ng-container>
+</ng-container>
+
+<ng-template #ItemOmisso>
+  <div class="p-1 border-detalhes pt-4" [ngClass]="{ hide: !first }">
+    <div class="col-12 py-2">
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-2">Cód.</div>
+            <div class="col-3">Produto / Serviço</div>
+            <div class="col">Atributos</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-3 offset-1">Quantidade</div>
+            <div class="col text-right">Produto</div>
+            <div class="col text-right">Serviço</div>
+            <div class="col font-weight-bold text-center">Total (R$)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="item.idPropostaItem && !omisso">
+    <app-item-detalhes
+      [item]="item"
+      [pavimento]="pavimento"
+      [last]="last"
+    ></app-item-detalhes>
+  </ng-container>
+</ng-template>

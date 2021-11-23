@@ -1,0 +1,33 @@
+<aw-spinner *ngIf="loading" size="default"></aw-spinner>
+<label [for]="id" [ngClass]="{ clearable: clearable }" (click)="_onTouched()">
+  <span class="btn btn-primary gradient-btn" [class.disabled]="loading || disabled">
+    {{ btnLabel }}
+  </span>
+  <ng-container *ngIf="!loading">
+    <span class="files ml-1" *ngIf="files?.length && !hasError" [title]="files?.length === 1 ? files[0].name : ''">
+      {{ files.length | i18nPlural: pluralMapping ?? { '=1': files[0].name, other: '# arquivos selecionados' } }}
+    </span>
+    <span class="text text-danger" *ngIf="hasError">
+      {{ maxSizeError ? maxSizeErrorMessage + ' (' + maxSize / 1000 / 1000 + 'Mb)' : errorMessage }}
+    </span>
+    <span class="text" *ngIf="!files?.length && !hasError">
+      {{ otherLabel }}
+      <ng-container *ngIf="maxSize"> (Tamanho máximo {{ maxSize / 1000 / 1000 }}Mb)</ng-container>
+    </span>
+  </ng-container>
+  <button
+    awButton
+    icon="close"
+    *ngIf="clearable"
+    (click)="clear()"
+    [disabled]="loading || disabled || (!files?.length && !hasError)"
+  ></button>
+</label>
+<input
+  (change)="onChange($event)"
+  [id]="id"
+  type="file"
+  [multiple]="multiple"
+  [disabled]="loading || disabled"
+  #inputRef
+/>

@@ -1,0 +1,34 @@
+<ng-container *ngLet="gerenciadorArquivosService.projeto$ | async as projeto">
+  <ng-container *ngLet="gaEtapaQuery.selected$ | async as etapaSelected">
+    <div class="pavimentos" *ngLet="!etapaSelected?.ativo || !etapaSelected?.id as etapaDisabled">
+      <app-ga-pavimento *ngIf="projeto" [projeto]="projeto" [disabled]="etapaDisabled"></app-ga-pavimento>
+      <div class="site" *ngFor="let site of gaPavimentoQuery.all$ | async; trackBy: trackBySite">
+        <app-ga-pavimento
+          [disabled]="etapaDisabled"
+          [projeto]="projeto"
+          [pavimento]="site"
+          [site]="site"
+        ></app-ga-pavimento>
+        <ng-container *ngFor="let edificio of site.edificios; trackBy: trackByEdificio">
+          <app-ga-pavimento
+            [disabled]="etapaDisabled"
+            [projeto]="projeto"
+            [pavimento]="edificio"
+            [site]="site"
+            [edificio]="edificio"
+          ></app-ga-pavimento>
+          <ng-container *ngFor="let andar of edificio.pavimentos; trackBy: trackByAndar">
+            <app-ga-pavimento
+              [disabled]="etapaDisabled"
+              [projeto]="projeto"
+              [pavimento]="andar"
+              [site]="site"
+              [edificio]="edificio"
+              [andar]="andar"
+            ></app-ga-pavimento>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

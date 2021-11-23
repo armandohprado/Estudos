@@ -1,0 +1,49 @@
+@import 'variables';
+
+$spacing: 10px;
+
+* {
+  font-family: $font-family-base;
+}
+
+.tab-header {
+  height: 65px;
+}
+
+.btn {
+  .icon {
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: #9ea1ae;
+  }
+
+  &:active {
+    color: #3c3c3c;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.files-header {
+  background-color: var(--very-light-blue);
+  display: block;
+  padding: 11px 14px;
+  font-weight: bold;
+  font-size: $font-size-base;
+  // border: 2px solid white;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  cursor: pointer;
+
+  small {
+    color: var(--dusty-teal);
+  }
+}
+
+.disciplina-title {
+  position: relative;
+}

@@ -1,0 +1,66 @@
+@import 'variables';
+
+:host {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.icon-caret-down,
+.icon-caret-up {
+  font-size: 6px;
+  &.black {
+    color: #000;
+  }
+  &.white {
+    color: #fff;
+  }
+  &.blue {
+    color: $primary;
+  }
+}
+
+.primary {
+  background: $very-light-blue;
+}
+.secondary {
+  background: $gray-secondary;
+}
+.tertiary {
+  background: $gray;
+}
+.tertiary {
+  background: $gray;
+}
+.quaternary {
+  background-color: var(--brownish-grey);
+}
+.title {
+  font-weight: 500;
+  &.black {
+    color: #000;
+  }
+  &.white {
+    color: #fff;
+  }
+  &.default {
+    font-size: small;
+  }
+  &.sm {
+    font-size: x-small;
+  }
+  &.md {
+    font-size: medium;
+  }
+  &.lg {
+    font-size: large;
+  }
+}
+.bg-collapse-group {
+  &.white {
+    background: #fff;
+  }
+  &.gray {
+    background: var(--brownish-grey);
+  }
+}

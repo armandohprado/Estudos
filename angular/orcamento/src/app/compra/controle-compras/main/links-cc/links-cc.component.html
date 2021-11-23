@@ -1,0 +1,46 @@
+<div>
+  <a awButton status="light" routerLink="plano-compras">
+    <span class="icon icon-spreadsheet"></span>
+    <span>Plano de Compras</span>
+  </a>
+  <a awButton status="light" routerLink="lousa">
+    <span class="icon icon-budget-plan"></span>
+    <span>Lousa</span>
+  </a>
+  <a awButton status="light" routerLink="controle-fichas">
+    <span class="icon icon-budget-plan"></span>
+    <span>Fichas</span>
+  </a>
+  <a awButton status="light" routerLink="gerenciador-arquivos">
+    <span class="icon icon-files-list"></span>
+    <span>Gerenciador de Arquivos</span>
+  </a>
+  <a awButton status="light" routerLink="change-order">
+    <span class="icon icon-exchange"></span>
+    <span>Controle de Change Orders</span>
+  </a>
+  <button awButton status="light" type="button" (click)="openEnderecoObraModal()" [loading]="loadingEnderecoObraModal">
+    <span class="icon icon-edit"></span>
+    <span>Endereço de Obra</span>
+  </button>
+  <a awButton status="light" href="{{ urlCentralizacao }}{{ idProjeto }}" target="_blank">
+    <span class="icon aw-icon-external-link-dark-mode"></span>
+    <span>Empresas de Faturamento</span>
+  </a>
+  <a awButton status="light" href="{{ urlCentralizacaoCentralCompras }}{{ idProjeto }}" target="_blank">
+    <span class="icon aw-icon-external-link-dark-mode"></span>
+    <span>Central de Compras</span>
+  </a>
+  <a awButton status="light" href="{{ urlCentralizacaoCc }}{{ idProjeto }}" target="_blank">
+    <span class="icon aw-icon-external-link-dark-mode"></span>
+    <span>Lista de CC's</span>
+  </a>
+</div>
+<div class="actions">
+  <button awButton type="button" (click)="openGerenciarGrupos()" [loading]="loadingGerenciarGrupos">
+    Gerenciar grupos
+  </button>
+  <button awButton type="button" (click)="openAdicionarGrupos()" [loading]="loadingAdicionarGrupos">
+    Adicionar grupos
+  </button>
+</div>

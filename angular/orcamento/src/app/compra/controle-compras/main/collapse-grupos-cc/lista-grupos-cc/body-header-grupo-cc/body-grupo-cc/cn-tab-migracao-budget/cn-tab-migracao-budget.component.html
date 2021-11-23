@@ -1,0 +1,27 @@
+<div class="block">
+  <h6 class="title">Transferência de budget</h6>
+  <div class="content">
+    <app-cn-migracao-budget-grupos-transferencia [grupo]="grupo"></app-cn-migracao-budget-grupos-transferencia>
+  </div>
+</div>
+
+<div class="block">
+  <h6 class="title">Budget recebido</h6>
+  <div class="content">
+    <app-cn-migracao-budget-resumo
+      [gruposResumo]="grupo.migracaoBudgetGruposResumoRecebido"
+      [total]="grupo.migracaoBudgetTotalRecebido"
+    ></app-cn-migracao-budget-resumo>
+  </div>
+</div>
+
+<div class="block">
+  <h6 class="title">Budget cedido</h6>
+  <div class="content">
+    <app-cn-migracao-budget-resumo
+      [gruposResumo]="grupo.migracaoBudgetGruposResumoCedido"
+      [cedido]="true"
+      [total]="grupo.migracaoBudgetTotalCedido"
+    ></app-cn-migracao-budget-resumo>
+  </div>
+</div>

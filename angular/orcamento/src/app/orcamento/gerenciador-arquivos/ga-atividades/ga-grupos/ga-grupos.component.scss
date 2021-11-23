@@ -1,0 +1,35 @@
+@import 'variables';
+
+.grupos {
+  > h5 {
+    color: white;
+  }
+  > .list {
+    background-color: $very-light-blue;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+    > .grupo {
+      padding: 0.25rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &:nth-child(even) {
+        background-color: white;
+      }
+    }
+  }
+  > .add-grupos {
+    display: flex;
+    margin-top: 1rem;
+    > .btn-add {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      > .icon {
+        font-size: 20px;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

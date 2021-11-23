@@ -1,0 +1,67 @@
+<div class="d-flex flex-column justify-content-start wrapper">
+  <app-modo-exibicao></app-modo-exibicao>
+  <div class="d-flex mb-40">
+    <div class="col-md-4 p-0"></div>
+  </div>
+  <app-collapse [@fadeInOut]>
+    <app-collapse-group
+      *ngFor="let familia of familias$ | async; let i = index; trackBy: trackByFnFamilia"
+      class="mb-40 d-block"
+      [(isOpen)]="collapses['isOpen_' + i]"
+    >
+      <ng-container collapse-heading>
+        <h1
+          class="family-group-header d-flex align-items-center text-lowercase"
+          (click)="collapses['isOpen_' + i] = !collapses['isOpen_' + i]"
+        >
+          {{ familia.descricaoFamilia }}
+          <i
+            class="icon"
+            [class.icon-caret-up]="collapses['isOpen_' + i]"
+            [class.icon-caret-down]="!collapses['isOpen_' + i]"
+          ></i>
+        </h1>
+      </ng-container>
+      <table *ngIf="collapses['isOpen_' + i]">
+        <thead>
+          <tr>
+            <th>Grupos</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngFor="let grupo of familia.grupos; trackBy: trackByFn"
+            class="d-flex line-group border-bottom-divisor align-items-center"
+          >
+            <tr>
+              <td>
+                <span class="group-item-id">{{ grupo.codigoGrupo }}</span>
+                <span class="divider">-</span>
+                <span class="group-item-name">{{ grupo.nomeGrupo }}</span>
+              </td>
+              <td>
+                <label for="{{ grupo.idOrcamentoGrupo }}" class="sr-only"> Descriçao complementar do grupo </label>
+                <textarea
+                  awInput
+                  [ngModel]="grupo.descricaoComplementarGrupo"
+                  (ngModelChange)="updateGrupo(grupo.idOrcamentoGrupo, { descricaoComplementarGrupo: $event })"
+                  [ngModelOptions]="{ updateOn: 'blur' }"
+                  id="{{ grupo.idOrcamentoGrupo }}"
+                  rows="3"
+                  resize="vertical"
+                  maxlength="200"
+                  placeholder="anotações."
+                  type="text-area"
+                ></textarea>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </app-collapse-group>
+  </app-collapse>
+  <div class="d-flex justify-content-end mt-auto">
+    <button (click)="saveValues()" class="btn-custom ml-4" type="button" awButton status="success">Finalizar</button>
+  </div>
+</div>

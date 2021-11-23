@@ -1,0 +1,76 @@
+<div class="voltar">
+  <a awButton type="button" routerLink="../../" link queryParamsHandling="merge">
+    <span class="icon aw-icon-seta-esquerda"></span>
+    VOLTAR
+  </a>
+</div>
+<form class="wrapper-header" [formGroup]="form" (ngSubmit)="gerarComparativa()">
+  <div class="equalizacao-header">
+    <div class="title">EQUALIZAÇÃO</div>
+    <div class="sub-title" *ngLet="epPropostaItemQuery.nomeGrupo$ | async as nomeGrupo" [title]="nomeGrupo">
+      {{ nomeGrupo }}
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="end">
+    <div class="gerar-relatorio">
+      <button
+        type="button"
+        awButton
+        icon="file-pdf"
+        circle
+        tooltip="Gerar relatório"
+        [delay]="200"
+        (click)="gerarRelatorio()"
+        [loading]="gerandoRelatorio"
+      ></button>
+    </div>
+    <label>
+      Selecionar <br />
+      fornecedores
+    </label>
+    <aw-select
+      [items]="epPropostaItemQuery.fornecedoresSelect$ | async"
+      multiple
+      selectedTextPlural="fornecedores"
+      selectedText="fornecedor"
+      [closeOnSelect]="false"
+      bindLabel="nomeFantasia"
+      bindValue="idFornecedor"
+      formControlName="fornecedores"
+      trackBy="idFornecedor"
+      footer
+      [footerOptions]="selectFooter"
+      placeholder="Selecionar fornecedores"
+      #select
+      (primaryBtn)="select._selectAll(); select._close()"
+      (secondaryBtn)="select._unselectAll(); select._close()"
+      (close)="input.focus(); input.select()"
+    >
+    </aw-select>
+    <label for="percent-referencia">
+      % de <br />
+      Referência
+    </label>
+    <input
+      id="percent-referencia"
+      awInput
+      currencyMask
+      [options]="currencyOptions"
+      formControlName="indiceComparativa"
+      #input
+      (click)="input.focus(); input.select()"
+      (keydown.enter)="gerarComparativa()"
+    />
+    <div class="gerar-comparativa">
+      <button type="submit" awButton [loading]="gerandoComparativa" tooltip="Gerar comparativa" [delay]="300">
+        Comparar
+      </button>
+    </div>
+    <div class="historico">
+      <button type="button" awButton status="light" (click)="openHistorico()" [loading]="loadingModalHistorico">
+        Histórico
+      </button>
+    </div>
+  </div>
+</form>

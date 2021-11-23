@@ -1,0 +1,123 @@
+<div
+  class="content-collapse bg-white"
+  [class.pb-3]="!last"
+  *ngLet="grupo.idCompraNegociacaoGrupo | any: (ccGruposQuery.activeId$ | async) as expanded"
+>
+  <div
+    class="bg-collapse-group rounded position-relative"
+    [ngClass]="{ highlight: highlight, 'grupo-nao-previsto': grupo.grupoNaoPrevisto }"
+  >
+    <aw-spinner size="sm" *ngIf="grupo.loading"></aw-spinner>
+    <div class="font-weight-bolder p2" (click)="toggleCollapse()" size="sm">
+      <div class="grupo grid-container c-pointer">
+        <div class="codigo grid-item">{{ grupo.codigo }}</div>
+        <div
+          class="nome grid-item justify-content-start"
+          cdk-overlay-origin
+          #cdkOverlayOriginComplemento="cdkOverlayOrigin"
+        >
+          {{ grupo.nome }}
+          <ng-container *ngIf="grupo.isOrigem || grupo.idOrcamentoGrupoOrigem">
+            <ng-container *ngIf="grupo.complementoOrcamentoGrupo">
+              - {{ grupo.complementoOrcamentoGrupo }}
+            </ng-container>
+            <button
+              class="ml-3"
+              awButton
+              icon="edit"
+              type="button"
+              tooltip="Editar complemento"
+              [delay]="300"
+              (click)="$event.stopPropagation(); openComplementoOverlay()"
+            ></button>
+            <ng-template
+              cdk-connected-overlay
+              [cdkConnectedOverlayOpen]="grupo.complementoOverlayOpened"
+              [cdkConnectedOverlayHasBackdrop]="true"
+              [cdkConnectedOverlayOrigin]="cdkOverlayOriginComplemento"
+              [cdkConnectedOverlayWidth]="500"
+              cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+              [cdkConnectedOverlayPositions]="complementoOverlayPositions"
+              (backdropClick)="closeComplementoOverlay()"
+            >
+              <div class="complemento-grupo-overlay">
+                <div class="descricao">{{ grupo.nome }} - {{ complementoOverlayControl.value }}</div>
+                <div class="complemento">
+                  <div>
+                    <label for="complemento" class="sr-only">Complemento</label>
+                    <input id="complemento" type="text" autocomplete="off" [formControl]="complementoOverlayControl" />
+                  </div>
+                  <div class="d-flex">
+                    <button
+                      awButton
+                      type="button"
+                      link
+                      (click)="closeComplementoOverlay()"
+                      [disabled]="grupo.loadingComplementoOverlay"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      awButton
+                      type="button"
+                      link
+                      [disabled]="
+                        complementoOverlayControl.value === grupo.complementoOrcamentoGrupo ||
+                        grupo.loadingComplementoOverlay
+                      "
+                      (click)="saveComplemento()"
+                    >
+                      Salvar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </div>
+        <div
+          class="alterar-tipo-faturamento grid-item"
+          tooltip="Este grupo teve seu valor inicial alterado e não é possível trocar o tipo de faturamento"
+          [delay]="200"
+          [isDisabled]="grupo.grupoNaoAlterado"
+        >
+          <button
+            awButton
+            size="sm"
+            status="light"
+            [disabled]="!grupo.grupoNaoAlterado"
+            (click)="openModalMudarFaturamento(grupo, $event)"
+          >
+            <i class="icon icon-direction-arrow"></i>
+            Alterar tipo faturamento
+          </button>
+        </div>
+        <div
+          [class.invisible]="!grupo.grupoNaoPrevisto"
+          class="grid-item grupo-nao-previsto font-weight-bold text-nowrap"
+        >
+          Grupo não previsto
+        </div>
+
+        <div class="valor-venda grid-item justify-content-start">
+          <div>{{ grupo.valorVendaCongelada | number: '1.2-2' }} <br /></div>
+        </div>
+        <div class="valor-emissao grid-item justify-content-start">
+          <div>{{ grupo.valorEmissaoCC | number: '1.2-2' }}</div>
+        </div>
+
+        <div class="valor-saldo grid-item justify-content-between">
+          <div class="d-flex align-items-start">
+            {{ grupo.valorSaldoAtualizado | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="grid-item">
+          <span class="icon caret" [class.icon-caret-down]="!expanded" [class.icon-caret-up]="expanded"></span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-collapse-group px-2 pb-2" *ngIf="expanded" @collapse>
+      <app-body-grupo-cc [grupo]="grupo"></app-body-grupo-cc>
+    </div>
+  </div>
+</div>

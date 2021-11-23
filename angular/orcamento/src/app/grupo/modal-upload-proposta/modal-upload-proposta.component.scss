@@ -1,0 +1,56 @@
+table.table {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+
+  thead {
+    flex: 0 0 auto;
+    tr {
+      th {
+        border-top: none;
+        padding-left: 8px;
+        padding-bottom: 16px;
+        width: 62%;
+      }
+    }
+  }
+  tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    tr {
+      &:hover {
+        background-color: darken(#fafafa, 1%);
+      }
+      td {
+        padding: 16px 8px;
+        border-bottom: darkgreen;
+        &:first-child:not(.state) {
+          width: 60%;
+        }
+        &:nth-child(2) {
+          text-align: left;
+          width: 30%;
+        }
+        &:nth-child(3) {
+          text-align: center;
+        }
+        &:last-child {
+          border-bottom-color: blue;
+        }
+      }
+    }
+  }
+  &.fixed-header {
+    tbody {
+      position: relative;
+      max-height: 272px;
+    }
+  }
+
+  tr {
+    width: 100%;
+    display: table;
+  }
+}

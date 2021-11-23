@@ -1,0 +1,22 @@
+@import 'variables';
+
+:host ::ng-deep {
+  app-orcamento-header {
+    .card {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 0;
+      border-left: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.grupos-opcionais {
+  background-color: $secondary;
+  font-size: 1.25rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}

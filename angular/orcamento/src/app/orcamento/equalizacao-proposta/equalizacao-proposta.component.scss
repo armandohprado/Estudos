@@ -1,0 +1,22 @@
+@use 'variables' as v;
+@use './equalizacao-proposta' as ep;
+
+:host {
+  display: block;
+  margin-left: -30px;
+  margin-top: -50px;
+}
+
+header {
+  position: sticky;
+  top: v.$header-breacrumbs-heigth + ep.$ep-header-height;
+  z-index: 2;
+}
+
+main {
+  margin-top: ep.$ep-header-height + v.$breadcrumbs-height;
+}
+
+footer {
+  margin-bottom: 50px;
+}

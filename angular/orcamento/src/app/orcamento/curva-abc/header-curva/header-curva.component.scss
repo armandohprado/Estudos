@@ -1,0 +1,80 @@
+@import 'variables';
+
+:host {
+  display: block;
+  font-size: 12px;
+  color: #4a4a4a;
+  padding: 0.5rem;
+  font-weight: bold;
+  background-color: #f2f5f7;
+
+  .graphic {
+    margin-right: 0;
+    margin-left: 0;
+    p {
+      &.title {
+        text-align: right;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    .info {
+      p {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+
+        span {
+          display: inline-block;
+
+          &.title {
+            display: grid;
+            grid-template-columns: 75px 50px;
+            > .label {
+              margin-right: 0.5rem;
+              text-align: end;
+            }
+            margin-right: 0.5rem;
+          }
+
+          &.bars {
+            height: 12px;
+          }
+        }
+
+        &.fornecedor {
+          .bars {
+            background-color: #4a4a4a;
+          }
+        }
+
+        &.especialista {
+          color: $secondary;
+
+          .bars {
+            background-color: $secondary;
+            width: 30%;
+          }
+        }
+
+        &.meta {
+          color: $tooltip-color;
+
+          .bars {
+            background-color: $tooltip-color;
+            width: 20%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.valores {
+  display: flex;
+  justify-content: flex-end;
+  app-box-info:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

@@ -1,0 +1,46 @@
+<ng-container *ngIf="grupo$ | async as grupo">
+  <aw-wrapper-page
+    *ngLet="grupo | validaEnvioMapa: valorMiscellaneousControl?.value:this.formEnvioMapa.invalid as mensagemPipe"
+    titulo="Selecionar valores para envio do mapa"
+    subTitulo="Grupo: {{ grupo.codigo }} {{ grupo.nome }}"
+    (voltar)="voltar()"
+  >
+    <aw-stepper linear class="px-3" minWidthConnector headerCenter #stepperRef>
+      <aw-step label="Definir Valores">
+        <app-valores-envio-mapa
+          *ngIf="stepperRef.selectedIndex === 0"
+          [grupo]="grupo"
+          [formEnvioMapa]="formEnvioMapa"
+        ></app-valores-envio-mapa>
+      </aw-step>
+      <aw-step label="Envio Mapa" [editable]="!mensagemPipe">
+        <app-valores-resumo-envio-mapa
+          *ngIf="stepperRef.selectedIndex === 1"
+          [grupo]="grupo"
+          [mapa]="formEnvioMapa.value"
+        ></app-valores-resumo-envio-mapa>
+      </aw-step>
+    </aw-stepper>
+    <div footer class="d-flex">
+      <button
+        awButton
+        status="secondary"
+        (click)="stepperRef.selectedIndex === 0 ? voltar() : stepperRef.previous()"
+        [disabled]="saving"
+      >
+        Voltar
+      </button>
+      <div [tooltip]="mensagemPipe" [isDisabled]="!mensagemPipe" (mouseenter)="onMouseenter()">
+        <button
+          awButton
+          status="primary"
+          (click)="stepperRef.selectedIndex !== 1 ? stepperRef.next() : enviarMapa(grupo)"
+          [loading]="saving"
+          [disabled]="!!mensagemPipe"
+        >
+          {{ stepperRef.selectedIndex !== 1 ? 'Próximo' : 'Enviar Mapa' }}
+        </button>
+      </div>
+    </div>
+  </aw-wrapper-page>
+</ng-container>

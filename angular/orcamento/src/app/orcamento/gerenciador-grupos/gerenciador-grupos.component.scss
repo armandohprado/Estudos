@@ -1,0 +1,94 @@
+@import 'variables';
+
+:host ::ng-deep {
+  & aw-wrapper-header .header {
+    top: 70px;
+    position: absolute;
+  }
+  & .aw-btn.btn-icon.btn-xs > .aw-btn-icon {
+    font-size: 16px;
+  }
+}
+.border {
+  border-width: 2px !important;
+}
+.bg-white {
+  background: #fff;
+}
+.border-familias {
+  border-bottom: solid gray 5px;
+}
+.border-grupos {
+  border-top: solid gray 2px;
+}
+.border-grupos-first {
+  border-bottom: solid gray 2px;
+}
+.border-grupos-filho {
+  border-top: solid #b8b8b8 0.5px;
+}
+.font-familias {
+  font-size: $h4-font-size;
+}
+.border-grupao {
+  border-bottom: solid #aeb0b2 3px;
+  font-size: $h5-font-size;
+}
+.font-grupos {
+  font-size: $h6-font-size;
+  min-height: 48px;
+}
+.font-grupos-filho {
+  font-size: small;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 40rem 1fr;
+  min-height: 48px;
+}
+
+.even {
+  background: $gray-secondary;
+}
+.odd {
+  background: #f2f2f2;
+}
+.icon-caret-down,
+.icon-caret-up {
+  font-size: 6px;
+  color: $primary;
+}
+.item-conteudo {
+  flex-basis: 277px;
+  width: 277px;
+  display: flex;
+  min-height: 16px;
+}
+.linha-familia {
+  min-height: 75px;
+}
+.familia-styck {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+}
+.h-30 {
+  min-height: 30px;
+}
+
+.mr-7 {
+  margin-right: 7px;
+}
+
+.grid-container-icons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.icones {
+  position: fixed;
+  top: 100px;
+  right: 10px;
+  z-index: 3;
+}

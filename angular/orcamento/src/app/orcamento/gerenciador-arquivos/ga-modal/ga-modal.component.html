@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ nomeGrupo }} - {{ title }}</h5>
+  <button awButton type="button" icon="close" (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <app-gerenciador-arquivos
+    [idOrcamento]="idOrcamento"
+    [idOrcamentoGrupo]="idOrcamentoGrupo"
+    [idOrcamentoCenario]="idOrcamentoCenario"
+    [readonly]="readonly"
+    [idProjeto]="idProjeto"
+    [apenasSelecionados]="apenasSelecionados"
+    [destroyState]="destroyState"
+  >
+  </app-gerenciador-arquivos>
+</div>

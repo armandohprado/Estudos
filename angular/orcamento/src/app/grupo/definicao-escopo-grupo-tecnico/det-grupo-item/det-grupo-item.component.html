@@ -1,0 +1,109 @@
+<div
+  class="grupo-item"
+  [awSpinner]="grupoItem.loading"
+  [size]="grupoItem.opened ? 'md' : 'default'"
+  [class.error]="!grupoItem.quantidadeTotal && grupoItem.ativo"
+>
+  <div class="header">
+    <div class="ativo">
+      <aw-checkbox [ngModel]="grupoItem.ativo" (ngModelChange)="incluirOrExcluir()"></aw-checkbox>
+    </div>
+    <div class="tag">
+      <div awSpinner>
+        <input
+          awInput
+          [status]="grupoItem.statusProperty.tag"
+          size="xs"
+          [disabled]="!grupoItem.ativo"
+          [ngModel]="grupoItem.tag"
+          (ngModelChange)="tagControl.valid && updateTag($event)"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+          [deTagValidator]="id"
+          [gruposItens]="grupoItens$ | async"
+          #tagControl="ngModel"
+        />
+      </div>
+    </div>
+    <div class="cod-item">
+      {{ grupoItem.numeracaoGrupoItem | default: grupoItem.numeracao }}
+    </div>
+    <div class="descricao">
+      <div
+        cdkOverlayOrigin
+        #overlayComplemento="cdkOverlayOrigin"
+        (click)="grupoItem.ativo && setEditing('complemento', true)"
+        [class.mr-1]="grupoItem.ativo"
+      >
+        {{ grupoItem.descricaoGrupoItem }} {{ grupoItem.complemento }}
+      </div>
+      <ng-template
+        cdkConnectedOverlay
+        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        [cdkConnectedOverlayOpen]="grupoItem.editingProperty.complemento"
+        [cdkConnectedOverlayOrigin]="overlayComplemento"
+        [cdkConnectedOverlayPositions]="[editComplementoPosition]"
+        cdkConnectedOverlayPanelClass="overlay-complemento"
+        cdkConnectedOverlayWidth="500px"
+        (backdropClick)="grupoItem.statusProperty.complemento !== 'loading' && setEditing('complemento', false)"
+      >
+        <div class="container-fluid complemento-edit">
+          <div class="row">
+            <div class="col-3 clamp-3" [tooltip]="grupoItem.descricaoGrupoItem">
+              {{ grupoItem.descricaoGrupoItem }}
+            </div>
+            <div class="col-9">
+              <input
+                awInput
+                size="xs"
+                class="complemento-input"
+                [status]="grupoItem.statusProperty.complemento"
+                [formControl]="complementoControl"
+              />
+            </div>
+          </div>
+          <div class="row" *ngLet="grupoItem.statusProperty.complemento === 'loading' as statusComplemento">
+            <div class="col-12 d-flex justify-content-end">
+              <button
+                awButton
+                status="secondary"
+                class="mr-1"
+                [disabled]="statusComplemento"
+                (click)="setEditing('complemento', false)"
+              >
+                Cancelar
+              </button>
+              <button
+                awButton
+                (click)="updateComplemento()"
+                [loading]="statusComplemento"
+                [disabled]="complementoControl.invalid"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <div *ngIf="grupoItem.ativo">
+        <button awButton icon="edit" size="sm" (click)="setEditing('complemento', true)"></button>
+      </div>
+    </div>
+    <div class="qtde">
+      1
+      <span class="qtde-um">{{ grupoItem.unidadeMedida }}</span>
+    </div>
+    <div class="valor-produto">
+      <!--{{ totais.valorProduto | number: '1.2-2' }}-->
+    </div>
+    <div class="valor-total">
+      {{ total$ | async | number: '1.2-2' }}
+    </div>
+    <div class="acoes" *ngIf="grupoItem.ativo">
+      <app-del-grupo-item-acoes [grupoItem]="grupoItem"></app-del-grupo-item-acoes>
+    </div>
+  </div>
+  <div class="body" *ngIf="grupoItem.opened" @collapse>
+    <app-del-grupo-item-content [grupoItem]="grupoItem"></app-del-grupo-item-content>
+  </div>
+</div>

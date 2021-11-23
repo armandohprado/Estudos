@@ -1,0 +1,118 @@
+<div class="ficha-ceo">
+  <h5 class="header-title mb-20">
+    Ficha CEO
+    <small class="cursor-pointer" (click)="editarFichaCEO()">
+      editar
+      <i class="icon icon-edit"></i>
+    </small>
+  </h5>
+  <hr />
+  <div class="btn-acoes-header" *ngIf="editar" @collapse>
+    <div class="row mb-20">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="contato">Contato Cliente</label>
+          <input
+            id="contato"
+            awInput
+            [disabled]="!editar"
+            [(ngModel)]="fichaCeoInfo.contatoCliente"
+            (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+          />
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="prazoExecucaoProjeto">Prazo de execução do Projeto</label>
+          <div class="input-group">
+            <input
+              id="prazoExecucaoProjeto"
+              awInput
+              type="number"
+              [disabled]="!editar"
+              [(ngModel)]="fichaCeoInfo.prazoExecucaoProjeto"
+              (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+              [ngModelOptions]="{ updateOn: 'blur' }"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text">dias</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="prazoExecucaoObra">Prazo de execução da obra</label>
+          <div class="input-group">
+            <input
+              id="prazoExecucaoObra"
+              awInput
+              type="number"
+              [disabled]="!editar"
+              [(ngModel)]="fichaCeoInfo.prazoExecucaoObra"
+              (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+              [ngModelOptions]="{ updateOn: 'blur' }"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text">dias</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="prazoExecucaoObra">Validade da Proposta</label>
+          <div class="input-group">
+            <input
+              id="validadeProposta"
+              awInput
+              [disabled]="!editar"
+              [(ngModel)]="fichaCeoInfo.validadeProposta"
+              (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+              [ngModelOptions]="{ updateOn: 'blur' }"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="concorrentes">Concorrentes</label>
+          <input
+            id="concorrentes"
+            awInput
+            [disabled]="!editar"
+            [(ngModel)]="fichaCeoInfo.concorrentes"
+            (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mb-20">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="pontosAtencao">Pontos de Atenção</label>
+          <input
+            id="pontosAtencao"
+            awInput
+            [disabled]="!editar"
+            [(ngModel)]="fichaCeoInfo.pontosAtencao"
+            (ngModelChange)="salvarFichaCEO(fichaCeoInfo)"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+          />
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="row mb-20">
+      <div class="col-12 align-right">
+        <button awButton class="mx-1" (click)="openModalProjetoTecnico()">Projetos Ténicos</button>
+        <button awButton class="mx-1" (click)="openModalItensReutilizados()">Itens Reutilizados</button>
+        <button awButton width="primary" (click)="editarFichaCEO()">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>

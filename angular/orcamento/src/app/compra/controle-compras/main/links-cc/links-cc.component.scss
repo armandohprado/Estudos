@@ -1,0 +1,23 @@
+@use 'variables' as v;
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, max-content);
+  grid-gap: 1rem;
+  align-items: flex-end;
+  padding: 1.5rem 1rem 0.5rem 1rem;
+  border-bottom: 1px solid v.$bluey-grey;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  &::before {
+    color: black;
+  }
+}
+
+.actions {
+  .aw-btn:not(:last-of-type) {
+    margin-right: 1rem;
+  }
+}

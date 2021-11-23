@@ -1,0 +1,7 @@
+.extendsA {
+  cursor: pointer;
+  color: #00b1ed;
+  &:hover {
+    text-decoration: underline;
+  }
+}

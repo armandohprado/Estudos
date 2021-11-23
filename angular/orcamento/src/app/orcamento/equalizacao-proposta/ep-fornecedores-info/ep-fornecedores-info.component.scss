@@ -1,0 +1,69 @@
+@use 'variables' as v;
+@use '../equalizacao-proposta' as ep;
+
+$row-height: ep.$ep-row-height + 20px;
+
+:host {
+  display: block;
+}
+
+.fornecedores {
+  display: flex;
+}
+
+.separator {
+  background-color: #f7f7f7;
+  height: 1rem;
+  min-height: 1rem;
+}
+
+.title {
+  @include ep.ep-title();
+}
+
+.item {
+  width: ep.$ep-column-width;
+  min-width: ep.$ep-column-width;
+  border-bottom: 2px solid v.$steel;
+  .label {
+    height: $row-height;
+    min-height: $row-height;
+    padding: 0.5rem;
+    border-bottom: 1px solid v.$gray-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid v.$gray-secondary;
+  }
+  &.aw-referencia {
+    position: sticky;
+    left: ep.$ep-first-column-width;
+    z-index: 0;
+    .label {
+      background-color: v.$very-light-blue;
+      border-right-color: v.$steel;
+    }
+  }
+  &.fornecedor {
+    .label {
+      font-weight: 500;
+    }
+  }
+  &.sticky {
+    background-color: v.$gray-secondary;
+    width: ep.$ep-first-column-width;
+    min-width: ep.$ep-first-column-width;
+    position: sticky;
+    left: 0;
+    z-index: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) ep.$ep-first-column-labels-width;
+    grid-gap: 1rem;
+    .labels {
+      grid-column-start: 2;
+    }
+    .label {
+      background-color: white;
+    }
+  }
+}

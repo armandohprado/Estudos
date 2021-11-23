@@ -1,0 +1,37 @@
+<aw-wrapper-page
+  *ngIf="grupo$ | async as grupo"
+  titulo="Emitir CC"
+  subTitulo="Grupo: {{ grupo.codigo }} {{ grupo.nome }}"
+  (voltar)="voltar($event)"
+>
+  <div class="container stepper">
+    <aw-alert tipo="warning" [dismissible]="true">
+      Para a emissão da CC, todos os fornecedores devem estar tipificados conforme o preenchimento de valores de produto
+      ou serviço. Caso não esteja, clique em:
+      <a href>Pedir alteração no cadastro do fornecedor.</a>
+    </aw-alert>
+    <app-emitir-cc-plano-compra-questoes *ngIf="grupo.planoCompraQuestoes?.length" [grupo]="grupo" [form]="form">
+    </app-emitir-cc-plano-compra-questoes>
+    <app-emitir-cc-form
+      [form]="form"
+      [emitirCc]="grupo.emitirCc"
+      [valorMiscellaneous]="valorMiscellaneousControl.value"
+      *ngIf="
+        grupo.tipo === cnTipoGrupoEnum.Direto &&
+        tipo === emitirCcTipoEnum.SemMapa &&
+        (grupo.emitirCc.valorSaldoComTransferencias - grupo.emitirCc.valorTotal | arredondamento: 2) > 0
+      "
+    ></app-emitir-cc-form>
+    <app-emitir-cc-fornecedores
+      [form]="form"
+      [emitirCc]="grupo.emitirCc"
+      [contatos]="contatos$ | async"
+    ></app-emitir-cc-fornecedores>
+    <app-emitir-cc-items [emitirCc]="grupo.emitirCc"></app-emitir-cc-items>
+    <hr />
+  </div>
+  <div footer>
+    <button awButton status="secondary" (click)="voltar($event)" [disabled]="saving">Voltar</button>
+    <button awButton (click)="emitirCc()" [disabled]="form.invalid" [loading]="saving">Emitir CC</button>
+  </div>
+</aw-wrapper-page>

@@ -1,0 +1,54 @@
+<div class="content">
+  <div class="produtos" *ngIf="grupoItemFilho.produtos.length">
+    <app-deli-produto-list-selecionado
+      [showVariacoes]="true"
+      [idOrcamentoGrupoItem]="grupoItemFilho.idOrcamentoGrupoItem"
+      [loading]="grupoItemFilho.statusProperty.produtos === 'loading'"
+      [canDelete]="true"
+      [produtos]="grupoItemFilho.produtos"
+      orderBy="idOrcamentoGrupoItemProdutoCatalogo"
+      btnText="Salvar"
+      labelSelecionados="Produtos selecionados"
+      [btnDisabledFn]="btnDisabledFn"
+      (modalDetalhesOpened)="setVariacoesProdutoSelecionado($event)"
+      (produtoDeletado)="deletarProduto($event)"
+      (variacaoSelecionada)="changeVariacao($event)"
+      (produtoSelecionado)="onProdutoSelecionado($event)"
+    ></app-deli-produto-list-selecionado>
+  </div>
+  <div class="catalogo">
+    <div
+      class="header"
+      (click)="toggleCatalogo()"
+      *ngIf="!!grupoItemFilho.produtos?.length"
+    >
+      <div class="text">Alterar produtos</div>
+      <span
+        class="icon caret"
+        [ngClass]="{
+          'icon-caret-up': grupoItemFilho.openedCatalogo,
+          'icon-caret-down': !grupoItemFilho.openedCatalogo
+        }"
+      ></span>
+    </div>
+    <div
+      class="content"
+      [class.mt-3]="grupoItemFilho.produtos.length"
+      *ngIf="grupoItemFilho.openedCatalogo || !grupoItemFilho.produtos.length"
+      @collapse
+    >
+      <app-deli-catalogo
+        [catalogo]="
+          grupoItemFilho.catalogo | deliFilterCatalogo: grupoItemFilho.produtos
+        "
+        [filtrosAtivos]="grupoItemFilho.filtros"
+        [term]="grupoItemFilho.term"
+        [showVariacoes]="true"
+        (filtroChanged)="updateFiltro($event)"
+        (termChanged)="updateTerm($event)"
+        (produtoSelecionado)="onProdutoSelecionadoCatalogo($event)"
+        (modalDetalhesOpened)="setVariacoesProdutoCatalogo($event)"
+      ></app-deli-catalogo>
+    </div>
+  </div>
+</div>

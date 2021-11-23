@@ -1,0 +1,12 @@
+<app-lousa-header *ngIf="lousaService.cabecalhos$ | async as cabecalhos" [cabecalhos]="cabecalhos"></app-lousa-header>
+<ng-container *ngLet="lousaService.hiddenColumns$ | async as hiddenColumns">
+  <app-lousa-grupos-header
+    [filtros]="lousaService.filtros$ | async"
+    [sort]="lousaService.sort$ | async"
+    [hiddenColumns]="hiddenColumns"
+  ></app-lousa-grupos-header>
+  <app-lousa-grupos
+    [grupos]="lousaService.gruposFilteredAndOrdered$ | async"
+    [hiddenColumns]="hiddenColumns"
+  ></app-lousa-grupos>
+</ng-container>

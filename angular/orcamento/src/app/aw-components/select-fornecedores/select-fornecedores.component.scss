@@ -1,0 +1,100 @@
+.select-fornecedores {
+  > .options {
+    display: flex;
+    ::ng-deep {
+      .aw-radio {
+        margin-right: 15px;
+      }
+    }
+  }
+  > .fornecedores {
+    display: flex;
+    > .select,
+    .selected {
+      > .title,
+      > .box-fornecedores {
+        margin-right: 5px;
+        margin-left: 5px;
+      }
+      > .box-fornecedores {
+        width: 320px;
+        height: 240px;
+        border-radius: 3px;
+        padding: 10px;
+        background-color: var(--very-light-blue);
+        > .list {
+          margin-top: 10px;
+          overflow: auto;
+          &.cdk-drop-list-dragging .item:not(.cdk-drag-placeholder) {
+            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+          }
+          > .item {
+            &.disabled > div {
+              cursor: default;
+            }
+            > div {
+              &.fake {
+                background-color: transparent;
+                box-shadow: none;
+                display: block;
+                cursor: default;
+              }
+              display: grid;
+              grid-template-columns: 0 25px 1fr;
+              background-color: white;
+              padding: 6px 4px;
+              margin-top: 4px;
+              margin-bottom: 4px;
+              border-radius: 3px;
+              cursor: grab;
+              box-shadow: 0 1px 2px 0 rgba(60, 60, 60, 0.3);
+              div.icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+          }
+        }
+      }
+    }
+    > .divider {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      > .icon:not(:last-child) {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+.cdk-drag-preview > div {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 0 25px 1fr;
+  background-color: white;
+  padding: 6px 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border-radius: 3px;
+  cursor: grab;
+  box-shadow: 0 1px 2px 0 rgba(60, 60, 60, 0.3);
+  div.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

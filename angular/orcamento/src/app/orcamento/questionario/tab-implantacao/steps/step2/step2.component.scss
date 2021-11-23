@@ -1,0 +1,116 @@
+@import 'variables';
+
+legend {
+  font-size: 14px;
+  max-width: 600px;
+}
+
+.row {
+  label {
+    color: #7b8594;
+  }
+
+  input {
+    color: #3c3c3c;
+  }
+
+  .custom-control {
+    padding-left: 1rem;
+  }
+}
+
+.input-upload {
+  background-color: #e7ecef;
+  margin: 0 auto;
+  width: 80%;
+
+  .btn {
+    margin: 13px;
+    width: 145px;
+  }
+
+  .drop-files {
+    width: inherit;
+  }
+}
+
+.btn-proximo {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  textarea,
+  input {
+    width: 595px;
+  }
+
+  &.inline {
+    input {
+      width: 295px;
+    }
+  }
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.upload {
+  padding: 10px 15px;
+  margin: 20px 75px 40px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  background-color: #e7ecef;
+  align-items: center;
+
+  span {
+    display: inline-flex;
+    color: var(--brownish-grey);
+    text-transform: lowercase;
+    font-size: $small-font-size;
+    font-weight: normal;
+    &.error {
+      color: $red;
+    }
+  }
+}
+
+.background {
+  background-color: $light-gray;
+
+  textarea,
+  input {
+    background-color: $light-gray;
+  }
+}
+
+.input-radio {
+  background-color: $light-gray;
+  padding: 15px 128px 15px 80px;
+
+  input {
+    background-color: $light-gray;
+    height: auto;
+  }
+}
+
+.padding-left {
+  padding-left: 80px;
+}
+
+.btn-gravar {
+  width: 200px;
+  margin: 20px 80px 0 0;
+}
+
+.btn-bottom {
+  margin-top: 30px;
+  padding: 7px 70px;
+}
+
+.btn-secondary {
+  margin-right: 30px;
+}

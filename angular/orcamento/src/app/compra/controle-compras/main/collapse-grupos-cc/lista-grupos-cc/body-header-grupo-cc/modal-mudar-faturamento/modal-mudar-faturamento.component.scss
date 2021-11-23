@@ -1,0 +1,30 @@
+@use 'variables' as v;
+
+.modal-body {
+  font-size: 14px;
+}
+
+.bg-cinza-secondary {
+  background: v.$gray-secondary;
+  padding: 10px;
+}
+
+.border-subtitle {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  grid-gap: 0.5rem;
+  align-items: center;
+  grid-auto-rows: minmax(0, 1fr);
+}
+
+.valor {
+  text-align: end;
+}
+
+.label {
+  font-weight: 500;
+}

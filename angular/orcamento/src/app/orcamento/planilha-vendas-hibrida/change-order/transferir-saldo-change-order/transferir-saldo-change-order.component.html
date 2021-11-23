@@ -1,0 +1,80 @@
+<ng-container *ngLet="readonly ? (gruposTransferencia | awFilter: 'updated':true) : gruposTransferencia as grupos">
+  <ng-container *ngLet="grupos | sumTransacoes: planilhaHibridaGrupo.planilhaHibrida.idPlanilhaHibrida as sumGrupos">
+    <ng-container *ngLet="planilhaHibridaGrupo.planilhaHibrida.valorTotal - sumGrupos as saldo">
+      <div class="modal-header">
+        <h5 class="modal-title">Transferir Saldo do Contrato Principal</h5>
+        <button type="button" class="close" (click)="close()">
+          <span class="icon icon-close"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <aw-spinner *ngIf="loading"></aw-spinner>
+        <div class="pt-2">
+          <h6 class="px-3">Grupo: {{ planilhaHibridaGrupo?.nomeGrupo }}</h6>
+          <div class="grupos" *ngIf="grupos?.length; else noDataFound">
+            <app-transferir-saldo-grupos
+              [grupos]="grupos"
+              [updateGrupo]="false"
+              (changeValue)="onChangeValue($event)"
+              [filterGrupoMultiple]="true"
+              [readonlyGruposView]="readonly"
+              [useBloqueado]="true"
+              [hideTotal]="true"
+            ></app-transferir-saldo-grupos>
+            <hr class="px-3" />
+            <div class="totais px-3">
+              <div class="title">Valor do Grupo</div>
+              <div class="value">
+                {{ planilhaHibridaGrupo.planilhaHibrida.valorTotal | number: '1.2-2' }}
+              </div>
+              <div class="title">Total a ser transferido</div>
+              <div
+                class="value"
+                [ngClass]="{
+                  'text-danger font-weight-bold': saldo < 0
+                }"
+                tooltip="Total a ser transferido não pode ser maior que o Valor Total do Grupo"
+                tooltipPlacement="right"
+                [isDisabled]="saldo >= 0"
+              >
+                {{ sumGrupos | number: '1.2-2' }}
+              </div>
+              <div class="title">Saldo</div>
+              <div class="value font-weight-bold">
+                <span *ngIf="saldo < 0; else saldoMaiorZero">
+                  {{ 0 | number: '1.2-2' }}
+                </span>
+                <ng-template #saldoMaiorZero>
+                  <span class="text-danger">(-{{ saldo | number: '1.2-2' }})</span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          <ng-template #noDataFound>
+            <aw-alert tipo="warning" *ngIf="!loading; else loadingRef">
+              Nenhum grupo encontrado para transferência
+            </aw-alert>
+            <ng-template #loadingRef> Carregando... </ng-template>
+          </ng-template>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button awButton status="secondary" width="secondary" [disabled]="loading" (click)="close(true)">Fechar</button>
+        <button
+          awButton
+          status="primary"
+          width="primary"
+          (click)="transferir()"
+          [disabled]="
+            loading ||
+            !grupos?.length ||
+            !(gruposTransferencia | hasAnyTransferencia) ||
+            sumGrupos > planilhaHibridaGrupo.planilhaHibrida.valorTotal
+          "
+        >
+          {{ readonly ? 'Confirmar transferência' : 'Transferir Saldo' }}
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

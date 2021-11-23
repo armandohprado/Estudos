@@ -1,0 +1,213 @@
+<div class="grid-container rounded" [class.hidden-columns]="hiddenColumns">
+  <div class="filter bg-cinza">
+    <div class="one">Cód</div>
+    <div class="icons">
+      <span
+        awFilter
+        [conditionalFilterable]="false"
+        [filter]="filtros.codigo?.term"
+        type="text"
+        [sortable]="false"
+        class="icon icon-filter"
+        (filterChanged)="lousaService.updateFilter('codigo', $event, 'number')"
+        [class.active]="!!filtros.codigo"
+      ></span>
+    </div>
+  </div>
+  <div class="filter bg-cinza fixa">
+    <div class="one">Grupo</div>
+    <div class="icons">
+      <span
+        awFilter
+        [conditionalFilterable]="false"
+        [filter]="filtros.nome?.term"
+        type="text"
+        [sortable]="false"
+        class="icon icon-filter"
+        (filterChanged)="lousaService.updateFilter('nome', $event, 'text')"
+        [class.active]="!!filtros.nome"
+      ></span>
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'nome' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('nome', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'nome' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('nome', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div>Tipo de Faturamento</div>
+    <div class="icons justify-content-between">
+      <span
+        awFilter
+        [conditionalFilterable]="false"
+        [filter]="filtros.tipoFaturamento?.term"
+        type="text"
+        [sortable]="false"
+        class="icon icon-filter"
+        (filterChanged)="lousaService.updateFilter('tipoFaturamento', $event, 'text')"
+        [class.active]="!!filtros.tipoFaturamento"
+      ></span>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Venda</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'venda' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('venda', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'venda' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('venda', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Verba</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'verba' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('verba', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'verba' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('verba', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Meta</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'valorMetaCompra' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('valorMetaCompra', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'valorMetaCompra' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('valorMetaCompra', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Valor contratado</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'valorContratado' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('valorContratado', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'valorContratado' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('valorContratado', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Saldo de contingência</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'valorSaldoContingencia' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('valorSaldoContingencia', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'valorSaldoContingencia' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('valorSaldoContingencia', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza">
+    <div class="text-center">Miscellâneous</div>
+    <div class="icons">
+      <div class="sort px-2">
+        <span
+          class="icon icon-caret-up"
+          [class.active]="sort?.property === 'valorMiscellaneous' && sort?.ordem === 'asc'"
+          (click)="lousaService.updateSort('valorMiscellaneous', 'asc')"
+        ></span>
+        <span
+          class="icon icon-caret-down"
+          [class.active]="sort?.property === 'valorMiscellaneous' && sort?.ordem === 'desc'"
+          (click)="lousaService.updateSort('valorMiscellaneous', 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <div class="filter bg-cinza-escuro">
+    <div class="text-center">Fornecedor</div>
+  </div>
+  <div class="filter bg-cinza-escuro">
+    <div>Numeração CC</div>
+  </div>
+  <div class="filter bg-cinza-escuro">
+    <div>Classificação</div>
+    <div class="icons justify-content-end">
+      <span
+        (click)="lousaService.toggleHiddenColumns()"
+        class="icon icon-caret"
+        [class.icon-caret-up]="hiddenColumns"
+        [class.icon-caret-down]="!hiddenColumns"
+        [tooltip]="hiddenColumns ? 'Mostrar colunas' : 'Esconder colunas'"
+        [delay]="200"
+      ></span>
+    </div>
+  </div>
+  <div class="filter bg-cinza-escuro" *ngIf="!hiddenColumns">
+    <div>Data Emissão CC</div>
+  </div>
+  <div class="filter bg-cinza" *ngIf="!hiddenColumns">
+    <div>Responsável Escopo</div>
+    <div class="icons">
+      <span
+        awFilter
+        [conditionalFilterable]="false"
+        [filter]="filtros.responsavelEscopo?.term"
+        type="text"
+        [sortable]="false"
+        class="icon icon-filter"
+        (filterChanged)="lousaService.updateFilter('responsavelEscopo', $event, 'text')"
+        [class.active]="!!filtros.responsavelEscopo"
+      ></span>
+    </div>
+  </div>
+  <div class="filter bg-cinza" *ngIf="!hiddenColumns">
+    <div>Responsável Negociação</div>
+    <div class="icons">
+      <span
+        awFilter
+        [conditionalFilterable]="false"
+        [filter]="filtros.responsavelNegociacao?.term"
+        type="text"
+        [sortable]="false"
+        class="icon icon-filter"
+        (filterChanged)="lousaService.updateFilter('responsavelNegociacao', $event, 'text')"
+        [class.active]="!!filtros.responsavelNegociacao"
+      ></span>
+    </div>
+  </div>
+</div>

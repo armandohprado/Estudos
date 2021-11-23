@@ -1,0 +1,210 @@
+<ng-container
+  *ngLet="{
+    activeItem: _activeItem$ | async,
+    hasSelected: _hasSelected$ | async,
+    items: _items$ | async
+  } as state"
+>
+  <ng-container *ngLet="state.items | awSearch: searchBy:(search$ | async):'data' as itemsSearch">
+    <div
+      cdk-overlay-origin
+      #selectOrigin="cdkOverlayOrigin"
+      #trigger
+      (click)="toggle()"
+      [style.min-width.px]="50 + (clearable && state.hasSelected ? 25 : 0) + (status ? 25 : 0)"
+      [ngClass]="{
+        multiple: _multiple,
+        clearable: clearable && state.hasSelected,
+        open: isOpen,
+        disabled: disabled,
+        'is-valid': status === 'valid',
+        'is-invalid': status === 'invalid' || isInvalid,
+        'form-control-sm': size === 'sm',
+        'form-control-xs': size === 'xs',
+        'form-control-lg': size === 'lg'
+      }"
+      class="aw-select form-control"
+      size="sm"
+      [tabIndex]="disabled ? -1 : 0"
+      (keydown.space)="originSpaceKeyDown($event)"
+    >
+      <aw-spinner size="sm" *ngIf="loading || status === 'loading'"></aw-spinner>
+      <div class="aw-select-selected">
+        <div class="selected" *ngIf="!searchable || !isOpen">
+          <ng-container *ngIf="(_multiple && value?.length) || (!_multiple && value); else placeholderTemplate">
+            <ng-container *ngIf="!_multiple; else multipleSelected">
+              <span class="item">
+                {{ value | valueFormatter: bindLabel:bindLabelSeparator }}
+              </span>
+            </ng-container>
+            <ng-template #multipleSelected>
+              <ng-container *ngIf="showSelected; else total">
+                <span
+                  *ngFor="let item of _selectedItems$ | async; trackBy: _trackBy"
+                  class="badge badge-pill badge-secondary"
+                  [style.max-width]="maxWidthBadge"
+                >
+                  <span class="text" [title]="item.data | valueFormatter: bindLabel:bindLabelSeparator">
+                    {{ item.data | valueFormatter: bindLabel:bindLabelSeparator }}
+                  </span>
+                  <span class="icon icon-close" (click)="$event.stopPropagation(); _unselect(item); onTouched()"></span>
+                </span>
+              </ng-container>
+              <ng-template #total>
+                <ng-container *ngLet="_totalSelected$ | async as totalSelected">
+                  <span class="item">
+                    {{
+                      totalSelected
+                        | i18nPlural
+                          : {
+                              '=0': 'Nenhum ' + selectedText + ' selecionado',
+                              '=1': '1 ' + selectedText + ' selecionado',
+                              other: '# ' + (selectedTextPlural || selectedText + 's') + ' selecionados'
+                            }
+                    }}
+                  </span>
+                </ng-container>
+              </ng-template>
+            </ng-template>
+          </ng-container>
+          <ng-template #placeholderTemplate>
+            {{ placeholder }}
+          </ng-template>
+        </div>
+        <div class="selected" [class.overflow-hidden]="size === 'xs'" *ngIf="searchable && isOpen">
+          <label class="sr-only" for="{{ id }}">Pesquisar</label>
+          <input
+            id="{{ id }}"
+            class="aw-select-search-input"
+            role="combobox"
+            placeholder="&#xE908; {{ searchPlaceholder }}"
+            [formControl]="searchControl"
+            (click)="$event.stopPropagation()"
+            (keydown)="onKeydown($event, awSelectKeydownEnum.search, itemsSearch, state.activeItem)"
+            #searchInput
+          />
+        </div>
+        <div
+          class="clear"
+          (click)="$event.stopPropagation(); _clear()"
+          *ngIf="clearable && state.hasSelected && !isOpen && !_multiple"
+        >
+          <span class="icon icon-close"></span>
+        </div>
+        <div class="arrow">
+          <span
+            class="icon"
+            [ngClass]="{
+              'icon-caret-down': !isOpen,
+              'icon-caret-up': isOpen
+            }"
+          >
+          </span>
+        </div>
+      </div>
+    </div>
+    <ng-template
+      cdk-connected-overlay
+      [cdkConnectedOverlayOrigin]="selectOrigin"
+      [cdkConnectedOverlayOpen]="isOpen"
+      [cdkConnectedOverlayPositions]="position"
+      [cdkConnectedOverlayMinWidth]="minWidthPane"
+      [cdkConnectedOverlayWidth]="_rect?.width < 200 ? 200 : _rect?.width"
+      [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+      cdkConnectedOverlayBackdropClass="aw-select-backdrop"
+      cdkConnectedOverlayPanelClass="aw-select-panel"
+      cdkConnectedOverlayHasBackdrop
+      (backdropClick)="backdropClick($event)"
+      (attach)="onAttach()"
+      (overlayKeydown)="onKeydown($event, awSelectKeydownEnum.overlay, itemsSearch, state.activeItem)"
+      (detach)="_close()"
+    >
+      <ng-container
+        *ngLet="{
+          selectedItem: _selectedItem$ | async
+        } as _options"
+      >
+        <div class="aw-select-header" *ngIf="header">
+          <span *ngIf="headerOptions.totalItems"> Total: {{ state.items?.length }} - </span>
+          <span *ngIf="headerOptions.totalSelected">
+            Selecionados: {{ _totalSelected$ | async }}
+            <ng-container *ngIf="maxSelectedItems && headerOptions.maxSelected"> / {{ maxSelectedItems }}</ng-container>
+          </span>
+        </div>
+        <div
+          class="aw-select-options"
+          [ngClass]="{ header: header, footer: footer }"
+          [style.height.px]="
+            itemsSearch.length > 8 ? 8 * 25 : !itemsSearch.length && noDataFound ? 25 : itemsSearch.length * 25
+          "
+        >
+          <div class="aw-select-option no-data-found" *ngIf="!itemsSearch.length">
+            <span class="item">{{ loading ? loadingText : noDataFound }}</span>
+          </div>
+          <div
+            *ngFor="let item of itemsSearch; trackBy: _trackBy"
+            class="aw-select-option"
+            (mouseover)="setActive(item.index)"
+            [ngClass]="{
+              selected:
+                (!_multiple && _options.selectedItem?.index === item.index) || state.activeItem?.index === item.index,
+              disabled:
+                (_multiple && maxSelectedItems && value?.length === maxSelectedItems && !item.selected) || item.disabled
+            }"
+            (click)="$event.stopPropagation(); onClick(item, !item.selected)"
+            (mousedown)="$event.stopPropagation()"
+            tabindex="0"
+            [title]="showTooltip ? (item.data | valueFormatter: bindLabel:bindLabelSeparator) : ''"
+            [id]="'' + item.index"
+            #items
+          >
+            <span class="item">
+              <aw-checkbox
+                *ngIf="_multiple; else single"
+                [ngModel]="item.selected"
+                (ngModelChange)="onClick(item, $event)"
+                (click)="$event.stopPropagation()"
+                [disabled]="
+                  (_multiple && maxSelectedItems && value?.length === maxSelectedItems && !item.selected) ||
+                  item.disabled
+                "
+                class="aw-select-checkbox"
+              >
+                {{ item.data | valueFormatter: bindLabel:bindLabelSeparator }}
+              </aw-checkbox>
+              <ng-template #single> {{ item.data | valueFormatter: bindLabel:bindLabelSeparator }}</ng-template>
+            </span>
+          </div>
+        </div>
+        <div class="aw-select-footer" *ngIf="footer && footerOptions && state.items?.length">
+          <button
+            *ngIf="footerOptions.secondaryBtn as secondary"
+            awButton
+            [status]="secondary.status"
+            size="sm"
+            [disabled]="secondaryDisabled"
+            type="button"
+            (click)="onSecondaryClick($event)"
+            (keydown.enter)="onSecondaryClick($event)"
+            #secondaryBtn
+          >
+            {{ secondary.title }}
+          </button>
+          <button
+            *ngIf="footerOptions.primaryBtn?.title"
+            awButton
+            [status]="footerOptions.primaryBtn.status"
+            size="sm"
+            [disabled]="primaryDisabled"
+            type="button"
+            (click)="onPrimaryClick($event)"
+            (keydown.enter)="onPrimaryClick($event)"
+            #primaryBtn
+          >
+            {{ footerOptions.primaryBtn.title }}
+          </button>
+        </div>
+      </ng-container>
+    </ng-template>
+  </ng-container>
+</ng-container>

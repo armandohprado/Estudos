@@ -1,0 +1,124 @@
+@import 'variables';
+
+:host {
+  &.small {
+    width: 30px;
+    height: 30px;
+  }
+  width: 35px;
+  height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 #f2f5f7;
+  background-color: #f2f5f7;
+  transition: all 200ms 0s ease-out;
+
+  &:hover {
+    .btn {
+      &.changeFuncionario {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+$spacing: 10px;
+
+img {
+  text-align: center;
+  overflow: hidden;
+  display: block;
+  box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  background-color: rgb(206, 206, 206);
+}
+
+.icon-user-placeholder {
+  font-size: 28px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translate(-50%, -8%);
+  color: #9ea1ae;
+}
+
+.userInfo {
+  min-width: 250px;
+
+  img {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .tipoResponsavel {
+    font-size: $small-font-size * 0.85;
+    font-weight: normal;
+    margin-bottom: 4px;
+  }
+  hr {
+    border-top: solid 0.5px #f0eeee;
+    margin: 5px 0;
+  }
+  .nome {
+    font-weight: 500;
+    font-size: $small-font-size;
+  }
+  .cargo {
+    margin-top: $spacing;
+    color: #019bcf;
+  }
+
+  .actions {
+    right: 0;
+    top: -12px;
+    border-radius: 17.5px;
+    background-color: #7b8594;
+    width: 56px;
+    height: 30px;
+    .btn {
+      color: white;
+      padding: 0;
+      font-size: 18px;
+    }
+  }
+}
+
+.btn {
+  &.changeFuncionario {
+    transition: all 300ms ease-in-out;
+    font-size: 1.45rem;
+    position: absolute;
+    color: #fff;
+    background-color: #7b8594;
+    display: flex;
+    opacity: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .icon-plus {
+      margin-top: 2px;
+    }
+  }
+}
+
+::ng-deep {
+  .popover-funcionario-proposta {
+    .popover-body {
+      padding: 20px;
+    }
+  }
+}
+
+.popover-wrapper {
+  height: 100%;
+  width: 100%;
+}

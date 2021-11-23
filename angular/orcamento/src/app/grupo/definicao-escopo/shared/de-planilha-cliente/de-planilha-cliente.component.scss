@@ -1,0 +1,85 @@
+@import 'variables';
+
+.item-associado {
+  > .title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  > .item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid $light-gray-alt;
+    > .icon-wrapper,
+    > .unidade-medida {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.forms {
+  > .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    align-items: flex-end;
+    > .omisso {
+      > .title {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        margin-left: 1rem;
+      }
+      > .itens {
+        border: 1px solid $light-gray-alt;
+        border-radius: $border-radius;
+        display: flex;
+        > aw-radio:not(:first-child) {
+          margin-left: 1rem;
+        }
+      }
+    }
+    > aw-radio,
+    > .omisso > .itens {
+      padding: 0.5rem 1rem;
+    }
+  }
+  > .termo {
+    margin-bottom: 1rem;
+  }
+}
+
+:host {
+  .position-relative {
+    min-height: 100px;
+  }
+  .planilha-cliente-itens {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) 50px 1fr;
+    grid-row-gap: 0.5rem;
+    max-height: 500px;
+    overflow: auto;
+    margin-bottom: 1rem;
+    > div {
+      border-bottom: 1px solid $light-gray-alt;
+    }
+    > .unidade-medida,
+    > .icon-wrapper {
+      padding-left: 1rem;
+    }
+    > .radio-wrapper {
+      > aw-radio {
+        display: block;
+        ::ng-deep {
+          .aw-radio {
+            align-items: flex-start;
+          }
+        }
+      }
+    }
+  }
+}
+
+.planilha-cliente-link-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}

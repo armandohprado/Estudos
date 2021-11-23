@@ -1,0 +1,41 @@
+@use 'variables' as v;
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 30px) minmax(0, 60px) minmax(0, 1fr) minmax(0, max-content) minmax(0, 15px) minmax(
+      0,
+      15px
+    );
+  grid-gap: 1rem;
+  background-color: white;
+  border-radius: v.$border-radius;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 2px;
+  align-items: center;
+  min-height: 50px;
+  > .descricao {
+    word-break: break-word;
+  }
+}
+
+.action-add-grupo {
+  display: flex;
+}
+
+.action:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+.action-duplicar-grupo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn-icon:not(:last-of-type) {
+    margin-right: 1rem;
+  }
+}
+
+.cancelar-duplicar {
+  display: grid;
+  place-items: center;
+}

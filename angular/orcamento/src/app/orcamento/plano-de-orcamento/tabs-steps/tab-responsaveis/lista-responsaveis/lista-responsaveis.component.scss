@@ -1,0 +1,88 @@
+@import 'variables';
+
+$spacing: 10px;
+
+.content {
+  padding: $spacing * 2;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  .cdk-virtual-scroll-viewport {
+    max-height: 394px;
+    height: 394px;
+    position: relative;
+    margin: 0 -15px;
+    padding: 0 15px;
+    border-top-color: $light-gray-alt;
+    border-top-style: solid;
+    border-top-width: thin;
+    border-bottom-color: $light-gray-alt;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+  }
+  li {
+    padding: $spacing 0;
+    border-top: 1px solid $light-gray-alt;
+    transition: background-color 300ms ease-in-out;
+    cursor: pointer;
+    max-height: 85px;
+    &.selected {
+      border: 2px solid var(--dusty-teal);
+      background-color: var(--ice-blue);
+    }
+
+    &:hover {
+      background-color: $light-gray;
+    }
+    &:focus {
+      outline: 0;
+    }
+
+    .img {
+      width: $spacing * 6.5;
+      height: $spacing * 6.5;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #f8f8f8;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    p {
+      margin-left: $spacing * 1.5;
+      font-size: $font-size-base;
+      margin-bottom: 0;
+
+      small {
+        display: block;
+        font-size: $font-size-base;
+      }
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid $light-gray-alt;
+    }
+  }
+}
+
+.custom-list-style {
+  list-style: none;
+}
+
+.custom-control-label {
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.form-check-label {
+  font-weight: 300;
+  font-size: 12px;
+}

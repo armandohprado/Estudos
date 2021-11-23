@@ -1,0 +1,36 @@
+<aw-wrapper-page titulo="Criar Change Order" (voltar)="voltar()">
+  <aw-stepper [breakLabel]="false" linear headerWidth="330px" class="px-3" headerCenter #stepper>
+    <aw-step label="Configurar Change Order">
+      <app-dados-change-order [form]="form"></app-dados-change-order>
+    </aw-step>
+    <aw-step label="Adicionar Grupos" [editable]="form.valid">
+      <app-familias-change-order></app-familias-change-order>
+    </aw-step>
+  </aw-stepper>
+  <div footer>
+    <button
+      awButton
+      status="secondary"
+      width="secondary"
+      (click)="stepper.selectedIndex === 1 ? stepper.previous() : voltar()"
+    >
+      Voltar
+    </button>
+    <button
+      awButton
+      status="primary"
+      width="primary"
+      [disabled]="form.invalid"
+      [loading]="saving"
+      (click)="stepper.selectedIndex === 0 ? stepper.next() : salvarChangeOrder()"
+    >
+      {{
+        stepper.selectedIndex > 0
+          ? idOrcamentoChangeOrder
+            ? 'Salvar Change Order'
+            : 'Criar Change Order'
+          : 'Adicionar Grupos'
+      }}
+    </button>
+  </div>
+</aw-wrapper-page>

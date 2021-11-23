@@ -1,0 +1,84 @@
+@import 'variables';
+
+.confirmacao-compra {
+  padding-top: 1rem;
+}
+
+.block {
+  padding-top: 2rem;
+  > .title {
+    margin-bottom: 0.25rem;
+  }
+  > .content {
+    background-color: $light-gray;
+    border-top: 1px solid $bluey-grey;
+    border-radius: 0 0 3px 3px;
+    padding: 15px;
+    > hr {
+      border-color: $bluey-grey;
+    }
+    > .info {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      grid-gap: 0.5rem;
+      > .label {
+        font-size: 0.75rem;
+        display: flex;
+        align-items: flex-end;
+      }
+    }
+  }
+  &.dados-grupo {
+    > .content {
+      > .form {
+        display: grid;
+        width: 50%;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 2rem;
+        > .classificacao,
+        > .condicao-pagamento {
+          grid-column: span 4;
+        }
+      }
+    }
+  }
+  &.cliente {
+    > .content {
+      > .info {
+        > .value {
+          display: flex;
+          align-items: center;
+          input {
+            width: 150px;
+          }
+          > .icon {
+            margin-left: 15px;
+          }
+        }
+      }
+      > .forms {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5rem;
+      }
+    }
+  }
+}
+
+.aw-toggle {
+  justify-content: center;
+}
+
+.info-revenda {
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-row-gap: 1rem;
+  > .title {
+    grid-column-start: 7;
+  }
+  > .value {
+    text-align: right;
+    font-weight: 500;
+  }
+}

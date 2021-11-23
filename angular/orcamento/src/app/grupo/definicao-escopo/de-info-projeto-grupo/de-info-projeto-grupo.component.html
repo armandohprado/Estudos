@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-12" *ngIf="projetoService.projeto$ | async as projeto">
+    <strong class="text-success mr-1">
+      {{ projeto.numeroProjeto }}
+    </strong>
+    <span>{{ projeto.nomeProjeto }}</span>
+  </div>
+</div>
+<div class="row my-2">
+  <div class="col-12">
+    <strong>
+      {{ definicaoEscopoService.grupo.codigoGrupo }} - {{ definicaoEscopoService.grupo.nomeGrupo }}
+      <ng-container *ngIf="definicaoEscopoService.grupo.complementoGrupo">
+        - {{ definicaoEscopoService.grupo.complementoGrupo }}
+      </ng-container>
+    </strong>
+  </div>
+</div>

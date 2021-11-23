@@ -1,0 +1,77 @@
+@import 'variables';
+
+:host {
+  display: block;
+  ::ng-deep .responsaveis {
+    grid-column: span 2;
+  }
+}
+
+.grid-container-header-body {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  > .column-3 {
+    grid-column: span 3;
+  }
+  > .column-mid {
+    grid-column: 5 / 7;
+  }
+  > .column-last {
+    grid-column: 8 / 10;
+  }
+}
+
+.icon-actions > button:not(:nth-child(1)) {
+  margin-left: 10px;
+}
+
+.icon-timer {
+  color: #b5babd;
+}
+
+.icon-check {
+  color: $green-alt;
+  font-size: 10px;
+}
+
+:host ::ng-deep {
+  .popover-body {
+    padding: 8px;
+    font-weight: 500;
+  }
+}
+
+.imagens-mesmo-tamanho {
+  display: inline-flex;
+}
+
+app-funcionario-popover {
+  box-shadow: 0 1px 2px 0 rgba(136, 136, 136, 0.7);
+  border: solid 1.5px #fff;
+}
+
+::ng-deep .popover.popover-proposta {
+  width: 352px;
+  max-width: 352px;
+  padding: 8px;
+}
+
+.information {
+  position: relative;
+  > span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.aw-collapse {
+  border: 2px solid transparent;
+  transition: border-color 200ms ease;
+  border-radius: $border-radius;
+  &.highlight {
+    border-color: $green-alt;
+  }
+}

@@ -1,0 +1,46 @@
+.img-check {
+  border-bottom: 1px solid var(--ice-blue);
+  > .img-produto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 180px;
+    min-width: 180px;
+    cursor: pointer;
+    > img {
+      max-height: 180px;
+      max-width: 180px;
+    }
+  }
+  > .img-fornecedor {
+    margin-top: 5px;
+    font-weight: bold;
+  }
+}
+.info {
+  > .nome {
+    font-size: 12px;
+    color: var(--brownish-grey);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2rem;
+  }
+  > .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    > .uf {
+      border-radius: 3px;
+      background-color: #d8d8d8;
+      font-size: 10px;
+      padding: 2px 4px;
+      font-weight: 500;
+    }
+    > .valor {
+      font-weight: bold;
+    }
+  }
+}

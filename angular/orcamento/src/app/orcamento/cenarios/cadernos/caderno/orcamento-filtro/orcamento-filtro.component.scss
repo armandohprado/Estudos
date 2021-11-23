@@ -1,0 +1,43 @@
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.min-vh-20 {
+  min-height: 50vh;
+  height: 50vh;
+}
+
+.title div {
+  font-style: italic;
+  background: #9ea1ae;
+  color: #fff;
+  font-size: 14px;
+}
+
+.planilha-adicionada {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.7);
+  i {
+    line-height: 69px;
+    font-size: 32px;
+    text-align: center;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border: 6px solid #00d46c;
+    color: #00d46c;
+  }
+}
+
+.rolagem {
+  height: 50vh;
+  overflow-y: auto;
+  max-height: 50vh;
+}

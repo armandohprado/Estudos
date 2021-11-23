@@ -1,0 +1,66 @@
+<div class="icons">
+  <span
+    *ngIf="!!grupoItem.idGrupoItem"
+    class="icon icon-copy"
+    [popover]="duplicarPop"
+    [outsideClick]="true"
+    (onHidden)="onDuplicarHidden()"
+    placement="left"
+    containerClass="popover-duplicar"
+    #duplicar="bs-popover"
+  ></span>
+  <ng-template #duplicarPop>
+    <alert type="success" *ngIf="showMessage">Item duplicado!</alert>
+    <ul class="list-unstyled list-duplicar">
+      <li class="item" *ngFor="let item of options; trackBy: trackByOptions">
+        <aw-checkbox
+          [checked]="item.control"
+          (checkedChange)="onChanged($event, item.key)"
+          [disabled]="grupoItem.duplicarLoading"
+        >
+          {{ item.value }}
+        </aw-checkbox>
+      </li>
+    </ul>
+    <div class="form-group">
+      <label for="definicao-escopo-duplicar-grupos-{{ grupoItem.idGrupoItem }}">Número de cópias: </label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button awButton status="secondary" type="button" (click)="numeroCopiasMinus()">-</button>
+        </div>
+        <input
+          id="definicao-escopo-duplicar-grupos-{{ grupoItem.idGrupoItem }}"
+          awInput
+          currencyMask
+          [options]="currencyMaskOptions"
+          [(ngModel)]="numeroCopias"
+          (focus)="input.select()"
+          #input
+          class="numero-copias"
+        />
+        <div class="input-group-append">
+          <button awButton status="secondary" (click)="numeroCopias = numeroCopias + 1">+</button>
+        </div>
+      </div>
+    </div>
+    <button
+      [disabled]="grupoItem.duplicarLoading || !grupoItem.ativo"
+      awButton
+      status="success"
+      size="sm"
+      block
+      (click)="duplicarGrupoItem()"
+    >
+      {{ grupoItem.duplicarLoading ? 'Duplicando...' : 'Duplicar' }}
+    </button>
+  </ng-template>
+  <span
+    class="icon caret"
+    (click)="definicaoEscopoService.collapseOrPesquisa(grupoItem, 'atributos')"
+    [ngClass]="{
+      'icon-caret-up': grupoItem.opened,
+      'icon-caret-down': !grupoItem.opened
+    }"
+  >
+  </span>
+</div>

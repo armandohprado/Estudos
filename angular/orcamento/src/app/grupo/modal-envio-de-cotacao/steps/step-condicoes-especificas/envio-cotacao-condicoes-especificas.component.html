@@ -1,0 +1,54 @@
+<h1>Condições Específicas</h1>
+
+<h2>Liberar Informações de quantitativos</h2>
+
+<p>
+  Ao realizar a liberação para esse grupo de fornecimento, você estará compartilhando os quantitativos inseridos como
+  referência. O fornecedor receberá uma notificação de que é responsável pela conferência dos quantitativos nas plantas
+  e documentos o fornecidos e inserir seus quantitativos. Nesse caso você libera os quantitativos?
+</p>
+<form [formGroup]="formStep5">
+  <div class="d-flex justify-content-center my-4">
+    <aw-toggle formControlName="liberarQuantitativo">
+      <label before>
+        Não <br />
+        <small>liberar os quantitativos</small>
+      </label>
+      <label after>
+        Sim <br />
+        <small>liberar os quantitativos</small>
+      </label>
+    </aw-toggle>
+  </div>
+</form>
+
+<div class="row justify-content-end mb-3">
+  <div class="col-3">
+    <button
+      awButton
+      block
+      status="secondary"
+      type="button"
+      (click)="changeStep(4)"
+      [disabled]="loaderSubmitEnvioCotacao"
+    >
+      Voltar
+    </button>
+  </div>
+  <div class="col-3">
+    <button
+      awButton
+      block
+      type="button"
+      (click)="sendFormBtn()"
+      tooltip="Selecione um Contato no Passo 2 e conclua o passo 1!"
+      [isDisabled]="formValid"
+      [loading]="loaderSubmitEnvioCotacao"
+      [adaptivePosition]="false"
+      triggers="click"
+      placement="top"
+    >
+      Enviar
+    </button>
+  </div>
+</div>

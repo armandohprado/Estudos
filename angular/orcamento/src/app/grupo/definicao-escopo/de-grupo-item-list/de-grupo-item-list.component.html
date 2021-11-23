@@ -1,0 +1,125 @@
+<div class="row mt-5" [formGroup]="formPesquisa">
+  <div class="col-4">
+    <label for="definicao-escopo-pesquisar">&nbsp;</label>
+    <input
+      id="definicao-escopo-pesquisar"
+      type="search"
+      class="form-control"
+      placeholder="&#xE908; Pesquisar"
+      formControlName="search"
+    />
+  </div>
+  <div class="offset-3 col-2">
+    <label for="definicao-escopo-filter">Filtro</label>
+    <aw-select
+      id="definicao-escopo-filter"
+      formControlName="filter"
+      [items]="listFilter"
+      trackBy="key"
+      [searchable]="false"
+      [clearable]="false"
+      bindLabel="value"
+      bindValue="key"
+      placeholder="Filtrar selecionados"
+    ></aw-select>
+  </div>
+  <div class="col-3">
+    <label for="definicao-escopo-ordem">Ordem</label>
+    <aw-select
+      id="definicao-escopo-ordem"
+      formControlName="order"
+      [items]="listOrder"
+      trackBy="label"
+      [searchable]="false"
+      [clearable]="false"
+      bindLabel="label"
+      placeholder="Ordenar"
+    ></aw-select>
+  </div>
+</div>
+<div class="row mt-3 mb-1">
+  <div class="col-12 f-12">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-1">Cód. Item</div>
+        <div class="col-3">Item(s)</div>
+        <div class="col-2 text-right">Quantidade refer.</div>
+        <div class="col-2 text-center">Valor refer. produto <small class="smaller">(R$)</small></div>
+        <div class="col-2 text-center">Valor refer. serviço <small class="smaller">(R$)</small></div>
+        <div class="col-2 d-flex justify-content-between">
+          <span>Valor total refer. <small class="smaller">(R$)</small></span>
+          <div
+            *ngLet="{
+              opening: openingAll$ | async,
+              anyOpened: isAnyOpened$ | async,
+              allOpened: isAllOpened$ | async
+            } as state"
+          >
+            <button
+              awButton
+              icon="caret-up"
+              iconSize="7"
+              class="mr-2"
+              (click)="toggleAllAtivos(false)"
+              [disabled]="state.opening || !state.anyOpened"
+              tooltip="Fechar todos (selecionados)"
+              delay="400"
+              container="body"
+            ></button>
+            <button
+              awButton
+              icon="caret-down"
+              iconSize="7"
+              (click)="toggleAllAtivos()"
+              [loading]="state.opening"
+              [disabled]="state.allOpened"
+              tooltip="Abrir todos (selecionados)"
+              delay="400"
+              container="body"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="errorApi$ | async as errorApi; else grupoItem">
+  <app-de-tentar-novamente (tentarNovamente)="errorApi.callAgain(errorApi.args[0])">
+    {{ errorApi?.error }}
+  </app-de-tentar-novamente>
+</ng-container>
+<ng-template #grupoItem>
+  <ng-container
+    *ngIf="{
+      order: orderControl.value?.order,
+      search: (search$ | async) ?? searchControl.value,
+      filter: filterControl.value
+    } as formState"
+  >
+    <app-de-grupo-item
+      [grupoItem]="grupoItem"
+      [index]="$index"
+      *ngFor="
+        let grupoItem of gruposItens
+          | deGrupoItemFiltro: formState.filter
+          | awSearch
+            : [
+                'numeracao',
+                'numeracaoGrupoItem',
+                'descricaoGrupoItem',
+                'tag',
+                'atributo1',
+                'atributo2',
+                'atributo3',
+                'atributo4',
+                'complemento'
+              ]
+            : formState.search
+          | awOrderBy: formState.order;
+        let $index = index;
+        trackBy: trackByGrupoItem
+      "
+    >
+    </app-de-grupo-item>
+  </ng-container>
+</ng-template>

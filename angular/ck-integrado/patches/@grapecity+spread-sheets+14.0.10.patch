@@ -1,0 +1,412 @@
+diff --git a/node_modules/@grapecity/spread-sheets/dist/gc.spread.sheets.d.ts b/node_modules/@grapecity/spread-sheets/dist/gc.spread.sheets.d.ts
+index 9cce858..5e5ee60 100644
+--- a/node_modules/@grapecity/spread-sheets/dist/gc.spread.sheets.d.ts
++++ b/node_modules/@grapecity/spread-sheets/dist/gc.spread.sheets.d.ts
+@@ -2993,6 +2993,7 @@ declare module GC{
+                 cellRect?: GC.Spread.Sheets.Rect;
+                 sheetArea?: GC.Spread.Sheets.SheetArea;
+                 isReservedLocation?: boolean;
++                sheet?: GC.Spread.Sheets.Worksheet
+             }
+ 
+ 
+@@ -5408,7 +5409,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).backColor("pink");
+                  */
+-                backColor(value?:  string | GC.Spread.Sheets.IPatternFill | GC.Spread.Sheets.IGradientFill | GC.Spread.Sheets.IGradientPathFill): any;
++                backColor(value: string | GC.Spread.Sheets.IPatternFill | GC.Spread.Sheets.IGradientFill | GC.Spread.Sheets.IGradientPathFill | undefined): this;
++                backColor(): string | GC.Spread.Sheets.IPatternFill | GC.Spread.Sheets.IGradientFill | GC.Spread.Sheets.IGradientPathFill | undefined;
+                 /**
+                  * Gets or sets the background image for the cell.
+                  * @param {string} [value] The cell background image.
+@@ -5416,7 +5418,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getCell(1,1).backgroundImage("images/example.jpg");
+                  */
+-                backgroundImage(value?:  string): any;
++                backgroundImage(value: string | undefined): this;
++                backgroundImage(): string | undefined;
+                 /**
+                  * Gets or sets the background image layout for the cell.
+                  * @param {GC.Spread.Sheets.ImageLayout} [value] The cell background image layout.
+@@ -5425,7 +5428,8 @@ declare module GC{
+                  * var layout = GC.Spread.Sheets.ImageLayout.stretch;
+                  * activeSheet.getRange(-1, 1, -1, 1, GC.Spread.Sheets.SheetArea.viewport).backgroundImageLayout(layout);
+                  */
+-                backgroundImageLayout(value?:  GC.Spread.Sheets.ImageLayout): any;
++                backgroundImageLayout(value: GC.Spread.Sheets.ImageLayout | undefined): this;
++                backgroundImageLayout(): GC.Spread.Sheets.ImageLayout | undefined;
+                 /**
+                  * Gets or sets the binding path for cell binding.
+                  * @param {string} path The binding path for cell binding.
+@@ -5444,7 +5448,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).borderBottom(new GC.Spread.Sheets.LineBorder("blue", GC.Spread.Sheets.LineStyle.mediumDashed));
+                  */
+-                borderBottom(value?:  GC.Spread.Sheets.LineBorder): any;
++                borderBottom(value: GC.Spread.Sheets.LineBorder | undefined): this;
++                borderBottom(): GC.Spread.Sheets.LineBorder | undefined;
+                 /**
+                  * Gets or sets the left border of the cell.
+                  * @param {GC.Spread.Sheets.LineBorder} [value] The cell left border line.
+@@ -5456,7 +5461,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).borderLeft(new GC.Spread.Sheets.LineBorder("blue", GC.Spread.Sheets.LineStyle.mediumDashed));
+                  */
+-                borderLeft(value?:  GC.Spread.Sheets.LineBorder): any;
++                borderLeft(value: GC.Spread.Sheets.LineBorder | undefined): this;
++                borderLeft(): GC.Spread.Sheets.LineBorder | undefined;
+                 /**
+                  * Gets or sets the right border of the cell.
+                  * @param {GC.Spread.Sheets.LineBorder} [value] The cell right border line.
+@@ -5468,7 +5474,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).borderRight(new GC.Spread.Sheets.LineBorder("blue", GC.Spread.Sheets.LineStyle.mediumDashed));
+                  */
+-                borderRight(value?:  GC.Spread.Sheets.LineBorder): any;
++                borderRight(value: GC.Spread.Sheets.LineBorder | undefined): this;
++                borderRight(): GC.Spread.Sheets.LineBorder | undefined;
+                 /**
+                  * Gets or sets the top border of the cell.
+                  * @param {GC.Spread.Sheets.LineBorder} [value] The cell top border line.
+@@ -5480,7 +5487,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).borderTop(new GC.Spread.Sheets.LineBorder("blue", GC.Spread.Sheets.LineStyle.mediumDashed));
+                  */
+-                borderTop(value?:  GC.Spread.Sheets.LineBorder): any;
++                borderTop(value: GC.Spread.Sheets.LineBorder | undefined): this;
++                borderTop(): GC.Spread.Sheets.LineBorder | undefined;
+                 /**
+                  * Gets or sets the cellButtons of the cell.
+                  * @param {Object[]} value the cellButtons of the cell.
+@@ -5490,7 +5498,8 @@ declare module GC{
+                  * @example
+                  * var cellButtons = activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).cellButtons();
+                  */
+-                cellButtons(value?:  GC.Spread.Sheets.ICellButton[]): any;
++                cellButtons(value: GC.Spread.Sheets.ICellButton[] | undefined): this;
++                cellButtons(): GC.Spread.Sheets.ICellButton[] | undefined;
+                 /**
+                  * Gets or sets the cell padding.
+                  * @param {string} [value] The cell padding.
+@@ -5520,7 +5529,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 1, -1, 1, GC.Spread.Sheets.SheetArea.viewport).cellType(new GC.Spread.Sheets.CellTypes.CheckBox());
+                  */
+-                cellType(value?:  GC.Spread.Sheets.CellTypes.Base): any;
++                cellType(value: GC.Spread.Sheets.CellTypes.Base | undefined): this;
++                cellType(): GC.Spread.Sheets.CellTypes.Base;
+                 /**
+                  * Clears the specified area.
+                  * @param {GC.Spread.Sheets.StorageType} type The clear type.
+@@ -5565,7 +5575,8 @@ declare module GC{
+                  * @example
+                  * var dropDowns = activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).dropDowns();
+                  */
+-                dropDowns(value?:  GC.Spread.Sheets.IDropdown[]): any;
++                dropDowns(value: GC.Spread.Sheets.IDropdown[] | undefined): this;
++                dropDown(): GC.Spread.Sheets.IDropdown[] | undefined;
+                 /**
+                  * Gets or sets the font for the cell, such as "normal normal normal 20px/normal Arial".
+                  * @param {string} [value] The cell font.
+@@ -5577,7 +5588,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).font("12pt Arial");
+                  */
+-                font(value?:  string): any;
++                font(value:  string): this;
++                font(): string;
+                 /**
+                  * Gets or sets the color of the text in the cell, such as "red", "#FFFF00", "rgb(255,0,0)", "Accent 5", and so on.
+                  * @param {string} [value] The color of the text.
+@@ -5585,7 +5597,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).foreColor("blue");
+                  */
+-                foreColor(value?:  string): any;
++                foreColor(value: string | undefined): this;
++                foreColor(): string | undefined;
+                 /**
+                  * Gets or sets the formatter for the cell.
+                  * @param {string | GC.Spread.Formatter.GeneralFormatter} [value] The cell formatter string or object.
+@@ -5599,7 +5612,8 @@ declare module GC{
+                  * activeSheet.getCell(-1, 0).formatter("0.000%");
+                  * activeSheet.getCell(0,0).value("2");
+                  */
+-                formatter(value?:  string | GC.Spread.Formatter.GeneralFormatter): any;
++                formatter(value: string | GC.Spread.Formatter.GeneralFormatter | undefined): this;
++                formatter(): string | GC.Spread.Formatter.GeneralFormatter | undefined;
+                 /**
+                  * Gets or sets the formula for the cell.
+                  * @param {string} [value] The cell formula.
+@@ -5607,7 +5621,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getCell(0,2).formula("DATEDIF(DATE(2003,1,1),DATE(2016,1,1),\"Y\")");
+                  */
+-                formula(value?:  string): any;
++                formula(value: string | undefined): this;
++                formula(): string | undefined;
+                 /**
+                  * Gets or sets the horizontal alignment of the contents of the cell.
+                  * @param {GC.Spread.Sheets.HorizontalAlign} [value] The horizontal alignment.
+@@ -5615,7 +5630,9 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).hAlign(GC.Spread.Sheets.HorizontalAlign.right);
+                  */
+-                hAlign(value?:  GC.Spread.Sheets.HorizontalAlign): any;
++
++                hAlign(value:  GC.Spread.Sheets.HorizontalAlign): this;
++                hAlign(): GC.Spread.Sheets.HorizontalAlign;
+                 /**
+                  * Gets or sets the height of the row in pixels.
+                  * @param {number} [value] The cell row height.
+@@ -5623,7 +5640,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(0, -1, 1, -1, GC.Spread.Sheets.SheetArea.viewport).height(90);
+                  */
+-                height(value?:  number): any;
++                height(value:  number): this;
++                height(): number;
+                 /**
+                  * Gets or sets the imeMode of the cell.
+                  * @param {GC.Spread.Sheets.ImeMode} [value] The cell imeMode.
+@@ -5687,7 +5705,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).locked(true);
+                  */
+-                locked(value?:  boolean): any;
++                locked(value: boolean | undefined): this;
++                locked(): boolean | undefined;
+                 /**
+                  * Gets or sets the quote prefix of the cell.
+                  * @param {boolean} [value] The value of the quote Prefix.
+@@ -5787,7 +5806,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getCell(1,1).text("cell object");
+                  */
+-                text(value?:  string): any;
++                text(value: string | undefined): this;
++                text(): string | undefined;
+                 /**
+                  * Gets or sets the type of the decoration added to the cell's text.
+                  * @param {GC.Spread.Sheets.TextDecorationType} [value] The type of the decoration.
+@@ -5803,7 +5823,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).textIndent(1);
+                  */
+-                textIndent(value?:  number): any;
++                textIndent(value: number | undefined): this;
++                textIndent(): number | undefined;
+                 /**
+                  * Gets or sets the text rotation angle of the cell.
+                  * @param {number}  [value] The cell text rotation angle, form -90 to 90 angle.
+@@ -5864,7 +5885,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).vAlign(GC.Spread.Sheets.VerticalAlign.top);
+                  */
+-                vAlign(value?:  GC.Spread.Sheets.VerticalAlign): any;
++                vAlign(value:  GC.Spread.Sheets.VerticalAlign): this;
++                vAlign(): GC.Spread.Sheets.VerticalAlign;
+                 /**
+                  * Gets or sets the unformatted value of the cell.
+                  * @param {Object} [value] The cell value.
+@@ -5872,7 +5894,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getCell(1,1).value(10);
+                  */
+-                value(value?:  any): any;
++                value(value:  any): this;
++                value(): any;
+                 /**
+                  * Gets or sets whether the row or column is displayed.
+                  * @param {boolean} [value] Set to <c>true</c> to make the row visible.
+@@ -5904,7 +5927,8 @@ declare module GC{
+                  * @example
+                  * activeSheet.getRange(-1, 3, -1, 1, GC.Spread.Sheets.SheetArea.viewport).wordWrap(true);
+                  */
+-                wordWrap(value?:  boolean): any;
++                wordWrap(value:  boolean): this;
++                wordWrap(): boolean;
+             }
+ 
+             export class ColorScheme{
+@@ -13611,7 +13635,8 @@ declare module GC{
+                      * cellType1.isThreeState(true);
+                      * activeSheet.getCell(1, 1).cellType(cellType1);
+                      */
+-                    textAlign(value?:  GC.Spread.Sheets.CellTypes.CheckBoxTextAlign): any;
++                    textAlign(value: GC.Spread.Sheets.CellTypes.CheckBoxTextAlign): this;
++                    textAlign(): GC.Spread.Sheets.CellTypes.CheckBoxTextAlign;
+                     /**
+                      * Gets or sets the text in the cell when the cell's value is <c>false</c>.
+                      * @param {string} value The text in the cell when the cell's value is <c>false</c>.
+@@ -13627,7 +13652,8 @@ declare module GC{
+                      * cellType1.isThreeState(true);
+                      * activeSheet.getCell(1, 1).cellType(cellType1);
+                      */
+-                    textFalse(value?:  string): any;
++                    textFalse(value: string): this;
++                    textFalse(): string;
+                     /**
+                      * Gets or sets the text in the cell when the cell's value is indeterminate (neither <c>true</c> nor <c>false</c>).
+                      * @param {string} value The text in the cell when the cell's value is indeterminate.
+@@ -13643,7 +13669,8 @@ declare module GC{
+                      * cellType1.isThreeState(true);
+                      * activeSheet.getCell(1, 1).cellType(cellType1);
+                      */
+-                    textIndeterminate(value?:  string): any;
++                    textIndeterminate(value: string): this;
++                    textIndeterminate(): string;
+                     /**
+                      * Gets or sets the text in the cell when the cell's value is <c>true</c>.
+                      * @param {string} value The text when the cell's value is <c>true</c>.
+@@ -13659,7 +13686,8 @@ declare module GC{
+                      * cellType1.isThreeState(true);
+                      * activeSheet.getCell(1, 1).cellType(cellType1);
+                      */
+-                    textTrue(value?:  string): any;
++                    textTrue(value: string): this;
++                    textTrue(): string;
+                 }
+ 
+                 export class CheckBoxList extends Base{
+@@ -13806,7 +13834,8 @@ declare module GC{
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      * alert(cellType2.editorValueType());
+                      */
+-                    editorValueType(value?:  GC.Spread.Sheets.CellTypes.EditorValueType): any;
++                    editorValueType(value: GC.Spread.Sheets.CellTypes.EditorValueType | undefined): this;
++                    editorValueType(): GC.Spread.Sheets.CellTypes.EditorValueType | undefined;
+                     /**
+                      * Gets or sets the height of each item.
+                      * @param {number} value The height of each item.
+@@ -13829,7 +13858,8 @@ declare module GC{
+                      * cellType2.items(["a","b","c"]);
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      */
+-                    items(items?:  any[]): any;
++                    items(items: any[]): this;
++                    items(): any[];
+                     /**
+                      * Gets or sets the maximum item count of the drop-down list per page.
+                      * @param {number} value The maximum item count of the drop-down list per page.
+@@ -14020,7 +14050,8 @@ declare module GC{
+                      * cellType2.direction(GC.Spread.Sheets.CellTypes.Direction.vertical);
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      */
+-                    direction(value?:  GC.Spread.Sheets.CellTypes.Direction): any;
++                    direction(value: GC.Spread.Sheets.CellTypes.Direction | undefined): this;
++                    direction(): Spread.Sheets.CellTypes.Direction | undefined;
+                     /**
+                      * Gets or sets the radio button list's layout is autofit.
+                      * @param {boolean} value Whether the layout is autofit.
+@@ -14032,7 +14063,8 @@ declare module GC{
+                      * cellType2.isFlowLayout(true);
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      */
+-                    isFlowLayout(value?:  boolean): any;
++                    isFlowLayout(value: boolean | undefined): this;
++                    isFlowLayout(): boolean | undefined;
+                     /**
+                      * Gets or sets the items for the radio-button list.
+                      * @param {Array} items The items for the radio button list.
+@@ -14043,7 +14075,8 @@ declare module GC{
+                      * cellType2.items([{text:"a",value:1},{text:"b",value:2},{text:"c",value:3}]);
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      */
+-                    items(items?:  GC.Spread.Sheets.CellTypes.ICelltypeItemOption[] | string[]): any;
++                    items(items: GC.Spread.Sheets.CellTypes.ICelltypeItemOption[] | string[] | undefined): this;
++                    items(): Spread.Sheets.CellTypes.ICelltypeItemOption[] | string[] | undefined;
+                     /**
+                      * Gets or sets the space for two items in the radio button list.
+                      * @param {object} value the space for two items in the radio button list.
+@@ -14070,7 +14103,8 @@ declare module GC{
+                      * cellType2.maxColumnCount(2);
+                      * activeSheet.getCell(2, 2).cellType(cellType2);
+                      */
+-                    maxColumnCount(value?:  number): any;
++                    maxColumnCount(value: number | undefined): this;
++                    maxColumnCount(): number | undefined;
+                     /**
+                      * Gets or sets the items for the radio button list's row count.
+                      * @param {number} value The row count for the radio button list.
+@@ -21082,7 +21116,8 @@ declare module GC{
+                      * @param {string} value The error message.
+                      * @returns {string | GC.Spread.Sheets.DataValidation.DefaultDataValidator} If no value is set, returns the error message; otherwise, returns the data validator.
+                      */
+-                    errorMessage(value?:  string): any;
++                    errorMessage(value: string | undefined): this;
++                    errorMessage(): string | undefined;
+                     /**
+                      * Gets or sets the error style to display.
+                      * @param {GC.Spread.Sheets.DataValidation.ErrorStyle} value The error style to display.
+@@ -21122,7 +21157,8 @@ declare module GC{
+                      * sheet.setDataValidator(1,1, dv);
+                      * spread.options.highlightInvalidData = true;
+                      */
+-                    highlightStyle(style?:  Object): Object;
++                    highlightStyle(style: Object | undefined): this;
++                    highlightStyle(): Object;
+                     /**
+                      * Gets or sets whether to ignore an empty value.
+                      * @param {boolean} value Indicates whether to ignore the empty value.
+@@ -21173,7 +21209,8 @@ declare module GC{
+                      * activeSheet.setDataValidator(1,1,1,1,dv,GC.Spread.Sheets.SheetArea.viewport);
+                      * alert(activeSheet.getDataValidator(1,1).getValidList(activeSheet,1,1));
+                      */
+-                    inputMessage(value?:  string): any;
++                    inputMessage(value: string | undefined): this;
++                    inputMessage(): string | undefined;
+                     /**
+                      * Gets or sets the input title.
+                      * @param {string} value The input title.
+@@ -21241,7 +21278,8 @@ declare module GC{
+                      *     }
+                      * });
+                      */
+-                    showErrorMessage(value?:  boolean): any;
++                    showErrorMessage(value: boolean | undefined): this;
++                    showErrorMessage(): boolean | undefined;
+                     /**
+                      * Gets or sets whether to display the input title and input message.
+                      * @param {boolean} value Indicates whether to display the input title and input message.
+@@ -21255,7 +21293,8 @@ declare module GC{
+                      * activeSheet.setDataValidator(1,1,1,1,dv,GC.Spread.Sheets.SheetArea.viewport);
+                      * alert(activeSheet.getDataValidator(1,1).getValidList(activeSheet,1,1));
+                      */
+-                    showInputMessage(value?:  boolean): any;
++                    showInputMessage(value: boolean | undefined): this;
++                    showInputMessage(): boolean | undefined;
+                     /**
+                      * Gets or sets the criteria type of this data validator.
+                      * @param {GC.Spread.Sheets.DataValidation.CriteriaType} value The criteria type of this data validator.
+@@ -21541,7 +21580,7 @@ declare module GC{
+                     range: Sheets.Range;
+                     filteredRows: number[];
+                     filteredOutRows: number[];
+-                    columns: number;
++                    columns: number[];
+                 }
+ 
+                 /**
+@@ -21591,7 +21630,8 @@ declare module GC{
+                      *           listFilterArea : false
+                      *       })
+                      */
+-                    filterDialogVisibleInfo(visibleInfo?:  GC.Spread.Sheets.Filter.IFilterDialogVisibleInfo): any;
++                    filterDialogVisibleInfo(visibleInfo: GC.Spread.Sheets.Filter.IFilterDialogVisibleInfo | undefined): this;
++                    filterDialogVisibleInfo(): GC.Spread.Sheets.Filter.IFilterDialogVisibleInfo | undefined;
+                 }
+ 
+                 export class RowFilterBase{
+@@ -21632,7 +21672,8 @@ declare module GC{
+                      *      One parameter value <c>GC.Spread.Sheets.Filter.RowFilterBase</c> sets all filter buttons to be visible(true)/invisible(false).
+                      *      Two parameters col,value <c>GC.Spread.Sheets.Filter.RowFilterBase</c> sets the specified column filter button to be visible(true)/invisible(false).
+                      */
+-                    filterButtonVisible(col?:  number,  value?:  boolean): any;
++                    filterButtonVisible(col: number, value: boolean): this;
++                    filterButtonVisible(): boolean;
+                     /**
+                      * Loads the object state from the specified JSON string.
+                      * @param {object} settings The row filter data from deserialization.

@@ -1,0 +1,18 @@
+<section class="breadcrumbs">
+  <ng-container *ngFor="let breadcrumb of breadcrumbsService.breadcrumbs$ | async; trackBy: trackBy; let $last = last">
+    <a
+      awButton
+      link
+      [disabled]="$last"
+      [tooltip]="breadcrumb | json"
+      [isDisabled]="!dev || !debugRoutePath"
+      [routerLink]="breadcrumb.path"
+      [queryParamsHandling]="breadcrumb.queryParamsHandling"
+      container="body"
+      placement="bottom"
+    >
+      {{ breadcrumb.text }}
+    </a>
+    <span class="icon icon-right-arrow" *ngIf="!$last"></span>
+  </ng-container>
+</section>

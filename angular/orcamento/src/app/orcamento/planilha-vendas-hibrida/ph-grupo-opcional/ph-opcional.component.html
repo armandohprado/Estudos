@@ -1,0 +1,77 @@
+<div class="separator">
+  <div class="padding-ph bg-cinza border border-primary rounded margin-grupos-opc">
+    <div class="d-flex header-title-familia justify-content-between align-items-center">
+      <div class="text-uppercase font-size-md"><span>Grupos Opcionais</span></div>
+      <div class="header-title-valor"><span></span></div>
+    </div>
+  </div>
+  <div class="padding-ph">
+    <div class="d-flex header-title-familia justify-content-between align-items-center mx-4 font-weight-revert">
+      <div class=""><span>Família</span></div>
+      <div class="header-title-valor margin-valor"><span>Valor</span></div>
+    </div>
+  </div>
+  <ng-container *ngIf="planilhaVendasHibridaOpcionalService.familias$ | async as familias">
+    <div *ngFor="let familia of familias; trackBy: trackByOrcamentoFamilia">
+      <aw-collapse (expanded)="familia.isOpen = $event" class="text-uppercase" [border]="true">
+        <div collapseHeader class="d-flex align-items-center w-100 justify-content-between">
+          <div class="d-flex w-100 justify-content-between">
+            <div class="font-size-md">{{ familia.nomeFamilia }}</div>
+            <div class="end-title">
+              <div *ngIf="familia.isOpen" class="info-valor">Valor com Taxa e Impostos incluídos</div>
+              <div class="scroll-btns" *ngIf="familia.isOpen" (click)="$event.stopPropagation()">
+                <button
+                  awButton
+                  circle
+                  icon="aw-icon-seta-esquerda"
+                  (click)="scrollFamiliaBody(familiaBody)"
+                  tooltip="Rolar para esquerda"
+                  delay="500"
+                  placement="bottom"
+                ></button>
+                <button
+                  awButton
+                  circle
+                  icon="aw-icon-seta-direita"
+                  (click)="scrollFamiliaBody(familiaBody, true)"
+                  tooltip="Rolar para direita"
+                  delay="500"
+                  placement="bottom"
+                ></button>
+              </div>
+              <div>{{ familia.valorTotal | currency: 'BRL' }}</div>
+            </div>
+          </div>
+        </div>
+        <app-ph-opcional-familia
+          [familia]="familia"
+          [cenario]="cenario"
+          [isChangeOrder]="isChangeOrder"
+          #familiaBody
+          (atualizarFamilia)="atualizarFamilia()"
+        ></app-ph-opcional-familia>
+      </aw-collapse>
+    </div>
+    <aw-collapse border="true">
+      <div collapseHeader class="d-flex align-items-center w-100 justify-content-between">
+        <div class="d-flex w-100 justify-content-between">
+          <div class="font-size-md">TAXAS</div>
+          <div>
+            {{
+              (planilhaVendasHibridaOpcionalService._taxasCenario$ | async)?.valorTaxaAdministrativaCenarioOpcional
+                | default: 0
+                | currency: 'BRL'
+            }}
+          </div>
+        </div>
+      </div>
+      <app-taxas
+        [idOrcamentoCenario]="idOrcamentoCenario"
+        [cenario]="cenario"
+        [isChangeOrder]="isChangeOrder"
+        [gruposOpcionais]="true"
+        [readonly]="true"
+      ></app-taxas>
+    </aw-collapse>
+  </ng-container>
+</div>

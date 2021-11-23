@@ -1,0 +1,18 @@
+<label class="aw-radio" [class.disabled]="_disabled">
+  <input
+    type="radio"
+    class="aw-radio-input visually-hidden"
+    [name]="name"
+    [value]="value"
+    [checked]="checked"
+    [disabled]="_disabled"
+    (change)="onChange($event)"
+    (click)="onClick($event)"
+  />
+  <span class="aw-radio-circle">
+    <span class="aw-radio-circle-inner"></span>
+  </span>
+  <span class="aw-radio-text">
+    <ng-content></ng-content>
+  </span>
+</label>

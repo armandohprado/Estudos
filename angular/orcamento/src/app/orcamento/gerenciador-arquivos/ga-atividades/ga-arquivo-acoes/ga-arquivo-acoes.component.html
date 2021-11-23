@@ -1,0 +1,108 @@
+<div
+  class="acoes"
+  *ngFor="let versao of arquivo.versoes; trackBy: trackByVersao; let $first = first"
+  [ngClass]="{ 'with-padding': arquivo.versoes?.length > 1 && $first, 'not-first': !$first }"
+>
+  <div class="versao">
+    {{ versao.versao }}
+  </div>
+  <div class="status-wrapper" *ngLet="versao.status | default: 'válido':'loose' as status">
+    <div class="status" [class]="status">
+      {{ status }}
+    </div>
+  </div>
+  <div class="acoes-icons" *ngLet="gerenciadorArquivosService.readonly && !arquivo.checked as disableActions">
+    <div class="info">
+      <button
+        awButton
+        icon="information"
+        type="button"
+        [loading]="versao.loading"
+        [popover]="popoverInfo"
+        triggers=""
+        [outsideClick]="true"
+        [adaptivePosition]="true"
+        [disabled]="arquivo.loading || disableActions"
+        placement="left"
+        #popover="bs-popover"
+        (click)="openInfo(versao, popover)"
+      ></button>
+      <ng-template #popoverInfo>
+        <div class="popover-info">
+          <ng-container *ngIf="versao.info as info; else noInfo">
+            <div class="title has-close">
+              Data
+              <button awButton icon="close" type="button" (click)="popover.hide()" size="xs"></button>
+            </div>
+            <div class="value">{{ info.data | date: 'dd/MM/yyyy' }}</div>
+            <div class="title">Autor</div>
+            <div class="value">{{ info.autor }}</div>
+            <div class="title">Comentário</div>
+            <div class="value">{{ info.comentario }}</div>
+            <div class="title">Nome dos arquivos</div>
+            <div class="value">{{ info.arquivos }}</div>
+            <div class="title">Extensão dos arquivos</div>
+            <div class="value">{{ info.extensoes }}</div>
+          </ng-container>
+          <ng-template #noInfo> Sem informações </ng-template>
+        </div>
+      </ng-template>
+    </div>
+    <div class="download">
+      <button
+        awButton
+        icon="download"
+        (click)="download(versao.versao)"
+        [disabled]="arquivo.loading || disableActions"
+      ></button>
+    </div>
+    <div class="superar">
+      <button
+        *ngIf="!gerenciadorArquivosService.readonly && versao.status === 'alterado' && arquivo.versoes.length > 1"
+        awButton
+        type="button"
+        icon="loop"
+        (click)="openSuperarModal()"
+        [disabled]="arquivo.loading"
+      ></button>
+      <ng-template #superarModalRef>
+        <div class="modal-header">
+          <h5 class="modal-title">Atualizar Documento</h5>
+          <button awButton icon="close" (click)="superarModal.hide()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="documento">
+            Documento: <strong>{{ arquivo.nome }}</strong>
+          </div>
+          <div class="versao">
+            Versão: <strong>{{ versao.versao }}</strong>
+          </div>
+          <div class="form-group">
+            <label for="comentario"> Explique para os fornecedores sobre a atualização dos arquivos: </label>
+            <textarea awInput id="comentario" rows="5" [formControl]="comentarioControl"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            awButton
+            status="secondary"
+            width="secondary"
+            (click)="superarModal.hide()"
+            [disabled]="versao.loading"
+          >
+            Fechar
+          </button>
+          <button
+            awButton
+            width="primary"
+            (click)="superar()"
+            [disabled]="comentarioControl.invalid"
+            [loading]="versao.loading"
+          >
+            Atualizar
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

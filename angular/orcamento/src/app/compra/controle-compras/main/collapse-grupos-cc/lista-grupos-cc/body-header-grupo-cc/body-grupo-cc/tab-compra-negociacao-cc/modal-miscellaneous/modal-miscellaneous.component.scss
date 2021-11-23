@@ -1,0 +1,17 @@
+.modal-body {
+  display: flex;
+  justify-content: center;
+  > .wrapper {
+    width: 75%;
+    > .box {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      > .title {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+      }
+    }
+  }
+}

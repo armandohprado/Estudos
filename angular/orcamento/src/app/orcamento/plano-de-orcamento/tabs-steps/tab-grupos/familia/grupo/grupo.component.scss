@@ -1,0 +1,60 @@
+@import 'variables';
+:host {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: $border-radius;
+  color: $headings-color;
+  min-height: 40px;
+  margin-bottom: 2px;
+  &.cotacao {
+    background-color: #e6ebee;
+    padding-top: 13px;
+  }
+}
+
+.group-content {
+  background-color: #e7ecef;
+  padding: 1.42rem;
+}
+
+.custom-control {
+  label {
+    margin-bottom: 0;
+  }
+
+  .custom-control-label,
+  & {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-control-label {
+    &:after,
+    &:before {
+      top: unset;
+    }
+  }
+}
+
+.group-item-id {
+  min-width: 54px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+.divider {
+  margin-right: 10px;
+}
+
+.group-item-name {
+  text-transform: lowercase;
+}
+
+.detalhes {
+  overflow: hidden;
+  border: 1px solid red;
+}

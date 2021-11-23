@@ -1,0 +1,134 @@
+@import 'variables';
+@import 'mixins';
+
+.container.row {
+  margin-right: 0;
+  margin-left: 0;
+  font-weight: bold;
+  justify-content: center;
+}
+.table-c.text-right {
+  padding-right: 2px;
+}
+.clamp-2-desconto {
+  color: var(--greyish-brown);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  white-space: pre-line;
+}
+.word-break {
+  word-break: break-all;
+}
+section.container {
+  min-width: 1000px !important;
+  position: relative;
+  left: 50%;
+  margin: 0 20px 0;
+  transform: translate(-50%);
+}
+
+.font-16 {
+  font-size: 1.2rem;
+}
+.item {
+  text-align: center;
+  font-size: 1em;
+  margin: 0;
+  min-width: 100%;
+  min-height: 30px;
+  padding: 0;
+  > .table-c:empty {
+    background: rgb(255, 255, 255);
+  }
+}
+.fix {
+  position: sticky;
+  flex-basis: 125px;
+  max-width: 200px;
+  max-height: 485px;
+}
+
+.percent {
+  width: 23px;
+}
+.item.title {
+  min-height: 42px;
+}
+.scroll-father {
+  max-width: 600px;
+  overflow-x: auto;
+  display: flex;
+
+  position: sticky;
+}
+.input-label-div {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  padding: 0 2px;
+  justify-content: flex-end;
+  & > input {
+    font-size: small;
+    height: 25px !important;
+    max-width: 125px;
+  }
+  & > span {
+    margin: 0 2px;
+  }
+}
+.column {
+  flex-direction: column;
+  flex-shrink: 0;
+  display: inline-flex;
+  flex-basis: 135px;
+  max-width: 200px;
+  min-width: 200px;
+  color: #3c3c3c;
+  &:nth-child(even) {
+    background: #f7f7f7;
+  }
+  &:nth-child(odd) {
+    background: #fff;
+  }
+  &.last-1 {
+    background: #7878787c;
+  }
+  &.first {
+    background: #efefef;
+  }
+  &.last {
+    background: #3c3c3c;
+    color: #fff;
+  }
+  .bord {
+    margin-top: 10px;
+    border-top: 3px solid #979797;
+  }
+  .second {
+    margin-top: 16px;
+  }
+}
+.ajust {
+  min-height: 109px;
+}
+.rep {
+}
+.padding-2 {
+  padding-bottom: 10px;
+}
+.hide {
+  opacity: 0;
+  cursor: unset;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.desabilitar {
+  display: none !important;
+}
+.teste input {
+  background: #e9ecef;
+  pointer-events: none;
+}

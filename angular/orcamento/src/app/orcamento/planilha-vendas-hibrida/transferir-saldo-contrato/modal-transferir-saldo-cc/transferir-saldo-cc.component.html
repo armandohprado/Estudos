@@ -1,0 +1,49 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <h5 class="modal-title">Transferir Saldo de CC</h5>
+  <button type="button" class="close" (click)="close()">
+    <span class="icon icon-close"></span>
+  </button>
+</div>
+<div class="mx-5 modal-body">
+  <div class="sup" *ngIf="!readonly">
+    <div class="grid-4">
+      <div>Proposta</div>
+      <div>Fornecedor</div>
+      <div class="d-flex justify-content-end">Valor Total Orçado</div>
+      <div class="d-flex justify-content-end">Valor venda</div>
+    </div>
+    <hr />
+    <div
+      class="grid-4 my-2 p-2 rounded bg-cinza"
+      *ngFor="let propostas of propostas$ | async; trackBy: trackByProposta; let $odd = odd"
+      [class.bg-white]="$odd"
+    >
+      <div>{{ propostas.idProposta }}</div>
+      <div>{{ propostas.fornecedor.nomeFantasia }}</div>
+      <div class="d-flex justify-content-end">
+        {{ propostas.valorParcialProposta | default: 0 | number: '1.2-2' }}
+      </div>
+      <div class="d-flex justify-content-end">
+        {{ propostas.valorTotalProposta | default: 0 | number: '1.2-2' }}
+      </div>
+    </div>
+    <hr />
+  </div>
+  <app-transferencia-cc-change-order-container
+    [readonly]="readonly"
+    [idPlanilhaHibrida]="planilhaHibridaGrupo.planilhaHibrida.idPlanilhaHibrida"
+    [listaCCTransferencia]="ccGruposService.listaCCTransferencia$ | async"
+    [listaFamilia]="ccGruposService.listaFamilia$ | async"
+    [listaGrupo]="ccGruposService.listaGrupo$ | async"
+    [(payload)]="payload"
+  ></app-transferencia-cc-change-order-container>
+</div>
+<div class="modal-footer">
+  <div>
+    <button awButton status="secondary" width="secondary" [disabled]="loading" (click)="close()">Fechar</button>
+    <button awButton status="primary" width="primary" (click)="transferir()" [disabled]="payload.length === 0">
+      {{ readonly ? 'Confirmar transferência' : 'Transferir Saldo' }}
+    </button>
+  </div>
+</div>

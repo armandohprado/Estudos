@@ -1,0 +1,55 @@
+<div class="grid-container">
+  <ng-container *ngFor="let questao of questoes; trackBy: trackByPlanoCompraQuestao">
+    <div class="descricao">
+      {{ questao.descricao }}
+    </div>
+    <div class="actions">
+      <ng-container *ngIf="readonly; else notReadonlyResposta">
+        {{ questao.resposta ? 'Sim' : 'Não' }}
+      </ng-container>
+      <ng-template #notReadonlyResposta>
+        <aw-radio
+          name="{{ uid }}-{{ questao.idPlanoCompraQuestao }}"
+          [value]="true"
+          [ngModel]="questao.resposta"
+          (ngModelChange)="onRespostaChange(questao, $event)"
+        >
+          Sim
+        </aw-radio>
+        <aw-radio
+          name="{{ uid }}-{{ questao.idPlanoCompraQuestao }}"
+          [value]="false"
+          [ngModel]="questao.resposta"
+          (ngModelChange)="onRespostaChange(questao, $event)"
+        >
+          Não
+        </aw-radio>
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
+<div class="data-fluxo-sd" *ngIf="showDataFluxoSD">
+  <hr />
+  <h6>Grupo precisa de Fluxo de SD</h6>
+  <div class="data-fluxo-sd-form-group">
+    <div class="label">Qual a data de entrega do SD pelo fornecedor:</div>
+    <div class="input-wrapper">
+      <ng-container *ngIf="readonly; else notReadonlyDataFluxoSD">{{ dataFluxoSD | date: 'dd/MM/yyyy' }}</ng-container>
+      <ng-template #notReadonlyDataFluxoSD>
+        <input
+          awInput
+          dateMask
+          autocomplete="off"
+          bsDatepicker
+          placeholder="DD/MM/YYYY"
+          placement="top"
+          type="text"
+          [bsConfig]="bsConfig"
+          [(ngModel)]="dataFluxoSD"
+          (ngModelChange)="dataFluxoSDChange.emit($event)"
+          [class.is-invalid]="dataFluxoSDInvalid"
+        />
+      </ng-template>
+    </div>
+  </div>
+</div>

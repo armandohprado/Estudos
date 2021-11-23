@@ -1,0 +1,229 @@
+<form [formGroup]="formImplantacaoStep5" class="form-group px-5">
+  <h4 class="font-weight-bold mb-4">Empreitada Parcial</h4>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premEmpreParcial"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA_PREMISSA"
+      />
+      <label class="custom-control-label" for="premEmpreParcial"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Se o projeto estiver considerando aumento de área ou mudança de uso, a Athié Wohnrath sempre recomenda a
+        contratação de um despachante. Como deseja proceder?
+      </legend>
+      <aw-raido value="Gerenciamento" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA"
+        >Gerenciamento</aw-raido
+      >
+      <aw-raido value="Empreitada Total" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA"
+        >Empreitada Total</aw-raido
+      >
+      <aw-raido value="Empreitada Parcial" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA"
+        >Empreitada Parcial</aw-raido
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="padding-left py-4 mb-4 background"
+    *ngIf="
+      this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA).value ===
+      'Empreitada Parcial'
+    "
+  >
+    <div
+      class="form-group"
+      [class.disabled]="
+        this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_AUMENTO_OBRA_PREMISSA).value !== true
+      "
+    >
+      <label class="font-weight-bold">
+        No caso de empreitada parcial, como será o procedimento de faturamento direto? Lembrando que uma obra de
+        interiores tem em média entre 50 a 60 grupos de fornecimento
+      </label>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input
+          class="custom-control-input"
+          id="empr-checkbox-option-1"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_PORCENTAGEM"
+        />
+        <label class="custom-control-label" for="empr-checkbox-option-1"> Até o percentual de </label>
+      </div>
+
+      <div
+        class="row mb-4"
+        *ngIf="this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_PORCENTAGEM).value"
+      >
+        <div class="col-3">
+          <input
+            class="form-control"
+            placeholder="ex: 00"
+            type="text"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_PORCENTAGEM_JUSTIFICATIVA"
+          />
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input
+          class="custom-control-input"
+          id="empr-checkbox-option-2"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MINIMO"
+        />
+        <label class="custom-control-label" for="empr-checkbox-option-2"> Valor mínimo de faturamento </label>
+      </div>
+
+      <div
+        class="row mb-4"
+        *ngIf="this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MINIMO).value"
+      >
+        <div class="col-3">
+          <input
+            class="form-control"
+            placeholder="ex: 00,00"
+            type="text"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MINIMO_JUSTIFICATIVA"
+          />
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input
+          class="custom-control-input"
+          id="empr-checkbox-option-3"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MAXIMA"
+        />
+        <label class="custom-control-label" for="empr-checkbox-option-3">
+          Quantidade máxima de grupos de fornecimento
+        </label>
+      </div>
+
+      <div
+        class="row mb-4"
+        *ngIf="this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MAXIMA).value"
+      >
+        <div class="col-3">
+          <input
+            class="form-control"
+            placeholder="ex: 10"
+            type="text"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_MAXIMA_JUSTIFICATIVA"
+          />
+        </div>
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input
+          class="custom-control-input"
+          id="empr-checkbox-option-4"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_ESPECIFICO"
+        />
+        <label class="custom-control-label" for="empr-checkbox-option-4">
+          Específico para os seguintes fornecedores ou itens de fornecimento
+        </label>
+      </div>
+
+      <div
+        class="row mb-4"
+        *ngIf="this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_ESPECIFICO).value"
+      >
+        <div class="col-10">
+          <textarea
+            class="form-control"
+            placeholder="ex: 10"
+            rows="4"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_PARCIAL_ESPECIFICO_JUSTIFICATIVA"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex my-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premDesmembramento"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DESMEMBRAMENTO_FORNECEDORES_PREMISSA"
+      />
+      <label class="custom-control-label" for="premDesmembramento"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DESMEMBRAMENTO_FORNECEDORES_PREMISSA)
+          .value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Caso sua empresa autorize o desmembramento de fornecedores qual é o limite máximo? Isso evita a bitributação
+      </legend>
+
+      <select
+        class="form-control"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_DESMEMBRAMENTO_FORNECEDORES"
+      >
+        <option selected>nenhum desdobramento</option>
+      </select>
+    </fieldset>
+  </div>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premFatDireto"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENVIO_DOCS_PREMISSA"
+      />
+      <label class="custom-control-label" for="premFatDireto"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep5.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENVIO_DOCS_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        Em caso de faturamento direto, é necessário que a sua empresa forneça as seguintes documentações:
+      </legend>
+
+      <ul class="font-weight-bold mt-3">
+        <li>Contrato Social</li>
+        <li>Ficha Cadastral</li>
+        <li>Contato e e-mail para cobrança</li>
+        <li>Balanço</li>
+        <li>DRE (dois últimos)</li>
+      </ul>
+
+      <p class="font-weight-bold">O cliente concorda em fornecê-las?</p>
+
+      <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENVIO_DOCS">Sim</aw-radio>
+
+      <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ENVIO_DOCS">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary gradient-btn mr-3" type="button" (click)="goToTab(4)">voltar</button>
+    <button class="btn btn-primary gradient-btn btn-proximo" type="button" (click)="sendForm()">próximo</button>
+  </div>
+</form>

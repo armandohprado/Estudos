@@ -1,0 +1,58 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <h4></h4>
+  <button [disabled]="loading" awButton icon="close" size="sm" type="button" (click)="close('secondaryBtn')"></button>
+</div>
+<div class="modal-body">
+  <div class="row" *ngIf="status !== 'info'; else info">
+    <div class="col-3 d-flex align-items-center justify-content-center">
+      <span class="icon" [ngClass]="icon"></span>
+    </div>
+    <div class="col-9 d-flex align-items-center pl-0">
+      <div>
+        <div class="font-weight-bold my-1" [ngClass]="titleClass">
+          <ng-container *ngIf="title; else titleHtmlRef">
+            {{ title }}
+          </ng-container>
+          <ng-template #titleHtmlRef>
+            <div *ngIf="titleHtml" [innerHTML]="titleHtml"></div>
+          </ng-template>
+        </div>
+        <div class="content" [ngClass]="contentClass">
+          <ng-container *ngIf="content; else contentHtmlRef">
+            {{ content }}
+          </ng-container>
+          <ng-template #contentHtmlRef>
+            <div *ngIf="contentHtml" [innerHTML]="contentHtml"></div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #info>
+    <div *ngIf="title" class="font-weight-bold my-1">{{ title }}</div>
+    <div class="content">{{ content }}</div>
+  </ng-template>
+</div>
+<div class="modal-footer">
+  <button
+    *ngIf="secondaryBtn?.title"
+    awButton
+    [status]="secondaryBtn.status"
+    [width]="secondaryBtn.useDefaultWidth ? 'secondary' : undefined"
+    (click)="close('secondaryBtn')"
+    [disabled]="loading"
+  >
+    {{ secondaryBtn.title }}
+  </button>
+  <button
+    awButton
+    *ngIf="primaryBtn?.title"
+    [width]="primaryBtn.useDefaultWidth ? 'primary' : undefined"
+    [status]="primaryBtn.status | default: 'primary'"
+    [disabled]="loading"
+    (click)="close('primaryBtn')"
+  >
+    {{ primaryBtn.title }}
+  </button>
+</div>

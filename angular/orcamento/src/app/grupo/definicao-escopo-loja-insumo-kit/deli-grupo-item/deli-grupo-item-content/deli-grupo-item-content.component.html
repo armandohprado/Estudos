@@ -1,0 +1,74 @@
+<div class="grupo-item-content">
+  <div class="produtos" *ngIf="grupoItem.produtos.length">
+    <app-deli-produto-list-selecionado
+      [canDelete]="true"
+      [idOrcamentoGrupoItem]="grupoItem.idOrcamentoGrupoItem"
+      [loading]="grupoItem.statusProperty.produtos === 'loading'"
+      [produtos]="grupoItem.produtos"
+      labelSelecionados="Kits selecionados"
+      orderBy="idOrcamentoGrupoItemKit"
+      [hideBtn]="true"
+      (produtoSelecionado)="kitSelecionado($event)"
+      (produtoDeletado)="kitDeletado($event)"
+    ></app-deli-produto-list-selecionado>
+  </div>
+  <div class="catalogo">
+    <div class="header" (click)="toggleCatalogo()" *ngIf="!!grupoItem.produtos?.length">
+      <div class="text">Alterar kits</div>
+      <span
+        class="icon caret"
+        [ngClass]="{
+          'icon-caret-up': grupoItem.openedCatalogo,
+          'icon-caret-down': !grupoItem.openedCatalogo
+        }"
+      ></span>
+    </div>
+    <div class="content mt-5" *ngIf="grupoItem.openedCatalogo || !grupoItem.produtos.length" @collapse>
+      <div>
+        <aw-stepper
+          (selectionChange)="selectionChange($event)"
+          linear
+          headerWidth="330px"
+          headerCenter
+          [selectedIndex]="grupoItem.tabSelectedIndex | default: 0"
+        >
+          <aw-step label="Especificar" #stepEspecificar="aw-step">
+            <app-deli-catalogo
+              *ngIf="grupoItem.catalogo && grupoItem.activeTab === stepEspecificar.label"
+              [catalogo]="grupoItem.catalogo"
+              [showCheckbox]="true"
+              [term]="grupoItem.term"
+              [filtrosAtivos]="grupoItem.filtros"
+              (filtroChanged)="updateFiltroCatalogo($event)"
+              (termChanged)="updateTermCatalogo($event)"
+              (produtoSelecionado)="kitSelecionadoCatalogo($event)"
+            ></app-deli-catalogo>
+          </aw-step>
+          <aw-step label="Quantificar" #stepQuantificar="aw-step">
+            <app-del-gi-quantificar
+              *ngIf="grupoItem.activeTab === stepQuantificar.label"
+              [idOrcamentoGrupoItem]="grupoItem.idOrcamentoGrupoItem"
+              [activeTab]="grupoItem.activeTabQuantificar"
+              [quantitativo]="grupoItem.quantitativo"
+              [isLoading]="grupoItem.statusProperty.quantitativo === 'loading'"
+            ></app-del-gi-quantificar>
+          </aw-step>
+        </aw-stepper>
+      </div>
+    </div>
+  </div>
+  <div class="filhos">
+    <ng-container *ngFor="let group of filhosGrouped$ | async; trackBy: trackByGrouped">
+      <div class="title">
+        <h6>{{ group.descricao }}</h6>
+      </div>
+      <div class="itens">
+        <app-deli-grupo-item-filho
+          *ngFor="let grupoItemFilho of group.itens; trackBy: trackByGrupoItemFilho"
+          [grupoItem]="grupoItem"
+          [grupoItemFilho]="grupoItemFilho"
+        ></app-deli-grupo-item-filho>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<tabset appScrollableTab #tabset *ngLet="gaEtapaQuery.selected$ | async as etapaSelected">
+  <tab
+    *ngFor="let etapa of gaEtapaQuery.all$ | async; trackBy: trackByEtapa"
+    customClass="propecao"
+    (selectTab)="setEtapaSelected(etapa)"
+    [active]="etapaSelected?.id === etapa.id"
+    [id]="'' + etapa.id"
+  >
+    <ng-template tabHeading>
+      <span *ngIf="etapa['qtde-superar'] as count" class="badge badge-danger badge-pill">
+        {{ count }}
+      </span>
+      <span class="tab-title">
+        {{ etapa.nome }}
+      </span>
+      <span class="tab-counter">
+        {{ etapa.selecionados + '/' + etapa.publicados }}
+      </span>
+    </ng-template>
+  </tab>
+</tabset>

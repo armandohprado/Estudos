@@ -1,0 +1,107 @@
+<div class="row mx-1" [class.border-detalhes]="!last" [formGroup]="formSubfornecedores" [awSpinner]="item.loader">
+  <div class="col-12">
+    <div class="row py-3">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-2 font-weight-bold d-flex p-0">
+            <div class="px-2">
+              <span [class.aw-icon-sucesso]="item?.atributos?.idPropostaItemStatus === 2"></span>
+              <span [class.aw-icon-erro]="item?.atributos?.idPropostaItemStatus === 3"></span>
+            </div>
+            <div class="">
+              <div>{{ item?.tag }}</div>
+              <div>{{ item?.numeracao }}</div>
+            </div>
+          </div>
+          <div class="col-3" *ngIf="!omisso; else editarDescricao">
+            <div class="row">
+              {{ item?.descricao }}
+            </div>
+          </div>
+          <ng-template #editarDescricao>
+            <div class="col-10 pr-4">
+              <div class="mt-1 pr-3">
+                <label class="text-hide">Descrição</label>
+                <div [awSpinner]="item.status?.descricao === 'loading'">
+                  <textarea
+                    style="height: 166px"
+                    awInput
+                    resize="vertical"
+                    [completedTime]="2000"
+                    formControlName="descricao"
+                  >
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div class="col-6" *ngIf="!omisso">
+            <ul class="itens2">
+              <li *ngIf="item.atributos.atributo1">
+                <span [innerHTML]="item.atributos.atributo1"></span>
+              </li>
+              <li *ngIf="item.atributos.atributo2">
+                <span [innerHTML]="item.atributos.atributo2"></span>
+              </li>
+              <li *ngIf="item.atributos.atributo3">
+                <span [innerHTML]="item.atributos.atributo3"></span>
+              </li>
+              <li *ngIf="item.atributos.atributo4">
+                <span [innerHTML]="item.atributos.atributo4"></span>
+              </li>
+              <li *ngIf="item.atributos.complemento">
+                <span [innerHTML]="item.atributos.complemento"></span>
+              </li>
+            </ul>
+            <div class="form-group">
+              <div awSpinner>
+                <input
+                  [outsideClick]="true"
+                  [popoverContext]=""
+                  containerClass="popup"
+                  [popover]="popTemplate"
+                  container="body"
+                  placement="top"
+                  triggers="mouseenter:mouseleave"
+                  awInput
+                  [completedTime]="2000"
+                  placeholder="Observação"
+                  formControlName="observacao"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-item-detalhes-valores
+        [item]="item"
+        [pavimento]="pavimento"
+        [omisso]="omisso"
+        class="col-6"
+      ></app-item-detalhes-valores>
+      <div class="col-2 p-0 nao-orcar-button-position">
+        <button
+          awButton
+          block
+          size="sm"
+          status="secondary"
+          [disabled]="devolucaoPropostaService.cabecalhoProposta.retornoProposta"
+          (click)="naoSalvarItem()"
+        >
+          Não orcar item
+        </button>
+      </div>
+
+      <ng-template #popTemplate>
+        <ul class="list-unstyled">
+          <li>
+            <h6>
+              Utilize esse campo para inserir o código do produto ou detalhamento do escopo. Não utilize esse campo para
+              informar itens exclusos, ou que neguem a descrição do item.
+            </h6>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+  </div>
+</div>

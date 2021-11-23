@@ -1,0 +1,22 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-gap: 1rem;
+}
+
+.header {
+  font-weight: bold;
+}
+
+.valor {
+  text-align: end;
+}
+
+hr {
+  grid-column: 1/-1;
+  margin: 0;
+}
+
+.no-data-found {
+  grid-column: 1/-1;
+}

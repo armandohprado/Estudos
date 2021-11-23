@@ -1,0 +1,35 @@
+@import 'variables';
+
+.grupo-item-filho {
+  padding: 1rem;
+  background-color: $very-light-blue;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+  > .header {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 120px 40px repeat(5, minmax(0, 1fr)) 25px;
+    > .cod-item {
+      grid-column-start: 2;
+    }
+    > .descricao {
+      grid-column: span 2;
+    }
+  }
+  > .produtos {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 120px 1fr;
+    > .produto {
+      grid-column-start: 2;
+      > div {
+        > span {
+          font-weight: bold;
+        }
+        &.produto {
+          margin-top: 0.25rem;
+        }
+      }
+    }
+  }
+}

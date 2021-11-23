@@ -1,0 +1,40 @@
+<div class="bg-white rounded" [awSpinner]="loader" *ngLet="cadernosLayout$ | async as layouts">
+  <div *ngIf="successFeedback$ | async" class="planilha-adicionada d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <i class="icon icon-check"></i>
+      <p class="font-weight-bold mt-3">Modelos salvos</p>
+    </div>
+  </div>
+  <p>
+    <ng-container *ngIf="layouts.length; else noLayoutsFound">
+      Nesses modelos, os valores de venda são apresentados com os seguintes níveis:
+    </ng-container>
+    <ng-template #noLayoutsFound>Nenhum modelo encontrado!</ng-template>
+  </p>
+  <div class="layouts" *ngIf="layouts.length">
+    <div class="layout" *ngFor="let layout of layouts; trackBy: trackByCadernoLayout">
+      <div class="check">
+        <aw-checkbox [ngModel]="layout.checked" (ngModelChange)="change(layout.idCadernoLayout, $event)">
+          {{ layout.nome }}
+        </aw-checkbox>
+      </div>
+      <div class="descricao">
+        <div class="icon-wrapper">
+          <button type="button" awButton icon="open-budget" (click)="openModalImage(layout)"></button>
+        </div>
+        <div class="text">
+          {{ layout.modelo }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-2 d-flex justify-content-end" *ngIf="layouts.length">
+    <button awButton (click)="salvar()">Salvar modelos</button>
+  </div>
+</div>
+
+<ng-template #imageModal>
+  <div class="modal-body d-flex justify-content-center">
+    <img [src]="endPointImagem + layoutModal.imagem" [alt]="layoutModal.modelo || layoutModal.nome" />
+  </div>
+</ng-template>

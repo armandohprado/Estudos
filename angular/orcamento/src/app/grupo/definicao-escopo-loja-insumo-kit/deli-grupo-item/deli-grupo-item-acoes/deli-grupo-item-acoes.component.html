@@ -1,0 +1,37 @@
+<div class="icons">
+  <span
+    class="icon icon-copy"
+    [popover]="duplicarPop"
+    [outsideClick]="true"
+    placement="left"
+    containerClass="popover-duplicar"
+    #duplicar="bs-popover"
+  ></span>
+  <ng-template #duplicarPop>
+    <ng-container *ngLet="grupoItem.statusProperty.duplicar === 'loading' as loading">
+      <ul class="list-unstyled list-duplicar">
+        <li class="item" *ngFor="let item of duplicarOptions; trackBy: trackByKey">
+          <aw-checkbox [(ngModel)]="item.control" (ngModelChange)="change()" [disabled]="loading">
+            {{ item.value }}
+          </aw-checkbox>
+        </li>
+        <li class="item">
+          <aw-checkbox
+            [(ngModel)]="todos"
+            (ngModelChange)="todosChange($event)"
+            [indeterminate]="todosIndeterminate"
+            [disabled]="loading"
+          >
+            Todos
+          </aw-checkbox>
+        </li>
+      </ul>
+      <button awButton block [loading]="loading" (click)="duplicarItem()">Duplicar</button>
+    </ng-container>
+  </ng-template>
+  <span
+    class="icon caret"
+    [ngClass]="{ 'icon-caret-down': !grupoItem.opened, 'icon-caret-up': grupoItem.opened }"
+    (click)="collapse()"
+  ></span>
+</div>

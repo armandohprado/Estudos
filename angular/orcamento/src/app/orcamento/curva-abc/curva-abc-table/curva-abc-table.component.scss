@@ -1,0 +1,393 @@
+@import 'variables';
+
+:host {
+  overflow-x: hidden;
+}
+
+.collapse-header {
+  width: 40px;
+}
+
+.codigo-grupo {
+  width: 40%;
+}
+
+.total-percentual {
+  width: 90px;
+}
+
+[cdk-header-cell] {
+  .btn-icon {
+    margin-top: 10px;
+    line-height: normal;
+    opacity: 0.4;
+    transition: opacity 300ms ease-in-out;
+    color: white;
+    box-shadow: none;
+
+    &.active,
+    &:active,
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+}
+
+[cdk-cell] {
+  .icon-check {
+    color: $green-alt;
+    font-size: 10px;
+  }
+
+  .icon-timer {
+    color: #b5babd;
+  }
+
+  .expand-details {
+    box-shadow: none;
+    padding: 0;
+    [class^='-icon-caret-'],
+    [class*='icon-caret-'] {
+      font-size: 4.6px;
+      color: #048dbc;
+    }
+  }
+
+  .expand-details {
+    box-shadow: none;
+
+    [class^='-icon-caret-'],
+    [class*='icon-caret-'] {
+      font-size: 4.6px;
+      color: #048dbc;
+    }
+  }
+}
+
+.light-blue-grey {
+  background-color: #ccd2d7;
+  padding: 15px;
+}
+
+.filter-familias {
+  width: 300px;
+  padding: 1rem;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-overlay;
+  background-color: white;
+  > .select {
+    margin-bottom: 1rem;
+  }
+  > .btns {
+    > .aw-btn:not(:last-child) {
+      margin-right: 0.25rem;
+    }
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.asc-and-desc-filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  max-width: 10px;
+
+  .btn-icon {
+    margin: 0;
+    font-size: 6px;
+    padding: 0;
+  }
+}
+
+.nome-grupo-icons {
+  display: flex;
+
+  > .asc-and-desc-filter-wrapper {
+    max-width: none;
+    justify-content: flex-end;
+  }
+}
+
+.popover-wrapper {
+  position: relative;
+
+  .list-item {
+    &:first-of-type {
+      padding-bottom: 8px;
+    }
+
+    &:last-of-type {
+      padding-top: 8px;
+    }
+
+    &:not(:last-of-type):not(:first-of-type) {
+      padding: 8px 0;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: solid 1px $tooltip-color;
+    }
+    ::ng-deep .aw-checkbox-text {
+      font-size: 12px;
+      color: #7b8594;
+
+      &:before,
+      &:after {
+        top: unset;
+      }
+      .icon {
+        margin-right: 8px;
+        font-size: 11px;
+
+        &.icon-check {
+          color: $green-alt;
+        }
+      }
+    }
+  }
+}
+
+.table-results {
+  background-color: #f2f5f7;
+  font-size: 14px;
+  font-weight: bold;
+  border-top: 1px solid $tooltip-color;
+  margin-top: -1px;
+  .row {
+    min-height: 46px;
+    [class^='col'] {
+      align-self: center;
+      padding: 0;
+      p {
+        margin: 0;
+        &.title {
+          color: #7b8594;
+          text-align: right;
+          margin-right: 0.5rem;
+          &.minor {
+            font-size: 12px;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .popover-filters {
+    .popover-body {
+      padding: 10px;
+    }
+  }
+}
+
+.positive {
+  color: $danger;
+
+  &:before {
+    content: '+';
+  }
+}
+
+.positive,
+.negative {
+  font-weight: bold;
+  &:before {
+    margin-right: -2px;
+  }
+}
+
+.negative {
+  color: $green-alt;
+  &:before {
+    content: '-';
+  }
+}
+
+table {
+  &.table {
+    th {
+      padding: 6px 12px 7px;
+      height: 47px;
+    }
+
+    tr {
+      td {
+        border-top-color: $tooltip-color;
+
+        &.detail-td {
+          padding: 0;
+
+          &:not(.expanded) {
+            border-top-color: transparent;
+          }
+
+          .table.sub-table {
+            tbody {
+              tr {
+                &:first-of-type {
+                  td {
+                    border-top: 0;
+                  }
+                }
+
+                td {
+                  background-color: #f2f5f7;
+                  border-bottom: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.element-row td {
+        padding: 7px 12px;
+      }
+
+      &.clickable {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  table.sub-table {
+    margin-bottom: 0;
+  }
+
+  table.curva-abc-table {
+    border-radius: 3px;
+    margin-bottom: 0;
+
+    & > thead {
+      background-color: $secondary;
+      color: white;
+      font-weight: 500;
+      font-size: 12px;
+      box-shadow: 0 0 10px 0 rgba(192, 192, 192, 0.5);
+
+      tr {
+        margin: 0;
+
+        th {
+          .filter {
+            position: relative;
+
+            .wrapper-filter {
+              background-color: white;
+              position: absolute;
+              width: 109px;
+              padding: 0.5rem;
+              border-radius: 2px;
+              box-shadow: 0 1px 22px 0 rgba(136, 136, 136, 0.5);
+
+              label {
+                border-bottom: 1px solid #7b8594;
+                width: 100%;
+                padding-bottom: 0.3rem;
+                color: #7b8594;
+                font-size: 12px;
+
+                &:last-child {
+                  border-bottom: none;
+                  padding-bottom: 0;
+                }
+
+                input {
+                  margin-right: 0.2rem;
+                }
+              }
+
+              &:before {
+                width: 0;
+                height: 0;
+                border: 5px solid transparent;
+                border-bottom-color: var(--balloon-color);
+                left: 50%;
+                top: 100%;
+                transform: translate(-50%, calc(var(--balloon-move) * -1));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & > tbody {
+      box-shadow: 0 0 10px 0 rgba(192, 192, 192, 0.5);
+      font-size: 12px;
+
+      tr {
+        margin: 0;
+        text-transform: lowercase;
+
+        td {
+          .element-detail {
+            overflow: hidden;
+          }
+
+          vertical-align: middle;
+
+          .goal-value {
+            font-weight: bold;
+          }
+
+          .selected-value,
+          .family-name {
+            color: $tooltip-color;
+          }
+
+          &.meta,
+          &.especialista,
+          &.selecionado,
+          &.diff,
+          &.familia {
+            color: #7b8594;
+          }
+
+          &.value {
+            font-size: 14px;
+          }
+
+          &.fornecedor,
+          &.multiplos,
+          &.familia.bold {
+            color: $headings-color;
+          }
+
+          &.bold {
+            font-weight: bold;
+          }
+
+          &.italic {
+            font-style: italic;
+            color: #7b8594;
+          }
+
+          &.meta {
+            border-right: solid 5px #e7ecef;
+            position: relative;
+          }
+
+          &.especialista {
+            border-right: solid 5px $secondary;
+          }
+
+          &.fornecedor,
+          &.multiplos {
+            border-right: solid 5px $headings-color;
+          }
+
+          &.cdk-column-estimatedValue {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+}

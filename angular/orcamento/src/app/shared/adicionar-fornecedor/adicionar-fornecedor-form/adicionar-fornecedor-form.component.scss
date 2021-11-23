@@ -1,0 +1,15 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  > .form-group {
+    grid-column: 2 / 5;
+    &.radio {
+      &.nao-homologado {
+        grid-column: 2 / 2;
+      }
+      &.suspenso {
+        grid-column: 3 / 3;
+      }
+    }
+  }
+}

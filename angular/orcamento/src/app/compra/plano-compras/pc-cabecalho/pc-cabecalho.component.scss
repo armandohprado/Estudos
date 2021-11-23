@@ -1,0 +1,56 @@
+.projeto {
+  padding: 15px;
+  > span {
+    font-weight: 500;
+    &.numero {
+      margin-right: 10px;
+      color: var(--cerulean);
+    }
+  }
+}
+.cabecalho {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) 1px repeat(3, minmax(0, 1fr));
+  grid-gap: 20px;
+  padding: 15px;
+  > .valores {
+    display: grid;
+    grid-template-columns: 1fr;
+    &.percent {
+      grid-template-columns: 3fr 1fr;
+    }
+
+    grid-gap: 2px;
+    > .title-valor {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      > .title {
+        text-align: end;
+        font-size: 12px;
+        font-style: italic;
+      }
+      > .valor {
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 10px;
+        line-height: normal;
+      }
+    }
+    > .percent {
+      display: flex;
+      align-items: flex-end;
+      font-size: 12px;
+    }
+    > .divider {
+      border-right: 1px solid var(--bluey-grey);
+    }
+  }
+  .subPercent {
+    margin-top: -14px;
+  }
+  .column-start-5 {
+    grid-column-start: 5;
+  }
+}

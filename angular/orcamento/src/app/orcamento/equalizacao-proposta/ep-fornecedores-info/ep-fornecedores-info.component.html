@@ -1,0 +1,38 @@
+<div class="separator"></div>
+<div class="title">
+  <div class="sticky">Montagem, Líder de equipe, Número de Funcionários e Prazos</div>
+</div>
+<div class="fornecedores">
+  <div class="item sticky">
+    <div class="labels">
+      <div class="label">Montagem / Instalação Inclusa na Proposta</div>
+      <div class="label">Nome do Líder de Equipe</div>
+      <div class="label">Quantidade Total de Funcionários</div>
+      <div class="label">Prazo de Mobilização (Dias Corridos)</div>
+      <div class="label">Prazo de Execução Total do Serviço</div>
+    </div>
+  </div>
+  <div
+    class="item fornecedor"
+    *ngFor="let fornecedor of fornecedores; trackBy: trackByEpFornecedor"
+    [class.aw-referencia]="fornecedor.indicadorAWReferencia"
+  >
+    <ng-container *ngIf="!fornecedor.indicadorAWReferencia; else noInfo">
+      <div class="label">{{ fornecedor.montagemInstalacaoInclusa ? 'Sim' : 'Não' }}</div>
+      <div class="label">{{ fornecedor.nomeLiderEquipe || 'N/A' }}</div>
+      <div class="label">{{ fornecedor.quantidadeFuncionario || 'N/A' }}</div>
+      <div class="label">{{ fornecedor.prazoMobilizacao || 'N/A' }}</div>
+      <div class="label">{{ fornecedor.prazoExecucaoServico || 'N/A' }}</div>
+    </ng-container>
+  </div>
+  <div class="item" *ngFor="let offsetColumn of epPropostaItemQuery.offsetColumns$ | async">
+    <ng-container *ngTemplateOutlet="noInfo"></ng-container>
+  </div>
+</div>
+<ng-template #noInfo>
+  <div class="label"></div>
+  <div class="label"></div>
+  <div class="label"></div>
+  <div class="label"></div>
+  <div class="label"></div>
+</ng-template>

@@ -1,0 +1,75 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80px;
+  white-space: nowrap;
+  cursor: pointer;
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &.break-label {
+    white-space: normal;
+  }
+  &:not(.interacted) {
+    &:not(.active) {
+      opacity: 0.7;
+      &.linear {
+        cursor: default;
+      }
+    }
+  }
+  &.active {
+    cursor: default;
+    > .aw-step-circle {
+      background-color: $greyish-brown;
+      color: white;
+    }
+  }
+  > .aw-step-circle {
+    width: 2rem;
+    height: 2rem;
+    border: solid 1.5px $greyish-brown;
+    color: $greyish-brown;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-top: 1px;
+  }
+  > .aw-step-label {
+    text-align: center;
+    line-height: normal;
+    font-weight: 500;
+  }
+  &.vertical {
+    width: auto;
+    flex-direction: row;
+    > .aw-step-circle {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+    > .aw-step-label {
+      width: 6rem;
+      white-space: normal;
+      text-align: start;
+    }
+  }
+  &:focus {
+    outline: 0;
+
+    &:not(.active, .disabled) {
+      opacity: 0.9;
+      > .aw-step-circle {
+        background-color: $light-gray;
+        border-width: 2px;
+      }
+    }
+  }
+}

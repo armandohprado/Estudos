@@ -1,0 +1,34 @@
+<div *ngLet="colunas[0] as coluna">
+  <div>
+    <aw-checkbox
+      [checked]="coluna.exibeValorUnitarioProduto"
+      (checkedChange)="output($event, 'exibeValorUnitarioProduto')"
+      >Exibe valor unitário produto</aw-checkbox
+    >
+    <hr />
+    <aw-checkbox [checked]="coluna.exibeDescontoProduto" (checkedChange)="output($event, 'exibeDescontoProduto')"
+      >Exibe desconto produto</aw-checkbox
+    >
+    <hr />
+    <aw-checkbox
+      [checked]="coluna.exibeValorUnitarioServico"
+      (checkedChange)="output($event, 'exibeValorUnitarioServico')"
+      >Exibe valor unitário serviço</aw-checkbox
+    >
+    <hr />
+    <aw-checkbox [checked]="coluna.exibeDescontoServico" (checkedChange)="output($event, 'exibeDescontoServico')"
+      >Exibe desconto serviço</aw-checkbox
+    >
+    <hr />
+    <aw-checkbox
+      [checked]="coluna.exibeValorUnitarioProdutoServico"
+      (checkedChange)="output($event, 'exibeValorUnitarioProdutoServico')"
+      >Exibe valor unitário produto e serviço</aw-checkbox
+    >
+    <hr />
+    <aw-checkbox [checked]="coluna.exibeValorTotal" (checkedChange)="output($event, 'exibeValorTotal')"
+      >Exibe valor total</aw-checkbox
+    >
+    <hr />
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="content-collapse bg-white mt-1">
+  <div class="bg-collapse-group">
+    <div
+      class="font-weight-bolder d-flex justify-content-between pt-2 mx-4 border-bottom border-dark"
+      (click)="updateCollapse('collapseMapa')"
+    >
+      <div class="d-inline-flex">
+        <div class="after-traco">Compra - Mapa</div>
+        <div class="d-inline-flex align-items-center">
+          <button
+            awButton
+            icon="aw-icon-list"
+            popover="Definição de valores"
+            containerClass="popover-tab-compra-negociacao"
+            triggers="hover"
+            class="p-1"
+            (click)="fluxoDefinirValores($event)"
+            *ngIf="
+              (!grupo.permitidoEmitirCcSemMapa || grupo.grupoOrcamento?.possuiMultiplasPropostas) &&
+              !grupo.grupoOrcamento?.somenteAwEstimado
+            "
+          ></button>
+          <button
+            awButton
+            icon="open-budget"
+            class="p-1"
+            popover="Miscellaneous"
+            triggers="hover"
+            containerClass="popover-tab-compra-negociacao"
+            (click)="openMiscellaneous($event)"
+          ></button>
+          <div dropdown container="body" #dropdown="bs-dropdown">
+            <span
+              class="icon-history p-1 click"
+              dropdownToggle
+              (click)="historicoMapas($event)"
+              [popover]="'Histórico de mapa'"
+              containerClass="popover-tab-compra-negociacao"
+              triggers="hover"
+            >
+            </span>
+            <ul *dropdownMenu class="dropdown-menu shadow border-0" role="menu" aria-labelledby="button-container">
+              <ng-container *ngIf="grupo.historicoMapa?.length > 0; else mensagemVaziaLi">
+                <li role="menuitem" *ngFor="let historico of grupo.historicoMapa">
+                  <span class="dropdown-item" (click)="trocarMapaAtual(historico.idCompraNegociacaoGrupoMapa, $event)">
+                    {{ historico.idCompraNegociacaoGrupoMapa }} -
+                    {{ historico.compraNegociacaoStatus }}
+                  </span>
+                </li>
+              </ng-container>
+              <ng-template #mensagemVaziaLi>
+                <li>
+                  <span class="dropdown-item">Historico Vazio</span>
+                </li>
+              </ng-template>
+            </ul>
+          </div>
+          <ng-container *ngIf="enableAprovacao">
+            <span
+              class="aw-icon-seta-cima-clara p-1 click"
+              (click)="aprovarMapa($event)"
+              [popover]="'Aprovar Mapa'"
+              containerClass="popover-tab-compra-negociacao"
+              triggers="hover"
+            >
+              Aprovar Mapa
+            </span>
+            <span
+              class="aw-icon-seta-baixo-clara p-1 click"
+              (click)="reprovarMapa($event)"
+              [popover]="'Reprovar Mapa'"
+              containerClass="popover-tab-compra-negociacao"
+              triggers="hover"
+            >
+              Reprovar Mapa
+            </span>
+          </ng-container>
+        </div>
+      </div>
+      <div
+        class="d-flex align-items-center text-primary caret click"
+        [class.icon-caret-down]="!grupo.collapseMapa"
+        [class.icon-caret-up]="grupo.collapseMapa"
+        *ngIf="!grupo.refreshingGrupoAtual"
+      ></div>
+      <aw-spinner [overlay]="false" size="sm" *ngIf="grupo.refreshingGrupoAtual"></aw-spinner>
+    </div>
+    <div class="bg-collapse-group px-2 pb-2" *ngIf="grupo.collapseMapa" @collapse [awSpinner]="grupo.trocandoMapa">
+      <app-mapa-collapse-compra-negociacao-cc [grupo]="grupo"></app-mapa-collapse-compra-negociacao-cc>
+    </div>
+  </div>
+  <div class="bg-collapse-group mt-3">
+    <div
+      class="font-weight-bolder d-flex justify-content-between pt-2 mx-4 border-bottom border-dark"
+      (click)="updateCollapse('collapseTransacao')"
+    >
+      <div class="d-flex align-items-start">Transações</div>
+      <div
+        class="d-flex align-items-center text-primary caret c-pointer"
+        [class.icon-caret-down]="!grupo.collapseTransacao"
+        [class.icon-caret-up]="grupo.collapseTransacao"
+        *ngIf="!loadingTransacoes"
+      ></div>
+      <aw-spinner [overlay]="false" size="sm" *ngIf="loadingTransacoes"></aw-spinner>
+    </div>
+    <div class="bg-collapse-group px-2 pb-2" *ngIf="grupo.collapseTransacao" @collapse>
+      <app-transacao-collapse-compra-negociacao-cc
+        *ngIf="grupo.transacoesAtual as transacoesAtual"
+        [transacoesAtual]="transacoesAtual"
+      ></app-transacao-collapse-compra-negociacao-cc>
+    </div>
+  </div>
+</div>

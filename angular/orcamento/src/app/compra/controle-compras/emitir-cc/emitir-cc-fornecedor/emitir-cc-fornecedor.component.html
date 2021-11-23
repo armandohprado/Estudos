@@ -1,0 +1,50 @@
+<div class="block">
+  <h6 class="title">Dados do Fornecedor</h6>
+  <div class="content">
+    <div class="info">
+      <div class="label">Razão Social</div>
+      <div class="value font-weight-bold">
+        {{ emitirCc.nomeFantasia }}
+      </div>
+      <div class="label">CNPJ</div>
+      <div class="value">
+        {{ emitirCc.cnpj | mask: maskEnum.cnpj }}
+      </div>
+      <div class="label">Emite NF</div>
+      <div class="value">
+        <ng-container *ngFor="let tipificacao of emitirCc.emitirNF; trackBy: trackByTipificacao; let $last = last">
+          {{ tipificacao.nome + (!$last ? ', ' : '') }}
+        </ng-container>
+      </div>
+    </div>
+    <hr />
+    <div class="form-dados-fornecedor" [formGroup]="form">
+      <div class="form-group empresa-faturamento">
+        <label for="empresa-faturamento">Empresa de Faturamento</label>
+        <aw-select
+          id="empresa-faturamento"
+          placeholder="Selecione"
+          [clearable]="false"
+          [items]="controleComprasQuery.listaEmpresasFaturamento$ | async"
+          bindLabel="nomeFantasia"
+          formControlName="empresaFaturamento"
+          [comparatorFn]="empresaComparator"
+          [trackBy]="trackByEmpresaFaturamento"
+        ></aw-select>
+      </div>
+      <div class="form-group contato-fornecedor">
+        <label for="contato-fornecedor">Contato Fornecedor</label>
+        <aw-select
+          id="contato-fornecedor"
+          placeholder="Selecione"
+          [items]="contatos"
+          bindLabel="nome"
+          [clearable]="false"
+          [comparatorFn]="contatoComparator"
+          [trackBy]="trackByContatoAlt"
+          formControlName="contatoFornecedor"
+        ></aw-select>
+      </div>
+    </div>
+  </div>
+</div>

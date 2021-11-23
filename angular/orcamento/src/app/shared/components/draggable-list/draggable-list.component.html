@@ -1,0 +1,84 @@
+<div class="col-auto flex-1">
+  <div class="drag-container">
+    <label class="section-heading">{{ allListLabel }}</label>
+
+    <div
+      #Items="cdkDropList"
+      (cdkDropListDropped)="drop($event, 'remover', fornecedores)"
+      [cdkDropListConnectedTo]="selected"
+      [cdkDropListData]="list"
+      [class.v-align]="list?.length === 0"
+      cdkDropList
+      class="item-list"
+    >
+      <div
+        *ngFor="let item of list; trackBy: trackByFn"
+        cdkDrag
+        class="item-box"
+        [cdkDragDisabled]="item.isDisabled"
+        [class.disabled]="item.isDisabled"
+        [ngStyle]="{
+          height: !customTemplate ? '30px' : '',
+          padding: customTemplate ? '8px 15px' : ''
+        }"
+      >
+        <ng-container *ngIf="!customTemplate">
+          {{ item[fieldLabel] }}
+        </ng-container>
+        <ng-template
+          *ngIf="customTemplate"
+          [ngTemplateOutlet]="customTemplate"
+          [ngTemplateOutletContext]="{ item: item }"
+        >
+        </ng-template>
+      </div>
+      <div *ngIf="list?.length === 0" class="no-selected-items no-translate">
+        <h6 class="message" [innerHTML]="emptyMessage"></h6>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-auto d-flex align-items-center justify-content-center p-0">
+  <i class="icon icon-direction-arrow"></i>
+</div>
+<div class="col-auto flex-1">
+  <div class="drag-container">
+    <label class="section-heading">{{ selectedListLabel }}</label>
+
+    <div
+      #selected="cdkDropList"
+      (cdkDropListDropped)="drop($event, 'adicionar', fornecedores)"
+      [cdkDropListConnectedTo]="Items"
+      [cdkDropListData]="selectedList"
+      cdkDropList
+      class="item-list"
+    >
+      <div
+        *ngFor="let item of selectedList; trackBy: trackByFn"
+        cdkDrag
+        [cdkDragDisabled]="item.isDisabled"
+        [class.disabled]="item.isDisabled"
+        class="item-box"
+        [ngStyle]="{
+          height: !customTemplate ? '30px' : '',
+          padding: customTemplate ? '8px 15px' : ''
+        }"
+      >
+        <ng-container *ngIf="!customTemplate"> {{ item[fieldLabel] }} </ng-container>
+        <ng-template
+          *ngIf="customTemplate"
+          [ngTemplateOutlet]="customTemplate"
+          [ngTemplateOutletContext]="{ item: item }"
+        >
+        </ng-template>
+      </div>
+      <div *ngIf="!selectedList?.length" class="no-selected-items">
+        <i class="icon icon-drag-n-drop"></i>
+        <h6 class="message">
+          Arraste <br />
+          aqui
+        </h6>
+      </div>
+    </div>
+  </div>
+</div>

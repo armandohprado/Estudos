@@ -1,0 +1,40 @@
+@import 'variables';
+
+:host {
+  ::ng-deep {
+    .ck-editor__editable {
+      min-height: 162px !important;
+      border-radius: $border-radius !important;
+      border: 1px solid var(--greyish-brown) !important;
+      &.error {
+        border: 1px solid red !important;
+      }
+    }
+    .ck {
+      .ck-button {
+        min-height: unset !important;
+      }
+
+      .ck-toolbar {
+        border: 0;
+        background-color: var(--ice-blue);
+        border-radius: $border-radius !important;
+
+        > * {
+          margin-top: 1.8px;
+          margin-bottom: 1.8px;
+        }
+      }
+
+      .ck-sticky-panel {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+.error-detail {
+  font-size: 12px;
+  font-style: italic;
+  color: $danger;
+}

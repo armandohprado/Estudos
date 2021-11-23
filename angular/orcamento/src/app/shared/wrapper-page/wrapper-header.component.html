@@ -1,0 +1,16 @@
+<div class="icon">
+  <span class="icon aw-icon-seta-esquerda" (click)="voltar.emit($event)"></span>
+</div>
+<div class="title">
+  <ng-container *ngIf="headerRef?.length; else noHeaderRef">
+    <ng-content select="[awWrapperHeader]"></ng-content>
+  </ng-container>
+  <ng-template #noHeaderRef>
+    <h4>
+      {{ titulo }}
+    </h4>
+    <h5>
+      {{ subTitulo }}
+    </h5>
+  </ng-template>
+</div>

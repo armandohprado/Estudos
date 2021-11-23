@@ -1,0 +1,23 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <h5 class="modal-title">Congelamento Planilha de Vendas Híbrida</h5>
+  <button type="button" awButton icon="close" (click)="bsModalRef.hide()"></button>
+</div>
+<div class="modal-body">
+  <h6>Selecione a Natureza:</h6>
+  <div>
+    <aw-radio
+      *ngFor="let naturezaProjeto of naturezaProjetos; trackBy: trackByPhNaturezaProjeto"
+      name="natureza-projeto"
+      [value]="true"
+      [ngModel]="naturezaProjeto.selecionado"
+      (ngModelChange)="onNaturezaProjetoChange(naturezaProjeto.idNaturezaProjeto)"
+    >
+      {{ naturezaProjeto.descricao }}
+    </aw-radio>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" awButton status="secondary" width="secondary" (click)="bsModalRef.hide()">Cancelar</button>
+  <button type="button" awButton width="primary" (click)="congelarPlanilha()">Congelar</button>
+</div>

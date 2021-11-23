@@ -1,0 +1,187 @@
+<table class="tabela-planilha-hibrida">
+  <tr class="taxa-administrativa text-right" *ngIf="!cenario?.tipoTaxaAdministrativa">
+    <td class="grupo-codigo">
+      <span class="number"> </span>
+    </td>
+    <td class="grupo-descricao text-left">
+      <span class="description"> Taxa Administrativa </span>
+    </td>
+    <td class="grupo-subtotal-valortotal"></td>
+    <td class="grupo-percentual"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td [awSpinner]="totalFamiliaFooter.loading === 'loading'" class="grupo-percentual">
+      <span class="acrescimo-grupo">
+        <div class="float-right">
+          <aw-radio
+            value="true"
+            class="d-flex justify-content-start"
+            [name]="'' + familia.idOrcamentoCenarioFamilia"
+            [ngModel]="familia.taxaEmPercentual"
+            (ngModelChange)="alterarBaseCalculoFamilia(familia.idOrcamentoCenarioFamilia, footerValor)"
+            >Percentual</aw-radio
+          >
+          <input
+            currencyMask
+            [options]="currencyPrecision4"
+            awInput
+            type="text"
+            class="porcento w-100"
+            [class.border-info]="familia.taxaEmPercentual"
+            (click)="adcFocus(footerValor)"
+            #footerValor
+            name="porcento-margem"
+            [(ngModel)]="totalFamiliaFooter.percentualTaxaAdm"
+            (blur)="calcularFamilia(totalFamiliaFooter, 'porcentotaxaadm')"
+            [disabled]="planilhaVendasHibridaService.congelado || !familia.taxaEmPercentual"
+          />
+        </div>
+      </span>
+    </td>
+    <td [awSpinner]="totalFamiliaFooter.loading === 'loading'" class="grupo-valor">
+      <span class="desconto-grupo">
+        <div>
+          <aw-radio
+            value="false"
+            class="d-flex justify-content-start"
+            [name]="'' + familia.idOrcamentoCenarioFamilia"
+            [ngModel]="familia.taxaEmPercentual"
+            (ngModelChange)="
+              alterarBaseCalculoFamilia(familia.idOrcamentoCenarioFamilia, footerPercentual); footerPercentual.focus()
+            "
+            >Real <b>(R$)</b></aw-radio
+          >
+          <input
+            currencyMask
+            awInput
+            type="text"
+            [options]="currencyPrecision2"
+            class="valor"
+            name="valor-margem"
+            #footerPercentual
+            [class.border-info]="!familia.taxaEmPercentual"
+            (click)="adcFocus(footerPercentual)"
+            [(ngModel)]="totalFamiliaFooter.valorTaxaAdm"
+            (blur)="calcularFamilia(totalFamiliaFooter, 'valortaxaadm')"
+            [disabled]="planilhaVendasHibridaService.congelado || familia.taxaEmPercentual"
+          />
+        </div>
+      </span>
+    </td>
+    <td colspan="16"></td>
+  </tr>
+  <tr class="taxa-administrativa text-right mt-0" *ngIf="!cenario?.tipoTaxaAdministrativa">
+    <td colspan="2" class="p-0"></td>
+    <td colspan="16" class="p-0">
+      <hr class="line-divisor-row" />
+    </td>
+  </tr>
+  <tr class="taxa-administrativa text-right last" *ngIf="!cenario?.tipoTaxaAdministrativa">
+    <td class="grupo-codigo"></td>
+    <td class="grupo-descricao">
+      <div class="description"></div>
+    </td>
+    <td class="grupo-subtotal-valortotal"></td>
+    <td class="grupo-percentual pr-3"></td>
+    <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td
+      cdkOverlayOrigin
+      #overlayTaxaAdmFamilia="cdkOverlayOrigin"
+      (click)="planilhaVendasHibridaService.editComentarioTaxaAdmFamilia = true"
+    >
+      <i class="aw-icon-msg-black"></i>
+    </td>
+    <ng-template
+      cdkConnectedOverlay
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      [cdkConnectedOverlayOpen]="planilhaVendasHibridaService.editComentarioTaxaAdmFamilia"
+      [cdkConnectedOverlayOrigin]="overlayTaxaAdmFamilia"
+      [cdkConnectedOverlayPositions]="[editComplementoPosition]"
+      cdkConnectedOverlayPanelClass="overlay-complemento"
+      cdkConnectedOverlayWidth="300px"
+      (backdropClick)="planilhaVendasHibridaService.editComentarioTaxaAdmFamilia = false"
+    >
+      <div class="container-fluid comentario-edit">
+        <div class="d-flex flex-row mt-2">
+          <textarea
+            placeholder="Adicionar Comentário"
+            awInput
+            resize="none"
+            [(ngModel)]="totalFamiliaFooter.comentarioTaxaAdministrativa"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          ></textarea>
+        </div>
+
+        <div class="d-flex flex-row justify-content-end mt-2">
+          <span class="link" (click)="planilhaVendasHibridaService.editComentarioTaxaAdmFamilia = false">Cancelar</span>
+          <span class="link" (click)="calcularFamilia(totalFamiliaFooter)">Salvar</span>
+        </div>
+      </div>
+    </ng-template>
+    <td colspan="16"></td>
+  </tr>
+  <tr>
+    <td class="pt-3"></td>
+  </tr>
+  <tr class="footer-familia-planilha">
+    <th class="grupo-codigo"></th>
+    <th class="grupo-descricao align-left">Totais</th>
+    <th class="grupo-subtotal-valortotal">
+      {{ totalFamiliaFooter.totalizadorOrcado | number: '1.2-2' }}
+    </th>
+    <th class="grupo-percentual">
+      {{ totalFamiliaFooter.totalizadorPercentualDesconto | number: '1.2-2' }}
+    </th>
+    <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto">
+      {{ totalFamiliaFooter.totalizadorDesconto | number: '1.2-2' }}
+    </th>
+    <th class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto">
+      {{ totalFamiliaFooter.totalizadorSubTotal1 | number: '1.2-2' }}
+    </th>
+    <th class="grupo-percentual">
+      {{ totalFamiliaFooter.totalizadorPercentualMargem | number: '1.2-2' }}
+    </th>
+    <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColMargem">
+      {{ totalFamiliaFooter.totalizadorMargem | number: '1.2-2' }}
+    </th>
+    <th
+      class="grupo-subtotal-valortotal"
+      [class.showColumnOportunidade]="!planilhaVendasHibridaService.hideColOportunidade"
+      [class.showColumnDescontoVP]="!planilhaVendasHibridaService.hideColDescontoVPDNN"
+    >
+      {{ totalFamiliaFooter.totalizadorSubTotal | number: '1.2-2' }}
+    </th>
+    <th class="grupo-combo-imposto"></th>
+    <th class="grupo-percentual" *ngIf="!planilhaVendasHibridaService.hideColImposto">
+      {{ totalFamiliaFooter.totalizadorPercentualImposto | number: '1.2-2' }}
+    </th>
+    <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColImposto">
+      {{ totalFamiliaFooter.totalizadorImposto | number: '1.2-2' }}
+    </th>
+    <th class="grupo-subtotal-valortotal">
+      {{ totalFamiliaFooter.totalizadorValorTotal | number: '1.2-2' }}
+    </th>
+    <th
+      class="grupo-percentual"
+      [class.oportunidade]="!planilhaVendasHibridaService.hideColOportunidade"
+      *ngIf="!isChangeOrder"
+    >
+      {{ totalFamiliaFooter.totalizadorPercentualOportunidade | number: '1.2-2' }}
+    </th>
+    <th class="grupo-valor oportunidade" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade">
+      {{ totalFamiliaFooter.totalizadorOportunidade | number: '1.2-2' }}
+    </th>
+    <th class="grupo-percentual-desconto-vp" *ngIf="!isChangeOrder">
+      {{ totalFamiliaFooter.totalizadorPercentualDescontoVPDNN | number: '1.2-2' }}
+    </th>
+    <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColDescontoVPDNN">
+      {{ totalFamiliaFooter.totalizadorDescontoVPDNN | number: '1.2-2' }}
+    </th>
+    <th class="grupo-subtotal-valortotal" *ngIf="!isChangeOrder">
+      {{ totalFamiliaFooter?.totalizadorDescontoTotalVPDNN | default: 0 | number: '1.2-2' }}
+    </th>
+    <th class="grupo-subtotal-valortotal valor-transferido" *ngIf="isChangeOrder"></th>
+    <th class="grupo-subtotal-valortotal valor-saldo" *ngIf="isChangeOrder"></th>
+  </tr>
+</table>

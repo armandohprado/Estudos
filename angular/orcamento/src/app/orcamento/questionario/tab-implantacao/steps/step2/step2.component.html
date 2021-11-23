@@ -1,0 +1,448 @@
+<form [formGroup]="formImplantacaoStep2" class="form-group px-5">
+  <h4 class="font-weight-bold mb-4">Segurança do trabalho</h4>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="premissaSegTrabalho"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO_PREMISSA"
+      />
+      <label class="custom-control-label" for="premissaSegTrabalho"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      [class.disabled]="
+        this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO_PREMISSA).value !==
+        true
+      "
+    >
+      <legend class="font-weight-bold">
+        Na empresa existe alguma política de segurança do trabalho ou guia de documentação específica que extrapola as
+        recomendações de Norma?
+      </legend>
+
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO" [value]="true"
+        >Sim</aw-radio
+      >
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO" [value]="false"
+        >Não</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO).value">
+    <div class="form-group w-85 padding-left mb-4">
+      <label class="font-weight-bold">Comente</label>
+      <textarea
+        class="form-control"
+        rows="5"
+        placeholder="insira comentário"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO_JUSTIFICATIVA"
+        maxlength="200"
+        [innerHTML]="
+          formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_SEGURANCA_TRABALHO_JUSTIFICATIVA).value
+        "
+      ></textarea>
+    </div>
+
+    <div>
+      <label class="upload" for="upload-seguranca-trabalho">
+        <span class="btn btn-primary mr-auto text-white"> anexar arquivo </span>
+        <span *ngIf="!fileSegTrabalho && !fileSegTrabalhoMessage" class="mr-auto"> anexar arquivo </span>
+        <span *ngIf="fileSegTrabalho && !fileSegTrabalhoMessage" class="mr-auto">
+          <b>{{ fileSegTrabalho | ellipsis: 30 }}</b>
+        </span>
+
+        <span *ngIf="fileSegTrabalho && fileSegTrabalhoMessage" class="mr-auto">{{ fileSegTrabalhoMessage }}</span>
+      </label>
+      <input
+        (change)="fileSegTrabalhoUpload($any($event.target).files[0])"
+        id="upload-seguranca-trabalho"
+        name="image"
+        type="file"
+      />
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          id="premissaSegTrabalho2"
+          class="custom-control-input p-2"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho2"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_PREMISSA)
+            .value !== true
+        "
+      >
+        <legend class="font-weight-bold">
+          Os funcionários deverão participar de sessões de integração e segurança na sua empresa?
+        </legend>
+
+        <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO"
+          >Sim</aw-radio
+        >
+        <div
+          class="padding-left py-4 mb-4 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO).value"
+        >
+          <div class="form-group">
+            <label class="font-weight-bold">Comente</label>
+            <textarea
+              class="form-control"
+              rows="5"
+              placeholder="insira comentário"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_JUSTIFICATIVA"
+              maxlength="200"
+              [innerHTML]="
+                formImplantacaoStep2.get(
+                  QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_JUSTIFICATIVA
+                ).value
+              "
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Local / Endereço</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ex: Av. Engenheiro Luis Carlos Berrini, 00"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_ENDERECO"
+              maxlength="200"
+            />
+          </div>
+
+          <div class="d-flex">
+            <div class="form-group inline mr-2">
+              <label>Dia da semana</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="ex: Segunda-feira"
+                [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_DIA"
+                maxlength="200"
+              />
+            </div>
+            <div class="form-group inline">
+              <label>Horário</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="ex: 00:00"
+                [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_HORA"
+                maxlength="200"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Documentos necessários</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ex: CNPJ"
+              [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO_DOCS"
+              maxlength="200"
+            />
+          </div>
+
+          <div>
+            <label class="upload" for="upload-integracao-trabalho">
+              <span class="btn btn-primary mr-auto text-white"> anexar arquivo </span>
+              <span *ngIf="!fileIntegracao && !fileIntegracaoMessage" class="mr-auto"> anexar arquivo </span>
+              <span *ngIf="fileIntegracao && !fileIntegracaoMessage" class="mr-auto">
+                <b>{{ fileIntegracao | ellipsis: 30 }}</b>
+              </span>
+
+              <span *ngIf="fileIntegracao && fileIntegracaoMessage" class="mr-auto">{{ fileSegTrabalhoMessage }}</span>
+            </label>
+
+            <input
+              (change)="fileIntegracaoUpload($any($event.target).files[0])"
+              id="upload-integracao-trabalho"
+              name="image"
+              type="file"
+            />
+          </div>
+        </div>
+
+        <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_FUNCIONARIOS_INTEGRACAO"
+          >Não</aw-radio
+        >
+      </fieldset>
+    </div>
+  </div>
+
+  <h4 class="font-weight-bold mb-5">Critérios específicos de trabalho</h4>
+  <h5 class="font-weight-bold mb-4">Sua empresa possui alguma rotina específica para início dos trabalhos na obra?</h5>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          class="custom-control-input p-2"
+          id="premissaSegTrabalho3"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho3"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA_PREMISSA).value !==
+          true
+        "
+      >
+        <legend class="font-weight-bold">Limite de jornada de trabalho</legend>
+
+        <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA" [value]="true"
+          >Sim</aw-radio
+        >
+        <div
+          class="form-group padding-left py-4 pb-5 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA).value"
+        >
+          <label class="font-weight-bold">Comente</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="insira comentário"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA_JUSTIFICATIVA"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA_JUSTIFICATIVA).value
+            "
+          ></textarea>
+        </div>
+
+        <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_LIMITE_JORNADA" [value]="false"
+          >Não</aw-radio
+        >
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          class="custom-control-input p-2"
+          id="premissaSegTrabalho4"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho4"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO_PREMISSA).value !==
+          true
+        "
+      >
+        <legend class="font-weight-bold">Rotina diárias de liberação de trabalho / integração</legend>
+
+        <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO"
+          >Sim</aw-radio
+        >
+
+        <div
+          class="form-group padding-left py-4 pb-5 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO).value"
+        >
+          <label class="font-weight-bold">Comente</label>
+
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="insira comentário"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO_JUSTIFICATIVA"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO_JUSTIFICATIVA).value
+            "
+          ></textarea>
+        </div>
+
+        <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_ROTINA_LIBERACAO" [value]="false"
+          >Não</aw-radio
+        >
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          class="custom-control-input p-2"
+          id="premissaSegTrabalho5"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho5"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI_PREMISSA).value !== true
+        "
+      >
+        <legend class="font-weight-bold">Critérios específicos de EPI / EPC</legend>
+
+        <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI"
+          >Sim</aw-radio
+        >
+        <div
+          class="form-group padding-left py-4 pb-5 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI).value"
+        >
+          <label class="font-weight-bold">Comente</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="insira comentário"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI_JUSTIFICATIVA"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI_JUSTIFICATIVA).value
+            "
+          ></textarea>
+        </div>
+
+        <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_EPI"
+          >Não
+        </aw-radio>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          class="custom-control-input p-2"
+          id="premissaSegTrabalho6"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho6"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO_PREMISSA)
+            .value !== true
+        "
+      >
+        <legend class="font-weight-bold">Critérios específicos de ambulatório</legend>
+
+        <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO"
+          >Sim</aw-radio
+        >
+
+        <div
+          class="form-group padding-left py-4 pb-5 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO).value"
+        >
+          <label class="font-weight-bold">Comente</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="insira comentário"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO_JUSTIFICATIVA"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO_JUSTIFICATIVA)
+                .value
+            "
+          >
+          </textarea>
+        </div>
+
+        <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_AMBULATORIO"
+          >Não</aw-radio
+        >
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex">
+      <div class="custom-switch premissa-position">
+        <input
+          class="custom-control-input p-2"
+          id="premissaSegTrabalho7"
+          type="checkbox"
+          [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO_PREMISSA"
+        />
+        <label class="custom-control-label" for="premissaSegTrabalho7"></label>
+        <span></span>
+      </div>
+
+      <fieldset
+        class="content-position"
+        [class.disabled]="
+          this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO_PREMISSA)
+            .value !== true
+        "
+      >
+        <legend class="font-weight-bold">Critérios específicos de alimentação / ambulatório</legend>
+
+        <aw-radio [value]="true" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO"
+          >Sim</aw-radio
+        >
+
+        <div
+          class="form-group padding-left py-4 pb-5 background"
+          *ngIf="this.formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO).value"
+        >
+          <label class="font-weight-bold">Comente</label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="insira comentário"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO_JUSTIFICATIVA"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep2.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO_JUSTIFICATIVA)
+                .value
+            "
+          >
+          </textarea>
+        </div>
+
+        <aw-radio [value]="false" [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_CRITERIOS_ALIMENTACAO"
+          >Não</aw-radio
+        >
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary gradient-btn btn-bottom" type="button" (click)="goToTab(1)">voltar</button>
+    <button class="btn btn-primary gradient-btn btn-proximo" type="button" (click)="sendForm()">próximo</button>
+  </div>
+</form>

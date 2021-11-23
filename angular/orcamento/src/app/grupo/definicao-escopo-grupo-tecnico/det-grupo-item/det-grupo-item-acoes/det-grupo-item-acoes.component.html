@@ -1,0 +1,7 @@
+<div class="icons">
+  <span
+    class="icon caret"
+    [ngClass]="{ 'icon-caret-down': !grupoItem.opened, 'icon-caret-up': grupoItem.opened }"
+    (click)="collapse(grupoItem.opened)"
+  ></span>
+</div>

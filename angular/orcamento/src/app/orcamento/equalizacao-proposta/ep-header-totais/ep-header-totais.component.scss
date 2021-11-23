@@ -1,0 +1,48 @@
+@use 'variables' as v;
+@use '../equalizacao-proposta' as ep;
+
+:host {
+  display: flex;
+  box-shadow: 0 4px 5px 0 rgb(136 136 136 / 50%);
+  color: white;
+}
+
+:host ::ng-deep {
+  .item {
+    width: ep.$ep-column-width;
+    min-width: ep.$ep-column-width;
+    padding: 0.5rem;
+    border-right: 1px solid #595a5b;
+    background-color: v.$greyish-brown;
+    &.sticky {
+      width: ep.$ep-first-column-width;
+      min-width: ep.$ep-first-column-width;
+      position: sticky;
+      left: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) ep.$ep-first-column-labels-width;
+      grid-gap: 1rem;
+      .valor-total {
+        text-align: end;
+      }
+      .valor-total-selecionado {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+    }
+    .valor-total {
+      > span {
+        text-align: end;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .valor-parcial {
+      font-size: 0.9em;
+      color: #d4d4d4;
+      text-align: end;
+    }
+  }
+}

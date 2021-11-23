@@ -1,0 +1,130 @@
+@import 'variables';
+@import 'mixins';
+
+$spacing: 10px;
+
+.project-header {
+  margin-top: 20px;
+}
+
+.buttons {
+  button {
+    margin-right: $spacing * 0.5;
+    border-radius: 3px;
+    box-shadow: 0 0 10px 0 rgba(192, 192, 192, 0.5);
+    background-color: #ffffff;
+    border: 0;
+    overflow: hidden;
+    padding: $spacing $spacing * 1.5 $spacing $spacing * 3.5;
+    font-size: $font-size-base;
+    color: $headings-color;
+  }
+}
+.card {
+  box-shadow: 0 10px 10px 0 rgba(192, 192, 192, 0.5);
+}
+
+:host ::ng-deep .alert-warning {
+  background: #9797970f;
+  color: #3c3c3c;
+  border-radius: 3px;
+  border: solid 1px #979797;
+}
+div.w-100 {
+  background: #8b8b84;
+  hr {
+    margin-bottom: 0.1rem;
+  }
+}
+.thead-gray {
+  color: white;
+  background-color: #787878;
+  border-color: #9ea1ae;
+  font-size: $h4-font-size;
+  font-family: $font-family-base;
+  font-weight: 500;
+}
+.graphite {
+  color: #313131;
+  background-color: $light-gray;
+  font-size: $h3-font-size;
+  font-family: $font-family-base;
+  font-weight: 500;
+}
+
+.font-size-normal {
+  color: $gray;
+  //border-color: #9ea1ae;
+  font-size: $font-size-normal;
+  font-family: $font-family-base;
+  font-style: $font-style-italic;
+}
+.font-size-base {
+  color: #313131;
+  border-color: #9ea1ae;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  font-style: $font-style-italic;
+}
+.label {
+  font-family: $font-family-base;
+  font-size: $small-font-size;
+  font-style: $font-style-italic;
+  margin-bottom: 5px;
+  color: $grey-light;
+}
+// .left-30 {
+//   position: relative;
+//   left: -30%;
+// }
+// .left-20 {
+//   position: relative;
+//   left: -20%;
+// }
+.font-cabecalho {
+  border-color: #9ea1ae;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #3c3c3c;
+}
+.label-cabecalho {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #979797;
+}
+.graphite div {
+  label,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tutorial-fornecedor {
+  position: fixed;
+  top: 60px;
+  color: #fff;
+  z-index: 3;
+  right: 60px;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  > .grid-column-5 {
+    grid-column-start: 5;
+    cursor: pointer;
+    text-align: center;
+  }
+}

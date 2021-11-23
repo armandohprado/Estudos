@@ -1,0 +1,30 @@
+@use '../equalizacao-proposta' as ep;
+
+:host {
+  display: flex;
+}
+
+.item {
+  &.sticky {
+    width: ep.$ep-first-column-width;
+    min-width: ep.$ep-first-column-width;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    .icon {
+      font-size: 7px;
+    }
+    .aw-btn {
+      margin-top: 3rem;
+    }
+  }
+  &.aw-referencia {
+    position: sticky;
+    left: ep.$ep-first-column-width;
+    z-index: 1;
+  }
+}

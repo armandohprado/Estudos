@@ -1,0 +1,176 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label for="contato">Contato A|W</label>
+    <aw-select
+      [clearable]="false"
+      [bindLabel]="['nomeFantasia', 'email']"
+      bindLabelSeparator=" - "
+      [items]="contatos"
+      bindValue="idFuncionario"
+      formControlName="idFuncionarioContato"
+      id="contato"
+      [isInvalid]="idFuncionarioContatoControl.hasError('required') && idFuncionarioContatoControl.touched"
+      [useBindValueOnOutputs]="false"
+      (select)="contatoSelected.emit($event)"
+    ></aw-select>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div
+        [class.has-danger]="form.get('dataLimiteRecebimento').invalid && form.get('dataLimiteRecebimento').touched"
+        [class.has-success]="form.get('dataLimiteRecebimento').valid && form.get('dataLimiteRecebimento').dirty"
+        class="form-group has-label"
+      >
+        <p class="form-group-title">Limite de cotação</p>
+        <label for="limite-cotacao">data e hora</label>
+        <input
+          [bsConfig]="bsConfig"
+          [timeFormat]="true"
+          formControlName="dataLimiteRecebimento"
+          dateMask
+          autocomplete="off"
+          bsDatepicker
+          class="form-control"
+          id="limite-cotacao"
+          name="dataLimiteCustosGrupo"
+          placeholder="ex: 00/00/0000 às 00:00"
+          type="text"
+        />
+        <label
+          *ngIf="form.get('dataLimiteRecebimento').invalid && form.get('dataLimiteRecebimento').touched"
+          class="error"
+        >
+          Data inválida. Informe uma data válida.
+        </label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div
+        [class.has-danger]="
+          form.get('dataLimiteEntregaMercadoria').invalid && form.get('dataLimiteEntregaMercadoria').touched
+        "
+        [class.has-success]="
+          form.get('dataLimiteEntregaMercadoria').valid && form.get('dataLimiteEntregaMercadoria').dirty
+        "
+        class="form-group has-label"
+      >
+        <p class="m-0 form-group-title">Entrega de produtos</p>
+        <label for="entrega-produtos"> Data </label>
+        <input
+          formControlName="dataLimiteEntregaMercadoria"
+          [bsConfig]="baseBsConfig"
+          dateMask
+          autocomplete="off"
+          bsDatepicker
+          class="form-control"
+          id="entrega-produtos"
+          placeholder="ex: 00/00/0000"
+          type="text"
+        />
+        <label
+          *ngIf="form.get('dataLimiteEntregaMercadoria').invalid && form.get('dataLimiteEntregaMercadoria').touched"
+          class="error"
+        >
+          Data inválida. Informe uma data válida.
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex flex-column">
+      <p class="form-group-title">Prazo de execução do serviço</p>
+      <div class="service-execution-dates d-flex align-items-center">
+        <div
+          [class.has-danger]="
+            form.get('dataInicioExecucaoServico').invalid && form.get('dataInicioExecucaoServico').touched
+          "
+          [class.has-success]="
+            form.get('dataInicioExecucaoServico').valid && form.get('dataInicioExecucaoServico').dirty
+          "
+          class="form-group has-label"
+        >
+          <label for="cotacao-data-inicio">inicio</label>
+          <input
+            [bsConfig]="baseBsConfig"
+            dateMask
+            formControlName="dataInicioExecucaoServico"
+            autocomplete="off"
+            bsDatepicker
+            class="form-control"
+            id="cotacao-data-inicio"
+            placeholder="ex: 00/00/0000"
+            type="text"
+          />
+          <label
+            *ngIf="form.get('dataInicioExecucaoServico').invalid && form.get('dataInicioExecucaoServico').touched"
+            class="error"
+          >
+            Data inválida. Informe uma data válida.
+          </label>
+        </div>
+        <div
+          [class.has-danger]="form.get('dataFimExecucaoServico').invalid && form.get('dataFimExecucaoServico').touched"
+          [class.has-success]="form.get('dataFimExecucaoServico').valid && form.get('dataFimExecucaoServico').dirty"
+          class="form-group has-label"
+        >
+          <label for="cotacao-data-fim">fim</label>
+          <input
+            [bsConfig]="baseBsConfig"
+            formControlName="dataFimExecucaoServico"
+            dateMask
+            autocomplete="off"
+            bsDatepicker
+            class="form-control border-left-0"
+            id="cotacao-data-fim"
+            placeholder="ex: 00/00/0000"
+            type="text"
+          />
+          <label
+            *ngIf="form.get('dataFimExecucaoServico').invalid && form.get('dataFimExecucaoServico').touched"
+            class="error"
+          >
+            Data inválida. Informe uma data válida.
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="message-info">
+    [ Nome do contato do Fornecedor ] <br />
+    A Athié|Wohnrath convida a [ nome da empresa ] a participar de uma requisição de concorrência. <br />
+    <b>Condições da proposta</b> <br />
+
+    <b>Prazo limite para retornar a cotação:</b>
+    {{ grupo.dataLimiteRecebimento | date: 'dd/MM/yyyy HH:mm' }} <br />
+    <b>Grupo:</b> {{ grupo.codigoGrupo }} - {{ grupo.nomeGrupo }} <br />
+    <b>Proposta nº:</b> [número da proposta ] <br />
+    <ng-container *ngIf="projeto$ | async as projeto">
+      <b>Projeto:</b> {{ projeto.numeroProjeto }}
+      <br />
+    </ng-container>
+  </p>
+
+  <div class="form-group mt-2 mb-2">
+    <label>Mensagem</label>
+    <ckeditor [config]="ckEditorConfig" formControlName="mensagemEnvioCotacao" [editor]="Editor"> </ckeditor>
+  </div>
+
+  <div class="upload mt-2 mb-2">
+    <aw-file
+      grayBackground
+      [hasError]="errorOnUpload"
+      [loading]="isLoading"
+      [pluralMapping]="pluralFiles"
+      multiple
+      (filesChange)="fileProgress($event)"
+    ></aw-file>
+  </div>
+
+  <div class="row justify-content-end mb-3 mt-20">
+    <div class="col-3">
+      <button awButton block status="secondary" type="button" (click)="changeSteps(0)">Voltar</button>
+    </div>
+    <div class="col-3">
+      <button awButton block type="button" (click)="changeSteps(2)">Próximo</button>
+    </div>
+  </div>
+</form>

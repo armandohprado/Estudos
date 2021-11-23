@@ -1,0 +1,292 @@
+<form [formGroup]="form">
+  <div class="tab-header d-flex align-items-center">
+    <div class="custom-control custom-switch d-flex align-items-center">
+      <label class="my-3" [for]="'faseStatus' + etapa.idEtapa"> Status da fase: </label>
+      <input
+        (change)="toggleStage()"
+        [id]="'faseStatus' + etapa.idEtapa"
+        formControlName="statusFase"
+        class="custom-control-input"
+        type="checkbox"
+      />
+      <label class="custom-control-label ml-5" [for]="'faseStatus' + etapa.idEtapa">
+        <span class="switch-text ml-4">ativa</span>
+      </label>
+    </div>
+    <div class="custom-control custom-switch d-flex align-items-center">
+      <label class="mb-0" [for]="'showOnly' + etapa.idEtapa">mostrar:</label>
+      <input
+        class="custom-control-input"
+        formControlName="showOnlySelected"
+        [id]="'showOnly' + etapa.idEtapa"
+        type="checkbox"
+      />
+      <label class="custom-control-label ml-5" [for]="'showOnly' + etapa.idEtapa">
+        <span class="switch-text ml-4">apenas selecionados</span>
+      </label>
+    </div>
+    <aw-select
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [items]="fileExtensions$ | async"
+      [multiple]="true"
+      [loading]="envioDeCotacaoService.fileExtensionsLoading"
+      (select)="fileExtensionStatus($event, true)"
+      (remove)="fileExtensionStatus($event, false)"
+      bindLabel="nomeExtensaoArquivo"
+      class="file-type"
+      formControlName="showOnlyWithExtension"
+      id="fileTypes"
+      placeholder="Tipos de arquivos"
+    ></aw-select>
+  </div>
+</form>
+<div [class.disabled]="!form?.get('statusFase').value" class="row mr-0">
+  <div class="col-3">
+    <aside
+      class="sidebar"
+      *ngIf="{
+        projeto: projeto$ | async,
+        selectedItem: selectedItemMenu$ | async
+      } as state"
+    >
+      <ul *ngIf="state.projeto" class="list-unstyled">
+        <li
+          [class.active]="
+            !state.selectedItem.idCondominio && !state.selectedItem.idEdificio && !state.selectedItem.idPavimento
+          "
+          class="site"
+        >
+          <button
+            [title]="state.projeto.nomeProjeto"
+            (click)="selectItemMenu({}, state.projeto.nomeProjeto)"
+            class="btn btn-link"
+            type="button"
+          >
+            {{ state.projeto.nomeProjeto }}
+          </button>
+        </li>
+      </ul>
+      <ul *ngFor="let site of sites; trackBy: trackBySite" class="list-unstyled">
+        <li
+          [class.active]="state.selectedItem?.idCondominio === site?.idCondominio && !state.selectedItem?.idEdificio"
+          class="site"
+        >
+          <button
+            (click)="selectItemMenu({ idCondominio: site.idCondominio }, site.nomeCondominio)"
+            class="btn btn-link"
+            type="button"
+            [title]="site.nomeCondominio"
+          >
+            {{ site.nomeCondominio }}
+          </button>
+        </li>
+        <li
+          *ngFor="let building of site.edificios; trackBy: trackByBuilding"
+          [class.active]="
+            state.selectedItem?.idCondominio === site.idCondominio &&
+            state.selectedItem?.idEdificio === building.idEdificio &&
+            !state.selectedItem?.idPavimento
+          "
+          class="building"
+        >
+          <button
+            (click)="
+              selectItemMenu(
+                { idCondominio: site.idCondominio, idEdificio: building.idEdificio },
+                site.nomeCondominio + ' - ' + building.nomeEdificio
+              )
+            "
+            class="btn btn-link"
+            type="button"
+            [title]="building.nomeEdificio"
+          >
+            {{ building.nomeEdificio }}
+          </button>
+          <ul class="list-unstyled">
+            <li
+              *ngFor="let floor of building.pavimentos; trackBy: trackByFloor"
+              [class.active]="
+                site.idCondominio === state.selectedItem?.idCondominio &&
+                building.idEdificio === state.selectedItem?.idEdificio &&
+                floor.idPavimento === state.selectedItem?.idPavimento
+              "
+              class="floor"
+            >
+              <button
+                (click)="
+                  selectItemMenu(
+                    {
+                      idCondominio: site.idCondominio,
+                      idEdificio: building.idEdificio,
+                      idPavimento: floor.idPavimento
+                    },
+                    site.nomeCondominio + ' - ' + building.nomeEdificio + ' - ' + floor.nomePavimento
+                  )
+                "
+                class="btn btn-link text-lowercase"
+                type="button"
+                [title]="floor.nomePavimento"
+              >
+                {{ floor.nomePavimento }}
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <div class="col-9" [awSpinner]="disciplinasService.loading$ | async">
+    <h1 class="mt-20 mb-20">{{ headerName }}</h1>
+    <app-collapse [closeOthers]="false">
+      <ng-container *ngFor="let disciplina of disciplinas$ | async; let i = index; trackBy: trackByDisciplina">
+        <app-collapse-group
+          *ngLet="disciplina?.arquivos | selectedFilesInfo as disciplinaInfo"
+          [(isOpen)]="!collapses['isOpen_' + i]"
+          [class.has-selected]="disciplinaInfo?.counter > 0"
+          [class.opened]="!collapses['isOpen_' + i]"
+          class="disciplinas"
+        >
+          <ng-container collapse-heading>
+            <div
+              (click)="collapses['isOpen_' + i] = !collapses['isOpen_' + i]"
+              class="d-flex files-header justify-content-end align-items-center"
+            >
+              <ng-container *ngIf="disciplinaInfo as info">
+                <h6 class="disciplina-title mr-auto mb-0 d-flex align-items-center text-lowercase">
+                  <span
+                    [class.parcial]="info?.parcial"
+                    [class.none]="info?.counter === 0"
+                    class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                  >
+                    <i class="icon icon-check"></i>
+                  </span>
+                  {{ disciplina.nomeAtividade }}
+                </h6>
+                <p class="mb-0">
+                  <small class="mr-1">
+                    {{ disciplina.selecaoPadrao ? 'seleção padrão alterada' : '' }}
+                  </small>
+                  {{ info.counter + '/' + disciplina.arquivos?.length }}
+                </p>
+              </ng-container>
+              <i
+                [class.icon-caret-down]="!collapses['isOpen_' + i]"
+                [class.icon-caret-up]="collapses['isOpen_' + i]"
+                class="icon"
+              ></i>
+            </div>
+          </ng-container>
+          <div class="files-list table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">N da folha</th>
+                  <th scope="col"></th>
+                  <th scope="col">Nome</th>
+                  <th scope="col"></th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let arquivo of disciplina.arquivos; trackBy: trackByArquivo">
+                  <td>
+                    <span
+                      [style.opacity]="!arquivo.arquivoSelecionado ? 0 : 1"
+                      class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                    >
+                      <i class="icon icon-check"></i>
+                    </span>
+                    {{ arquivo.folhaArquivo }}
+                  </td>
+                  <td>-</td>
+                  <td>
+                    {{ arquivo.assuntoArquivo }}
+                  </td>
+                  <td>
+                    <span *ngIf="arquivo.desatualizadoTexto as texto" class="badge badge-danger text-lowercase">
+                      {{ texto }}
+                    </span>
+                  </td>
+                  <td>{{ arquivo.statusTexto }}</td>
+                  <td class="position-relative">
+                    <button
+                      [outsideClick]="true"
+                      [popoverContext]="{ item: arquivo.informacoesArquivo }"
+                      [popover]="popTemplate"
+                      class="btn btn-icon"
+                      container="body"
+                      containerClass="file-info-popover"
+                      placement="left"
+                      type="button"
+                    >
+                      <i class="icon icon-information"></i>
+                    </button>
+                    <a
+                      *ngIf="!arquivo.extensoes?.length"
+                      [href]="arquivo.caminhoArquivo"
+                      class="btn btn-icon"
+                      download
+                      target="_blank"
+                    >
+                      <i class="icon icon-download"></i>
+                    </a>
+                    <button
+                      *ngIf="arquivo.extensoes?.length"
+                      [outsideClick]="true"
+                      [popoverContext]="{
+                        extensions: arquivo.extensoes,
+                        caminho: arquivo.caminhoArquivo
+                      }"
+                      [popover]="popDownload"
+                      class="btn btn-icon"
+                      container="body"
+                      containerClass="file-download-popover"
+                      placement="auto"
+                      type="button"
+                    >
+                      <i class="icon icon-download"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </app-collapse-group>
+      </ng-container>
+    </app-collapse>
+  </div>
+  <div class="offset-3 col-9 disabled-warning" *ngIf="!form?.get('statusFase').value">
+    <p class="lead mt-1">Os arquivos desta etapa não serão disponibilizados aos fornecedores</p>
+  </div>
+</div>
+
+<ng-template #popTemplate let-item="item">
+  <ul class="list-unstyled">
+    <li>
+      <h6>Data</h6>
+      <p>{{ item.dataPublicacaoArquivo | date: 'dd/MM/yyyy' }}</p>
+    </li>
+    <li>
+      <h6>Autor</h6>
+      <p>{{ item.nomeFuncionario }}</p>
+    </li>
+    <li>
+      <h6>Observações</h6>
+      <p>{{ item.observacaoArquivo }}</p>
+    </li>
+    <li>
+      <h6>Nome dos arquivos</h6>
+      <p>{{ item.nomeArquivo }}</p>
+    </li>
+  </ul>
+</ng-template>
+<ng-template #popDownload let-caminho="caminho" let-extensions="extensions">
+  <ul class="list-unstyled">
+    <li *ngFor="let extension of extensions; trackBy: trackByString">
+      <a [href]="caminho + '.' + extension" download target="_blank">{{ extension | uppercase }}</a>
+    </li>
+  </ul>
+</ng-template>

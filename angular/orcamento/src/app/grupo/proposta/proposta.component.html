@@ -1,0 +1,173 @@
+<div class="grid-container-proposta text-capitalize px-1">
+  <div>Proposta</div>
+  <div>Versão</div>
+  <div class="column-span-2">Fornecedor</div>
+  <div class="column-span-2 justify-content-end pr-5">Ações</div>
+  <div class="d-flex justify-content-center">Status</div>
+  <div class="justify-content-end text-nowrap valor-orcamento">Valor do orçamento (R$)</div>
+</div>
+
+<ng-container
+  *ngLet="
+    grupo.propostas
+      | desativaProposta: toggleFornecedoresStatus
+      | slice: (currentPage - 1) * itemsPerPage:currentPage * itemsPerPage as propostasPage
+  "
+>
+  <div [awSpinner]="loadingPropostas" class="bg-white rounded text-capitalize">
+    <div
+      class="min-h-36 p-1 grid-container-proposta"
+      *ngFor="let proposta of propostasPage; trackBy: trackByProposta; let last = $last"
+      [ngClass]="{
+        desativada: proposta.desativaProposta,
+        'border-bottom': !last
+      }"
+    >
+      <div>
+        <div>{{ proposta.idProposta }}</div>
+      </div>
+      <div>
+        <div>V{{ proposta.versaoProposta }}</div>
+      </div>
+
+      <div class="column-span-2" *ngIf="proposta.fornecedor as fornecedor">
+        <div class="align-items-center justify-content-start">
+          <div class="pl-0 mr-2">
+            <span
+              class="icon"
+              [ngClass]="{
+                'aw-icon-last-call': proposta.lastCall,
+                'aw-icon-last-call-inative': !proposta.lastCall,
+                'c-pointer': !loadingLastCall
+              }"
+              (click)="setLastCall(proposta)"
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </span>
+          </div>
+          <span class="m-0" [tooltip]="fornecedor.nomeFantasia">
+            <i *ngIf="fornecedor.favorito" class="icon icon-star-full"></i>
+            <span class="text-lowercase ellipsis">{{ fornecedor.nomeFantasia }}</span>
+          </span>
+        </div>
+      </div>
+      <div class="column-span-2 justify-content-end">
+        <app-actions-proposta
+          *ngIf="proposta.fornecedor"
+          [proposta]="proposta"
+          [idProjeto]="idProjeto"
+          [idOrcamento]="idOrcamento"
+          [idOrcamentoCenario]="idOrcamentoCenario"
+          [devolucaoPropostaRouterLink]="devolucaoPropostaRouterLink"
+          [grupo]="grupo"
+          [showLinkLoginTemporario]="showLinkLoginTemporario"
+          [routerLinkQueryParams]="routerLinkQueryParams"
+          [isControleCompras]="isControleCompras"
+          (propostaChange)="propostaChange.emit($event)"
+        ></app-actions-proposta>
+      </div>
+      <div class="justify-content-center">
+        <div class="align-items-center">
+          <div
+            [class.green]="proposta.status === statusProposta.Verde"
+            class="rounded-circle mx-1"
+            [tooltip]="proposta.status === statusProposta.Verde ? 'proposta enviada' : ''"
+          ></div>
+          <div
+            [class.blue]="proposta.status === statusProposta.Azul"
+            class="rounded-circle mx-1"
+            [tooltip]="proposta.status === statusProposta.Azul ? 'proposta dentro da validade' : ''"
+          ></div>
+          <div
+            [class.red]="proposta.status === statusProposta.Vermelho"
+            [tooltip]="proposta.status === statusProposta.Vermelho ? 'proposta não enviada' : ''"
+            class="rounded-circle mx-1"
+            *ngIf="!proposta.declinadaProposta; else declinada"
+          ></div>
+          <ng-template #declinada>
+            <div class="rounded-circle mx-1 red xXx" tooltip="proposta declinada"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div>
+        <small class="text-danger font-italic">
+          <ng-container
+            *ngIf="
+              !proposta.preenchida &&
+              !proposta.declinadaProposta &&
+              !proposta.possuiConfirmacaoCompra &&
+              !proposta.possuiMapaEnviado
+            "
+          >
+            INCOMPLETO
+          </ng-container>
+          <ng-container
+            *ngIf="proposta.declinadaProposta && !proposta.possuiConfirmacaoCompra && !proposta.possuiMapaEnviado"
+          >
+            PROPOSTA DECLINADA
+          </ng-container>
+          <ng-container *ngIf="proposta.possuiMapaEnviado && !proposta.possuiConfirmacaoCompra"
+            >MAPA ENVIADO</ng-container
+          >
+          <ng-container *ngIf="proposta.possuiConfirmacaoCompra">CC EMITIDA</ng-container>
+        </small>
+      </div>
+      <div>
+        <ng-container *ngIf="proposta.valorParcialProposta > 0">
+          {{ proposta | statusBudgetValue: grupo.propostas }}
+        </ng-container>
+      </div>
+      <div class="justfiy-content-center">
+        <ng-container *ngIf="proposta.fornecedor as fornecedor">
+          <div class="text-center value-indicator">
+            <div>
+              <ng-template #tempValorParcialProposta>
+                <div
+                  class="active rectangle"
+                  (click)="showMoreValorTotal[proposta.idProposta] = !showMoreValorTotal[proposta.idProposta]"
+                >
+                  {{ proposta.valorParcialProposta | currency: ' ' }}
+                </div>
+              </ng-template>
+              <ng-container
+                *ngIf="
+                  proposta.valorParcialProposta <= 0 || showMoreValorTotal[proposta.idProposta];
+                  else tempValorParcialProposta
+                "
+              >
+                <div (click)="showMoreValorTotal[proposta.idProposta] = !showMoreValorTotal[proposta.idProposta]">
+                  {{ proposta.valorTotalProposta | currency: ' ' }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="justify-content-center">
+        <aw-radio
+          [name]="'proposta_' + grupo.idOrcamentoGrupo"
+          [disabled]="proposta.desativaProposta || equalizacaoDisabled || loadingSelectEqualizacao"
+          [value]="grupo.idOrcamentoGrupo + 'true'"
+          [canUncheck]="true"
+          [ngModel]="'' + grupo.idOrcamentoGrupo + proposta.equalizacaoSelecionada"
+          (ngModelChange)="marcarProposta(proposta)"
+        ></aw-radio>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-center" *ngIf="grupo.propostas.length >= itemsPerPage">
+    {{ itemsPerPage * (currentPage - 1) + propostasPage.length }} - {{ grupo.propostas.length }}: Propostas
+    <pager
+      class="mt-3 col-2"
+      [totalItems]="grupo.propostas.length"
+      [itemsPerPage]="itemsPerPage"
+      [(ngModel)]="currentPage"
+      pageBtnClass="btn iconPager"
+      awPager
+      previousText=" "
+      nextText=" "
+    >
+    </pager>
+  </div>
+</ng-container>

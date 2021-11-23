@@ -1,0 +1,47 @@
+<ng-container *ngLet="anexos | gaAnexosAvulsosFilter: readonly || apenasSelecionados as anexos">
+  <ng-template #noDataFound> Nenhum anexo encontrado! </ng-template>
+  <div class="anexos" *ngIf="anexos.length; else noDataFound">
+    <h6>Anexos Avulsos</h6>
+    <div class="header">
+      <div class="check">
+        <aw-checkbox
+          *ngIf="allowSelectAll"
+          [ngModel]="allSelected"
+          [indeterminate]="allIndeterminate"
+          [disabled]="allSelectDisabled || !anexos.length"
+          (ngModelChange)="toggleAll($event)"
+        ></aw-checkbox>
+      </div>
+      <div class="nome">Nome</div>
+      <div class="data-upload">Data de Upload</div>
+      <div class="download">Download</div>
+    </div>
+    <div class="list">
+      <div class="anexo-avulso" *ngFor="let anexo of anexos; trackBy: trackBy">
+        <div class="check">
+          <aw-checkbox
+            [ngModel]="anexo.ativo"
+            (ngModelChange)="toggleAnexo($event, anexo)"
+            [disabled]="anexo.loading || readonly"
+          >
+          </aw-checkbox>
+        </div>
+        <div class="nome">
+          {{ anexo.nomeArquivo }}
+        </div>
+        <div class="data">
+          {{ anexo.data | date: 'dd/MM/yyyy HH:mm' }}
+        </div>
+        <div class="download">
+          <button
+            awButton
+            type="button"
+            icon="download"
+            [loading]="anexo.downloading"
+            (click)="onDownload(anexo)"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,32 @@
+<div class="duplicar">
+  <div class="header">
+    <h6>Criar novo Grupo</h6>
+    <button awButton type="button" icon="close" [disabled]="loading" (click)="closeDuplicar.emit()"></button>
+  </div>
+  <div class="body">
+    <h6>Ao criar o novo Grupo você pode:</h6>
+    <aw-checkbox
+      [disabled]="loading || disabledFornecedor"
+      [ngModel]="fornecedor"
+      (ngModelChange)="onChangeFornecedor($event)"
+    >
+      Manter Fornecedor
+    </aw-checkbox>
+    <aw-checkbox
+      *ngIf="!(grupo.idTipoGrupo | any: [tipoGrupoEnum.Loja, tipoGrupoEnum.Insumo, tipoGrupoEnum.InsumoKit])"
+      [disabled]="loading || disabledAtributos"
+      [ngModel]="atributos"
+      (ngModelChange)="onChange('atributos', $event)"
+    >
+      Manter Atributos
+    </aw-checkbox>
+    <aw-checkbox
+      [disabled]="loading || disabledQuantidades"
+      [ngModel]="quantidades"
+      (ngModelChange)="onChange('quantidades', $event)"
+    >
+      Manter Quantidades
+    </aw-checkbox>
+    <button awButton type="button" block [loading]="loading" (click)="onDuplicar()">Criar</button>
+  </div>
+</div>

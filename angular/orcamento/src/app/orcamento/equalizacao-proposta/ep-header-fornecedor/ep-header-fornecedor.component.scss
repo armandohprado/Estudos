@@ -1,0 +1,62 @@
+@use 'variables' as v;
+@use '../equalizacao-proposta' as ep;
+
+:host {
+  width: ep.$ep-column-width;
+  min-width: ep.$ep-column-width;
+  background-color: white;
+  border-right: 1px solid v.$gray-secondary;
+  padding: 0.75rem 0.5rem;
+  &.aw-referencia {
+    background-color: v.$very-light-blue;
+    border-color: v.$steel;
+    .actions {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.title {
+  text-align: center;
+  font-weight: 500;
+  height: 38px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  white-space: pre-line;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icons {
+  .aw-btn:not(:last-of-type) {
+    margin-right: 1rem;
+  }
+}
+
+.more-info {
+  padding-top: 1rem;
+  .item {
+    .label {
+      font-size: 0.75rem;
+    }
+    .value {
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    &.proposta {
+      .value {
+        background-color: v.$gray-secondary;
+        padding: 0.25rem;
+        font-weight: 600;
+      }
+    }
+    &:not(:last-of-type) {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

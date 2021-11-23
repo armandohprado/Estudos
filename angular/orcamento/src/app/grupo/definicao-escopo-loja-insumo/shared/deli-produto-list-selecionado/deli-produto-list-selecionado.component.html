@@ -1,0 +1,35 @@
+<div class="produtos-selecionados" [awSpinner]="loading">
+  <h6>{{ labelSelecionados }}</h6>
+  <div class="fornecedores">
+    <ng-container
+      *ngFor="let fornecedor of produtosGrouped | awOrderBy: 'nomeFornecedor'; trackBy: trackByProdutoCatalogoGroup"
+    >
+      <div class="title">
+        <h6>
+          {{ fornecedor.nomeFornecedor }}
+        </h6>
+      </div>
+      <div class="values">
+        <div
+          class="produto"
+          *ngFor="let produto of fornecedor.produtos | awOrderBy: orderBy; trackBy: trackByProdutoCatalogo"
+        >
+          <app-deli-produto-selecionado
+            [idFornecedor]="fornecedor.idFornecedor"
+            [idOrcamentoGrupoItem]="idOrcamentoGrupoItem"
+            [produtoCatalogo]="produto"
+            [showVariacoes]="showVariacoes"
+            [canDelete]="canDelete"
+            [btnDisabledFn]="btnDisabledFn"
+            [hideBtn]="hideBtn"
+            [btnText]="btnText"
+            (produtoSelecionado)="produtoSelecionado.emit($event)"
+            (variacaoSelecionada)="variacaoSelecionada.emit($event)"
+            (modalDetalhesOpened)="modalDetalhesOpened.emit($event)"
+            (produtoDeletado)="produtoDeletado.emit($event)"
+          ></app-deli-produto-selecionado>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

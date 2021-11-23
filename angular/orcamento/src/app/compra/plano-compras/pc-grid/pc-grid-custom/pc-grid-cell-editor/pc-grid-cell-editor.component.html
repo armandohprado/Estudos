@@ -1,0 +1,101 @@
+<ng-container *ngLet="status$ | async as status">
+  <aw-spinner *ngIf="status === 'loading'"></aw-spinner>
+  <div class="pc-grid-cell-editor" [class.p-1]="params.comentario">
+    <div class="value" [ngSwitch]="params.type">
+      <ng-container *ngSwitchCase="'number'">
+        <div [class.px-1]="params.comentario">
+          <input
+            #input
+            awInput
+            currencyMask
+            size="sm"
+            [status]="status"
+            [placeholder]="params.placeholder"
+            [formControl]="valueControl"
+            (keydown)="onKeyDown($event)"
+            (mousedown)="$event.stopPropagation()"
+          />
+        </div>
+        <div
+          class="p-1"
+          *ngIf="
+            params.comentario &&
+            (params.data.limiteCompra - valueControl.value - params.data.margemEmbutida < 0 ||
+              params.data.limiteCompra - valueControl.value < 0)
+          "
+        >
+          <input
+            #input
+            awInput
+            size="sm"
+            [formControl]="comentarioControl"
+            [status]="status"
+            (keydown)="onKeyDown($event)"
+            (mousedown)="$event.stopPropagation()"
+            [placeholder]="params.placeholderComentario"
+            maxlength="200"
+          />
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'date'">
+        <input
+          #input
+          awInput
+          size="sm"
+          [status]="status"
+          [placeholder]="params.placeholder"
+          [formControl]="valueControl"
+          (keydown)="onKeyDown($event)"
+          dateMask
+          bsDatepicker
+          (mousedown)="$event.stopPropagation()"
+        />
+      </ng-container>
+      <ng-container *ngSwitchCase="'select'">
+        <aw-select
+          #select="aw-select"
+          [formControl]="valueControl"
+          (keydown)="onKeyDown($event)"
+          (mousedown)="$event.stopPropagation()"
+          [items]="params.selectItems | async"
+          [searchable]="false"
+          [clearable]="false"
+          [status]="status"
+          [loading]="params.selectLoading | async"
+          [bindLabel]="params.selectOptions?.bindLabel"
+          [placeholder]="params.placeholder"
+          [focusOnFirstItem]="true"
+          (select)="params.stopEditing()"
+          size="sm"
+        ></aw-select>
+      </ng-container>
+      <ng-container *ngSwitchCase="'text'">
+        <ng-container *ngIf="params.textarea; else regular">
+          <textarea
+            #input
+            awInput
+            size="sm"
+            [formControl]="valueControl"
+            [status]="status"
+            (keydown)="onKeyDown($event)"
+            (mousedown)="$event.stopPropagation()"
+            [placeholder]="params.placeholder"
+            maxlength="200"
+          ></textarea>
+        </ng-container>
+        <ng-template #regular>
+          <input
+            #input
+            awInput
+            size="sm"
+            [formControl]="valueControl"
+            [status]="status"
+            (keydown)="onKeyDown($event)"
+            (mousedown)="$event.stopPropagation()"
+            [placeholder]="params.placeholder"
+          />
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

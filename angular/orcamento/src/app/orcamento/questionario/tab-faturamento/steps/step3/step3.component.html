@@ -1,0 +1,223 @@
+<form [formGroup]="form" class="form-group px-5" *ngIf="form">
+  <h4 class="font-weight-bold">Informações sobre contratação</h4>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo1
+        id="forma-contracao"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_FORMA).value"
+      />
+      <label class="custom-control-label" for="forma-contracao"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo1.checked">
+      <legend class="font-weight-bold mb-3">Forma de contratação</legend>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORMA" value="Recursos próprios">
+        Recursos próprios
+      </aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORMA" value="Leasing">Leasing</aw-radio>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORMA" value="BNDES">BNDES</aw-radio>
+      <aw-radio
+        [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORMA"
+        value="Faturado para o proprietário do imóvel ou incorporador"
+      >
+        Faturado para o proprietário do imóvel ou incorporador
+      </aw-radio>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORMA" value="Outros">Outros</aw-radio>
+
+      <div class="input-radio mt-5">
+        <label for="impactoProcesso" class="font-weight-bold">Impacto no processo</label>
+        <textarea
+          class="form-control"
+          id="impactoProcesso"
+          rows="5"
+          placeholder="anotações"
+          [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_IMPACTO"
+        ></textarea>
+      </div>
+    </fieldset>
+  </div>
+
+  <h5 class="font-weight-bold">Contrato</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo2
+        id="contrato"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_FORNECEDORES).value"
+      />
+      <label class="custom-control-label" for="contrato"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo2.checked">
+      <legend class="font-weight-bold">
+        O nosso contrato padrão Aw x Fornecedor atende as necessidades de sua empresa?
+      </legend>
+      <aw-radio value="sim" [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORNECEDORES">Sim</aw-radio>
+      <aw-radio value="nao" [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORNECEDORES">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <h5 class="font-weight-bold mb-3">Cadastro Fornecedores</h5>
+
+  <div class="d-flex">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo3
+        id="cadastro-previo"
+        type="checkbox"
+        [checked]="form.get(questionarioEnum.QUESTIONARIO_CONTRATACAO_FORNECEDORES_OUTROS).value"
+      />
+      <label class="custom-control-label" for="cadastro-previo1"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div class="mb-4" [class.disabled]="!quantitativo3.checked">
+      <p class="font-weight-bold mb-3">É necessário cadastro prévio dos fornecedores?</p>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORNECEDORES_OUTROS" value="sim"
+        >Sim</aw-radio
+      >
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_FORNECEDORES_OUTROS" value="nao"
+        >Não</aw-radio
+      >
+    </div>
+  </div>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo4
+        id="projeto-CEI"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_PROJETOCEI).value"
+      />
+      <label class="custom-control-label" for="projeto-CEI"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo4.checked">
+      <legend class="font-weight-bold mb-3">Projeto com CEI</legend>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_PROJETOCEI" value="sim">Sim</aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_PROJETOCEI" value="nao">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo5
+        id="entrega-GFIP"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_CADASTROGFIP).value"
+      />
+      <label class="custom-control-label" for="entrega-GFIP"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo5.checked">
+      <legend class="font-weight-bold mb-3">Necessário entrega da GFIP (prestadores de serviço)</legend>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_CADASTROGFIP" value="sim">Sim</aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_CADASTROGFIP" value="nao">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div class="d-flex mb-1">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo6
+        id="obra-SP"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_OBRASP).value"
+      />
+      <label class="custom-control-label" for="obra-SP"></label>
+      <span>Premissa</span>
+    </div>
+
+    <fieldset [class.disabled]="!quantitativo6.checked">
+      <legend class="font-weight-bold mb-3">Obra no município de São Paulo</legend>
+
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP" value="sim">Sim</aw-radio>
+      <aw-radio [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP" value="nao">Não</aw-radio>
+    </fieldset>
+  </div>
+
+  <div
+    class="background pt-2 pb-2"
+    [class.disabled]="!quantitativo6.checked"
+    *ngIf="form.get(questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP).value === 'sim'"
+  >
+    <div class="custom-control input-radio">
+      <label for="alvara">Nº Álvara / Processo</label>
+      <textarea
+        class="form-control col-md-8"
+        id="alvara"
+        rows="1"
+        placeholder="ex: 00000000000"
+        [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP_ALVARA"
+        [name]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP_ALVARA"
+      >
+      </textarea>
+    </div>
+    <div class="custom-control input-radio mt-5">
+      <label for="cadastro-obra">Nº do Cadastro da Obra (PMSP)</label>
+      <textarea
+        class="form-control col-md-8"
+        id="cadastro-obra"
+        rows="1"
+        placeholder="ex: 00000000000"
+        [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP_CADASTRO"
+        [name]="questionarioEnum.QUESTIONARIO_CONTRATACAO_OBRASP_CADASTRO"
+      >
+      </textarea>
+    </div>
+  </div>
+
+  <h5 class="font-weight-bold after-background">Informações para o DIFAL</h5>
+
+  <div class="d-flex mb-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        #quantitativo7
+        id="estado"
+        type="checkbox"
+        [checked]="form?.get(questionarioEnum?.QUESTIONARIO_CONTRATACAO_DIFAL).value"
+      />
+      <label class="custom-control-label" for="estado"></label>
+      <span>Premissa</span>
+    </div>
+
+    <div [class.disabled]="!quantitativo7.checked">
+      <label>Informe o estado da obra</label>
+      <input
+        type="text"
+        class="form-control mb-3"
+        id="estado-input"
+        placeholder="ex: SP"
+        [formControlName]="questionarioEnum.QUESTIONARIO_CONTRATACAO_DIFAL"
+      />
+    </div>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end btn-bottom">
+  <button class="btn btn-secondary gradient-btn" type="button" (click)="backTabQuestionario()">voltar</button>
+
+  <button class="btn btn-primary gradient-btn" type="button" (click)="sendForm()">próximo</button>
+</div>

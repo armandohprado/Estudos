@@ -1,0 +1,31 @@
+@import 'variables';
+
+:host {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.5fr;
+  > .create-change-order-wrapper {
+    grid-column: 2 / 2;
+    padding: 30px;
+    background-color: $light-gray;
+    margin: 2rem auto 0;
+    > form {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-column-gap: 2rem;
+      > .nome,
+      > .descricao,
+      > .destacar-impostos,
+      > .omitir-detalhamento-cc,
+      > .rfi {
+        grid-column: span 3;
+      }
+    }
+
+    > p {
+      display: block;
+      font-size: $font-size-base;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+  }
+}

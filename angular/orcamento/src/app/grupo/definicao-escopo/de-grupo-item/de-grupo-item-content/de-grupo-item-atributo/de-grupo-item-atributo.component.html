@@ -1,0 +1,73 @@
+<div class="container-fluid" *ngIf="grupoItemAtributo?.grupoItemDadoAtributo?.length">
+  <div class="row">
+    <div class="col-12">
+      <div class="atributos">
+        <div
+          class="grupo-item-dado-atributo"
+          *ngFor="
+            let grupoItemDadoAtributo of grupoItemAtributo.grupoItemDadoAtributo;
+            trackBy: trackByGrupoItemDadoAtributo
+          "
+        >
+          <ng-container *ngLet="idOrdem + '-' + grupoItemDadoAtributo.idGrupoItemDadoAtributo as idNivel1">
+            <aw-radio
+              [ngModel]="idNivel1 + grupoItemDadoAtributo.ativo"
+              (ngModelChange)="onAtributoChange(grupoItemDadoAtributo)"
+              [value]="idNivel1 + true"
+              [name]="idOrdem"
+              [disabled]="grupoItemAtributo.loading || grupoItemDadoAtributo.loading"
+              [canUncheck]="true"
+            >
+              <span
+                [innerHTML]="grupoItemDadoAtributo.descricaoGrupoItemDadoAtributo | valueFormatter: formatAtributo"
+              ></span>
+            </aw-radio>
+            <ng-container
+              *ngIf="grupoItemDadoAtributo.ativo && grupoItemDadoAtributo.grupoItemDadoAtributoCombo.length"
+            >
+              <div class="combos row ml-4 mt-2">
+                <div
+                  class="grupo-item-dado-atributo-combo col-4"
+                  *ngFor="
+                    let grupoItemDadoAtributoCombo of grupoItemDadoAtributo.grupoItemDadoAtributoCombo;
+                    trackBy: trackByGrupoItemDadoAtributoCombo
+                  "
+                >
+                  <aw-select
+                    *ngLet="
+                      grupoItemDadoAtributoCombo.grupoComboConteudo
+                        | findGrupoComboConteudoAtivo as grupoComboConteudoAtivo
+                    "
+                    [items]="grupoItemDadoAtributoCombo.grupoComboConteudo"
+                    bindLabel="descricaoReal"
+                    [trackBy]="trackByGrupoComboConteudo"
+                    [showTooltip]="true"
+                    [comparatorFn]="grupoComboConteudoComparator"
+                    [ngModel]="grupoComboConteudoAtivo"
+                    (ngModelChange)="
+                      onAtributoChange(
+                        grupoItemDadoAtributo,
+                        grupoItemDadoAtributoCombo,
+                        $event || grupoComboConteudoAtivo
+                      )
+                    "
+                    [loading]="grupoItemDadoAtributoCombo.loading"
+                    [disabled]="grupoItemAtributo.loading"
+                  ></aw-select>
+                </div>
+              </div>
+              <hr />
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-end">
+      <button awButton (click)="definicaoEscopoService.setGrupoItemNextTab(grupoItem.idOrcamentoGrupoItem)">
+        Próximo
+      </button>
+    </div>
+  </div>
+</div>

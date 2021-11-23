@@ -1,0 +1,36 @@
+<ng-container
+  *ngLet="{
+    etapaSelected: gaEtapaQuery.selected$ | async,
+    hasAnyPavimentoSelected: gaPavimentoQuery.hasAnySelected$ | async
+  } as state"
+>
+  <aw-spinner *ngIf="loading"></aw-spinner>
+  <div class="etapas">
+    <app-ga-etapas></app-ga-etapas>
+  </div>
+  <div class="tab-content">
+    <div class="side-menu">
+      <app-ga-pavimentos></app-ga-pavimentos>
+    </div>
+    <div class="content">
+      <div class="form">
+        <app-ga-form></app-ga-form>
+      </div>
+      <div class="atividades">
+        <app-ga-anexos-avulsos-wrapper
+          *ngIf="state.etapaSelected?.id === 0; else notAnexosAvulsos"
+        ></app-ga-anexos-avulsos-wrapper>
+        <ng-template #notAnexosAvulsos>
+          <ng-container *ngIf="!state.etapaSelected?.ativo; else etapaAtiva"> Etapa inativa </ng-container>
+          <ng-template #etapaAtiva>
+            <ng-container *ngIf="state.hasAnyPavimentoSelected; else noPavimentoSelected">
+              <app-ga-atividades></app-ga-atividades>
+            </ng-container>
+            <ng-template #noPavimentoSelected> Nenhum pavimento selecionado! </ng-template>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <app-ga-bottom-nav *ngIf="!gerenciadorArquivosService.readonly"></app-ga-bottom-nav>
+</ng-container>

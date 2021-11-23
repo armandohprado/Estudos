@@ -1,0 +1,48 @@
+<div class="grupoes" *ngIf="idFamilia$ | async as idFamilia">
+  <h6>Selecione os grupos de Arquiterura</h6>
+  <div
+    class="grupao"
+    [class.has-groups-selected]="grupao | hasGroupsSelected"
+    *ngFor="let grupao of grupoes$ | async | awOrderBy: 'numeroGrupao'; trackBy: trackByGrupao"
+  >
+    <div
+      class="header"
+      (click)="
+        changeOrderFamiliaService.updateGrupao(idFamilia, grupao.idGrupao, {
+          opened: !grupao.opened
+        })
+      "
+    >
+      <div class="inner-header">
+        <div class="title">
+          <span class="number">{{ grupao.numeroGrupao }}</span>
+          <span class="separator">-</span>
+          <span class="nome">{{ grupao.descricaoGrupao }}</span>
+        </div>
+        <div class="icon">
+          <span class="icon" [ngClass]="{ 'icon-caret-down': !grupao.opened, 'icon-caret-up': grupao.opened }"></span>
+        </div>
+      </div>
+    </div>
+    <div class="body" *ngIf="grupao.opened" @collapse>
+      <div class="inner-body">
+        <div class="grupos">
+          <div class="grupo" *ngFor="let grupo of grupao.grupos | awOrderBy: orderByGrupo; trackBy: trackByGrupo">
+            <aw-checkbox
+              [ngModel]="grupo.selecionado"
+              (ngModelChange)="selectGrupo(idFamilia, grupao.idGrupao, grupo.idGrupo, $event)"
+              [disabled]="!!grupo.idOrcamentoGrupo"
+              class="grupo-check"
+            >
+              <span class="number">
+                {{ grupo.codigoGrupo }}
+              </span>
+              <span class="separator">-</span>
+              <span class="nome">{{ grupo.nomeGrupo }}</span>
+            </aw-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

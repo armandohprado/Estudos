@@ -1,0 +1,9 @@
+$min-column-width: 100px;
+
+@mixin lousa-grid() {
+  display: grid;
+  grid-template-columns: 90px repeat(15, minmax($min-column-width, 1fr));
+  &.hidden-columns {
+    grid-template-columns: 90px repeat(12, minmax($min-column-width, 1fr));
+  }
+}

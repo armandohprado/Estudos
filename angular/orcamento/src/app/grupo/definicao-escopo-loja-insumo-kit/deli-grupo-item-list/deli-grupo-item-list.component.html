@@ -1,0 +1,99 @@
+<div class="filtros" [formGroup]="formPesquisa">
+  <div class="search">
+    <label for="definicao-escopo-pesquisar">&nbsp;</label>
+    <input
+      id="definicao-escopo-pesquisar"
+      type="search"
+      awInput
+      placeholder="&#xE908; Pesquisar"
+      formControlName="search"
+    />
+  </div>
+  <div class="only-selected">
+    <label for="definicao-escopo-filter">Filtro</label>
+    <aw-select
+      id="definicao-escopo-filter"
+      formControlName="filter"
+      [items]="listFilter"
+      trackBy="key"
+      [searchable]="false"
+      [clearable]="false"
+      bindLabel="value"
+      placeholder="Filtrar selecionados"
+    ></aw-select>
+  </div>
+  <div class="order">
+    <label for="definicao-escopo-ordem">Ordem</label>
+    <aw-select
+      id="definicao-escopo-ordem"
+      formControlName="order"
+      [items]="listOrder"
+      [searchable]="false"
+      [clearable]="false"
+      bindLabel="label"
+      placeholder="Ordenar"
+    >
+    </aw-select>
+  </div>
+</div>
+<div class="grupo-item-list">
+  <aw-tentar-novamente
+    *ngIf="errorApi$ | async as errorApi; else lista"
+    [fn]="errorApi.callAgain"
+    [args]="errorApi.args"
+    [moreInfo]="errorApi.moreInfo"
+  >
+    {{ errorApi.error }}
+  </aw-tentar-novamente>
+  <ng-template #lista>
+    <div class="header">
+      <div class="cod-item">Cód. item</div>
+      <div class="descricao">Item(s)</div>
+      <div class="qtde">Quantidade</div>
+      <div class="valor-produto"></div>
+      <div class="valor-total"></div>
+      <div
+        class="icons"
+        *ngLet="{
+          opening: openingAll$ | async,
+          anyOpened: isAnyOpened$ | async,
+          allOpened: isAllOpened$ | async
+        } as state"
+      >
+        <button
+          awButton
+          icon="caret-up"
+          iconSize="7"
+          class="mr-2"
+          (click)="toggleAllAtivos(false)"
+          [disabled]="state.opening || !state.anyOpened"
+          tooltip="Fechar todos (selecionados)"
+          delay="400"
+          container="body"
+        ></button>
+        <button
+          awButton
+          icon="caret-down"
+          iconSize="7"
+          (click)="toggleAllAtivos()"
+          [loading]="state.opening"
+          [disabled]="state.allOpened"
+          tooltip="Abrir todos (selecionados)"
+          delay="400"
+          container="body"
+        ></button>
+      </div>
+    </div>
+    <app-del-grupo-item
+      *ngFor="
+        let grupoItem of grupoItens$
+          | async
+          | deGrupoItemFiltro: (filter$ | async)
+          | awSearch: ['numeracao', 'numeracaoGrupoItem', 'descricaoGrupoItem', 'tag']:(search$ | async)
+          | awOrderBy: (order$ | async);
+        trackBy: trackByGrupoItem
+      "
+      [grupoItem]="grupoItem"
+    ></app-del-grupo-item>
+  </ng-template>
+</div>

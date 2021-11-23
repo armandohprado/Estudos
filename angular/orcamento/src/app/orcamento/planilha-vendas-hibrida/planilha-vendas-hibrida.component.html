@@ -1,0 +1,243 @@
+<ng-container *ngIf="cenario$ | async as cenario">
+  <app-header-planilha-vendas-hibrida
+    [cenario]="cenario"
+    [isChangeOrder]="isChangeOrder"
+  ></app-header-planilha-vendas-hibrida>
+  <div class="content planilha-hibrida">
+    <app-ficha-ceo [idOrcamentoCenario]="idOrcamentoCenario"></app-ficha-ceo>
+    <div class="btn-acoes-header d-flex">
+      <div class="col-2 btn-quadro-resumo cursor-pointer">
+        <p (click)="openQuadroResumo()"><i class="icon icon-open-budget"></i> Quadro de Resumo</p>
+      </div>
+      <div class="col-2 btn-criar-ficha-ceo cursor-pointer">
+        <p (click)="openFichaCEO()"><i class="aw-icon-criar-doc"></i> Ficha CEO</p>
+      </div>
+
+      <div
+        class="col-2 btn-congelar-planilha cursor-pointer"
+        *ngIf="
+          !planilhaVendasHibridaService.congelado &&
+          !planilhaVendasHibridaService.bloquearAcaoCongelar &&
+          planilhaVendasHibridaService.idCenarioStatus === 5
+        "
+      >
+        <p (click)="validaComentarioCallCongelarPlanilha()" class="text-nowrap position-relative">
+          <aw-spinner size="sm" *ngIf="loadingValidacaCongelar"></aw-spinner>
+          <i class="aw-icon-frozen"></i> Congelar Planilha de Venda Híbrida
+        </p>
+      </div>
+    </div>
+
+    <ng-container *ngIf="planilhaVendasHibridaService.bloquearAcaoCongelar">
+      <div
+        class="col-12 mt-3 mb-3"
+        *ngIf="planilhaVendasHibridaService.validarComentarios$ | async as validarComentarios"
+      >
+        <app-ph-validacao-comentarios [validarComentarios]="validarComentarios"></app-ph-validacao-comentarios>
+      </div>
+    </ng-container>
+
+    <div class="col-12 opcoes-visualizacao d-flex" [class.sticky]="planilhaVendasHibridaService.sticky">
+      <div class="title">Taxa Administrativa</div>
+      <div class="final">
+        <aw-radio
+          [value]="0"
+          [(ngModel)]="cenario.tipoTaxaAdministrativa"
+          (ngModelChange)="onChangeTipoTaxa($event)"
+          [disabled]="planilhaVendasHibridaService.congelado"
+          name="tipoTaxaAdministrativa"
+        >
+          Percentual no final de cada família
+        </aw-radio>
+      </div>
+      <div class="divider"></div>
+      <div class="fixo">
+        <aw-radio
+          [value]="1"
+          [(ngModel)]="cenario.tipoTaxaAdministrativa"
+          (ngModelChange)="onChangeTipoTaxa($event)"
+          [disabled]="planilhaVendasHibridaService.congelado"
+          name="tipoTaxaAdministrativa"
+        >
+          Valor fixo no final da proposta
+        </aw-radio>
+        <div class="icon">
+          <i
+            class="ml-3 icon aw-icon-icon-tooltip cursor-pointer"
+            popover="Ao aplicar um valor ou porcentagem de taxa para o total da planilha, esta função fica desabilitada nas famílias."
+            [outsideClick]="true"
+            placement="top"
+          ></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-collapse" *ngIf="familias$ | async as familias">
+      <div
+        class="row header-title-familia justify-content-between align-items-center ml-0 mr-0"
+        [class.sticky]="planilhaVendasHibridaService.sticky"
+      >
+        <div class="col-10"><p>Família</p></div>
+        <div class="header-title-valor"><p>Valor</p></div>
+      </div>
+
+      <app-collapse class="card mb-20" *ngFor="let familia of familias; trackBy: trackByOrcamentoFamilia">
+        <app-collapse-group [isOpen]="familia.isOpen">
+          <div
+            class="card-header familia-header"
+            collapse-heading
+            (click)="openFamilia(familia.idOrcamentoFamilia)"
+            [class.sticky]="planilhaVendasHibridaService.sticky"
+          >
+            <div class="familia-nome">
+              <h5>{{ familia.orcamentoFamilia.nomeOrcamentoFamilia | uppercase }}</h5>
+            </div>
+            <div class="info">
+              <div *ngIf="familia.isOpen">Valor com Taxa e Impostos incluídos</div>
+              <div class="scroll-btns d-flex" *ngIf="familia.isOpen" (click)="$event.stopPropagation()">
+                <button
+                  awButton
+                  circle
+                  icon="aw-icon-seta-esquerda"
+                  (click)="scrollFamiliaBody(familia.idOrcamentoFamilia)"
+                  tooltip="Rolar para esquerda"
+                  delay="500"
+                  placement="bottom"
+                ></button>
+                <button
+                  awButton
+                  circle
+                  icon="aw-icon-seta-direita"
+                  (click)="scrollFamiliaBody(familia.idOrcamentoFamilia, true)"
+                  tooltip="Rolar para direita"
+                  delay="500"
+                  placement="bottom"
+                ></button>
+              </div>
+              <div class="valor">
+                {{ familia.valorTotal | currency: 'BRL' }}
+              </div>
+              <div class="collapse-icon">
+                <i
+                  class="icon collapse-caret"
+                  [class.icon-caret-down]="!familia.isOpen"
+                  [class.icon-caret-up]="familia.isOpen"
+                ></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="card-body"
+            [attr.idOrcamentoFamilia]="familia.idOrcamentoFamilia"
+            #familiaBody
+            *ngIf="familia.isOpen"
+            @fadeOut
+          >
+            <!--            <div *ngIf="familia.orcamentoFamilia.familia.grupao | grupaoHasAnyGrupo">-->
+            <!--              <p class="btn-gerenciar-grupos">-->
+            <!--                <span class="cursor-pointer" (click)="openModalGerenciarGruposV2(familia)">-->
+            <!--                  <i class="icon aw-icon-engrenagem"></i>-->
+            <!--                  Gerenciar Grupos-->
+            <!--                </span>-->
+            <!--              </p>-->
+            <!--            </div>-->
+            <div
+              class="heading"
+              *ngFor="
+                let grupao of familia.orcamentoFamilia.familia.grupao | awFilter: 'hasGrupos':true;
+                trackBy: trackByGrupao;
+                let $firstGrupao = first
+              "
+            >
+              <h4 class="grupao-info">
+                <span class="number">
+                  {{ grupao.numeroGrupao }}
+                </span>
+                <span class="divider"> - </span>
+                <span class="description text-lowercase">{{ grupao.descricaoGrupao }} </span>
+              </h4>
+
+              <app-planilha-hibrida-grupos
+                [familia]="familia"
+                [grupao]="grupao"
+                [selectContratos]="selectContratos"
+                [idOrcamento]="idOrcamento"
+                [idOrcamentoCenarioFamilia]="familia.idOrcamentoCenarioFamilia"
+                [idOrcamentoCenario]="cenario.idOrcamentoCenario"
+                [first]="$firstGrupao"
+                [isChangeOrder]="isChangeOrder"
+              ></app-planilha-hibrida-grupos>
+            </div>
+
+            <hr class="mt-2" />
+
+            <app-footer-familia
+              [familia]="familia"
+              [idOrcamentoCenario]="idOrcamentoCenario"
+              [idOrcamento]="idOrcamento"
+              [cenario]="cenario"
+              [isChangeOrder]="isChangeOrder"
+            ></app-footer-familia>
+          </div>
+        </app-collapse-group>
+      </app-collapse>
+
+      <app-collapse class="card mb-20">
+        <app-collapse-group [isOpen]="isOpenTaxas">
+          <div
+            [class.expanded]="isOpenTaxas"
+            [class.sticky]="planilhaVendasHibridaService.sticky"
+            class="card-header familia-header"
+            (click)="isOpenTaxas = !isOpenTaxas"
+            collapse-heading
+          >
+            <div class="familia-nome">
+              <h5>TAXAS</h5>
+            </div>
+            <div class="info">
+              <div class="valor">
+                {{ cenario.valorTaxaAdmistrativa | default: 0 | currency: 'BRL' }}
+              </div>
+              <div class="collapse-icon">
+                <i
+                  class="icon collapse-caret"
+                  [class.icon-caret-down]="!isOpenTaxas"
+                  [class.icon-caret-up]="isOpenTaxas"
+                ></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body" *ngIf="isOpenTaxas" @fadeOut>
+            <div class="heading">
+              <h4 class="grupao-info"></h4>
+            </div>
+
+            <app-taxas
+              [idOrcamentoCenario]="idOrcamentoCenario"
+              [cenario]="cenario"
+              [isChangeOrder]="isChangeOrder"
+            ></app-taxas>
+          </div>
+        </app-collapse-group>
+      </app-collapse>
+      <app-ph-opcional
+        [idOrcamentoCenario]="idOrcamentoCenario"
+        [cenario]="cenario"
+        [isChangeOrder]="isChangeOrder"
+      ></app-ph-opcional>
+    </div>
+  </div>
+  <ng-container *ngIf="transacoes$ | async as transacoes">
+    <app-ph-co-transacoes *ngIf="isChangeOrder && transacoes?.length" [transacoes]="transacoes"></app-ph-co-transacoes>
+  </ng-container>
+
+  <ng-container *ngIf="transacoesCC$ | async as transacoesCC">
+    <app-ph-co-transacoes
+      *ngIf="isChangeOrder && transacoesCC?.length"
+      [transacoes]="transacoesCC"
+      [trasacoesCC]="true"
+    ></app-ph-co-transacoes>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,48 @@
+@import 'variables';
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.span-2 {
+  //grid-column: span 2;
+}
+.bg-secondary-ficha {
+  background: $very-light-blue;
+}
+.grid-container-tipos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  & div {
+    cursor: pointer;
+    text-align: center;
+  }
+}
+.border-tipos {
+  border-bottom: 2px solid $very-light-blue;
+}
+input {
+  cursor: pointer;
+}
+.active {
+  border-bottom: 2px solid $primary;
+}
+
+.top-20 {
+  margin-top: -20px;
+}
+.circulo {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: absolute;
+  margin-top: 7px;
+  &.red {
+    background: #fb2525;
+  }
+  &.green {
+    background: #00d46c;
+  }
+  &.yellow {
+    background: #f79500;
+  }
+}

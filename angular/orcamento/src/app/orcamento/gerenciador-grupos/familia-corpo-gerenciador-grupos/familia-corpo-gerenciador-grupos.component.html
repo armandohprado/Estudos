@@ -1,0 +1,11 @@
+<div *ngIf="!familia.isCollapse" class="familia-styck">
+  <div>
+    <div *ngFor="let grupo of familia.grupos; trackBy: trackByGrupo; let $first = first">
+      <app-grupo-corpo-gerenciador-grupos
+        [grupo]="grupo"
+        [first]="$first"
+        [idOrcamento]="familia.idOrcamento"
+      ></app-grupo-corpo-gerenciador-grupos>
+    </div>
+  </div>
+</div>

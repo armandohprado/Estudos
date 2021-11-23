@@ -1,0 +1,32 @@
+<tabset class="tabset-definicao-escopo">
+  <tab
+    (selectTab)="onSelectTab(grupoItemFilhoTab.quantificar)"
+    [active]="grupoItemFilho.activeTab === grupoItemFilhoTab.quantificar"
+    heading="Quantificar"
+    class="distribuir"
+    [tabOrder]="0"
+  >
+    <app-det-grupo-item-filho-quantificar
+      *ngIf="grupoItemFilho.activeTab === grupoItemFilhoTab.quantificar"
+      [grupoItemFilho]="grupoItemFilho"
+      [idOrcamentoGrupoItemPai]="idOrcamentoGrupoItemPai"
+      [isLoading]="grupoItemFilho.quantitativoLoading"
+      [quantitativo]="grupoItemFilho.quantitativo"
+      [enableAmbiente]="grupoItemFilho.itemHabilitaAmbiente"
+    ></app-det-grupo-item-filho-quantificar>
+  </tab>
+  <tab
+    (selectTab)="onSelectTab(grupoItemFilhoTab.eapCliente)"
+    [active]="grupoItemFilho.activeTab === grupoItemFilhoTab.eapCliente"
+    heading="EAP Cliente"
+    [tabOrder]="1"
+    *ngIf="definicaoEscopoGrupoTecnicoService.cenarioPadrao.existePlanilhaCliente"
+  >
+    <app-de-planilha-cliente
+      *ngIf="grupoItemFilho.activeTab === grupoItemFilhoTab.eapCliente"
+      [idOrcamentoGrupoItem]="grupoItemFilho.idOrcamentoGrupoItem"
+      [idOrcamento]="definicaoEscopoGrupoTecnicoService.grupo.idOrcamento"
+      (destroyHasUpdates)="refreshQuantitativo()"
+    ></app-de-planilha-cliente>
+  </tab>
+</tabset>

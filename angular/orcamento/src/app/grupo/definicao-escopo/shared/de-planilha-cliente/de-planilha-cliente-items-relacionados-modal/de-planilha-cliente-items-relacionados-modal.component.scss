@@ -1,0 +1,10 @@
+@import 'variables';
+
+.items {
+  display: grid;
+  grid-template-columns: 1fr 25px;
+  grid-row-gap: 0.5rem;
+  > div {
+    border-bottom: 1px solid $light-gray-alt;
+  }
+}

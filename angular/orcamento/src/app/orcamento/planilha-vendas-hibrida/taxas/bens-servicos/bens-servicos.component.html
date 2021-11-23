@@ -1,0 +1,136 @@
+<table class="tabela-planilha-hibrida">
+  <tr class="taxa-administrativa text-right">
+    <td class="grupo-codigo">
+      <span class="number"> </span>
+    </td>
+    <td class="grupo-descricao text-left">
+      <span class="description"> Taxa de Administração de Bens e Seviços adquiridos pelo cliente </span>
+    </td>
+    <td class="grupo-subtotal-valortotal"></td>
+    <td class="grupo-percentual"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td class="grupo-percentual">
+      <span class="acrescimo-grupo">
+        <div awSpinner class="float-right">
+          <input
+            currencyMask
+            [options]="currencyPrecision4"
+            awInput
+            type="text"
+            class="porcento"
+            name="porcento-margem"
+            [status]="loading"
+            [(ngModel)]="totalTaxasBensServicos.percentualTaxaAdmBensServico"
+            (blur)="gravarTaxaComentarioBensServicos(totalTaxasBensServicos)"
+            [disabled]="planilhaVendasHibridaService.congelado"
+            *ngIf="!readonly; else exibirValores"
+          />
+          <ng-template #exibirValores class="float-right">
+            <span>{{ totalTaxasBensServicos.percentualTaxaAdmBensServico | number: '1.1-2' }}%</span>
+          </ng-template>
+        </div>
+      </span>
+    </td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColMargem"></td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+    <td class="grupo-combo-imposto"></td>
+    <td class="grupo-percentual" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+    <td
+      class="grupo-percentual"
+      [class.oportunidade]="!planilhaVendasHibridaService.hideColOportunidade"
+      *ngIf="!isChangeOrder"
+    ></td>
+    <td
+      class="grupo-valor oportunidade"
+      *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade"
+    ></td>
+    <td class="grupo-percentual-desconto-vp"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN"></td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+  </tr>
+  <tr class="taxa-administrativa text-right mt-0">
+    <td colspan="2" class="p-0"></td>
+    <td colspan="16" class="p-0">
+      <hr class="line-divisor-row" *ngIf="!readonly" />
+    </td>
+  </tr>
+  <tr class="taxa-administrativa text-right last" *ngIf="!readonly">
+    <td></td>
+    <td></td>
+    <td class="text-nowrap"></td>
+    <td class="pr-3"></td>
+    <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td
+      class="pr-3"
+      cdkOverlayOrigin
+      #overlayComplemento="cdkOverlayOrigin"
+      (click)="editComentarioTaxaBensServicos = true"
+    >
+      <i
+        class="aw-icon-msg-black"
+        *ngIf="
+          totalTaxasBensServicos.comentarioTaxaAdmBensServico == '' ||
+          totalTaxasBensServicos.comentarioTaxaAdmBensServico == null
+        "
+      ></i>
+      <i
+        class="aw-icon-msg-success"
+        *ngIf="
+          totalTaxasBensServicos.comentarioTaxaAdmBensServico != '' &&
+          totalTaxasBensServicos.comentarioTaxaAdmBensServico != null
+        "
+      ></i>
+    </td>
+
+    <ng-template
+      cdkConnectedOverlay
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      [cdkConnectedOverlayOpen]="editComentarioTaxaBensServicos"
+      [cdkConnectedOverlayOrigin]="overlayComplemento"
+      [cdkConnectedOverlayPositions]="[editComplementoPosition]"
+      cdkConnectedOverlayPanelClass="overlay-complemento"
+      cdkConnectedOverlayWidth="300px"
+      (backdropClick)="editComentarioTaxaBensServicos = false"
+    >
+      <div class="container-fluid comentario-edit">
+        <div class="d-flex flex-row mt-2">
+          <textarea
+            placeholder="Adicionar Comentário"
+            awInput
+            resize="none"
+            [(ngModel)]="totalTaxasBensServicos.comentarioTaxaAdmBensServico"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          ></textarea>
+        </div>
+
+        <div class="d-flex flex-row justify-content-end mt-2">
+          <span class="link" (click)="editComentarioTaxaBensServicos = false">Cancelar</span>
+          <span class="link" (click)="gravarTaxaComentarioBensServicos(totalTaxasBensServicos)">Salvar</span>
+        </div>
+      </div>
+    </ng-template>
+    <td *ngIf="!planilhaVendasHibridaService.hideColMargem"></td>
+    <td colspan="2"></td>
+    <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td class=""></td>
+    <td></td>
+    <td class="pr-3" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade"></td>
+    <td></td>
+    <td *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN"></td>
+    <td *ngIf="!isChangeOrder"></td>
+  </tr>
+
+  <tr>
+    <td class="pt-3"></td>
+  </tr>
+</table>

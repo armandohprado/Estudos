@@ -1,0 +1,27 @@
+<ng-container *ngLet="mode$ | async as mode">
+  <aw-spinner *ngIf="loading$ | async"></aw-spinner>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Definição de escopo
+      <span *ngIf="mode === definicaoEscopoModeEnum.inserir"> - Inserir item</span>
+    </h5>
+    <button awButton type="button" (click)="close()" icon="close" size="sm"></button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <app-de-info-projeto-grupo></app-de-info-projeto-grupo>
+      <app-de-grupo-item-list
+        *ngIf="mode === definicaoEscopoModeEnum.lista"
+        [gruposItens]="gruposItens$ | async"
+      ></app-de-grupo-item-list>
+      <app-de-grupo-item-inserir
+        *ngIf="mode === definicaoEscopoModeEnum.inserir"
+        [gruposItens]="gruposItens$ | async"
+        [idOrcamento]="grupo.idOrcamento"
+      ></app-de-grupo-item-inserir>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center" *ngIf="mode === definicaoEscopoModeEnum.lista">
+    <button awButton (click)="changeMode(mode)" [disabled]="loading$ | async">Inserir novo item</button>
+  </div>
+</ng-container>

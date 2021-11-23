@@ -1,0 +1,38 @@
+@use 'variables' as v;
+
+:host {
+  display: block;
+  background-color: v.$light-gray;
+}
+
+.title {
+  background-color: v.$secondary;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(90px, 120px));
+  justify-content: flex-end;
+  grid-gap: 1rem;
+  padding: 1rem;
+
+  > div {
+    text-align: center;
+  }
+}
+
+.first {
+  grid-column-start: 2;
+}
+
+.header {
+  font-weight: bold;
+}
+
+.valor {
+  font-weight: 500;
+}

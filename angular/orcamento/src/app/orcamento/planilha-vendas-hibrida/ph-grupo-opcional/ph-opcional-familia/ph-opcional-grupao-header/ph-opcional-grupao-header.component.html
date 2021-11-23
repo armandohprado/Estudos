@@ -1,0 +1,291 @@
+<table class="tabela-planilha-hibrida">
+  <thead *ngIf="true">
+    <tr class="header-title-planilha text-capitalize">
+      <th class="grupo-codigo">Cód.</th>
+      <th class="grupo-descricao align-left">Grupo</th>
+      <th class="grupo-subtotal-valortotal">Valor</th>
+      <th class="grupo-percentual">
+        Desconto
+        <i class="aw-icon-expand-arrow-right btn-toggle-show-col" (click)="hideShowCols('desconto')"></i>
+      </th>
+      <th class="grupo-valor" colspan="2" *ngIf="!planilhaVendasHibridaService.hideColDesconto">
+        <hr class="line-toggle-col" />
+        <i class="aw-icon-expand-arrow-left btn-toggle-hide-col" (click)="hideShowCols('desconto')"></i>
+      </th>
+      <th class="grupo-percentual">
+        Margem
+        <i class="aw-icon-expand-arrow-right btn-toggle-show-col" (click)="hideShowCols('margem')"></i>
+      </th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColMargem">
+        <hr class="line-toggle-col" />
+        <i class="aw-icon-expand-arrow-left btn-toggle-hide-col" (click)="hideShowCols('margem')"></i>
+      </th>
+      <th class="grupo-subtotal-valortotal"></th>
+      <th class="grupo-combo-imposto">
+        Imposto
+        <i class="aw-icon-expand-arrow-right btn-toggle-show-col" (click)="hideShowCols('imposto')"></i>
+      </th>
+      <th colspan="2" *ngIf="!planilhaVendasHibridaService.hideColImposto">
+        <hr class="line-toggle-col" />
+        <i class="aw-icon-expand-arrow-left btn-toggle-hide-col" (click)="hideShowCols('imposto')"></i>
+      </th>
+      <th class="grupo-subtotal-valortotal">Valor Total</th>
+      <th class="grupo-percentual" *ngIf="!isChangeOrder">
+        <span *ngIf="!planilhaVendasHibridaService.hideColOportunidade">Oportunidade</span>
+        <span *ngIf="planilhaVendasHibridaService.hideColOportunidade">Op</span>
+        <i class="aw-icon-expand-arrow-right btn-toggle-show-col" (click)="hideShowCols('oportunidade')"></i>
+      </th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade">
+        <hr class="line-toggle-col" />
+        <i class="aw-icon-expand-arrow-left btn-toggle-hide-col" (click)="hideShowCols('oportunidade')"></i>
+      </th>
+      <th class="grupo-percentual-desconto-vp" *ngIf="!isChangeOrder">
+        <span *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN">Desconto VP DNN</span>
+        <span *ngIf="planilhaVendasHibridaService.hideColDescontoVPDNN">De</span>
+        <i class="aw-icon-expand-arrow-right btn-toggle-show-col" (click)="hideShowCols('descontoVP')"></i>
+      </th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColDescontoVPDNN">
+        <hr class="line-toggle-col" />
+        <i class="aw-icon-expand-arrow-left btn-toggle-hide-col" (click)="hideShowCols('descontoVP')"></i>
+      </th>
+      <th class="grupo-subtotal-valortotal" *ngIf="!isChangeOrder">Valor Total</th>
+      <th class="grupo-subtotal-valortotal" *ngIf="isChangeOrder">Valor</th>
+      <th class="grupo-subtotal-valortotal" *ngIf="isChangeOrder">Saldo</th>
+    </tr>
+
+    <tr class="header-title-planilha text-capitalize">
+      <th class="grupo-codigo"></th>
+      <th class="grupo-descricao"></th>
+      <th class="grupo-subtotal-valortotal">Orçado (R$)</th>
+      <th class="grupo-percentual">(%)</th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto">(R$)</th>
+      <th class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto">Subtotal 1 (R$)</th>
+      <th class="grupo-percentual">Embutida (%)</th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColMargem">(R$)</th>
+      <th class="grupo-subtotal-valortotal">Subtotal (R$)</th>
+      <th class="grupo-combo-imposto"></th>
+      <th class="grupo-percentual" *ngIf="!planilhaVendasHibridaService.hideColImposto">(%)</th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColImposto">(R$)</th>
+      <th class="grupo-subtotal-valortotal">(R$)</th>
+      <th class="grupo-percentual" *ngIf="!isChangeOrder">(%)</th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade">(R$)</th>
+      <th class="grupo-percentual-desconto-vp" *ngIf="!isChangeOrder">(%)</th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColDescontoVPDNN">(R$)</th>
+      <th class="grupo-subtotal-valortotal" *ngIf="!isChangeOrder">VP DNN (R$)</th>
+      <th *ngIf="isChangeOrder" class="grupo-percentual-desconto-vp">transferido (R$)</th>
+      <th *ngIf="isChangeOrder" class="grupo-percentual-desconto-vp">(R$)</th>
+    </tr>
+
+    <tr class="header-inputs-planilha">
+      <th class="grupo-codigo"></th>
+      <th class="grupo-descricao"></th>
+      <th class="grupo-subtotal-valortotal"></th>
+      <th class="grupo-percentual" [class.grupo-percentual-opc]="planilhaVendasHibridaService.hideColDesconto">
+        <div [awSpinner]="totalFamilia.loading === 'loading'" class="float-right">
+          <span
+            class="c-pointer text-info"
+            (click)="
+              alterarLabel('hideLabelPercentualDesconto', totalFamilia, refInputLabelHeaderPercentualDescontoVPDNN)
+            "
+            *ngIf="!totalFamilia.hideLabelPercentualDesconto"
+            [tooltip]="'Informar o percentual de desconto'"
+          >
+            {{ totalFamilia.percentualDesconto | number: '1.2-2' }}</span
+          >
+          <div class="d-flex" [class.hide]="!totalFamilia.hideLabelPercentualDesconto">
+            <i
+              class="icon-correct cursor-pointer mr-1 d-flex align-items-center"
+              (click)="validaCalculaHeaderFamilia(totalFamilia, 'porcentodesconto')"
+              [hidden]="!totalFamilia.hideBtnApplyDesconto"
+              title="Aplicar desconto"
+            ></i>
+            <input
+              currencyMask
+              [options]="currencyPrecision10"
+              awInput
+              type="text"
+              class="porcento"
+              name="desconto-porcento"
+              (blur)="alterarLabel('hideLabelPercentualDesconto', totalFamilia)"
+              #refInputLabelHeaderPercentualDescontoVPDNN
+              [(ngModel)]="totalFamilia.percentualDesconto"
+              [ngModelOptions]="ngModelOptions"
+              (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'porcentodesconto')"
+              [disabled]="planilhaVendasHibridaService.congelado"
+            />
+          </div>
+        </div>
+      </th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto">
+        <div [awSpinner]="totalFamilia.loading === 'loading'" class="d-flex justify-content-end">
+          <span
+            class="c-pointer text-info"
+            (click)="alterarLabel('hideLabelPercentualDesconto', totalFamilia, refInputLabelHeaderValorDescontoVPDNN)"
+            *ngIf="!totalFamilia.hideLabelPercentualDesconto"
+            [tooltip]="'Informar o valor de desconto'"
+          >
+            {{ totalFamilia.valorDesconto | number: '1.2-2' }}</span
+          >
+          <input
+            [class.hide]="!totalFamilia.hideLabelPercentualDesconto"
+            currencyMask
+            awInput
+            type="text"
+            class="valor"
+            name="desconto-valor"
+            (blur)="alterarLabel('hideLabelPercentualDesconto', totalFamilia)"
+            [(ngModel)]="totalFamilia.valorDesconto"
+            #refInputLabelHeaderValorDescontoVPDNN
+            [ngModelOptions]="ngModelOptions"
+            (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'valordesconto')"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          />
+        </div>
+      </th>
+      <th class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></th>
+      <th class="grupo-percentual grupo-percentual-opc margem-percentual">
+        <div [awSpinner]="totalFamilia.loading === 'loading'" class="float-right">
+          <span
+            class="c-pointer text-info"
+            (click)="alterarLabel('hideLabelPercentualMargem', totalFamilia, refInputLabelHeaderPercentualMargem)"
+            *ngIf="!totalFamilia.hideLabelPercentualMargem"
+            [tooltip]="'Informar o percentual da margem'"
+          >
+            {{ totalFamilia.percentualMargem | number: '1.2-2' }}</span
+          >
+          <div class="d-flex" [class.hide]="!totalFamilia.hideLabelPercentualMargem">
+            <i
+              class="icon-correct cursor-pointer mr-1 d-flex align-items-center"
+              (click)="validaCalculaHeaderFamilia(totalFamilia, 'porcentomargem')"
+              [hidden]="!totalFamilia.hideBtnApplyMargem"
+              title="Aplicar margem"
+            ></i>
+            <input
+              currencyMask
+              [options]="currencyPrecision10"
+              awInput
+              type="text"
+              class="porcento"
+              #refInputLabelHeaderPercentualMargem
+              (blur)="alterarLabel('hideLabelPercentualMargem', totalFamilia)"
+              name="margem-porcento"
+              [(ngModel)]="totalFamilia.percentualMargem"
+              [ngModelOptions]="ngModelOptions"
+              (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'porcentomargem')"
+              [disabled]="planilhaVendasHibridaService.congelado"
+            />
+          </div>
+        </div>
+      </th>
+      <th class="grupo-valor grupo-percentual-opc" *ngIf="!planilhaVendasHibridaService.hideColMargem">
+        <div [awSpinner]="totalFamilia.loading === 'loading'" class="d-flex justify-content-end">
+          <span
+            class="c-pointer text-info"
+            (click)="alterarLabel('hideLabelPercentualMargem', totalFamilia, refInputLabelHeaderValorMargem)"
+            *ngIf="!totalFamilia.hideLabelPercentualMargem"
+            [tooltip]="'Informar o valor da margem'"
+          >
+            {{ totalFamilia.valorMargem | number: '1.2-2' }}</span
+          >
+          <input
+            currencyMask
+            awInput
+            type="text"
+            class="valor"
+            name="margem-valor"
+            #refInputLabelHeaderValorMargem
+            [class.hide]="!totalFamilia.hideLabelPercentualMargem"
+            (blur)="alterarLabel('hideLabelPercentualMargem', totalFamilia)"
+            [(ngModel)]="totalFamilia.valorMargem"
+            [ngModelOptions]="ngModelOptions"
+            (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'valormargem')"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          />
+        </div>
+      </th>
+      <th class="grupo-subtotal-valortotal"></th>
+      <th class="grupo-combo-imposto"></th>
+      <th class="grupo-percentual" *ngIf="!planilhaVendasHibridaService.hideColImposto"></th>
+      <th class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColImposto"></th>
+      <th class="grupo-subtotal-valortotal"></th>
+      <th class="grupo-percentual" *ngIf="!isChangeOrder"></th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade"></th>
+      <th class="grupo-percentual-desconto-vp" *ngIf="!isChangeOrder">
+        <span *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN">
+          <div [awSpinner]="totalFamilia.loading === 'loading'" class="float-right">
+            <span
+              class="c-pointer text-info"
+              (click)="
+                alterarLabel(
+                  'hideLabelPercentualDescontoVPDNN',
+                  totalFamilia,
+                  refInputLabelHeaderPercentualDescontoVPDNN
+                )
+              "
+              *ngIf="!totalFamilia.hideLabelPercentualDescontoVPDNN"
+              [tooltip]="'Informar o percentual de desconto VPDNN'"
+            >
+              {{ totalFamilia.percentualDescontoVPDNN | number: '1.2-2' }}</span
+            >
+            <div class="d-flex" [class.hide]="!totalFamilia.hideLabelPercentualDescontoVPDNN">
+              <i
+                class="icon-correct cursor-pointer mr-1 d-flex align-items-center"
+                (click)="validaCalculaHeaderFamilia(totalFamilia, 'porcentodescontovp')"
+                [hidden]="!totalFamilia.hideBtnApplyDescontoVPDNN"
+                title="Aplicar desconto VPDNN"
+              ></i>
+              <input
+                currencyMask
+                [options]="currencyPrecision10"
+                awInput
+                type="text"
+                #refInputLabelHeaderPercentualDescontoVPDNN
+                class="porcento"
+                name="desconto-vp-dnn-porcento"
+                (blur)="alterarLabel('hideLabelPercentualDescontoVPDNN', totalFamilia)"
+                [(ngModel)]="totalFamilia.percentualDescontoVPDNN"
+                (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'porcentodescontovp')"
+                [ngModelOptions]="ngModelOptions"
+                [disabled]="planilhaVendasHibridaService.congelado"
+              />
+            </div>
+          </div>
+        </span>
+      </th>
+      <th class="grupo-valor" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColDescontoVPDNN">
+        <div [awSpinner]="totalFamilia.loading === 'loading'" class="d-flex justify-content-end">
+          <span
+            class="c-pointer text-info"
+            (click)="
+              alterarLabel('hideLabelPercentualDescontoVPDNN', totalFamilia, refInputLabelHeaderValorDescontoVPDNN)
+            "
+            *ngIf="!totalFamilia.hideLabelPercentualDescontoVPDNN"
+            [tooltip]="'Informar o valor de desconto VPDNN'"
+          >
+            {{ totalFamilia.valorDescontoVPDNN | number: '1.2-2' }}</span
+          >
+          <input
+            currencyMask
+            awInput
+            type="text"
+            class="valor"
+            name="desconto-vp-dnn-valor"
+            #refInputLabelHeaderValorDescontoVPDNN
+            (blur)="alterarLabel('hideLabelPercentualDescontoVPDNN', totalFamilia)"
+            [class.hide]="!totalFamilia.hideLabelPercentualDescontoVPDNN"
+            [(ngModel)]="totalFamilia.valorDescontoVPDNN"
+            [ngModelOptions]="ngModelOptions"
+            (ngModelChange)="validaCalculaHeaderFamilia(totalFamilia, 'valordescontovp')"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          />
+        </div>
+      </th>
+      <th class="grupo-subtotal-valortotal" *ngIf="!isChangeOrder"></th>
+      <th class="grupo-subtotal-valortotal valor-transferido" *ngIf="isChangeOrder"></th>
+      <th class="grupo-subtotal-valortotal valor-saldo" *ngIf="isChangeOrder"></th>
+    </tr>
+    <tr>
+      <td colspan="17" class="pb-1"></td>
+    </tr>
+  </thead>
+</table>

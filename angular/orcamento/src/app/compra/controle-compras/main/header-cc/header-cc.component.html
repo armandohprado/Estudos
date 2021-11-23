@@ -1,0 +1,73 @@
+<div class="row" *ngIf="{ cabecalho: ccCabecalhoQuery.cabecalho$ | async, projeto: projeto$ | async } as dados">
+  <div class="col-12">
+    <div class="card shadow-none border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <div class="container-fluid">
+            <div class="row thead-gray p-2 rounded-top">
+              <div class="col-12 p-0 m-0 h6 text-white">Controle de Compras e Negociação</div>
+            </div>
+          </div>
+          <div class="container-fluid bg-light bg-secondary-aw grid-header">
+            <div class="pt-2">
+              <span class="pr-3 font-weight-bolder a">{{ dados.projeto?.numeroProjeto }}</span>
+              <span class="font-weight-bolder">{{ dados.projeto?.nomeProjeto }}</span>
+            </div>
+            <div class="grid-container">
+              <!-- linha top-->
+              <div class="top label">Total geral (R$)</div>
+              <div class="top">
+                <div class="label text-right">Venda com impostos congelada</div>
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalVendaCongelada | number: '1.2-2' }}
+                </div>
+              </div>
+              <div class="top">
+                <div class="label">CC emitida</div>
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalEmissaoCC | number: '1.2-2' }}
+                </div>
+              </div>
+              <div class="top">
+                <div class="label">Projeção de CC</div>
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalProjecao | number: '1.2-2' }}
+                </div>
+              </div>
+              <div class="top">
+                <div class="label">Saldo de contingência</div>
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalSaldoContingencia | number: '1.2-2' }}
+                </div>
+              </div>
+              <!-- linha bottom-->
+              <div class="bottom label">Total margem (R$)</div>
+              <div class="bottom">
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalMargemVendaCongelada | number: '1.2-2' }}
+                </div>
+                <div class="number label">{{ dados.cabecalho?.percentualMargemVendaCongelada | number: '1.2-2' }}%</div>
+              </div>
+              <div class="bottom">
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalMargemEmissaoCC | number: '1.2-2' }}
+                </div>
+                <div class="number label">{{ dados.cabecalho?.percentualMargemEmissaoCC | number: '1.2-2' }}%</div>
+              </div>
+              <div class="bottom">
+                <div class="number font-weight-bold">
+                  {{ dados.cabecalho?.valorTotalMargemProjecao | number: '1.2-2' }}
+                </div>
+                <div class="number label">{{ dados.cabecalho?.percentualMargemProjecao | number: '1.2-2' }}%</div>
+              </div>
+              <div class="bottom">
+                <div class="number font-weight-bold"></div>
+                <div class="number label"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

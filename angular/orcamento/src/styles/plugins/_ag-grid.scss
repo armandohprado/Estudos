@@ -1,0 +1,4 @@
+$ag-suppress-legacy-var-import: true;
+
+@import '~@ag-grid-community/all-modules/dist/styles/ag-grid.css';
+@import '~@ag-grid-community/all-modules/dist/styles/ag-theme-balham/sass/legacy/ag-theme-balham-v22-compat';

@@ -1,0 +1,15 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">Quadro de Resumo</h4>
+    <button
+      (click)="bsModalRef.hide()"
+      aria-label="Close"
+      class="close btn-icon"
+      type="button"
+    >
+      <i class="icon icon-close"></i>
+    </button>
+  </div>
+
+  <div [innerHTML]="safeContent" class="modal-quadro-resumo"></div>
+</div>

@@ -1,0 +1,22 @@
+<ng-container *ngLet="grupoes$ | async as grupoes">
+  <div class="modal-header mb-2">
+    <h4 class="modal-title">Adicionar Grupo</h4>
+    <button (click)="close()" aria-label="Close" class="close btn-icon" type="button" [disabled]="loading">
+      <i class="icon icon-close"></i>
+    </button>
+  </div>
+  <div class="modal-body" [awSpinner]="loading">
+    <app-grupao
+      *ngFor="let grupao of grupoes | awOrderBy: 'numeroGrupao'; trackBy: trackByGrupao"
+      [grupao]="grupao"
+      [custoPrevisto]="true"
+      [selectionMode]="true"
+      [emitValueOnSelection]="true"
+      (selectionChange)="selectGrupao($event)"
+    ></app-grupao>
+  </div>
+  <div class="modal-footer">
+    <button (click)="close()" awButton type="button" [disabled]="loading">Cancelar</button>
+    <button awButton type="button" (click)="save()" [disabled]="loading || !grupos.length">Confirmar</button>
+  </div>
+</ng-container>

@@ -1,0 +1,203 @@
+<section class="container row" *ngIf="tabelaDescontos$ | async as tabela">
+  <div class="column fix first">
+    <div class="item title"><div class="table-c"></div></div>
+    <div class="item"><div class="table-c">Valor produto</div></div>
+    <div class="item"><div class="table-c">Valor serviço</div></div>
+    <div class="item bord"><div class="table-c">Total</div></div>
+    <div class="item bord ajust" [class.desabilitar]="disabled">
+      <div class="table-c">Desconto sobre Produtos</div>
+    </div>
+    <div class="item rep" [class.desabilitar]="disabled">
+      <div class="table-c">Desconto sobre Serviços</div>
+    </div>
+    <div class="item bord">
+      <div class="item"><div class="table-c">Total de desconto</div></div>
+    </div>
+    <div class="table-c align-self-center">Total com Desconto</div>
+  </div>
+  <div class="scroll-father" [style.width.px]="tabela.length * 200">
+    <div *ngFor="let item of tabela; let i = index" class="column">
+      <form [formGroup]="formArr[i]">
+        <div class="item d-flex align-items-center justify-content-center title">
+          <div
+            class="table-c clamp-2-desconto"
+            [tooltip]="item.nomeFantasia || '(Fornecedor não informado)'"
+            container="body"
+          >
+            {{ item.nomeFantasia || '(Não contem Fornecedor)' }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="table-c text-right">
+            {{ item.valorTotalProdutoSemDesconto | currency: 'BRL' }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="table-c text-right">
+            {{ item.valorTotalServicoSemDesconto | currency: 'BRL' }}
+          </div>
+        </div>
+        <div class="item bord">
+          <div class="table-c text-right">
+            {{ item.valorTotalProdutoSemDesconto + item.valorTotalServicoSemDesconto | currency: 'BRL' }}
+          </div>
+        </div>
+
+        <div class="item bord" [class.desabilitar]="disabled">
+          <div class="table-c" [class.hide]="devolucaoProposta.classificacao == 0">
+            <div class="input-label-div">
+              <span class="percent">% </span>
+              <input
+                type="text"
+                class="form-control text-right"
+                maxlength="6"
+                (blur)="desconto()"
+                awInput
+                currencyMask
+                [disabledControl]="disabled || item.valorTotalProdutoSemDesconto === 0"
+                [options]="{ max: 100 }"
+                formControlName="descontoProduto"
+              />
+            </div>
+            <div class="input-label-div">
+              <span>R$</span
+              ><input
+                type="text"
+                class="form-control text-right"
+                (blur)="desconto(true)"
+                awInput
+                currencyMask
+                [disabledControl]="disabled || item.valorTotalProdutoSemDesconto === 0"
+                [options]="{ max: item.valorTotalProdutoSemDesconto }"
+                formControlName="descontoRealProduto"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="item second" [class.desabilitar]="disabled">
+          <div class="table-c" [class.hide]="devolucaoProposta.classificacao == 1">
+            <div class="input-label-div">
+              <span class="percent">% </span>
+              <input
+                type="text"
+                class="form-control text-right"
+                maxlength="6"
+                (blur)="desconto()"
+                currencyMask
+                awInput
+                [disabledControl]="disabled || item.valorTotalServicoSemDesconto === 0"
+                [options]="{ max: 100 }"
+                formControlName="descontoServico"
+              />
+            </div>
+            <div class="input-label-div">
+              <span>R$</span
+              ><input
+                type="text"
+                class="form-control text-right"
+                (blur)="desconto(true)"
+                currencyMask
+                awInput
+                [disabledControl]="disabled || item.valorTotalServicoSemDesconto === 0"
+                formControlName="descontoRealServico"
+                [options]="{ max: item.valorTotalServicoSemDesconto }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="item bord">
+          <div class="table-c text-right">
+            {{
+              item.valorTotalProdutoSemDesconto -
+                item.valorTotalProduto +
+                (item.valorTotalServicoSemDesconto - item.valorTotalServico) | currency: 'BRL'
+            }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="table-c text-right">
+            {{ item.valorTotal | currency: 'BRL' }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!--  ultima coluna-->
+  <div class="column fix last">
+    <div class="item title"><div class="table-c">Soma dos Valores</div></div>
+    <div class="item">
+      <div class="table-c text-right">{{ somaValoresColumn.primeiraLinha.somaProdutos | currency: 'BRL' }}</div>
+    </div>
+    <div class="item">
+      <div class="table-c text-right">{{ somaValoresColumn.primeiraLinha.somaServicos | currency: 'BRL' }}</div>
+    </div>
+    <div class="item bord">
+      <div class="table-c text-right">
+        {{ somaValoresColumn.primeiraLinha.somaTotal | currency: 'BRL' }}
+      </div>
+    </div>
+
+    <div class="item bord" [class.desabilitar]="disabled">
+      <div class="table-c" [class.hide]="devolucaoProposta.classificacao == 0">
+        <div class="input-label-div">
+          <span class="percent m-0">% </span>
+          <span class="m-0 text-right">
+            {{ somaValoresColumn.segundaLinha.percentualSomaProduto | currency: 'BRL':' ' }}
+          </span>
+        </div>
+        <div class="input-label-div">
+          <span>R$</span>
+          <span class="m-0 text-right">
+            {{ somaValoresColumn.segundaLinha.valorSomaRealProduto | currency: 'BRL':' ' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="item second" [class.desabilitar]="disabled">
+      <div class="table-c" [class.hide]="devolucaoProposta.classificacao == 1">
+        <div class="input-label-div">
+          <span class="percent m-0">% </span>
+          <span class="m-0 text-right">
+            {{ somaValoresColumn.segundaLinha.percentualSomaServico | currency: 'BRL':' ' }}
+          </span>
+        </div>
+        <div class="input-label-div">
+          <span>R$</span>
+          <span class="m-0 text-right">
+            {{ somaValoresColumn.segundaLinha.valorSomaRealServico | currency: 'BRL':' ' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="item bord">
+      <div class="table-c text-right">{{ somaValoresColumn.terceiraLinha.geralValor | currency: 'BRL' }}</div>
+    </div>
+    <div class="item">
+      <div class="table-c text-right">{{ somaValoresColumn.terceiraLinha.geralDesconto | currency: 'BRL' }}</div>
+    </div>
+  </div>
+</section>
+<div class="py-3 notprint d-flex justify-content-end" *ngIf="!disabled">
+  <button
+    class="mx-2"
+    awButton
+    status="secondary"
+    (click)="restaurarTabela()"
+    [disabled]="salvando"
+    [loading]="limpandoDescontos"
+  >
+    Limpar descontos
+  </button>
+  <button
+    class="mx-2"
+    awButton
+    status="primary"
+    (click)="salvar()"
+    cdkStepperNext
+    [loading]="salvando"
+    [disabled]="limpandoDescontos"
+  >
+    {{ supply ? 'Aplicar descontos e enviar para o Fornecedor' : 'Aplicar descontos e voltar' }}
+  </button>
+</div>

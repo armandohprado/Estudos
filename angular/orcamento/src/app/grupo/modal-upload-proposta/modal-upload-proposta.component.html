@@ -1,0 +1,103 @@
+<div class="modal-header">
+  <h4 class="modal-title">Arquivos de proposta comercial</h4>
+  <button (click)="bsModalRef.hide()" awButton icon="close" type="button"></button>
+</div>
+<div class="modal-body p-3">
+  <div class="group-details">
+    <p>
+      <strong>{{ codigoGrupo }} - {{ nomeGrupo }}</strong>
+    </p>
+    <p>
+      <strong>{{ nomeFantasia }}</strong>
+    </p>
+    <p><strong>Proposta:</strong> {{ proposta.idProposta }}</p>
+  </div>
+
+  <div class="mt-2 mb-2">
+    <aw-file
+      grayBackground
+      [loading]="loadingUpload"
+      [hasError]="fileUploadError"
+      (filesChange)="sendPropostaComercialFile($event)"
+      [(files)]="fileList"
+    ></aw-file>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Versão atual</th>
+        <th>Data e hora</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="propostaVersaoAtual; else empty">
+        <td>{{ propostaVersaoAtual.nomeOriginalArquivo }}</td>
+        <td>{{ propostaVersaoAtual.data | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <button
+            awButton
+            type="button"
+            icon="download"
+            size="sm"
+            [loading]="loadingEntity[propostaVersaoAtual.idPropostaComercial]"
+            (click)="
+              onDownloadFile(
+                propostaVersaoAtual.nomeArquivo,
+                propostaVersaoAtual.nomeOriginalArquivo,
+                propostaVersaoAtual.idPropostaComercial
+              )
+            "
+          ></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table fixed-header">
+    <thead>
+      <tr>
+        <th>Arquivos superados</th>
+        <th>Data e hora</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="propostasComerciais.length; else empty">
+        <tr *ngFor="let propostaComercial of propostasComerciais; trackBy: trackByPropostaComercial">
+          <td>{{ propostaComercial.nomeOriginalArquivo }}</td>
+          <td>{{ propostaComercial.data | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button
+              type="button"
+              awButton
+              [loading]="loadingEntity[propostaComercial.idPropostaComercial]"
+              icon="download"
+              size="sm"
+              (click)="
+                onDownloadFile(
+                  propostaComercial.nomeArquivo,
+                  propostaComercial.nomeOriginalArquivo,
+                  propostaComercial.idPropostaComercial
+                )
+              "
+            ></button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <div class="modal-footer">
+    <button awButton (click)="bsModalRef.hide()" type="button">Fechar</button>
+  </div>
+</div>
+
+<ng-template #empty>
+  <tr class="text-center" [awSpinner]="loadingPropostas">
+    <td class="state">
+      <ng-container *ngIf="loadingPropostas; else noFiles">&nbsp;</ng-container>
+      <ng-template #noFiles> Não existem arquivos </ng-template>
+    </td>
+  </tr>
+</ng-template>

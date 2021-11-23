@@ -1,0 +1,23 @@
+<div [awSpinner]="produtoCatalogo.loading">
+  <div class="p-2 img-check">
+    <aw-checkbox
+      *ngIf="showCheckbox"
+      [ngModel]="produtoCatalogo.selecionadoCatalogo"
+      (ngModelChange)="produtoSelecionado.emit(produtoCatalogo)"
+      [disabled]="produtoCatalogo.loading"
+    ></aw-checkbox>
+    <div class="img-produto" (click)="openModalDetalhes()">
+      <img [src]="produtoCatalogo | deliProdutoCatalogoImagem" [alt]="produtoCatalogo.nome" [awImgOnError]="noImage" />
+    </div>
+    <div class="img-fornecedor">{{ produtoCatalogo.nomeFornecedor }}</div>
+  </div>
+  <div class="p-2 info">
+    <div class="nome">{{ produtoCatalogo.nome }}</div>
+    <div class="footer">
+      <div class="uf">{{ produtoCatalogo.projetoRegiao }}</div>
+      <div class="valor">
+        {{ produtoCatalogo.precoRegiao | currency: produtoCatalogo.moeda }}
+      </div>
+    </div>
+  </div>
+</div>

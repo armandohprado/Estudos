@@ -1,0 +1,95 @@
+<div class="d-flex align-items-center">
+  <button
+    *ngIf="!proposta.fornecedor.fornecedorInterno"
+    awButton
+    icon="information"
+    type="button"
+    [disabled]="proposta.desativaProposta || loading"
+    [popover]="propostaInfo"
+    [outsideClick]="true"
+    containerClass="popover-proposta"
+    placement="auto"
+    triggers="click"
+    class="information"
+  >
+    <span tooltip="Informações da proposta" delay="400"></span>
+  </button>
+  <button
+    (click)="envioCotacao()"
+    *ngIf="
+      !proposta.fornecedor.fornecedorInterno &&
+      (!isControleCompras || (!proposta.possuiConfirmacaoCompra && !proposta.possuiMapaEnviado))
+    "
+    awButton
+    type="button"
+    icon="send-ok"
+    [disabled]="proposta.desativaProposta || loading"
+    [loading]="loadingEnvioCotacao"
+    tooltip="Envio de cotação"
+    delay="400"
+  ></button>
+  <button
+    awButton
+    icon="open-budget"
+    [disabled]="proposta.desativaProposta || loading"
+    (click)="relatorioProposta()"
+    type="button"
+    tooltip="Relatório proposta"
+  ></button>
+  <button
+    awButton
+    icon="edit"
+    type="button"
+    *ngIf="
+      (dev || homolog || proposta.fornecedor.fornecedorInterno || proposta.fornecedor.grupoAW) &&
+      devolucaoPropostaRouterLink
+    "
+    [disabled]="proposta.desativaProposta || loading"
+    (click)="navigateDevolucaoProposta()"
+    tooltip="Edição da proposta"
+    delay="400"
+  ></button>
+  <button
+    awButton
+    icon="upload-document"
+    *ngIf="proposta.fornecedor.fornecedorInterno"
+    (click)="openModalUploadProposta()"
+    type="button"
+    [disabled]="proposta.desativaProposta || loading"
+    tooltip="Upload de arquivo"
+    delay="400"
+  ></button>
+  <button
+    awButton
+    icon="history"
+    [disabled]="proposta.desativaProposta || loading"
+    type="button"
+    (click)="openModalHisoricoProposta()"
+    tooltip="Histórico"
+    delay="400"
+  ></button>
+  <a
+    awButton
+    icon="aw-icon-lock"
+    type="button"
+    [disabled]="loading"
+    tooltip="Liberação de preenchimento da proposta"
+    delay="400"
+    href="{{ urlLoginTemporario }}?IdEmpresa={{ proposta.fornecedor.idFornecedorLegado }}&IdProjeto={{ idProjeto }}"
+    target="_blank"
+    *ngIf="showLinkLoginTemporario && !proposta.fornecedor.fornecedorInterno && !proposta.fornecedor.grupoAW"
+  ></a>
+  <button
+    awButton
+    [icon]="proposta.desativaProposta ? 'dashed-eye' : 'eye-open'"
+    (click)="hideProposta()"
+    type="button"
+    [disabled]="loading"
+    [tooltip]="proposta.desativaProposta ? 'Ativar proposta' : 'Inativar proposta'"
+    delay="400"
+  ></button>
+</div>
+
+<ng-template #propostaInfo>
+  <app-proposta-info [fornecedor]="proposta.fornecedor" [proposta]="proposta"></app-proposta-info>
+</ng-template>

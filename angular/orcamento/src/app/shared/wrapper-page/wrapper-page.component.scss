@@ -1,0 +1,38 @@
+$x-padding: 25px;
+
+.aw-page {
+  > .body {
+    overflow: hidden;
+    > .content {
+      overflow: auto;
+      position: fixed;
+      top: calc(97px + 45px);
+      bottom: 85px;
+      right: $x-padding;
+      left: $x-padding;
+    }
+  }
+  > .footer {
+    padding: 0 15px;
+    border-top: 1px solid var(--light-blue-grey);
+    position: fixed;
+    left: $x-padding;
+    right: $x-padding;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 85px;
+    button {
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+      &.btn-primary {
+        width: 250px;
+      }
+      &.btn-secondary {
+        width: 150px;
+      }
+    }
+  }
+}

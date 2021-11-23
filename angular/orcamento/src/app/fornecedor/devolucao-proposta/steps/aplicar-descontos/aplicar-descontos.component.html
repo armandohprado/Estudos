@@ -1,0 +1,20 @@
+<aw-spinner fullScreen *ngIf="devolucaoPropostaService.loaderSteps"></aw-spinner>
+<div class="card">
+  <div class="card-body p-0">
+    <div>
+      <div class="container-aplicarDesconto">
+        <h4 class="bold font-16 py-2">Calculadora de Descontos</h4>
+        <div class="aplicarDesconto">
+          <app-table-valores
+            [disabled]="
+              devolucaoPropostaService.cabecalhoProposta.enviadoAprovacaoFornecedor ||
+              (devolucaoPropostaService.cabecalhoProposta.retornoProposta && !supply)
+            "
+            [supply]="supply"
+            [interno]="interno"
+          ></app-table-valores>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

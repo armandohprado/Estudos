@@ -1,0 +1,145 @@
+<ng-container
+  *ngLet="{
+    fornecedores: grupo.gruposFornecedores || [],
+    valorMiscellaneous: valorMiscellaneous$ | async
+  } as state"
+>
+  <div class="d-flex justify-content-center" [formGroup]="formEnvioMapa">
+    <div class="w-70">
+      <app-fornecedores-envio-mapa
+        [grupo]="grupo"
+        [fornecedores]="state.fornecedores"
+        [tipoSelecaoFornecedor]="tipoSelecaoFornecedorControl.value"
+        (tipoSelecaoFornecedorChange)="tipoSelecaoFornecedorControl.setValue($event)"
+        selecionavel
+        (selecionadoChanged)="updateFornecedores($event)"
+      >
+        <div class="selects">
+          <div class="form-group classificacao">
+            <label> Classificação </label>
+            <aw-select
+              placeholder="Selecione"
+              bindLabel="nomeConfirmacaoCompraClassificacao"
+              orderBy="ordem"
+              formControlName="confirmacaoCompraClassificacao"
+              [items]="grupo.classificacoes"
+              [clearable]="false"
+              [itemDisabled]="classificacaoItemDisabled"
+              [comparatorFn]="classificacaoComparator"
+              [isInvalid]="
+                confirmacaoCompraClassificacaoControl?.invalid && confirmacaoCompraClassificacaoControl?.touched
+              "
+            ></aw-select>
+          </div>
+          <div class="form-group empresa-faturamento">
+            <label>Empresa de Faturamento</label>
+            <aw-select
+              placeholder="Selecione"
+              bindLabel="nomeFantasia"
+              formControlName="faturamentoCobranca"
+              [items]="controleComprasQuery.listaEmpresasFaturamento$ | async"
+              [clearable]="false"
+              [comparatorFn]="faturamentoCobrancaComparator"
+              [isInvalid]="faturamentoCobrancaControl?.invalid && faturamentoCobrancaControl?.touched"
+            ></aw-select>
+          </div>
+        </div>
+      </app-fornecedores-envio-mapa>
+      <hr />
+      <div class="grid-container font-weight-bold" *ngIf="state.valorMiscellaneous >= 0">
+        <div class="text-right grid-column-3">
+          {{ grupo.tipo === tipoGrupo.Refaturado ? 'Saldo ' : 'Total a emitir para miscellaneous' }}
+        </div>
+        <div class="text-right grid-column-5">
+          {{ state.valorMiscellaneous | number: '1.2-2' }}
+        </div>
+        <hr />
+      </div>
+      <div
+        class="grid-container font-weight-bold"
+        *ngIf="
+          (grupo.valorUtilizado - (grupo.grupoFornecedorMenorValor?.valorTotalOrcado || 0) | arredondamento: 2) > 0 &&
+          !grupo.grupoNaoPrevisto &&
+          grupo.tipo !== tipoGrupo.Refaturado
+        "
+      >
+        <div class="text-right grid-column-3">Gerar Saldo de Contingência no valor de:</div>
+        <div class="text-right grid-column-5 d-flex justify-content-end">
+          <label class="sr-only" for="valor-saldo-contingencia">Valor saldo contingência</label>
+          <input
+            id="valor-saldo-contingencia"
+            popover="Definição de valores"
+            triggers="hover"
+            class="w-75"
+            awInput
+            placeholder="0,00"
+            [options]="{
+              allowNegative: false,
+              max: grupo.valorUtilizado - (grupo.grupoFornecedorMenorValor?.valorTotalOrcado || 0) | arredondamento: 2
+            }"
+            formControlName="valorSaldoContingencia"
+            currencyMask
+          />
+        </div>
+      </div>
+      <ng-container *ngIf="state.valorMiscellaneous < 0 && !grupo.grupoNaoPrevisto">
+        <aw-collapse
+          title="Transferir saldo de grupo"
+          *ngIf="grupo.gruposTransferencia?.length > 0"
+          [awCollapse]="false"
+        >
+          <app-transferir-saldo-grupos
+            [grupos]="grupo.gruposTransferencia"
+            [readonlyGruposView]="false"
+            [isValid]="formEnvioMapa.valid"
+            [updateGrupo]="false"
+            (changeValue)="updateTransferenciaGrupo($event)"
+          ></app-transferir-saldo-grupos>
+        </aw-collapse>
+        <ng-container
+          *ngIf="!grupo.grupoNaoPrevisto && ccGruposService.listaCCTransferencia$ | async as listaCCTransfer"
+        >
+          <ng-container *ngIf="listaCCTransfer | filterCenarioGrupo as listCCTransferFiltered">
+            <aw-collapse title="Transferir saldo de cc" *ngIf="listCCTransferFiltered.length > 0">
+              <app-transferencia-envio-mapa-container
+                [readonly]="false"
+                [idPlanilhaHibrida]="grupo.idPlanilhaHibrida"
+                [listaTransferenciaCC]="listaCCTransfer"
+                [listaGrupo]="listCCTransferFiltered"
+                [payload]="grupo.gruposTransferenciaCC"
+                (payloadChange)="updateTransferenciaGrupoCC($event)"
+              >
+              </app-transferencia-envio-mapa-container>
+            </aw-collapse>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <app-cn-ficha-form
+        [fornecedoresSelecionados]="fornecedoresSelecionados$ | async"
+        [grupo]="grupo"
+        [labelComboOrigemEstouro]="'Origem da Ficha'"
+        [fornecedor]="fornecedorFichaControl?.value"
+        [detalhe]="detalheControl?.value"
+        [origemCompraLista]="origemCompraLista$ | async"
+        [valorSelecionado]="grupo.grupoFornecedorMenorValor?.valorTotalOrcado || 0"
+        (fornecedorChange)="fornecedorFichaControl?.setValue($event)"
+        (detalheChange)="detalheControl?.setValue($event)"
+        (formChange)="formChange($event)"
+      >
+      </app-cn-ficha-form>
+      <div class="mt-3">
+        <h6>Plano de compras:</h6>
+        <app-plano-compra-questoes
+          class="plano-compra-questoes"
+          *ngIf="grupo.planoCompraQuestoes?.length"
+          [questoes]="grupo.planoCompraQuestoes"
+          (questaoChange)="onPlanoCompraQuestaoChange($event)"
+          [showDataFluxoSD]="grupo.flagControleSD"
+          [dataFluxoSD]="dataFluxoSDControl?.value"
+          (dataFluxoSDChange)="dataFluxoSDControl?.setValue($event)"
+          [dataFluxoSDInvalid]="dataFluxoSDControl?.touched && dataFluxoSDControl?.invalid"
+        ></app-plano-compra-questoes>
+      </div>
+    </div>
+  </div>
+</ng-container>

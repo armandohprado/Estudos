@@ -1,0 +1,27 @@
+<ng-container *ngLet="evidencias$ | async as evidencias">
+  <div class="modal-header">
+    <div class="font-weight-bold my-1">Evidências</div>
+    <button type="button" class="close" (click)="bsModalRef.hide()">
+      <span class="icon icon-close"></span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="grid-2 border-bottom-c" *ngFor="let evidencia of evidencias">
+      <div class="strong">Nome do funcionário :</div>
+      <div>{{ evidencia.nomeFuncionario }}</div>
+      <div class="strong">Data :</div>
+      <div>{{ evidencia.dataGeracao | date: 'dd/MM/yyyy' }}</div>
+      <ng-container *ngIf="evidencia.justificacao">
+        <div class="strong">Justificacao :</div>
+        <div>{{ evidencia.justificacao }}</div>
+      </ng-container>
+      <ng-container *ngIf="evidencia.url">
+        <div class="strong">Arquivo :</div>
+        <div (click)="download(evidencia.url)" class="c-pointer url">{{ evidencia?.nomeOriginal || 'url' }}</div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button awButton width="secondary" [status]="'secondary'" (click)="bsModalRef.hide()">Cancelar</button>
+  </div>
+</ng-container>

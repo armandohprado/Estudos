@@ -1,0 +1,25 @@
+<div class="card border-top-0">
+  <div class="card-body px-0 py-3">
+    <div class="container-fluid p-0">
+      <aw-stepper
+        (selectionChange)="selecionarAba($event.selectedIndex)"
+        [selectedIndex]="activeTab"
+        [headerClass]="['container']"
+        headerCenter
+        headerWidth="300px"
+      >
+        <aw-step [label]="!supply ? 'Preencher Orçamento' : 'Aplicar Desconto Unitário'" [breakLabel]="!supply">
+          <app-preencher-orcamento
+            *ngIf="activeTab === 0"
+            [interno]="interno"
+            [supply]="supply"
+            [cabecalho]="devolucaoPropostaService.cabecalhoProposta$ | async"
+          ></app-preencher-orcamento>
+        </aw-step>
+        <aw-step [label]="!supply ? 'Aplicar Descontos' : 'Aplicar Desconto Linear'" [breakLabel]="!supply">
+          <app-aplicar-descontos *ngIf="activeTab === 1" [supply]="supply" [interno]="interno"></app-aplicar-descontos>
+        </aw-step>
+      </aw-stepper>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<div class="modal-header">
+  <button (click)="close()" aria-label="Close" class="close btn-icon" type="button">
+    <i class="icon icon-close"></i>
+  </button>
+</div>
+<div class="modal-body resolution">
+  <div class="bg-cinza border-white color-white"><span>Selecione a planilha para a Impressão</span></div>
+  <div class="d-flex">
+    <b>Taxa Administrativa</b>
+  </div>
+  <div>
+    <aw-radio [(ngModel)]="taxaDiluida" [value]="false" name="taxaDiluida"> Taxa a ser declarada </aw-radio>
+    <aw-radio [(ngModel)]="taxaDiluida" [value]="true" name="taxaDiluida"> Taxa a ser declarada nos itens </aw-radio>
+    <hr />
+  </div>
+  <div class="d-flex">
+    <b>Imposto</b>
+  </div>
+  <div>
+    <aw-radio [(ngModel)]="imposto" [value]="true" name="imposto">
+      Imposto deve estar diluído nos itens de revenda
+    </aw-radio>
+    <aw-radio [(ngModel)]="imposto" [value]="false" name="imposto">
+      Imposto deve ser declarado e não constar nos itens de revenda
+    </aw-radio>
+    <hr />
+  </div>
+  <div class="grid-6 bg-cinza border-white header color-white">
+    <div><span>Modelo</span></div>
+    <div><span>Planilha</span></div>
+    <div><span>Arquivo (PDF)</span></div>
+    <div><span>Arquivo (Excel)</span></div>
+  </div>
+  <div class="grid-6 body" *ngFor="let opcaoRelatorio of opcaoRelatorios; trackBy: trackByOpcaoRelatorio">
+    <div>
+      <span>{{ opcaoRelatorio.modelo }}</span>
+    </div>
+    <div>
+      <span>{{ opcaoRelatorio.nome }}</span>
+    </div>
+    <div class="url">
+      <aw-spinner *ngIf="opcaoRelatorio.loadingPdf"></aw-spinner>
+      <span class="c-pointer" (click)="openRelatorio(opcaoRelatorio, tipoArquivo.pdf)">PDF</span>
+    </div>
+    <div class="url">
+      <aw-spinner *ngIf="opcaoRelatorio.loadingExcel"></aw-spinner>
+      <span class="c-pointer" (click)="openRelatorio(opcaoRelatorio, tipoArquivo.excel)">Excel</span>
+    </div>
+  </div>
+</div>

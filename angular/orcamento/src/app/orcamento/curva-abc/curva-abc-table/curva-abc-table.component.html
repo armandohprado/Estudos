@@ -1,0 +1,574 @@
+<ng-container *ngIf="grupos$ | async as grupos">
+  <ng-container *ngLet="filterGruposFamilias$ | async as filterGruposFamilias">
+    <ng-container
+      *ngLet="{
+        sortKey: sortKey$ | async,
+        sortDirection: sortDirection$ | async
+      } as sort"
+    >
+      <table
+        [dataSource]="grupos"
+        [trackBy]="trackByCurvaAbcGrupo"
+        cdk-table
+        class="table {{ subTable ? 'sub-table' : 'curva-abc-table' }}"
+        multiTemplateDataRows
+        fixedLayout
+      >
+        <ng-container cdkColumnDef="codigoGrupo">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="codigoGrupo" class="codigo-grupo">
+              <div class="title">Nome</div>
+              <div class="nome-grupo-icons">
+                <div class="asc-and-desc-filter-wrapper">
+                  <button
+                    (click)="applySort('codigoGrupoInt', 'desc')"
+                    [class.active]="sort.sortKey === 'codigoGrupoInt' && sort.sortDirection === 'desc'"
+                    class="btn btn-icon"
+                    type="button"
+                  >
+                    <i class="icon icon-caret-up"></i>
+                  </button>
+                  <button
+                    (click)="applySort('codigoGrupoInt', 'asc')"
+                    [class.active]="sort.sortKey === 'codigoGrupoInt' && sort.sortDirection === 'asc'"
+                    class="btn btn-icon"
+                    type="button"
+                  >
+                    <i class="icon icon-caret-down"></i>
+                  </button>
+                </div>
+                <div class="ml-1">
+                  <button
+                    class="btn btn-icon p-0"
+                    [class.active]="filterGruposFamilias.grupo"
+                    type="button"
+                    awFilter
+                    [conditionalFilterable]="false"
+                    [sortable]="false"
+                    filterBy="Grupo"
+                    [filter]="filterGruposFamilias.grupo"
+                    (filterChanged)="updateFilter({ filterGrupo: $event })"
+                  >
+                    <span class="icon icon-filter"></span>
+                  </button>
+                </div>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            cdk-cell
+            [class.text-primary]="element.opcional && !element.multiplos?.length"
+            [style.width.px]="tableHeaderElementsWidthMap?.codigoGrupo"
+          >
+            {{ element.codigoGrupo + ' - ' + element.nomeGrupo }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="descricaoFamilia">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="descricaoFamilia">
+              <div class="title">Família</div>
+              <div class="nome-grupo-icons">
+                <div class="asc-and-desc-filter-wrapper">
+                  <button
+                    (click)="applySort('descricaoFamilia', 'desc')"
+                    [class.active]="sort.sortKey === 'descricaoFamilia' && sort.sortDirection === 'desc'"
+                    class="btn btn-icon"
+                    type="button"
+                  >
+                    <i class="icon icon-caret-up"></i>
+                  </button>
+                  <button
+                    (click)="applySort('descricaoFamilia', 'asc')"
+                    [class.active]="sort.sortKey === 'descricaoFamilia' && sort.sortDirection === 'asc'"
+                    class="btn btn-icon"
+                    type="button"
+                  >
+                    <i class="icon icon-caret-down"></i>
+                  </button>
+                </div>
+                <div class="ml-1">
+                  <button
+                    class="btn btn-icon p-0"
+                    [class.active]="filterGruposFamilias.familias?.length"
+                    type="button"
+                    cdkOverlayOrigin
+                    #familiaOverylayOrigin="cdkOverlayOrigin"
+                    (click)="toggleFamiliaOverlay(true)"
+                  >
+                    <span class="icon icon-filter"></span>
+                  </button>
+                  <ng-template
+                    cdk-connected-overlay
+                    [cdkConnectedOverlayOrigin]="familiaOverylayOrigin"
+                    [cdkConnectedOverlayScrollStrategy]="filterFamiliasSrollStrategy"
+                    [cdkConnectedOverlayPositions]="filterFamiliasPosition"
+                    [cdkConnectedOverlayOpen]="filterFamiliasOpen"
+                    [cdkConnectedOverlayHasBackdrop]="true"
+                    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+                    (backdropClick)="toggleFamiliaOverlay(false)"
+                  >
+                    <div class="filter-familias">
+                      <div class="title">
+                        <label>Filtrar por família</label>
+                      </div>
+                      <div class="select">
+                        <aw-select
+                          [items]="familias"
+                          bindLabel="descricaoFamilia"
+                          multiple
+                          [ngModel]="filterGruposFamilias.familias"
+                          (ngModelChange)="familiasNotApplied = $event; changeDetectorRef.markForCheck()"
+                          [clearable]="false"
+                          [clearSearch]="false"
+                          [closeOnSelect]="false"
+                          [comparatorFn]="familiasComparator"
+                          [trackBy]="trackByFamilia"
+                          [showTooltip]="true"
+                          placeholder="Escolha as famílias"
+                        ></aw-select>
+                      </div>
+                      <div class="btns">
+                        <button
+                          awButton
+                          status="secondary"
+                          type="button"
+                          (click)="updateFilter({ filterFamilias: [] })"
+                          [disabled]="!filterGruposFamilias.familias?.length"
+                        >
+                          Limpar filtro
+                        </button>
+                        <button
+                          awButton
+                          type="button"
+                          (click)="updateFilter({ filterFamilias: familiasNotApplied })"
+                          [disabled]="!familiasNotApplied.length"
+                        >
+                          Aplicar filtro
+                        </button>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            [class.bold]="!!element.multiplos"
+            cdk-cell
+            class="familia text-lowercase"
+            [style.width.px]="tableHeaderElementsWidthMap?.descricaoFamilia"
+          >
+            {{ element.multiplos?.length ? 'múltiplos' : element.descricaoFamilia }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="escopoEntregue">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="escopoEntregue">
+              Data limite escopo <br />
+              <button
+                [outsideClick]="true"
+                [popoverContext]="{ key: 'escopoEntregue' }"
+                [popover]="popoverTemplateFilterDatas"
+                class="btn btn-icon p-0"
+                container="body"
+                containerClass="popover-filters"
+                placement="bottom"
+                type="button"
+              >
+                <i class="icon-filter"></i>
+              </button>
+            </th>
+          </ng-container>
+          <td *cdkCellDef="let element" cdk-cell [style.width.px]="tableHeaderElementsWidthMap?.escopoEntregue">
+            <ng-container *ngIf="!element.multiplos">
+              <i *ngIf="element.escopoEntregue" class="icon icon-check"></i>
+              <ng-container *ngIf="!element.escopoEntregue && element.dataLimiteDefinicao">
+                <i [class.text-danger]="element.dataLimiteDefinicao | isAfterNow" class="icon icon-timer"></i>
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="custoEntregue">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="custoEntregue">
+              Data limite custos <br />
+              <button
+                [outsideClick]="true"
+                [popoverContext]="{ key: 'custoEntregue' }"
+                [popover]="popoverTemplateFilterDatas"
+                class="btn btn-icon p-0"
+                container="body"
+                placement="bottom"
+                type="button"
+              >
+                <i class="icon-filter"></i>
+              </button>
+            </th>
+          </ng-container>
+          <td *cdkCellDef="let element" cdk-cell [style.width.px]="tableHeaderElementsWidthMap?.custoEntregue">
+            <ng-container *ngIf="!element.multiplos">
+              <i *ngIf="element.custoEntregue" class="icon icon-check"></i>
+              <ng-container *ngIf="!element.custoEntregue && element.dataLimiteRecebimento">
+                <i [class.text-danger]="element.dataLimiteRecebimento | isAfterNow" class="icon icon-timer"></i>
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="valorMetaGrupo">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="valorMetaGrupo">
+              Valor da meta <br />
+              <div class="asc-and-desc-filter-wrapper">
+                <button
+                  (click)="applySort('valorMetaGrupo', 'desc')"
+                  [class.active]="sort.sortKey === 'valorMetaGrupo' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('valorMetaGrupo', 'asc')"
+                  [class.active]="sort.sortKey === 'valorMetaGrupo' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            cdk-cell
+            class="bold value"
+            [style.width.px]="tableHeaderElementsWidthMap?.valorMetaGrupo"
+          >
+            <ng-container *ngIf="!element.multiplos">
+              {{ element.valorMetaGrupo | currency: ' ' }}
+            </ng-container>
+            <ng-container *ngIf="element.multiplos as multiplos">
+              {{ multiplos | awSumBy: 'valorMetaGrupo' | currency: ' ' }}
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="valorSelecionado">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="valorSelecionado">
+              Valor selecionado <br />
+              <div class="asc-and-desc-filter-wrapper">
+                <button
+                  (click)="applySort('valorSelecionado', 'desc')"
+                  [class.active]="sort.sortKey === 'valorSelecionado' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('valorSelecionado', 'asc')"
+                  [class.active]="sort.sortKey === 'valorSelecionado' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            cdk-cell
+            class="selecionado value"
+            [style.width.px]="tableHeaderElementsWidthMap?.valorSelecionado"
+          >
+            {{ element.valorSelecionado | currency: ' ' }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="diff">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="diff">
+              Diferença <br />
+              <div class="asc-and-desc-filter-wrapper">
+                <button
+                  (click)="applySort('diff', 'desc')"
+                  [class.active]="sort.sortKey === 'diff' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('diff', 'asc')"
+                  [class.active]="sort.sortKey === 'diff' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td *cdkCellDef="let element" cdk-cell class="diff" [style.width.px]="tableHeaderElementsWidthMap?.diff">
+            <span
+              *ngIf="element.diff as diff; else elseTemplate"
+              [class.negative]="diff > 0"
+              [class.positive]="diff < 0"
+            >
+              {{ diff | abs | percent: '1.2' }}
+            </span>
+            <ng-template #elseTemplate> 0,00% </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="nomeFantasia">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="nomeFantasia">
+              Fornecedor <br />
+              <div class="asc-and-desc-filter-wrapper d-inline-flex mr-2">
+                <button
+                  (click)="applySort('regraFornecedor', 'desc')"
+                  [class.active]="sort.sortKey === 'regraFornecedor' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('regraFornecedor', 'asc')"
+                  [class.active]="sort.sortKey === 'regraFornecedor' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            [ngClass]="{
+              meta: element?.regraFornecedor === supplierRuleEnum.META,
+              especialista: element?.regraFornecedor?.toUpperCase().includes(supplierRuleEnum.ESPECIALISTA),
+              fornecedor:
+                element?.regraFornecedor !== supplierRuleEnum.META &&
+                !element?.regraFornecedor?.toUpperCase().includes(supplierRuleEnum.ESPECIALISTA)
+            }"
+            cdk-cell
+            [style.width.px]="tableHeaderElementsWidthMap?.nomeFantasia"
+          >
+            <ng-container *ngIf="!element.multiplos">
+              {{ element.regraFornecedor }}
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="estimatedValue">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="estimatedValue">
+              Valor considerado <br />
+              <div class="asc-and-desc-filter-wrapper">
+                <button
+                  (click)="applySort('valorConsiderado', 'desc')"
+                  [class.active]="sort.sortKey === 'valorConsiderado' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('valorConsiderado', 'asc')"
+                  [class.active]="sort.sortKey === 'valorConsiderado' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td
+            *cdkCellDef="let element"
+            [ngClass]="{
+              bold: element.multiplos || !!element.valorSelecionado,
+              italic: !element.multiplos && element.valorMetaGrupo && !element.valorSelecionado
+            }"
+            cdk-cell
+            class="value"
+            [style.width.px]="tableHeaderElementsWidthMap?.estimatedValue"
+          >
+            {{ element | valorConsideradoGrupo | number: '1.2-2' }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="totalValue">
+          <ng-container *ngIf="!subTable">
+            <th #headerCellElement *cdkHeaderCellDef cdk-header-cell id="totalValue" class="total-percentual">
+              % do total <br />
+              <div class="asc-and-desc-filter-wrapper">
+                <button
+                  (click)="applySort('total', 'desc')"
+                  [class.active]="sort.sortKey === 'total' && sort.sortDirection === 'desc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-up"></i>
+                </button>
+                <button
+                  (click)="applySort('total', 'asc')"
+                  [class.active]="sort.sortKey === 'total' && sort.sortDirection === 'asc'"
+                  class="btn btn-icon"
+                  type="button"
+                >
+                  <i class="icon icon-caret-down"></i>
+                </button>
+              </div>
+            </th>
+          </ng-container>
+          <td *cdkCellDef="let element" cdk-cell [style.width.px]="tableHeaderElementsWidthMap?.totalValue">
+            {{ element.total | percent: '1.2' }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="collapse">
+          <ng-container *ngIf="!subTable">
+            <th *cdkHeaderCellDef cdk-header-cell class="collapse-header"></th>
+          </ng-container>
+          <td *cdkCellDef="let element" cdk-cell>
+            <button
+              (click)="expandedGroup = 0; toggleCollapse(element.idOrcamentoGrupo); $event.stopPropagation()"
+              *ngIf="!element.multiplos && element.propostas?.length"
+              class="btn btn-icon expand-details"
+              type="button"
+            >
+              <i
+                [class.icon-caret-down]="expanded !== element.idOrcamentoGrupo"
+                [class.icon-caret-up]="expanded === element.idOrcamentoGrupo"
+                class="icon"
+              ></i>
+            </button>
+          </td>
+        </ng-container>
+
+        <!--Expansão controle de cotacão-->
+
+        <ng-container cdkColumnDef="expandedDetail">
+          <td
+            *cdkCellDef="let element"
+            [attr.colspan]="headerTable.length"
+            [class.expanded]="
+              (expanded === element.idOrcamentoGrupo && !expandedGroup) ||
+              (!expanded && expandedGroup === element.idOrcamentoGrupo)
+            "
+            cdk-cell
+            class="detail-td"
+          >
+            <div
+              [class.light-blue-grey]="expanded === element.idOrcamentoGrupo"
+              *ngIf="
+                (expanded === element.idOrcamentoGrupo && !expandedGroup) ||
+                (!expanded && expandedGroup === element.idOrcamentoGrupo)
+              "
+              [@inOutAnimation]
+              class="element-detail"
+            >
+              <ng-container *ngIf="expanded === element.idOrcamentoGrupo">
+                <!--TODO Corrigir grupo abaixo-->
+                <app-grupo-proposta
+                  [grupo]="element"
+                  [equalizacaoRouterLink]="['equalizacao-proposta', element.idOrcamentoGrupo]"
+                  [devolucaoPropostaRouterLink]="['proposta']"
+                  [idOrcamentoCenario]="idOrcamentoCenario"
+                  [idOrcamento]="element.idOrcamento"
+                  [idProjeto]="idProjeto"
+                  (propostaSelecionada)="refreshOrcamento.emit()"
+                  (grupoExcluir)="refreshOrcamento.emit()"
+                  (propostaChange)="refreshOrcamento.emit()"
+                  (grupoChange)="refreshOrcamento.emit()"
+                ></app-grupo-proposta>
+              </ng-container>
+              <ng-container *ngIf="expandedGroup === element.idOrcamentoGrupo && element?.multiplos?.length">
+                <app-curva-abc-table
+                  [grupos]="element.multiplos"
+                  [familias]="familias"
+                  [idOrcamentoCenario]="idOrcamentoCenario"
+                  [idProjeto]="idProjeto"
+                  [subTable]="true"
+                  [tableHeaderElementsWidthMap]="tableHeaderElementsWidthMap$ | async"
+                  [totalEstimatedValue]="totalEstimatedValue"
+                ></app-curva-abc-table>
+              </ng-container>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container *ngIf="!subTable">
+          <tr *cdkHeaderRowDef="headerTable" cdk-header-row></tr>
+        </ng-container>
+        <tr
+          (click)="expanded = 0; element.multiplos && toggleCollaseGroup(element.idOrcamentoGrupo)"
+          *cdkRowDef="let element; columns: headerTable"
+          [class.clickable]="!!element.multiplos"
+          [class.expanded-row]="expanded === element.idOrcamentoGrupo || expandedGroup === element.idOrcamentoGrupo"
+          cdk-row
+          class="element-row"
+        ></tr>
+        <tr *cdkRowDef="let i; columns: ['expandedDetail']" cdk-row class="detail-row"></tr>
+      </table>
+    </ng-container>
+  </ng-container>
+
+  <div class="table-results" *ngIf="!subTable">
+    <div class="row" *ngIf="grupos | sumCurvaABCGroupGoal as sumObjFiltrado">
+      <div class="col-4"></div>
+      <div class="col-2"></div>
+      <div class="col-1"></div>
+      <div class="col-1"></div>
+      <div class="col-2">
+        <p class="title">Total valor filtrado</p>
+      </div>
+      <div class="col-1">
+        <p class="value">
+          {{ sumObjFiltrado.totalEstimatedValue | number: '1.2-2' }}
+        </p>
+      </div>
+
+      <div class="col-1">
+        <p class="title minor text-center">
+          {{ sumObjFiltrado.totalEstimatedValue | awPercentOf: totalEstimatedValue }}
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #popoverTemplateFilterDatas let-key="key">
+  <ul class="list-unstyled mb-0 popover-wrapper" *ngIf="filterDatas$ | async as filterDatas">
+    <li class="list-item">
+      <aw-checkbox [ngModel]="filterDatas[key].atrasado" (ngModelChange)="filterData(key, 'atrasado', $event)">
+        <i class="icon icon-timer text-danger"></i>
+        Atrasado
+      </aw-checkbox>
+    </li>
+    <li class="list-item">
+      <aw-checkbox [ngModel]="filterDatas[key].emDia" (ngModelChange)="filterData(key, 'emDia', $event)">
+        <i class="icon icon-timer"></i>
+        Em dia
+      </aw-checkbox>
+    </li>
+    <li class="list-item">
+      <aw-checkbox [ngModel]="filterDatas[key].recebido" (ngModelChange)="filterData(key, 'recebido', $event)">
+        <i class="icon icon-check"></i>
+        Recebido
+      </aw-checkbox>
+    </li>
+  </ul>
+</ng-template>

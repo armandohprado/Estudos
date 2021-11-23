@@ -1,0 +1,66 @@
+<div ref="eCellWrapper" class="ag-cell-wrapper" role="presentation">
+  <span ref="eCellValue" role="gridcell" class="ag-cell-value">
+    {{ selecionado?.nome }}
+  </span>
+</div>
+<ng-template #overlay>
+  <div class="grid-overlay" [class.grid-custom-overlay]="flagSelectGroup">
+    <div class="pc-grid-responsaveis-overlay" *ngLet="loading$ | async as loading">
+      <aw-spinner *ngIf="loading" size="lg"></aw-spinner>
+      <div class="header">
+        <h5 [ngSwitch]="params.responsabilidade">
+          Adicionar Reponsável
+          <ng-container *ngSwitchCase="pcResponsabilidadeEnum.responsavelEscopo"> | Escopo </ng-container>
+          <ng-container *ngSwitchCase="pcResponsabilidadeEnum.responsavelBatidaMartelo">
+            | Batida Martelo
+          </ng-container>
+          <ng-container *ngSwitchCase="pcResponsabilidadeEnum.responsavelNegociacao"> | Negociação </ng-container>
+          <div class="flagInclurTodos">
+            <aw-checkbox [ngModel]="flagSelectAll" (ngModelChange)="checkSelectAll()">
+              Incluir para todos os grupos
+            </aw-checkbox>
+          </div>
+          <div class="">
+            <aw-checkbox [ngModel]="flagSelectGroup" (ngModelChange)="checkSelectGroup()">
+              Selecionar os grupos
+            </aw-checkbox>
+          </div>
+        </h5>
+      </div>
+      <div class="pesquisar">
+        <input awInput placeholder="&#xE908; Pesquisar por nome" [formControl]="searchControl" size="sm" />
+      </div>
+      <div
+        class="lista"
+        *ngLet="responsaveis$ | async | awSearch: 'nome':(search$ | async) | awOrderBy: 'nome' as responsaveis"
+      >
+        <ng-container *ngIf="!loading && !responsaveis.length"> Nenhum responsável encontrado </ng-container>
+        <cdk-virtual-scroll-viewport class="lista-virtual" itemSize="50">
+          <div
+            class="item"
+            tabindex="0"
+            (click)="selecionarResponsavel(responsavel)"
+            *cdkVirtualFor="let responsavel of responsaveis; trackBy: trackBy"
+          >
+            <div class="nome">{{ responsavel.nome }}</div>
+            <div class="cargo">{{ responsavel.cargo }}</div>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button
+          awButton
+          (click)="selectResponsavel(responsavelSelecionado)"
+          (keydown.enter)="selectResponsavel(responsavelSelecionado)"
+          [disabled]="!responsavelSelecionado"
+          width="secondary"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+    <ng-container *ngIf="flagSelectGroup">
+      <app-pc-grid-select-group [(selecionados)]="selecionados" [height]="439"></app-pc-grid-select-group>
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,0 +1,56 @@
+<div class="title" [title]="pavimento.nomePavimento">
+  {{ pavimento.nomePavimento }}
+</div>
+<ng-container *ngLet="'' + idOrcamentoGrupoItem + fase.idFase + pavimento.idProjetoEdificioPavimento as uniqueId">
+  <ng-container *ngFor="let centro of pavimento.centrosDeCusto; trackBy: trackByCentroCusto; let $last = last">
+    <div
+      *ngLet="uniqueId + centro.idProjetoCentroCusto as uniqueIdCentro"
+      class="item"
+      [class.last]="$last"
+      [awSpinner]="loading[uniqueIdCentro]"
+      tooltip="Campo calculado"
+      [isDisabled]="!centro.ativo || canChangeValue"
+      size="sm"
+      [title]="'Centro de custo: ' + centro.descricaoProjetoCentroCusto + '\nPavimento: ' + pavimento.nomePavimento"
+    >
+      <label class="sr-only" for="{{ uniqueIdCentro }}">Quantidade</label>
+      <input
+        id="{{ uniqueIdCentro }}"
+        class="control"
+        currencyMask
+        [options]="currencyMaskOptions"
+        [class.active]="centro.ativo"
+        [ngClass]="{ active: centro.ativo, calculado: !canChangeValue && centro.ativo }"
+        [ngModel]="centro[quantidadeProperty]"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+        [disabled]="
+          (!canChangeValue && centro.ativo) ||
+          loading[uniqueId + centro.idProjetoCentroCusto] ||
+          (tipoQuantitativo === 'devolucao-proposta' && !centro.idPropostaItemQuantitativo)
+        "
+        (ngModelChange)="updateCentroCusto(centro, centro[quantidadeProperty], $event)"
+        (click)="onClick(input, centro)"
+        #input
+      />
+      <span
+        class="clear-input"
+        *ngIf="centro.ativo && !loading[uniqueId + centro.idProjetoCentroCusto]"
+        (click)="updateCentroCusto(centro, centro[quantidadeProperty], null)"
+        >&times;</span
+      >
+      <span
+        class="sugest-value"
+        *ngIf="sugestaoQtdeReferencia && tipoQuantitativo === 'devolucao-proposta' && centro.quantidadeReferencia > 0"
+        (click)="updateCentroCusto(centro, centro.quantidadeOrcada, centro.quantidadeReferencia)"
+        >+{{ centro.quantidadeReferencia }}</span
+      >
+      <span
+        *ngIf="centro.ativo && enableAmbiente"
+        class="sugest-value"
+        (click)="ambiente.emit({ centroCusto: centro, fase: fase, pavimento: pavimento })"
+      >
+        Ambiente
+      </span>
+    </div>
+  </ng-container>
+</ng-container>

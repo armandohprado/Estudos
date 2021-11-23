@@ -1,0 +1,58 @@
+<div class="px-2" [awSpinner]="fichaService.loadingFicha">
+  <div class="grid-container border-bottom pb-2">
+    <div>No.</div>
+    <div class="span-2">Grupo</div>
+    <div>Tipo</div>
+    <div>Detalhes</div>
+    <div>Origem estouro</div>
+    <div>Data</div>
+    <div class="span-2">
+      <div>
+        <div class="border-bottom text-center">Aprovadores</div>
+        <div class="d-flex justify-content-between">
+          <span>Diretor do Projeto</span>
+          <span>Aprovador Final</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="grid-container border-bottom p-1 my-1"
+    *ngFor="let ficha of fichaService.body$ | async | awFilter: filters; trackBy: trackByFicha; let $odd = odd"
+    [class.bg-white]="$odd"
+    [class.odd]="!$odd"
+  >
+    <div class="font-weight-bolder primary">{{ ficha.codigo }}</div>
+    <div class="span-2">{{ ficha.nome }}</div>
+    <div>
+      <span *ngFor="let tipos of ficha.tipos; trackBy: trackByTipo">
+        {{ tipos.descricao }}
+      </span>
+    </div>
+    <div class="detalhes">{{ ficha.detalhe }}</div>
+    <div class="origem-estouro">{{ ficha.descricao }}</div>
+    <div>{{ ficha.data | date: 'dd/MM/yyyy' }}</div>
+    <div class="span-2">
+      <div>
+        <div class="d-flex justify-content-between">
+          <span *ngFor="let aprovadores of ficha?.aprovadores">
+            {{ aprovadores.nome }}
+          </span>
+        </div>
+        <div class="d-flex justify-content-start">
+          <span class="rounded-pill p-1 size-11 px-3" [class.odd]="$odd" [class.bg-white]="!$odd">
+            <span
+              class="circulo"
+              [ngClass]="{
+                yellow: ficha.idCompraNegociacaoStatus === 3,
+                green: ficha.idCompraNegociacaoStatus === 13,
+                red: ficha.idCompraNegociacaoStatus === 14
+              }"
+            ></span>
+            <span class="ml-3">{{ ficha.compraNegociacaoStatus }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

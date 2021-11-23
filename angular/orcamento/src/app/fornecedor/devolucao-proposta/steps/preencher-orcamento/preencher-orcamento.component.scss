@@ -1,0 +1,36 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  & .hide {
+    display: none;
+  }
+  & .nomeGrupo {
+    color: $gray;
+  }
+}
+
+.content {
+  display: contents;
+}
+
+:host ::ng-deep .edificio .nav-tabs {
+  .active {
+    cursor: none;
+    pointer-events: none;
+    margin: 0;
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0;
+  }
+
+  a:not(.active) {
+    display: none;
+  }
+}
+
+.hide {
+  display: none;
+}

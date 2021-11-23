@@ -1,0 +1,118 @@
+<ng-container [formGroup]="form" *ngIf="datasForm as form">
+  <div class="col-12">
+    <h2>Datas</h2>
+  </div>
+
+  <div class="col-12">
+    <p class="mt-4 mb-1 form-group-heading">Recebimento de todos os custos</p>
+  </div>
+  <div class="col-md-6 col-sm-12 col-lg-4">
+    <div
+      class="form-group"
+      [class.has-danger]="
+        form.get('dataRecebimentoTodosCustos').invalid && form.get('dataRecebimentoTodosCustos').touched
+      "
+    >
+      <label for="custoDataHora">Data e horário</label>
+      <input
+        dateMask
+        formControlName="dataRecebimentoTodosCustos"
+        [timeFormat]="true"
+        [bsConfig]="bsConfig"
+        autocomplete="off"
+        bsDatepicker
+        class="form-control"
+        id="custoDataHora"
+        placeholder="ex: 00/00/0000 às 00:00"
+        placement="top"
+        type="text"
+      />
+      <label
+        *ngIf="
+          form.get('dataRecebimentoTodosCustos').hasError('required') && form.get('dataRecebimentoTodosCustos').touched
+        "
+        class="error"
+        >Campo obrigatório.</label
+      >
+      <label
+        *ngIf="
+          form.get('dataRecebimentoTodosCustos').hasError('invalidDate') &&
+          !form.get('dataRecebimentoTodosCustos').hasError('required')
+        "
+        class="error"
+      >
+        Data inválida. Informe uma data válida.
+      </label>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <p class="mt-4 mb-1 form-group-heading">Planilha de orçamento aprovado CEO</p>
+  </div>
+  <div class="col-md-6 col-sm-12 col-lg-4 mb-4">
+    <div
+      class="form-group"
+      [class.has-danger]="form.get('dataLimiteAprovacaoCeo').invalid && form.get('dataLimiteAprovacaoCeo').touched"
+    >
+      <label for="planilhaOrcamentoData">Data e horário</label>
+      <input
+        dateMask
+        [timeFormat]="true"
+        [bsConfig]="bsConfig"
+        [minDate]="datasForm.get('dataRecebimentoTodosCustos').value"
+        formControlName="dataLimiteAprovacaoCeo"
+        autocomplete="off"
+        bsDatepicker
+        class="form-control"
+        id="planilhaOrcamentoData"
+        placeholder="ex: 00/00/0000 às 00:00"
+        placement="top"
+        type="text"
+      />
+      <label *ngIf="form.get('dataLimiteAprovacaoCeo').hasError('invalidDate')" class="error">
+        Data inválida. Informe uma data válida.
+      </label>
+    </div>
+  </div>
+  <div class="col-12">
+    <p class="mt-4 mb-1 form-group-heading">Apresentação ao cliente</p>
+  </div>
+  <div class="col-md-6 col-sm-12 col-lg-4">
+    <div
+      class="form-group"
+      [class.has-danger]="
+        form.get('dataLimiteApresentacaoCliente').invalid && form.get('dataLimiteApresentacaoCliente').touched
+      "
+    >
+      <label for="dataApresentacao">Data e horário</label>
+      <input
+        dateMask
+        [timeFormat]="true"
+        [bsConfig]="bsConfig"
+        [minDate]="datasForm.get('dataLimiteAprovacaoCeo').value"
+        formControlName="dataLimiteApresentacaoCliente"
+        autocomplete="off"
+        bsDatepicker
+        class="form-control"
+        id="dataApresentacao"
+        placeholder="ex: 00/00/0000 às 00:00"
+        placement="top"
+        type="text"
+      />
+      <label *ngIf="form.get('dataLimiteApresentacaoCliente').hasError('invalidDate')" class="error">
+        Data inválida. Informe uma data válida.
+      </label>
+    </div>
+  </div>
+</ng-container>
+<div class="d-flex justify-content-end mt-2">
+  <button awButton status="secondary" class="btn-custom" [routerLink]="['../../../../', 'configuracoes']">
+    Voltar
+  </button>
+  <button awButton status="success" class="btn-custom ml-4" [disabled]="datasForm.invalid" (click)="saveDatas()">
+    Salvar
+  </button>
+  <button awButton class="btn-custom ml-4" [disabled]="datasForm.invalid" (click)="saveDatas()" cdkStepperNext>
+    Próximo
+  </button>
+</div>

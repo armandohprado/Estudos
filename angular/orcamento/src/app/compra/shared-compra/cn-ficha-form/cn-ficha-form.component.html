@@ -1,0 +1,63 @@
+<ng-container *ngIf="isEstouroBudget$ | async as isEstouroBudget">
+  <ng-container *ngIf="isEstouroBudget || grupo.grupoNaoPrevisto">
+    <h6>
+      <ng-container *ngIf="isEstouroBudget && !grupo.grupoNaoPrevisto">Motivo do estouro de Budget</ng-container>
+      <ng-container *ngIf="grupo.grupoNaoPrevisto">Motivo do grupo não previsto</ng-container>
+    </h6>
+    <div class="form" [formGroup]="formFicha">
+      <div class="form-group">
+        <label for="detalhes">Detalhes</label>
+        <textarea
+          id="detalhes"
+          rows="3"
+          awInput
+          placeholder="Detalhe em poucas palavras"
+          formControlName="detalhe"
+          *ngIf="!readonly; else detalheReadonly"
+        ></textarea>
+        <ng-template #detalheReadonly>
+          <div>{{ detalheControl.value }}</div>
+        </ng-template>
+      </div>
+      <ng-container *ngIf="isEstouroBudget">
+        <div class="form-group" *ngIf="mostrarComboOrigemEstouro">
+          <label> {{ labelComboOrigemEstouro }} </label>
+          <aw-select
+            bindLabel="descricao"
+            bindValue="idTipoFicha"
+            formControlName="origemEstouro"
+            placeholder="Selecione"
+            [clearable]="false"
+            [searchable]="false"
+            [items]="origemCompraLista"
+            [useBindValueOnOutputs]="false"
+            *ngIf="!readonly; else origemEstouroReadonly"
+            (select)="onSelectOrigemEstouro($event)"
+          ></aw-select>
+          <ng-template #origemEstouroReadonly>
+            <div>{{ nomeOrigemEstouroControl.value }}</div>
+          </ng-template>
+        </div>
+      </ng-container>
+      <div class="form-group" *ngIf="fornecedoresSelecionados.length">
+        <label for="fornecedor-ficha">Fornecedor</label>
+        <aw-select
+          id="fornecedor-ficha"
+          [items]="fornecedoresSelecionados"
+          bindLabel="nomeFantasia"
+          formControlName="fornecedor"
+          [searchable]="false"
+          [clearable]="false"
+          [comparatorFn]="comparatorFornecedor"
+          trackBy="idFornecedor"
+          placeholder="Fornecedor ficha"
+          *ngIf="!readonly; else fornecedorReadonly"
+        >
+        </aw-select>
+        <ng-template #fornecedorReadonly>
+          <div>{{ fornecedorControl.value?.nomeFantasia }}</div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

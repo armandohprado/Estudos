@@ -1,0 +1,28 @@
+<form [formGroup]="familiaForm" (ngSubmit)="addFamilia()">
+  <div class="modal-header">
+    <h4 class="modal-title">Criar novo grupo família</h4>
+    <button awButton icon="close" size="sm" (click)="close()" [disabled]="loaderSubmit"></button>
+  </div>
+  <div class="modal-body">
+    <label for="nomeFamilia" class="col-form-label mr-sm-4">Nome</label>
+    <input
+      type="text"
+      class="form-control mr-sm-4 flex-1"
+      formControlName="nomeFamiliaCustomizada"
+      id="nomeFamilia"
+      placeholder="Defina o nome da nova família"
+    />
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button (click)="close()" [disabled]="loaderSubmit" awButton status="secondary" type="button">Cancelar</button>
+    <button
+      awButton
+      [loading]="loaderSubmit"
+      [disabled]="familiaForm.invalid"
+      [isDisabled]="familiaForm.valid"
+      tooltip="Verifique os campos marcados em vermelho no formulário. Clique em cada campo para ver os detalhes de preenchimento."
+    >
+      Confirmar
+    </button>
+  </div>
+</form>

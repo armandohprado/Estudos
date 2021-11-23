@@ -1,0 +1,56 @@
+.produto-selecionado {
+  grid-template-columns: 190px repeat(5, minmax(0, 1fr)) 25px;
+  display: grid;
+  > .produto {
+    display: flex;
+    justify-content: space-between;
+    grid-column: span 3;
+    overflow: hidden;
+    > .mr-1 {
+      overflow: hidden;
+      ::ng-deep {
+        .aw-radio {
+          overflow: hidden;
+          .aw-radio-text {
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+  > .acoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.produto-img-desc {
+  display: flex;
+  overflow: hidden;
+  .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    min-height: 60px;
+    > img {
+      max-width: 60px;
+      max-height: 60px;
+    }
+  }
+  .desc-title {
+    overflow: hidden;
+    .title {
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .descricao {
+      font-size: 0.75rem;
+    }
+  }
+}

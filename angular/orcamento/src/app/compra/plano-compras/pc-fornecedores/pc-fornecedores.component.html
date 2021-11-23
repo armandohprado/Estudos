@@ -1,0 +1,15 @@
+<aw-page-fornecedores
+  *ngIf="planoCompra$ | async as planoCompra"
+  [idGrupo]="planoCompra.idGrupo"
+  [idOrcamento]="idOrcamento"
+  [idOrcamentoGrupo]="planoCompra.idOrcamentoGrupo"
+  (confirmar)="voltar()"
+  (selected)="onSelect($event)"
+  (removed)="onRemove($event)"
+  [nomeGrupo]="planoCompra.nomeGrupo"
+  [codigoGrupo]="planoCompra.codigoGrupo"
+  [value]="planoCompra.fornecedores"
+  saveOn="select"
+  (voltar)="voltar()"
+>
+</aw-page-fornecedores>

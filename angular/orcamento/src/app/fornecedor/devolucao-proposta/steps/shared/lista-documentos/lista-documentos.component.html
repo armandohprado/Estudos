@@ -1,0 +1,71 @@
+<div *ngIf="cabecalho$ | async as cabecalho">
+  <div class="px-5">
+    <div class="row">
+      <div class="nomeGrupo p-0 my-2">
+        Grupo:
+        <span>{{ cabecalho.codigoGrupo }} </span>
+        <span>{{ cabecalho.nomeGrupo }} </span>
+      </div>
+      <div class="d-flex justify-content-start p-0 m-2 ml-5" *ngIf="cabecalho.possuiQuestionarioSeguro">
+        <button awButton (click)="download(cabecalho)">Questionário de Seguro</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 p-0 pr-2">
+        <div class="form-group">
+          <aw-select
+            *ngIf="devolucaoPropostaService.edificios$ | async as edificios"
+            [clearable]="false"
+            [items]="edificios"
+            [(ngModel)]="devolucaoPropostaService.edificioSelecionado"
+            bindLabel="nomePavimento"
+            bindValue="idEdificio"
+            placeholder="Selecione"
+            (select)="devolucaoPropostaService.andaresFiltrados = []; devolucaoPropostaService.itensFiltrados = []"
+          >
+          </aw-select>
+        </div>
+      </div>
+      <div class="col-sm-3 p-0 pr-2">
+        <div class="form-group">
+          <aw-select
+            [bindLabel]="['siglaPavimento', 'nomePavimento']"
+            placeholder="Todos Andares"
+            selectedText="andar"
+            selectedTextPlural="andares"
+            [items]="proposta.andares"
+            position="bottom"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [ngModel]="devolucaoPropostaService.andaresFiltrados"
+            [footer]="true"
+            [footerOptions]="awSelectFooterOptions"
+            (primaryBtn)="filtrarAndares($event.data)"
+            (secondaryBtn)="filtrarAndares([])"
+          >
+          </aw-select>
+        </div>
+      </div>
+      <div class="col-sm-4 p-0 pr-2">
+        <div class="form-group">
+          <aw-select
+            *ngIf="proposta | getAllItems as itens"
+            [bindLabel]="['descricao', 'tag', 'numeracao']"
+            placeholder="Todos itens"
+            [items]="itens"
+            position="bottom"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [footer]="true"
+            [footerOptions]="awSelectFooterOptions"
+            (primaryBtn)="filtrarItens($event.data)"
+            (secondaryBtn)="filtrarItens([])"
+          ></aw-select>
+        </div>
+      </div>
+      <button class="col-sm-2 toggle-modal" awButton block (click)="listarDocumentos()" *ngIf="!interno">
+        Acessar Projetos
+      </button>
+    </div>
+  </div>
+</div>

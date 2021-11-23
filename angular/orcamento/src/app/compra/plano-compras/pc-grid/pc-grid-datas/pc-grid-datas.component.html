@@ -1,0 +1,39 @@
+<div ref="eCellWrapper" class="ag-cell-wrapper" role="presentation">
+  <span ref="eCellValue" role="gridcell" class="ag-cell-value">
+    {{ params.value | date: 'dd/MM/yyyy' }}
+  </span>
+</div>
+<ng-template #overlay>
+  <div class="grid-overlay">
+    <div>
+      <aw-spinner *ngIf="loading" size="lg"></aw-spinner>
+    </div>
+    <div class="grid-custom-overlay">
+      <div class="pc-grid-responsaveis-overlay">
+        <div class="header">
+          <div class="flagInclurTodos">
+            <aw-checkbox [ngModel]="flagSelectAll" (ngModelChange)="flagSelectAll = !flagSelectAll"
+              >Incluir para todos os grupos
+            </aw-checkbox>
+          </div>
+        </div>
+        <div class="lista">
+          <div class="d-flex justify-content-center">
+            <bs-datepicker-inline
+              [bsValue]="params.data[params.colDef.field]"
+              (bsValueChange)="selectData($event)"
+            ></bs-datepicker-inline>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button awButton (click)="enviarData()" width="secondary" [disabled]="!dataSelecionada">Enviar</button>
+        </div>
+      </div>
+      <app-pc-grid-select-group
+        *ngIf="!flagSelectAll"
+        height="390"
+        [(selecionados)]="selecionados"
+      ></app-pc-grid-select-group>
+    </div>
+  </div>
+</ng-template>

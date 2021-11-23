@@ -1,0 +1,74 @@
+<div class="sticky">
+  <div class="item">
+    <div class="tag">{{ propostaItem.tag }}</div>
+    <div class="numero">{{ propostaItem.numeracaoPropostaItem }}</div>
+    <div
+      class="descricao"
+      [title]="propostaItem.descricaoCompleta"
+      [class.collapsed]="!propostaItem.descricaoOpened"
+      (click)="toggleCollapseDescricao()"
+    >
+      {{ propostaItem.descricaoCompleta }}
+    </div>
+    <div class="collapse-icon">
+      <button
+        type="button"
+        awButton
+        [icon]="!propostaItem.descricaoOpened ? 'caret-down' : 'caret-up'"
+        iconSize="7"
+        (click)="toggleCollapseDescricao()"
+      ></button>
+    </div>
+  </div>
+  <div class="labels">
+    <div
+      class="label quantidade"
+      [class.loading]="propostaItem.loadingQuantitativo"
+      (click)="toggleCollapseQuantitativo(propostaItem)"
+    >
+      Quant. {{ propostaItem.unidadeMedida }}
+      <button
+        awButton
+        icon="caret-down"
+        iconSize="7"
+        type="button"
+        [icon]="!propostaItem.quantitativoOpened ? 'caret-down' : 'caret-up'"
+        [loading]="propostaItem.loadingQuantitativo"
+      ></button>
+    </div>
+    <div class="quantitativos" @collapse *ngIf="propostaItem.quantitativoOpened">
+      <div
+        class="label nivel-{{ labelQuantitativo.nivel }}"
+        *ngFor="let labelQuantitativo of propostaItem.quantitativos; trackBy: trackByEpPropostaItemQuantitativoItem"
+      >
+        {{ labelQuantitativo.label }}
+      </div>
+    </div>
+    <div class="label valor-unitario" (click)="toggleCollapseValorUnitario()">
+      Valor Unit. R$
+      <button
+        awButton
+        [icon]="!propostaItem.valorUnitarioOpened ? 'caret-down' : 'caret-up'"
+        iconSize="7"
+        type="button"
+      ></button>
+    </div>
+    <div class="valores-unitarios" @collapse *ngIf="propostaItem.valorUnitarioOpened">
+      <div class="label valor-unitario-produto">Valor Unit. Produto R$</div>
+      <div class="label valor-unitario-servico">Valor Unit. Serviço R$</div>
+    </div>
+    <div class="label valor-total">Valor total R$</div>
+  </div>
+</div>
+<app-ep-proposta-item-fornecedor
+  *ngFor="let columnItem of propostaItem.columns; trackBy: trackByEpPropostaItem"
+  [propostaItem]="columnItem"
+  [propostaItemParent]="propostaItem"
+  [classificacao]="classificacao"
+  [idOrcamentoCenario]="idOrcamentoCenario"
+  [disabledRadio]="propostaItem.loadingSelecionar"
+></app-ep-proposta-item-fornecedor>
+<app-ep-proposta-item-fornecedor
+  *ngFor="let offsetColumn of epPropostaItemQuery.offsetColumns$ | async"
+  [propostaItemParent]="propostaItem"
+></app-ep-proposta-item-fornecedor>

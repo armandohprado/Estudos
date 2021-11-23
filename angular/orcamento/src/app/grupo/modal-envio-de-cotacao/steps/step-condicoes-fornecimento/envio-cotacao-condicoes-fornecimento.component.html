@@ -1,0 +1,267 @@
+<div class="step4">
+  <h1>Informações do Projeto</h1>
+
+  <section class="gerais">
+    <h2>Gerais</h2>
+    <ul>
+      <li>
+        <span>Profissional A/W Responsável</span>
+        <p>{{ propostaDetalhada?.geral?.responsavel }}</p>
+      </li>
+      <li>
+        <span>Área Total do Projeto</span>
+        <p>{{ propostaDetalhada?.geral?.areaTotalProjeto }}</p>
+      </li>
+      <li>
+        <span>Prazo Limite para envio da proposta</span>
+        <p>
+          {{ propostaDetalhada?.geral?.prazoPropostaLimite | date: 'dd/MM/yyyy' }}
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="local d-flex">
+    <article class="w-50">
+      <h2>Local</h2>
+      <ul>
+        <li>
+          <span>Cidade</span>
+          <p>{{ propostaDetalhada?.local?.cidade }}</p>
+        </li>
+        <li>
+          <span>Estado</span>
+          <p>{{ propostaDetalhada?.local?.estado }}</p>
+        </li>
+        <li>
+          <span>País</span>
+          <p>{{ propostaDetalhada?.local?.pais }}</p>
+        </li>
+        <li>
+          <span>Endereço</span>
+          <p>{{ propostaDetalhada?.local?.endereco }}</p>
+        </li>
+        <li>
+          <span>Número</span>
+          <p>{{ propostaDetalhada?.local?.numero }}</p>
+        </li>
+        <li>
+          <span>Complemento</span>
+          <p>{{ propostaDetalhada?.local?.complemento }}</p>
+        </li>
+        <li>
+          <span>CEP</span>
+          <p>{{ propostaDetalhada?.local?.cep }}</p>
+        </li>
+      </ul>
+    </article>
+
+    <article class="w-50" [formGroup]="form" *ngIf="form">
+      <h2>Visita no Local da Obra</h2>
+
+      <div class="form-group d-flex">
+        <p>A visita é necessária para fazer o orçamento?</p>
+        <aw-radio formControlName="necessariaVisita" [value]="true" name="necessariaVisita">Sim</aw-radio>
+        <aw-radio formControlName="necessariaVisita" [value]="false" name="necessariaVisita">Não</aw-radio>
+      </div>
+      <div class="visita" *ngIf="form?.get('necessariaVisita').value">
+        <div class="form-group">
+          <label class="" for="contato">Contato para visita</label>
+          <input class="form-control" formControlName="contatoVisita" id="contato" name="contato" type="text" />
+        </div>
+        <div class="form-group">
+          <label class="" for="telefone">Telefone</label>
+          <input
+            appTelephone
+            class="form-control"
+            formControlName="telefoneVisita"
+            id="telefone"
+            name="telefone"
+            type="text"
+            maxlength="15"
+          />
+        </div>
+      </div>
+
+      <h2>Condições do Local</h2>
+
+      <ul>
+        <li>
+          <span>O local da obra estará</span>
+          <p>{{ propostaDetalhada?.local?.localObraEstara }}</p>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <div>
+          Restrições da obra
+          <i class="icon icon-edit" (click)="openModalRestricoesDaObra()"></i>
+        </div>
+
+        <ul class="restricoes">
+          <li *ngFor="let restricao of filteredGrupoRestricaoObra">
+            <ng-container *ngIf="restricao.restricaoComentario; else restricaoHorario"
+              >{{ restricao?.nome }} : {{ restricao?.restricaoComentario }}</ng-container
+            >
+            <ng-template #restricaoHorario
+              >{{ restricao?.nome }}, das {{ restricao?.restricaoObraHoraInicio }} às
+              {{ restricao?.restricaoObraHoraFim }}</ng-template
+            >
+          </li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="prazo">
+    <h2>Prazo Total da Obra</h2>
+    <ul>
+      <li>
+        <span>Prazo de Início da Obra</span>
+        <p>
+          {{ propostaDetalhada?.geral?.prazoObraInicio | date: 'dd/MM/yyyy' }}
+        </p>
+      </li>
+      <li>
+        <span>Prazo de Término da Obra</span>
+        <p>
+          {{ propostaDetalhada?.geral?.prazoObraTermino | date: 'dd/MM/yyyy' }}
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="faturamento" [formGroup]="form">
+    <h2>Condições Gerais de Faturamento</h2>
+    <div class="d-flex">
+      <p>Faturamento</p>
+      <div class="d-flex ml-5">
+        <aw-radio formControlName="tipoFaturamento" [value]="false" name="tipoFaturamento">Direto</aw-radio>
+        <aw-radio formControlName="tipoFaturamento" [value]="true" name="tipoFaturamento">Refaturado</aw-radio>
+      </div>
+    </div>
+    <ul class="list-30">
+      <li>
+        <span>Necessidade de cadastro prévio no cliente</span>
+        <p>
+          {{ propostaDetalhada?.faturamento?.necessidadeCadastroPrevio ? 'SIM' : 'NÃO' }}
+        </p>
+      </li>
+      <li>
+        <span>Condição de pagamento</span>
+        <p>{{ propostaDetalhada?.faturamento?.condicaoPagamento }}</p>
+      </li>
+      <li>
+        <span>Impostos retidos</span>
+        <p>{{ propostaDetalhada?.faturamento?.impostoRetidos }}</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="pagamentos">
+    <h2>Pagamentos</h2>
+
+    <ul class="list-30 d-flex flex-column align-self-start">
+      <li class="d-flex">
+        <span>Forma de Pagamento</span>
+        <p>{{ propostaDetalhada?.pagamento?.formaPagamento }}</p>
+      </li>
+      <li>
+        <span>Banco(s) exigido(s) para cobrança</span>
+        <p>{{ propostaDetalhada?.pagamento?.bancoEspecificoDescricao }}</p>
+      </li>
+      <li>
+        <span>Documentos Exigidos</span>
+        <p>{{ propostaDetalhada?.pagamento?.documentosExigidos }}</p>
+      </li>
+      <li>
+        <span>NF necessariamente deverá ser espelho de PO</span>
+        <p>{{ propostaDetalhada?.pagamento?.nfEspelhoPO ? 'SIM' : 'NÃO' }}</p>
+      </li>
+      <li>
+        <span>Uma PO poderá ser faturada através de diversas NFs</span>
+        <p>{{ propostaDetalhada?.pagamento?.poMaisDeUmaNF ? 'SIM' : 'NÃO' }}</p>
+      </li>
+      <li>
+        <span>Para faturamento Cliente</span>
+        <p>
+          O pagamento ocorrerá em
+          {{ propostaDetalhada?.pagamento?.faturamentoClienteDias }} dias
+          {{ propostaDetalhada?.pagamento?.faturamentoClienteDiasUteis ? 'úteis' : 'corridos' }}
+          após a entrega dos documentos fiscais de cobrança na AW
+        </p>
+      </li>
+      <li>
+        <span>Para faturamento Grupo AW</span>
+        <p>
+          O pagamento ocorrerá em
+          {{ propostaDetalhada?.pagamento?.faturamentoAWDias }} dias
+          {{ propostaDetalhada?.pagamento?.faturamentoAWDiasUteis ? 'úteis' : 'corridos' }}
+          após a entrega dos documentos fiscais de cobrança na AW
+        </p>
+      </li>
+      <li>
+        <span>Haverá data de corte para recebimento de NFs</span>
+        <p>
+          {{ propostaDetalhada?.pagamento?.haveraDataCorte ? 'SIM' : 'NÃO' }}
+        </p>
+      </li>
+      <li>
+        <span>Para clientes, produto</span>
+        <p>
+          A partir do dia
+          {{ propostaDetalhada?.pagamento?.corteClienteProdutoDias }} de cada mês.
+        </p>
+      </li>
+      <li>
+        <span>Para clientes, serviço</span>
+        <p>
+          A partir do dia
+          {{ propostaDetalhada?.pagamento?.corteClienteServicoDias }} de cada mês.
+        </p>
+      </li>
+      <li>
+        <span>Para Grupo AW, produto</span>
+        <p>
+          A partir do dia
+          {{ propostaDetalhada?.pagamento?.corteAWProdutoDias }} de cada mês.
+        </p>
+      </li>
+      <li>
+        <span>Para Grupo AW, serviço</span>
+        <p>A partir do dia {{ propostaDetalhada?.pagamento?.corteAWServico }} de cada mês.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="integracao">
+    <h2>Integração</h2>
+    <ul class="list-30 d-flex flex-column align-self-start">
+      <li>
+        <span>Exigência de participação de sessões de integração na obra</span>
+        <p>
+          {{ propostaDetalhada?.integracao?.sessaoIntegracao ? 'SIM' : 'NÃO' }}
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <div class="row justify-content-end mb-3">
+    <div class="col-3">
+      <button class="btn btn-secondary gradient-btn btn-block" type="button" (click)="changeSteps(3)">voltar</button>
+    </div>
+    <div class="col-3">
+      <button
+        awButton
+        block
+        type="button"
+        (click)="changeSteps(5)"
+        [tooltip]="tooltipBtn"
+        [adaptivePosition]="false"
+        triggers="click"
+        placement="top"
+      >
+        Próximo
+      </button>
+    </div>
+  </div>
+</div>

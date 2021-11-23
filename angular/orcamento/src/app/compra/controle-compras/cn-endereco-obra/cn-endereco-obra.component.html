@@ -1,0 +1,27 @@
+<aw-spinner *ngIf="loading"></aw-spinner>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="modal-header">
+    <h5 class="modal-title">Endereço de Obra</h5>
+    <button type="button" awButton icon="close" (click)="close()" [disabled]="saving"></button>
+  </div>
+  <div class="modal-body">
+    <app-cn-endereco-obra-form
+      [endereco]="formEntrega.value"
+      (enderecoChange)="formEntrega.patchValue($event)"
+      titulo="Endereço de entrega dos itens"
+    ></app-cn-endereco-obra-form>
+    <app-cn-endereco-obra-form
+      [endereco]="formDocumento.value"
+      (enderecoChange)="formDocumento.patchValue($event)"
+      titulo="Endereço de entrega dos documentos de cobrança do fornecedor para o cliente"
+    ></app-cn-endereco-obra-form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" awButton status="secondary" width="secondary" (click)="close()" [disabled]="saving">
+      Fechar
+    </button>
+    <button type="submit" awButton status="primary" width="primary" [disabled]="form.invalid" [loading]="saving">
+      Salvar
+    </button>
+  </div>
+</form>

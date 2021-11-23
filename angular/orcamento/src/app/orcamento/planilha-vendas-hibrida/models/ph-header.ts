@@ -1,0 +1,35 @@
+export interface PhHeader {
+  valorVenda: number;
+  totalCustoDiretoObra: number;
+  valorMargemContribuicao: number;
+  percentualMargemContribuicao: number;
+  valorImpostoRefaturamento: number;
+  percentualImpostoRefaturamento: number;
+  valorTotalComImposto: number;
+  baseOrcamentoFornecedor: number;
+  baseOrcamentoReferenciaAW: number;
+  valorMargemEmbutida: number;
+  percentualMargemEmbutida: number;
+  valorTaxaAdmistrativa: number;
+  valorOportunidade: number;
+  percentualOportunidade: number;
+  percentualRefaturamento: number;
+  valorCustoDireto: number;
+  percentualCustoDireto: number;
+  valorEquipe: number;
+  percentualEquipe: number;
+  valorProjeto: number;
+  percentualProjeto: number;
+  percentualTaxaAdministrativa: number;
+  percentualTotalCustoDiretoObra: number;
+  percentualBaseOrcamentoFornecedor: number;
+  percentualBaseOrcamentoReferenciaAW: number;
+  valorDescontoComercial: number;
+  percentualDescontoComercial: number;
+  totalCustoDiretoObraSemDesconto: number;
+  percentualCustoDiretoObraSemDesconto: number;
+  totalDescontos: number;
+  percentualTotalDescontos: number;
+  totalCustoComDesconto: number;
+  percentualTotalCustoComDesconto: number;
+}

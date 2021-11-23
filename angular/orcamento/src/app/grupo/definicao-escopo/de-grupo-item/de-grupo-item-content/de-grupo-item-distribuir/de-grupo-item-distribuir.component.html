@@ -1,0 +1,10 @@
+<div class="distribuir">
+  <app-de-distribuir-quantitativo
+    tipo="definicao-escopo"
+    [quantitativo]="grupoItem.quantitativo"
+    [mapQuantitativo]="false"
+    [planilhaCliente]="definicaoEscopoService.cenarioPadrao.existePlanilhaCliente"
+    (atualizarCentroCusto)="updateQuantitativo($event)"
+    (qtdeTotal)="updateTotal($event)"
+  ></app-de-distribuir-quantitativo>
+</div>

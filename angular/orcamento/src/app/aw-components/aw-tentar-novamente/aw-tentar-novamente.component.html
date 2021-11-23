@@ -1,0 +1,24 @@
+<alert [type]="type">
+  <div class="d-flex align-items-center justify-content-center flex-column">
+    <ng-content></ng-content>
+    <button
+      awButton
+      status="danger"
+      size="sm"
+      class="mt-2"
+      (click)="tentarNovamente(fn, args)"
+    >
+      Tentar novamente
+    </button>
+    <button
+      awButton
+      status="secondary"
+      size="sm"
+      class="ml-2 mt-2"
+      *ngIf="moreInfo"
+      (click)="openModalMoreInfo()"
+    >
+      Mais informações
+    </button>
+  </div>
+</alert>

@@ -1,0 +1,67 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .tabset-fases {
+    > .tab-content {
+      padding: 20px 15px 0;
+      margin-bottom: 1rem;
+    }
+    > .nav-tabs {
+      border-bottom: 10px solid var(--very-light-blue);
+      > .nav-item {
+        > .nav-link {
+          border: 0;
+          margin: 0 2px;
+          font-weight: bold;
+          color: var(--greyish-brown);
+          opacity: 0.5;
+          &.active {
+            background-color: var(--very-light-blue);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .tabset-edificios {
+    > .tab-content {
+      border: 0;
+      margin-right: 0;
+      margin-top: 20px;
+      display: block;
+      overflow: auto;
+    }
+    > .nav-tabs {
+      border-bottom: 0;
+      > .nav-item {
+        margin-left: 5px;
+        > .nav-link {
+          background-color: var(--ice-blue);
+          border: 0;
+          color: black;
+          font-weight: bold;
+          border-radius: 3px;
+          &:after {
+            margin-left: 1rem;
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 4px solid var(--ice-blue);
+            position: absolute;
+            transform: translate(0, 75%);
+          }
+          &.active {
+            background-color: var(--cerulean);
+            color: white;
+            &:after {
+              border-left: 4px solid var(--cerulean);
+            }
+          }
+        }
+      }
+    }
+  }
+}

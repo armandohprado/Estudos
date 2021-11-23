@@ -1,0 +1,11 @@
+<app-adicionar-fornecedor
+  *ngIf="grupo$ | async as grupo"
+  [nomeGrupo]="grupo.nome"
+  [codigoGrupo]="grupo.codigo"
+  [loading]="loading"
+  [listaArea]="controleComprasQuery.listaArea$ | async"
+  [listaCausa]="controleComprasQuery.listaCausa$ | async"
+  [projeto]="projeto$ | async"
+  (voltar)="voltar()"
+  (submeterAprovacao)="submeterAprovacao($event, grupo)"
+></app-adicionar-fornecedor>

@@ -1,0 +1,28 @@
+@use 'variables' as v;
+
+.grupo-duplicados {
+  margin-bottom: 1rem;
+}
+
+.grupo-duplicado-grupos {
+  padding: 0.5rem;
+  border: 1px solid v.$bluey-grey;
+  border-radius: v.$border-radius;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.grupo-duplicados-header {
+  font-weight: bold;
+  padding: 0 5px;
+  border: 2px solid transparent;
+  display: grid;
+  grid-template-columns: 90px repeat(14, minmax(0, 1fr)) 25px;
+  > div {
+    padding: 0 5px;
+  }
+}
+
+.grupo-duplicados-title {
+  grid-column: span 12;
+}

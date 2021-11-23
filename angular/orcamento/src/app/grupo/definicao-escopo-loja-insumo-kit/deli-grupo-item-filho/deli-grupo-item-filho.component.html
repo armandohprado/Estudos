@@ -1,0 +1,33 @@
+<div class="grupo-item-filho">
+  <div class="header">
+    <div class="cod-item">
+      {{ grupoItemFilho.numeracaoGrupoItem }}
+    </div>
+    <div class="descricao">
+      {{ grupoItemFilho.descricao }}
+    </div>
+    <div class="qtde">
+      <div class="qtde">
+        Quantidade: {{ grupoItemFilho.quantidade | number: '1.0-2' }}
+        <span class="qtde-um">{{ grupoItem.unidadeMedida }}</span>
+      </div>
+      <div class="coeficiente">Coeficiente: {{ grupoItemFilho.coeficiente | number: '1.0-4' }}</div>
+    </div>
+    <div class="valor-produto">
+      <!-- {{ grupoItemFilho.valorProduto | number: '1.2-2' }}-->
+    </div>
+    <div class="valor-total">
+      <!--{{ grupoItemFilho.quantidade * grupoItemFilho.valorProduto | number: '1.2-2' }}-->
+    </div>
+    <div class="acoes"></div>
+  </div>
+  <ng-container *ngIf="grupoItemFilho.produtoKit?.length">
+    <hr />
+    <div class="produtos">
+      <div class="produto" *ngFor="let produtoKit of grupoItemFilho.produtoKit; trackBy: trackByProdutoKit">
+        <div class="kit"><span>Kit:</span> {{ produtoKit.kit }}</div>
+        <div class="produto"><span>Produto:</span> {{ produtoKit.produto }}</div>
+      </div>
+    </div>
+  </ng-container>
+</div>

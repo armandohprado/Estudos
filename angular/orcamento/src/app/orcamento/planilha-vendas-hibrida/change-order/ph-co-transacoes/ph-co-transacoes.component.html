@@ -1,0 +1,132 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Transações {{ trasacoesCC ? 'de CC' : 'do CP' }}</h5>
+  </div>
+  <div class="card-body">
+    <div
+      class="familia"
+      *ngFor="let familia of transacoes; trackBy: trackByFamilia"
+    >
+      <div class="title">
+        <h5>
+          {{ familia.descricaoFamilia }}
+        </h5>
+      </div>
+      <div class="body">
+        <div
+          class="grupao"
+          *ngFor="let grupao of familia.grupoes; trackBy: trackByGrupao"
+        >
+          <div class="title">
+            {{ grupao.numeroGrupao }} - {{ grupao.descricaoGrupao }}
+          </div>
+          <hr class="grupao-divider" />
+          <div class="body">
+            <div class="grupos">
+              <div class="header">
+                <div class="cod">Cód.</div>
+                <div class="grupo" [class.possuiCC]="trasacoesCC">Grupo</div>
+                <div class="cc" *ngIf="trasacoesCC">
+                  Número da CC
+                </div>
+                <div class="valor-total-orcado">
+                  Valor Total <br />
+                  Orçado (R$)
+                </div>
+                <div class="valor-total-venda">
+                  Valor Total <br />
+                  de Venda (R$)
+                </div>
+                <div class="valor-transferido">
+                  Valor transferido <br />
+                  {{ trasacoesCC ? 'da CC (R$)' : 'do CP (R$)' }}
+                </div>
+                <div class="saldo">Saldo (R$)</div>
+              </div>
+              <hr class="header-divider" />
+              <ng-container
+                *ngFor="let grupo of grupao.grupos; trackBy: trackByGrupo"
+              >
+                <div class="grupo-planilha">
+                  <div class="cod">
+                    {{ grupo.codigo }}
+                  </div>
+                  <div class="grupo" [class.possuiCC]="trasacoesCC">
+                    {{ grupo.nome }}
+                  </div>
+                  <div class="cc" *ngIf="trasacoesCC">
+                    {{ grupo?.numeracao | default: 'Sem numeração de cc' }}
+                  </div>
+                  <div class="valor-total-orcado">
+                    {{ grupo.valorTotalOrcado | number: '1.2-2' }}
+                  </div>
+                  <div class="valor-total-venda">
+                    {{ grupo.valorTotalVenda | number: '1.2-2' }}
+                  </div>
+                  <div class="valor-transferido">
+                    {{
+                      (trasacoesCC
+                        ? grupo.valorTransferidoCC
+                        : grupo.valorTransferidoCP
+                      )
+                        | default: 0
+                        | number: '1.2-2'
+                    }}
+                  </div>
+                  <div class="saldo">
+                    {{ grupo.saldo | number: '1.2-2' }}
+                  </div>
+                </div>
+                <hr class="grupo-planilha-divider" />
+                <div
+                  class="transacao"
+                  *ngFor="
+                    let transacao of grupo.transacoes;
+                    trackBy: trackByTransacao;
+                    let $even = even
+                  "
+                  [class.even]="$even"
+                >
+                  <div class="cod">
+                    {{ transacao.codigo }}
+                  </div>
+                  <div class="grupo">
+                    {{ transacao.nome }}
+                  </div>
+                  <div class="valor-transferido">
+                    {{
+                      (trasacoesCC
+                        ? transacao.valorTransferido
+                        : transacao.valor
+                      ) | number: '1.2-2'
+                    }}
+                  </div>
+                  <div class="saldo">
+                    <!--{{ transacao.saldo | number: '1.2-2' }}-->
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="total">
+          Total
+        </div>
+        <div class="valor-total-orcado">
+          {{ familia.valorTotalOrcado | number: '1.2-2' }}
+        </div>
+        <div class="valor-total-venda">
+          {{ familia.valorTotalVenda | number: '1.2-2' }}
+        </div>
+        <div class="valor-transferido">
+          {{ familia.valorTotalTransferidoCP | number: '1.2-2' }}
+        </div>
+        <div class="saldo">
+          {{ familia.saldo | number: '1.2-2' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

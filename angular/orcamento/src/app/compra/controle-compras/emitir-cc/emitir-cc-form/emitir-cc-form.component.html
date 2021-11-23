@@ -1,0 +1,24 @@
+<div class="block" [formGroup]="form">
+  <h6 class="title">Saldo do grupo</h6>
+  <div class="content">
+    <div class="info">
+      <div class="label">Saldo do grupo (R$)</div>
+      <div class="value">{{ emitirCc.valorSaldo | number: '1.2-2' }}</div>
+      <div class="label">Valor orçado (R$)</div>
+      <div class="value">{{ emitirCc.valorTotal | number: '1.2-2' }}</div>
+      <div class="label">Valor margem (R$)</div>
+      <div class="value">{{ emitirCc.valorSaldo - emitirCc.valorTotal | number: '1.2-2' }}</div>
+      <div class="label">Total a emitir para miscellaneous</div>
+      <div class="value">{{ valorMiscellaneous | number: '1.2-2' }}</div>
+      <div class="label">Gerar Saldo de Contingência no valor de</div>
+      <div class="value pr-0">
+        <input
+          awInput
+          currencyMask
+          [options]="{ allowNegative: false, max: emitirCc.valorSaldo - emitirCc.valorTotal | arredondamento: 2 }"
+          formControlName="valorSaldoContingencia"
+        />
+      </div>
+    </div>
+  </div>
+</div>

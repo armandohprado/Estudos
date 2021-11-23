@@ -1,0 +1,139 @@
+<div class="grupo-item container-fluid" [class.ativo]="grupoItem.ativo" #grupoItemRef>
+  <aw-spinner *ngIf="grupoItem.loading"></aw-spinner>
+  <div class="row">
+    <div class="col-1 d-flex">
+      <div class="row">
+        <div class="col-5 d-flex">
+          <aw-checkbox [ngModel]="grupoItem.ativo" (ngModelChange)="handleAtivo($event)"></aw-checkbox>
+        </div>
+        <div class="col p-0 d-flex">
+          <input
+            type="text"
+            [ngModel]="grupoItem.tag"
+            [ngModelOptions]="modelOptions"
+            (ngModelChange)="tagControl.valid ? handleTag($event) : ''"
+            [deTagValidator]="grupoItem.idOrcamentoGrupoItem"
+            [gruposItens]="gruposItens$ | async"
+            [disabled]="!grupoItem.ativo"
+            awInput
+            size="xs"
+            #tagControl="ngModel"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-4 d-flex">
+      <div class="descricao font-weight-bold">
+        {{ grupoItem.ativo ? grupoItem.numeracaoGrupoItem : grupoItem.numeracao }}
+        -
+        {{ grupoItem.descricaoGrupoItem }}
+      </div>
+    </div>
+    <div class="col-1 d-flex justify-content-end qtde-refer">
+      <span class="quantidade mr-1">{{ grupoItem.quantidadeTotal }}</span>
+      <span class="unidade-medida">{{ grupoItem.unidadeMedida }}</span>
+    </div>
+    <div class="col-2 d-flex">
+      <input
+        awInput
+        size="xs"
+        [ngModel]="grupoItem.valorUnitarioProdutoReferencia"
+        [ngModelOptions]="modelOptions"
+        (ngModelChange)="handleValores($event, 'valorUnitarioProdutoReferencia')"
+        [disabled]="!grupoItem.ativo || (grupoItem.classificacao | bloqueiaProduto)"
+        currencyMask
+        (focus)="tooltipRef.show()"
+        (blur)="tooltipRef.hide()"
+      />
+    </div>
+    <div class="col-2 d-flex">
+      <input
+        awInput
+        size="xs"
+        [ngModel]="grupoItem.valorUnitarioServicoReferencia"
+        [ngModelOptions]="modelOptions"
+        (ngModelChange)="handleValores($event, 'valorUnitarioServicoReferencia')"
+        [disabled]="!grupoItem.ativo || (grupoItem.classificacao | bloqueiaServico)"
+        (focus)="tooltipRef.show()"
+        (blur)="tooltipRef.hide()"
+        currencyMask
+      />
+      <button
+        awButton
+        *ngIf="grupoItem.ativo"
+        icon="search"
+        class="ml-1 d-flex"
+        type="button"
+        (click)="definicaoEscopoService.collapseOrPesquisa(grupoItem, 'pesquisa')"
+        tooltip="Pesquisa de referência"
+        #tooltipRef="bs-tooltip"
+      ></button>
+    </div>
+    <div class="col-2 last-col">
+      <div class="valor-icons">
+        <ng-container *ngLet="total$ | async as total">
+          <div class="valor-total" [tooltip]="total | number: '1.2-2'" [isDisabled]="total < 9999999999.99">
+            {{ total | number: '1.2-2' }}
+          </div>
+          <app-de-grupo-item-acoes *ngIf="grupoItem.ativo" [grupoItem]="grupoItem"></app-de-grupo-item-acoes>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row second-line mt-1">
+    <div class="col-3">
+      <ng-container *ngIf="tagControl.invalid && tagControl.errors.invalidTag">
+        <alert type="danger">Já existe um item com este código.</alert>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row mt-1 complemento-title-row" *ngIf="grupoItem.ativo">
+    <div class="offset-1 col-9 complemento-title">
+      <span *ngFor="let atributo of atributos$ | async; trackBy: trackByString">
+        {{ atributo }}
+      </span>
+      <span>{{ grupoItem.complemento }}</span>
+    </div>
+    <div class="col-2">
+      <div
+        class="w-100"
+        tooltip="Ao desmarcar um fornecedor os valores desse item serão zerados para o fornecedor deselecionado!"
+        [isOpen]="select.isOpen"
+        [isDisabled]="!grupoItem.fornecedores?.length"
+        triggers=""
+      >
+        <aw-select
+          #select
+          size="sm"
+          [items]="fornecedores$ | async"
+          [loading]="grupoItem.loadingFornecedores || (loadingFornecedores$ | async)"
+          bindLabel="nomeFantasia"
+          bindValue="idFornecedor"
+          [ngModel]="grupoItem.idsFornecedores"
+          [ngModelOptions]="modelOptions"
+          (ngModelChange)="handleFornecedor($event)"
+          multiple
+          [closeOnSelect]="false"
+          [trackBy]="trackByFornecedor"
+          [showTooltip]="true"
+          selectedText="fornecedor"
+          selectedTextPlural="fornecedores"
+          placeholder="Fornecedores"
+          footer
+          [footerOptions]="footerOptions"
+          (primaryBtn)="select._selectAll(); select._close()"
+          (secondaryBtn)="select._unselectAll(); select._close()"
+        ></aw-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="content" *ngIf="grupoItem.opened" @collapse>
+        <div class="inner-content pt-3 mx-3 mt-3">
+          <app-de-grupo-item-content [grupoItem]="grupoItem"></app-de-grupo-item-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

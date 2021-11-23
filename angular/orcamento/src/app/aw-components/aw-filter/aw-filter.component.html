@@ -1,0 +1,61 @@
+<div class="aw-filter">
+  <div class="sort" *ngIf="sortable">
+    <div (click)="onSort('asc')" [class.active]="sort === 'asc'">
+      {{ ascText }}
+    </div>
+    <div (click)="onSort('desc')" [class.active]="sort === 'desc'">
+      {{ descText }}
+    </div>
+    <div *ngIf="sort" (click)="onSort(null)">Limpar</div>
+  </div>
+  <div class="filter" *ngIf="filterable">
+    <label for="filter">Filtrar por {{ filterBy }}</label>
+    <input id="filter" type="text" placeholder="&#xE908; Filtrar" awInput size="sm" [formControl]="filterControl" />
+  </div>
+  <div class="conditional" *ngIf="conditionalFilterable">
+    <label for="conditional">Filtrar por condição</label>
+    <aw-select
+      id="conditional"
+      [searchable]="false"
+      [clearable]="false"
+      [formControl]="conditionalSelectControl"
+      [items]="items | async"
+      bindLabel="label"
+      bindValue="value"
+      size="sm"
+      class="aw-select-custom"
+      (attachOverlay)="onSelectAttach($event)"
+    ></aw-select>
+    <ng-container *ngIf="type === 'number'; else notNumber">
+      <input
+        placeholder="&#xE908; Filtrar"
+        awInput
+        size="sm"
+        [formControl]="conditionalControl"
+        currencyMask
+        [options]="optionsCurrency"
+      />
+      <input
+        placeholder="&#xE908; Filtrar"
+        awInput
+        size="sm"
+        [formControl]="conditional2Control"
+        *ngIf="(conditionalSelect$ | async) === 'entre'"
+        currencyMask
+        [options]="optionsCurrency"
+      />
+    </ng-container>
+
+    <ng-template #notNumber>
+      <input [type]="type" placeholder="&#xE908; Filtrar" awInput size="sm" [formControl]="conditionalControl" />
+      <input
+        [type]="type"
+        placeholder="&#xE908; Filtrar"
+        awInput
+        size="sm"
+        [formControl]="conditional2Control"
+        *ngIf="(conditionalSelect$ | async) === 'entre'"
+      />
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<div class="grid-container">
+  <div class="text-right grid-column-3">Budget: Limite de compra</div>
+  <div class="text-right grid-column-5">
+    {{ grupo.valorLimiteCompra | number: '1.2-2' }}
+  </div>
+  <div class="text-right grid-column-3">Meta de compra</div>
+  <div class="text-right grid-column-5">
+    {{ grupo.valorMetaCompra | number: '1.2-2' }}
+  </div>
+  <div class="text-right grid-column-3">Saldo</div>
+  <div class="text-right grid-column-5">{{ grupo.valorUtilizado | number: '1.2-2' }}</div>
+</div>
+<div class="content">
+  <ng-content></ng-content>
+</div>
+<div class="tipo-selecao-fornecedor" *ngIf="selecionavel">
+  <aw-radio
+    name="tipoSelecaoFornecedor"
+    [value]="tipoSelecaoFornecedorEnum.semConcorrencia"
+    [(ngModel)]="tipoSelecaoFornecedor"
+    (ngModelChange)="alterarTipoSelecao($event)"
+  >
+    Mapa sem concorrência
+  </aw-radio>
+  <aw-radio
+    name="tipoSelecaoFornecedor"
+    [value]="tipoSelecaoFornecedorEnum.comConcorrencia"
+    [(ngModel)]="tipoSelecaoFornecedor"
+    (ngModelChange)="alterarTipoSelecao($event)"
+  >
+    Mapa com concorrência
+  </aw-radio>
+</div>
+<ng-container *ngIf="fornecedores.length > 0">
+  <hr />
+  <div class="grid-container">
+    <div class="check" *ngIf="selecionavel && tipoSelecaoFornecedor === tipoSelecaoFornecedorEnum.comConcorrencia">
+      <aw-checkbox
+        *ngLet="fornecedoresEmitir | every: 'selecionado' as allSelected"
+        [ngModel]="allSelected"
+        [indeterminate]="!allSelected && (fornecedoresEmitir | some: 'selecionado')"
+        [disabled]="!fornecedoresEmitir.length"
+        (ngModelChange)="selectAll($event)"
+      ></aw-checkbox>
+    </div>
+    <div class="proposta">Proposta</div>
+    <div class="nome-fantasia">Fornecedores</div>
+    <div class="text-right">Total orçado DES (R$)</div>
+  </div>
+  <hr />
+</ng-container>
+
+<div *ngIf="!fornecedores.length">Nenhum fornecedor encontrado!</div>
+
+<div
+  *ngFor="let fornecedor of fornecedores; trackBy: trackBy; let $even = even"
+  [ngClass]="{
+    'bg-white': $even,
+    'fornecedor-disabled': fornecedor.mapaEmitido || !fornecedor.emitirMapaEmissaoCompra
+  }"
+>
+  <div class="grid-container">
+    <div class="check" *ngIf="!fornecedor.mapaEmitido && fornecedor.emitirMapaEmissaoCompra && selecionavel">
+      <aw-checkbox
+        [ngModel]="fornecedor.selecionado"
+        (ngModelChange)="selecionarFornecedor($event, fornecedor)"
+        *ngIf="tipoSelecaoFornecedor === tipoSelecaoFornecedorEnum.comConcorrencia"
+      ></aw-checkbox>
+      <aw-radio
+        name="selecionado"
+        value="{{ fornecedor.idFornecedor }}true"
+        [ngModel]="'' + fornecedor.idFornecedor + fornecedor.selecionado"
+        (ngModelChange)="selecionarFornecedor($event, fornecedor)"
+        *ngIf="tipoSelecaoFornecedor === tipoSelecaoFornecedorEnum.semConcorrencia"
+      ></aw-radio>
+    </div>
+    <div class="proposta">{{ fornecedor.idProposta }}</div>
+    <div class="d-flex justify-content-between px-4">
+      <div *ngIf="fornecedor.favorito">
+        <span class="icon-star-full"></span>
+      </div>
+      <div *ngIf="fornecedor.lastCall">
+        <span class="aw-icon-last-call"><span class="path1"></span><span class="path2"></span></span>
+      </div>
+    </div>
+    <div
+      class="d-flex nome-fantasia"
+      [class.text-danger]="!fornecedor.emitirMapaEmissaoCompra || fornecedor.itemOmisso"
+    >
+      {{ fornecedor.nomeFantasia }}
+      <div *ngIf="!fornecedor.emitirMapaEmissaoCompra || fornecedor.itemOmisso" class="text-secundario ml-2">
+        <i
+          class="icon icon-information c-pointer"
+          [popover]="
+            fornecedor.itemOmisso
+              ? 'Proposta possuí itens omissos selecionados'
+              : fornecedor.emitirMapaEmissaoCompraMensagem
+          "
+          [outsideClick]="true"
+          placement="top"
+        ></i>
+      </div>
+    </div>
+    <div class="text-right">
+      {{ fornecedor.valorTotalOrcado | number: '1.2-2' }}
+    </div>
+  </div>
+</div>
+
+<hr />
+<ng-container *ngLet="grupo.grupoFornecedorMenorValor?.valorTotalOrcado || 0 as totalOrcado">
+  <div class="grid-container font-weight-bold">
+    <div class="text-right grid-column-3">Valor orçado (R$)</div>
+    <div class="text-right grid-column-5">
+      {{ totalOrcado | number: '1.2-2' }}
+    </div>
+  </div>
+  <div
+    class="grid-container"
+    *ngLet="
+      grupo.valorUtilizado -
+      totalOrcado -
+      (grupo.valorSaldoTransferido + grupo.valorSaldoTransferidoChangeOrder | default: 0 | abs) as valorMargemDiferenca
+    "
+  >
+    <div class="text-right grid-column-3">Total margem (R$)</div>
+    <div class="text-right grid-column-5" [class.text-danger]="valorMargemDiferenca < 0">
+      <ng-container *ngIf="valorMargemDiferenca >= 0; else lessThan0">
+        {{ valorMargemDiferenca | number: '1.2-2' }}
+      </ng-container>
+      <ng-template #lessThan0> ({{ valorMargemDiferenca | number: '1.2-2' }}) </ng-template>
+    </div>
+  </div>
+</ng-container>

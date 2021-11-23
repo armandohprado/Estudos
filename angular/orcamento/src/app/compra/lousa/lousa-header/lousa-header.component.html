@@ -1,0 +1,16 @@
+<div class="title">Lousa</div>
+<div class="body">
+  <div
+    class="header"
+    [class.first]="$first"
+    *ngFor="let keyValue of keyValues; trackBy: trackByKeyValue; let $first = first"
+  >
+    {{ keyValue.value }}
+  </div>
+  <ng-container *ngFor="let cabecalho of cabecalhos; trackBy: trackByCabecalho">
+    <div class="header">{{ cabecalho.nome }}</div>
+    <div class="valor" *ngFor="let keyValue of keyValues; trackBy: trackByKeyValue">
+      {{ cabecalho[keyValue.key] | number: '1.2-2' }}
+    </div>
+  </ng-container>
+</div>

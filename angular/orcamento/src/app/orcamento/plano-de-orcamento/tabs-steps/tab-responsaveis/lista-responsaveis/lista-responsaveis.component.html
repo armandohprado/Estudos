@@ -1,0 +1,61 @@
+<ng-container *ngLet="{ loading: loading$ | async, responsaveis: responsaveis$ | async } as state">
+  <aw-spinner *ngIf="state.loading"></aw-spinner>
+  <div class="modal-header">
+    <h4 class="modal-title">Adicionar assistente</h4>
+
+    <button aria-label="Close" class="close btn-icon" type="button" (click)="close()">
+      <i class="icon icon-close"></i>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div>
+      <label for="busca" class="sr-only">Busca</label>
+      <input id="busca" type="search" [formControl]="searchControl" awInput placeholder="Pesquisar por nome" />
+    </div>
+
+    <div class="form-group form-check mt-3 mb-4 pl-0">
+      <aw-checkbox [formControl]="showAllControl"> Buscar em todos </aw-checkbox>
+    </div>
+
+    <ul class="custom-list-style">
+      <cdk-virtual-scroll-viewport
+        itemSize="85"
+        *ngLet="state.responsaveis | awSearch: 'nomeFantasia':(search$ | async) as responsaveis"
+      >
+        <li *ngIf="!responsaveis?.length; else list">
+          {{ state.loading ? 'Carregando' : 'Nenhum responsável encontrado!' }}
+        </li>
+        <ng-template #list>
+          <li
+            class="d-flex align-items-center list-item"
+            (click)="select(responsavel)"
+            [class.selected]="selectedResponsavel?.idFuncionario === responsavel.idFuncionario"
+            *cdkVirtualFor="let responsavel of responsaveis; trackBy: trackByFn"
+          >
+            <div class="img">
+              <img
+                [src]="fotoUrl + responsavel.urlFoto"
+                [alt]="responsavel.nomeFantasia"
+                [awImgOnError]="'/front/orcamento/profile.png'"
+              />
+            </div>
+
+            <p>
+              <b>Nome: </b>{{ responsavel.nomeFantasia }}
+              <small> <b>Cargo: </b>{{ responsavel.cargo?.nomeCargo }}</small>
+            </p>
+          </li>
+        </ng-template>
+      </cdk-virtual-scroll-viewport>
+    </ul>
+    <div class="form-group form-check mt-4 mb-0 pl-0">
+      <aw-checkbox [(ngModel)]="selectResponsavelToAllGrupos">Selecionar para todos os grupos</aw-checkbox>
+    </div>
+  </div>
+
+  <div class="modal-footer d-flex justify-content-end pt-1">
+    <button (click)="close()" awButton status="secondary" type="button">Cancelar</button>
+    <button (click)="submitResponsavel()" [disabled]="!selectedResponsavel" awButton type="button">Concluir</button>
+  </div>
+</ng-container>

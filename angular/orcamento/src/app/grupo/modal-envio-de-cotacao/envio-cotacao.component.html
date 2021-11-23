@@ -1,0 +1,107 @@
+<div class="modal-header">
+  <div>
+    <h4 class="modal-title">Envio de Cotação</h4>
+    <p class="mb-0 ml-auto text-lowercase">
+      {{ grupo.codigoGrupo + ' - ' + grupo.nomeGrupo }}
+    </p>
+    <button
+      [disabled]="loaderSubmitEnvioCotacao"
+      (click)="bsModalRef.hide()"
+      aria-label="Close"
+      class="close btn-icon"
+      type="button"
+    >
+      <i class="icon icon-close"></i>
+    </button>
+  </div>
+</div>
+<div
+  class="modal-body pb-0"
+  *ngLet="{ index: envioService.envioStep$ | async, validacaoGrupoItem: validacaoGrupoItem$ | async } as state"
+>
+  <form [formGroup]="formSteps" class="form">
+    <aw-stepper
+      class="envio-stepper"
+      (selectionChange)="onSelectTab($event.selectedIndex)"
+      [selectedIndex]="state.index"
+      #stepperRef
+    >
+      <aw-step [editable]="!loaderSubmitEnvioCotacao && !loaderValidacaoGrupo" label="Itens inconsistentes">
+        <aw-spinner *ngIf="loaderValidacaoGrupo"></aw-spinner>
+        <ng-container>
+          <app-envio-cotacao-validacao-grupo-item
+            *ngIf="stepperRef.selectedIndex === 0"
+            (atualizarValidacao)="fillValidacaoGrupoItemStep()"
+            [grupo]="grupo"
+            [reenvio]="reenvio"
+            [grupoItem]="state.validacaoGrupoItem"
+            [idOrcamentoCenario]="idOrcamentoCenario"
+            [isControleCompras]="isControleCompras"
+            [idProjeto]="idProjeto"
+          >
+          </app-envio-cotacao-validacao-grupo-item>
+        </ng-container>
+      </aw-step>
+      <aw-step
+        [editable]="!loaderSubmitEnvioCotacao && !state.validacaoGrupoItem?.length"
+        label="Contato e datas"
+        *ngLet="contatos$ | async as contatos"
+      >
+        <app-envio-cotacao-contato-datas
+          *ngIf="stepperRef.selectedIndex === 1"
+          [grupo]="grupo"
+          [idOrcamento]="idOrcamento"
+          [contatos]="contatos || []"
+          (contatoSelected)="onContatoSelected($event)"
+          formControlName="firstStep"
+        ></app-envio-cotacao-contato-datas>
+      </aw-step>
+      <aw-step [editable]="!loaderSubmitEnvioCotacao && !state.validacaoGrupoItem?.length" label="Fornecedores">
+        <app-envio-cotacao-fornecedores
+          *ngIf="stepperRef.selectedIndex === 2"
+          [grupo]="grupo"
+          [idFornecedorAtual]="idFornecedorAtual"
+          [reenvio]="reenvio"
+          [fornecedores]="formSteps.get('secondStep').value"
+          (fornecedoresChange)="formSteps.get('secondStep').setValue($event)"
+        ></app-envio-cotacao-fornecedores>
+      </aw-step>
+      <aw-step
+        customClass="step-3"
+        [editable]="!loaderSubmitEnvioCotacao && !state.validacaoGrupoItem?.length"
+        label="Arquivos"
+      >
+        <app-envio-cotacao-arquivos
+          *ngIf="stepperRef.selectedIndex === 3"
+          [grupo]="grupo"
+          [idProjeto]="idProjeto"
+          formControlName="thirdStep"
+        ></app-envio-cotacao-arquivos>
+      </aw-step>
+      <aw-step
+        [editable]="!loaderSubmitEnvioCotacao && !state.validacaoGrupoItem?.length"
+        label="Condições de fornecimento"
+      >
+        <app-envio-cotacao-condicoes-fornecimento
+          *ngIf="stepperRef.selectedIndex === 4"
+          [grupo]="grupo"
+          [propostaDetalhada]="propostaDetalhada"
+          formControlName="fourthStep"
+        ></app-envio-cotacao-condicoes-fornecimento>
+      </aw-step>
+      <aw-step
+        [editable]="!loaderSubmitEnvioCotacao && !state.validacaoGrupoItem?.length"
+        label="Condições específicas"
+      >
+        <app-envio-cotacao-condicoes-especificas
+          *ngIf="stepperRef.selectedIndex === 5"
+          [grupo]="grupo"
+          formControlName="fifthStep"
+          (sendForm)="sendForm(!state.validacaoGrupoItem?.length)"
+          [formValid]="formValid && !state.validacaoGrupoItem?.length"
+          [loaderSubmitEnvioCotacao]="loaderSubmitEnvioCotacao"
+        ></app-envio-cotacao-condicoes-especificas>
+      </aw-step>
+    </aw-stepper>
+  </form>
+</div>

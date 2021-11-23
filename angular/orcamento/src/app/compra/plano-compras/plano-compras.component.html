@@ -1,0 +1,18 @@
+<div class="card" *ngLet="pcCabecalhoQuery.minified$ | async as minified">
+  <div class="card-header">
+    <h4>Plano de compras</h4>
+    <button
+      [tooltip]="minified ? 'Mostrar' : 'Esconder'"
+      [delay]="400"
+      awButton
+      [icon]="minified ? 'caret-up' : 'caret-down'"
+      [iconSize]="7"
+      (click)="pcCabecalhoService.toggleMinified()"
+    ></button>
+  </div>
+  <div class="card-body">
+    <app-pc-cabecalho [minified]="minified"></app-pc-cabecalho>
+    <app-pc-colunas-grupos *ngIf="!minified"></app-pc-colunas-grupos>
+    <app-pc-grid [minified]="minified"></app-pc-grid>
+  </div>
+</div>

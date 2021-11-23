@@ -1,0 +1,11 @@
+<aw-spinner *ngIf="loading" fullScreen size="md"></aw-spinner>
+<header *ngIf="!isBuild">
+  <app-navbar></app-navbar>
+</header>
+
+<app-breadcrumbs *ngIf="showBreadcrumbs$ | async"></app-breadcrumbs>
+<main class="container-fluid">
+  <div class="content container-fluid">
+    <router-outlet></router-outlet>
+  </div>
+</main>

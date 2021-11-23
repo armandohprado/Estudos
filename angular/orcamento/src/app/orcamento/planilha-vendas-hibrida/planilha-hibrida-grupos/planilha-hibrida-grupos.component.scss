@@ -1,0 +1,421 @@
+@import 'variables';
+@import 'mixins';
+
+$spacing: 10px;
+
+.p-row {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  &.change-order {
+    > .p-col {
+      border-bottom-left-radius: $border-radius;
+      &.transferir-saldo {
+        button {
+          font-size: 12px;
+        }
+      }
+    }
+    > .span16 {
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}
+.valores-oportunidade {
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 20px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-acoes-header {
+  background-color: #ffffff;
+  padding-top: 25px;
+  border-bottom: 1px solid rgba(192, 192, 192, 0.5);
+
+  p {
+    font-size: 0.95em;
+    font-weight: bold;
+  }
+}
+.tabela-planilha-hibrida {
+  table-layout: fixed;
+  min-width: 100%;
+  tr.header-title-planilha {
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0 $spacing * 4 0 $spacing * 2;
+    text-align: right;
+  }
+
+  td {
+    font-size: 12px;
+  }
+}
+
+th {
+  border-right: 15px solid transparent;
+}
+
+.tabela-planilha-scroll {
+  overflow-x: auto;
+}
+
+.contrato-grupo select {
+  border-radius: 3px;
+  padding: 4px 0;
+}
+
+.content-collapse {
+  padding: $spacing;
+}
+
+.header-title-taxas {
+  text-align: right;
+  padding-left: $spacing;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.header-title-valor {
+  width: 130px;
+  padding-left: $spacing;
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.header-title-grupo {
+  /* font-size: 12px; */
+  font-weight: 500;
+  text-align: right;
+}
+
+.header-title-planilha th {
+  text-align: inherit;
+  font-weight: normal;
+  white-space: nowrap !important;
+}
+
+.header-inputs-planilha {
+  background-color: #f2f5f7;
+  border-radius: $border-radius;
+
+  th {
+    padding: 10px 0;
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+
+  > .grupo-codigo {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+}
+
+.line-toggle-col {
+  width: 95%;
+  float: left;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.btn-toggle-show-col {
+  margin-top: 4px;
+  font-size: 14px;
+  /* float: right; */
+}
+
+.btn-toggle-hide-col {
+  margin-top: -11px;
+  font-size: 14px;
+  float: right;
+}
+
+.description {
+  /* width: 210px; */
+  display: inline-block;
+}
+
+.oportunidade {
+  background-color: #f7bd00;
+  width: 110px !important;
+  min-width: 125px !important;
+}
+
+.line-divisor-row {
+  width: 100%;
+  float: left;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.grupos-planilha-hibrida {
+  position: relative;
+}
+
+.icon:not(.msg) {
+  font-size: 6px;
+}
+.grupo-codigo {
+  width: 105px;
+  min-width: 105px;
+}
+.grupo-descricao {
+  width: 330px;
+  min-width: 330px;
+}
+.grupo-subtotal-valortotal {
+  width: 140px;
+  min-width: 140px;
+}
+.grupo-percentual {
+  width: 95px;
+  min-width: 95px;
+}
+.grupo-percentual-desconto-vp {
+  width: 132px;
+  min-width: 132px;
+}
+.grupo-valor {
+  width: 125px;
+  min-width: 125px;
+}
+.grupo-combo-imposto {
+  width: 125px;
+  min-width: 125px;
+}
+
+.grupo-valor-saldo {
+  &.red {
+    color: $danger;
+  }
+}
+
+.comentario-edit {
+  background-color: #ffffff;
+  padding: $spacing;
+  margin-top: -25px;
+  border-radius: 3px;
+  box-shadow: 0 2px 10px 0 rgba(60, 60, 60, 0.3);
+}
+.link {
+  font-size: 12px;
+  cursor: pointer;
+  color: $primary;
+  padding-left: 10px;
+  transition: all 0.3s ease;
+  &:hover {
+    text-decoration: underline;
+    font-size: 12px;
+  }
+}
+
+.card {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  box-shadow: none;
+}
+
+.card-header {
+  background-color: #e7ecef;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 3px;
+
+  .family-info {
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+}
+.card-body {
+  background-color: #e7ecef;
+  position: relative;
+}
+.card-body-proposta {
+  padding: $spacing * 3 $spacing $spacing $spacing;
+  transition: padding 200ms ease;
+}
+
+.grupao-info {
+  border-bottom: 2px solid #9ea1ae;
+  margin-top: $spacing;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.grupo-info {
+  border: none;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  margin-top: $spacing;
+  font-size: 12px;
+  padding: 0 0 0 2px;
+  background-color: #ffffff;
+
+  td {
+    padding: $spacing;
+    &:first-child {
+      border-top-left-radius: $border-radius;
+    }
+    &:last-child {
+      border-top-right-radius: $border-radius;
+    }
+  }
+}
+
+.divisor-linha {
+  border-bottom: 1px solid #e7ecef;
+}
+.divisor-coluna-left {
+  border-left: 1px solid #e7ecef;
+}
+
+.adic-desc {
+  width: 215px;
+}
+.quem-orcou {
+  font-size: 12px;
+}
+.valor-orcado-title {
+  margin-left: 20px;
+}
+.valor-orcado-grupo {
+  padding-right: $spacing * 2;
+  font-weight: bold;
+  width: 105px;
+  font-size: 12px;
+  text-align: right;
+}
+.subtotal-adic-desc-title {
+  margin-left: -15px;
+  padding-right: 0;
+}
+.subtotal-adic-desc-grupo {
+  padding-left: $spacing;
+  font-weight: bold;
+  font-size: 12px;
+  width: 110px;
+  float: right;
+  text-align: right;
+}
+.contrato {
+  width: 226px;
+}
+.subtotal-contrato-grupo {
+  padding-left: 3px;
+  font-weight: bold;
+  font-size: 12px;
+  float: right;
+  margin-right: 22px;
+}
+.valor-total-title {
+  margin-right: -16px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.valor-total-grupo {
+  padding-left: 1px;
+  margin-right: 5px;
+  font-weight: bold;
+  width: 105px;
+  text-align: right;
+  font-size: 12px;
+}
+.btn-saving-individual {
+  text-align: right;
+  float: right;
+  padding-right: $spacing * 2.5;
+  color: #048dbc;
+
+  .icon {
+    font-size: 14px;
+    color: #3c3c3c;
+  }
+}
+
+.taxa-embutida {
+  margin-left: 10px;
+}
+.arrow-up-down-grupo {
+  float: left;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.card-header-grupo {
+  background-color: #ffffff;
+  border: none;
+  border-radius: $border-radius;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  &.has-error {
+    border-color: $red;
+    background-color: $light-red;
+    .grupo-info {
+      background-color: $light-red;
+    }
+  }
+}
+.card-body-grupo {
+  background-color: #ffffff;
+  padding: $spacing;
+}
+
+input.porcento {
+  width: 100px;
+  height: 25px;
+  font-size: 12px;
+  background-color: #ffffff;
+  margin: auto 2px;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  padding: 5px 1px;
+  text-align: right;
+  float: right;
+}
+.hide {
+  pointer-events: none !important;
+  display: none !important;
+}
+input.valor {
+  width: 90px;
+  height: 25px;
+  font-size: 12px;
+  background-color: #ffffff;
+  margin: auto 2px;
+  border: 1px solid #3c3c3c;
+  border-radius: 3px;
+  padding: 5px 1px;
+  text-align: right;
+}
+
+.planilha-hibrida {
+  width: 100%;
+  margin-left: $spacing;
+}
+
+.taxa-embutida-title {
+  padding-right: 0;
+}
+
+.lista-grupos-collapse {
+  margin-bottom: 5px;
+}
+
+.align-left {
+  text-align: left !important;
+}
+.align-right {
+  text-align: right;
+}
+.margin-hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

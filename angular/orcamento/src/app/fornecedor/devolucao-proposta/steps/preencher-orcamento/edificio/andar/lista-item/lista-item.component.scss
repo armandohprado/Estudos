@@ -1,0 +1,31 @@
+@import 'variables';
+
+.aw-icon-sucesso:before {
+  content: '\e941';
+  color: #00d46c;
+}
+
+.hide {
+  display: none;
+}
+
+.first {
+  display: flex;
+}
+
+.content {
+  padding: 0.4rem;
+}
+
+.word {
+  word-break: keep-all;
+}
+
+.display-6 {
+  font-size: 0.6rem;
+  color: #318ad8;
+}
+
+:host ::ng-deep .border-detalhes {
+  border-bottom: 2px solid $gray;
+}

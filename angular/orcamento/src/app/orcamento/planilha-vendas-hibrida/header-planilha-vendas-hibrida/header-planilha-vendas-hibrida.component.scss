@@ -1,0 +1,132 @@
+@import 'variables';
+
+$margem-contribuicao-spacing: 20px;
+
+:host {
+  > .title {
+    padding: 10px 15px;
+    background-color: $secondary;
+    > h5 {
+      color: white;
+      margin: 0;
+    }
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+}
+
+.header {
+  &.sticky {
+    position: sticky;
+    top: 95px;
+    z-index: 2;
+    height: 200px;
+  }
+  padding: 1rem;
+  background-color: $light-gray;
+  min-height: 176px;
+  > .row,
+  .row-2 {
+    display: grid;
+    grid-gap: 1rem;
+    margin: 0;
+  }
+  > .row {
+    grid-template-columns: 40px repeat(4, minmax(0, 1fr)) $margem-contribuicao-spacing repeat(3, minmax(0, 1fr));
+    > div {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &.total-custo {
+        grid-column-start: 2;
+      }
+      &.margem-contribuicao {
+        grid-column: span 2;
+      }
+      > .title {
+        font-style: italic;
+        font-size: 12px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      > .value {
+        font-weight: bold;
+        font-size: 1.1rem;
+        &.has-percent {
+          display: grid;
+          grid-template-columns: 1fr 50px;
+          grid-gap: 0.5rem;
+          > .percent {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+  > .row-2 {
+    grid-template-columns: 40px repeat(8, minmax(0, 1fr)) $margem-contribuicao-spacing repeat(6, minmax(0, 1fr));
+    > div {
+      font-size: 12px;
+      > .title {
+        text-align: right;
+      }
+      > .value {
+        font-weight: bold;
+      }
+      &.margem-contribuicao {
+        grid-column: 7/11;
+      }
+      &.margem-contribuicao,
+      &.total-custo,
+      &.base-orcamento {
+        display: grid;
+        grid-template-columns: repeat(2, max-content) minmax(0, 50px);
+        grid-column-gap: 0.5rem;
+        justify-content: flex-end;
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        > .value {
+          font-size: 14px;
+        }
+        > .percent {
+          font-size: 11px;
+        }
+        > .title {
+          font-style: italic;
+          &.span {
+            grid-column: 1/-1;
+          }
+        }
+      }
+      &.total-custo,
+      &.base-orcamento {
+        grid-column: span 3;
+      }
+      &.refaturamento {
+        grid-column: 13/15;
+        > .title {
+          font-style: italic;
+        }
+        > .value {
+          text-align: right;
+        }
+      }
+      &.desconto-comercial {
+        grid-column: span 2;
+        > .value {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

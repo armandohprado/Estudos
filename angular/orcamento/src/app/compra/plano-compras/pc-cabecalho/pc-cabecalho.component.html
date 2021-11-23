@@ -1,0 +1,54 @@
+<ng-container
+  *ngIf="{
+    valores: pcCabecalhoQuery.valoresCabecalho$ | async,
+    cabecalho: pcCabecalhoQuery.cabecalho$ | async,
+    projeto: projeto$ | async
+  } as header"
+>
+  <div *ngIf="!minified">
+    <div class="projeto">
+      <span class="numero">{{ header.projeto?.numeroProjeto }}</span>
+      <span class="nome">{{ header.projeto?.nomeProjeto }}</span>
+    </div>
+  </div>
+
+  <div class="cabecalho">
+    <div class="valores" [class.percent]="valor?.hasPercent" *ngFor="let valor of header.valores; trackBy: trackBy">
+      <ng-container *ngIf="valor; else divider">
+        <div class="title-valor">
+          <div class="title" *ngIf="!minified">{{ valor.title }} (R$)</div>
+          <div class="valor" [class.m-0]="minified" [tooltip]="valor.title" [delay]="100" [isDisabled]="!minified">
+            {{ valor.value | default: 0 | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="percent" *ngIf="valor.hasPercent">
+          {{ header.cabecalho[valor.hasPercent] | default: 0 | number: '1.2-2' }}%
+        </div>
+      </ng-container>
+      <ng-template #divider>
+        <div class="divider"></div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="cabecalho py-0 my-0">
+    <div class="valores subPercent column-start-5">
+      <ng-container *ngIf="header.valores[4] as segundaLinha">
+        <div class="title-valor">
+          <div class="title" *ngIf="!minified">Total de desconto comercial incluído (R$)</div>
+          <div
+            class="valor m-0"
+            [class.m-0]="minified"
+            tooltip="Total de desconto comercial incluído"
+            [delay]="100"
+            [isDisabled]="!minified"
+          >
+            {{ segundaLinha.subValue | default: 0 | number: '1.2-2' }}
+          </div>
+        </div>
+        <div class="percent justify-content-end">
+          {{ header.cabecalho[segundaLinha.subPercent] | default: 0 | number: '1.2-2' }}%
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

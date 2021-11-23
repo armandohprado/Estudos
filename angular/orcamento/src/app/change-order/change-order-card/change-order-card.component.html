@@ -1,0 +1,46 @@
+<div class="card cenarios-card" *ngIf="changeOrderGrouped$ | async as changeOrderGrouped">
+  <app-header-co></app-header-co>
+
+  <div class="card-body">
+    <div class="grid-table with-details-row" role="grid">
+      <div class="actions d-flex align-items-center" role="rowgroup">
+        <a awButton status="ghost" routerLink="criar">
+          <span class="icon icon-plus-circle"></span> Criar Change Order
+        </a>
+      </div>
+
+      <ng-container *ngIf="!changeOrderGrouped?.length; else changeOrdersRef">
+        <div class="create-change-order-wrapper d-flex flex-column align-items-center justify-content-center">
+          <p>
+            Ainda não existem Change Orders criadas. <br />
+            clique no botão abaixo para iniciar.
+          </p>
+          <a awButton status="primary" size="md" routerLink="criar">Criar Change Order</a>
+        </div>
+      </ng-container>
+      <ng-template #changeOrdersRef>
+        <div role="rowgroup">
+          <div role="row">
+            <div class="justify-content-center" role="columnheader"></div>
+            <div role="columnheader">Revisão</div>
+            <div class="justify-content-end" role="columnheader">Impostos (R$)</div>
+            <div class="justify-content-end" role="columnheader">Margem Prevista (R$)</div>
+            <div class="justify-content-end" role="columnheader">Valor Venda (R$)</div>
+            <div class="justify-content-end" role="columnheader"></div>
+          </div>
+        </div>
+        <ng-container *ngFor="let changeOrderGroup of changeOrderGrouped; trackBy: trackByStatus">
+          <ng-container *ngIf="changeOrderGroup.lista.length">
+            <div class="section-divider mt-15 mb-2" [ngClass]="changeOrderGroup.type">
+              <label class="divider-label">{{ changeOrderGroup.nome }}</label>
+            </div>
+            <app-change-order-details
+              *ngFor="let changeOrder of changeOrderGroup.lista; trackBy: trackByChangeOrder"
+              [changeOrder]="changeOrder"
+            ></app-change-order-details>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+@import 'variables';
+
+.caret {
+  color: $cerulean;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 6px;
+}
+.bg-collapse-group {
+  background-color: $gray-secondary;
+}

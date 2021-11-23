@@ -1,0 +1,11 @@
+::ng-deep {
+  .modal-footer {
+    .btn {
+      min-width: 105px;
+
+      &:not(:last-child):not(.transitionNone) {
+        margin-right: 15px;
+      }
+    }
+  }
+}

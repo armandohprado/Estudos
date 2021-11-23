@@ -1,0 +1,23 @@
+@use '../equalizacao-proposta' as ep;
+@use 'variables' as v;
+
+:host {
+  &.aw-referencia {
+    border-color: white;
+    position: sticky;
+    left: ep.$ep-first-column-width;
+    z-index: 0;
+  }
+  &:not(.aw-referencia) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 70px;
+    grid-gap: 0.5rem;
+    padding-right: 0;
+  }
+}
+
+.valor-total {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}

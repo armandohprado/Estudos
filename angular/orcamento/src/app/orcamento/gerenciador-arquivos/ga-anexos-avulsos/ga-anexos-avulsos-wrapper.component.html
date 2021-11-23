@@ -1,0 +1,7 @@
+<app-ga-anexos-avulsos
+  [anexos]="gaAnexoAvulsoQuery.all$ | async"
+  [apenasSelecionados]="gaAtividadeQuery.onlySelected$ | async"
+  [readonly]="gerenciadorArquivosService.readonly"
+  (anexoToggle)="toggleAnexo($event)"
+  (download)="download($event)"
+></app-ga-anexos-avulsos>

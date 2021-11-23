@@ -1,0 +1,33 @@
+@import 'variables';
+
+.arquivos {
+  > .arquivo {
+    background-color: $body-bg;
+    border-radius: $border-radius;
+    padding: 0.5rem 1rem;
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+    > .header {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr)) 20px;
+      grid-gap: 0.5rem;
+      > .nome {
+        grid-column: span 4;
+      }
+      > .versoes {
+        grid-column: span 3;
+      }
+      &:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+    > .body {
+      > .inner-body {
+        padding: 0.75rem 1.25rem;
+        background-color: $steel;
+        border-radius: $border-radius;
+      }
+    }
+  }
+}

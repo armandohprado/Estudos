@@ -1,0 +1,41 @@
+@import 'variables';
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+}
+.grid-6 {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+}
+hr {
+  margin: 0;
+}
+.bg-cinza {
+  background: $very-light-blue;
+}
+.bg-cinza-secondary {
+  background: $very-light-blue;
+}
+:host ::ng-deep .icon-caret-down,
+:host ::ng-deep .icon-caret-up {
+  color: #019bcf;
+}
+:host ::ng-deep .aw-select .icon-caret-down,
+:host ::ng-deep .aw-select .icon-caret-up {
+  color: black;
+}
+.icon {
+  font-size: 8px;
+  align-self: center;
+}
+.totais {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 100px 0 0;
+}
+.margin-totais {
+  margin: 0 130px 0 0;
+}
+.cursor {
+  cursor: pointer;
+}

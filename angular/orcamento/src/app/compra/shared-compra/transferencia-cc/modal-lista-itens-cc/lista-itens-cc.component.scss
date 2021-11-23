@@ -1,0 +1,37 @@
+@import 'variables';
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+}
+.grid-6 {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+hr {
+  margin: 0;
+}
+.bg-cinza {
+  background: $gray-secondary;
+}
+.bg-cinza-secondary {
+  background: $very-light-blue;
+}
+:host ::ng-deep .icon-caret-down,
+:host ::ng-deep .icon-caret-up {
+  color: #019bcf;
+}
+:host ::ng-deep .aw-select .icon-caret-down,
+:host ::ng-deep .aw-select .icon-caret-up {
+  color: black;
+}
+.icon {
+  font-size: 8px;
+  align-self: center;
+}
+
+.titulo-grupo {
+  font-weight: 400;
+}
+.conteudo-grupo {
+  font-weight: 700;
+}

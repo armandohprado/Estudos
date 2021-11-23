@@ -1,0 +1,16 @@
+.aw-dialog {
+  .modal-body {
+    padding: 2rem;
+    .icon {
+      font-size: 80px;
+    }
+    .content {
+      font-size: 12px;
+    }
+  }
+  .modal-footer {
+    .btn {
+      min-width: 0;
+    }
+  }
+}

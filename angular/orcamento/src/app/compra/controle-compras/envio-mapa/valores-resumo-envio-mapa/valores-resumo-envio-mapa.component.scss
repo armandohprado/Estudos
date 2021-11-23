@@ -1,0 +1,38 @@
+@use 'variables' as v;
+
+.bloco {
+  margin: 10px 0;
+}
+
+.subtitulo {
+  font-weight: bold;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 50px repeat(7, minmax(0, 1fr));
+  margin: 0 1rem;
+  padding: 10px;
+  grid-gap: 0.5rem;
+}
+
+.grid-column-3 {
+  grid-column: 5/7;
+}
+
+.grid-column-5 {
+  grid-column-start: 8;
+}
+
+.selects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 1rem;
+}
+
+.plano-compra-questoes {
+  background-color: v.$very-light-blue;
+  border-radius: v.$border-radius;
+  padding: 1rem;
+  justify-content: center;
+}

@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h5 class="modal-title">Detalhes do Produto</h5>
+  <button type="button" class="close" (click)="bsModalRef.hide()">
+    <span class="icon icon-close"></span>
+  </button>
+</div>
+<div class="modal-body" [awSpinner]="produtoCatalogo.loading">
+  <h5>{{ produtoCatalogo.nome }}</h5>
+  <div class="produto">
+    <div class="img-produto">
+      <img [src]="produtoCatalogo | deliProdutoCatalogoImagem" [alt]="produtoCatalogo.nome" [awImgOnError]="noImage" />
+    </div>
+    <div class="detalhes">
+      <div class="detalhes-content">
+        <div class="item variacoes" *ngIf="showVariacoes && $any(produtoCatalogo).variacoes?.length">
+          <ng-container *ngFor="let variacaoGroup of produtoCatalogo.variacoes; trackBy: trackByVariacaoGroup">
+            <div class="title">
+              {{ variacaoGroup.titulo }}
+            </div>
+            <div class="values">
+              <span
+                class="badge badge-pill"
+                [ngClass]="{
+                  'badge-secondary': variacao.active,
+                  disabled: variacaoGroup.disabled,
+                  deleted: variacao.deleted
+                }"
+                *ngFor="let variacao of variacaoGroup.valoresCustom; trackBy: trackByVariacao"
+                (click)="selecionarVariacao(variacaoGroup, variacao)"
+              >
+                {{ variacao.valor }}
+              </span>
+            </div>
+          </ng-container>
+        </div>
+        <div class="item">
+          <div class="title">Fornecedor</div>
+          <div class="value">{{ produtoCatalogo.nomeFornecedor }}</div>
+        </div>
+        <div class="item">
+          <div class="title">Prazo de entrega</div>
+          <div class="value">{{ produtoCatalogo.prazoEntrega }}</div>
+        </div>
+        <div class="item local">
+          <div class="title">Local / Valor Un.</div>
+          <div class="value">
+            <div class="preco">
+              <div class="uf-info">
+                <span class="uf">SP</span>
+                <span class="value-uf">
+                  {{ produtoCatalogo.precoFabricaSP | currency: produtoCatalogo.moeda }}
+                </span>
+              </div>
+              <div class="uf-info">
+                <span class="uf">RJ</span>
+                <span class="value-uf">
+                  {{ produtoCatalogo.precoFabricaRJ | currency: produtoCatalogo.moeda }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="descricao">
+        <div class="title">Descrição</div>
+        <div class="value">{{ produtoCatalogo.descricao }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer" *ngIf="!hideBtn">
+  <button awButton (click)="salvar()" [disabled]="produtoCatalogo.loading || btnDisabled">
+    {{ btnText | default: (selecionado ? 'Remover' : 'Selecionar') + ' Produto' }}
+  </button>
+</div>

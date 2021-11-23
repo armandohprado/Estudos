@@ -1,0 +1,33 @@
+<ng-container *ngLet="filter$ | async as filter">
+  <div class="grid-item">
+    <div [innerHTML]="name"></div>
+    <div class="d-flex icons" *ngLet="sort?.property === propertyGrupo as isPropertySort">
+      <span
+        awFilter
+        [type]="type"
+        [sort]="isPropertySort ? sort.order : null"
+        (sortChanged)="$event ? updateSort(propertyGrupo, $event) : removeSort()"
+        [filter]="filter?.filterType === 'filter' ? filter.term : null"
+        (filterChanged)="onFilter($event)"
+        [conditional]="filter?.filterType === 'conditional' ? filter.conditional : null"
+        (conditionalChanged)="onConditional($event)"
+        class="icon icon-filter"
+        [class.active]="!!filter"
+      ></span>
+      <div class="sort px-2">
+        <span
+          *ngLet="isPropertySort && sort?.order === 'asc' as isSorted"
+          class="icon icon-caret-up"
+          [class.active]="isSorted"
+          (click)="isSorted ? removeSort() : updateSort(propertyGrupo, 'asc')"
+        ></span>
+        <span
+          *ngLet="isPropertySort && sort?.order === 'desc' as isSorted"
+          class="icon icon-caret-down"
+          [class.active]="isSorted"
+          (click)="isSorted ? removeSort() : updateSort(propertyGrupo, 'desc')"
+        ></span>
+      </div>
+    </div>
+  </div>
+</ng-container>

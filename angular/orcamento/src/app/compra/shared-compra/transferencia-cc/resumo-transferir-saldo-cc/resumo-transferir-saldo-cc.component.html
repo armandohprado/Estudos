@@ -1,0 +1,46 @@
+<div class="bg-white p-2 rounded">
+  <div class="mx-5">
+    <div class="grid-6 mx-5 p-1 font-weight-bold">
+      <div>Grupo</div>
+      <div>Número CC</div>
+      <div>Fornecedor</div>
+      <div class="d-flex justify-content-end">Valor CC</div>
+      <div class="d-flex justify-content-end">Saldo</div>
+      <div class="d-flex justify-content-end">Valor Utilizado</div>
+    </div>
+    <hr />
+    <div class="py-2">
+      <div
+        *ngFor="
+          let grupo of listaGrupo
+            | awFilter
+              : {
+                  valorUtilizado: {
+                    filterType: 'conditional',
+                    type: 'number',
+                    conditional: { term: 0, condition: 'maior' }
+                  }
+                };
+          trackBy: trackByGrupo;
+          let $odd = odd
+        "
+        class="grid-6 my-2 mx-5 p-1 rounded"
+        [class.bg-cinza-secondary]="$odd"
+        [class.cursor]="!readonly"
+      >
+        <div>{{ grupo.codigo }} - {{ grupo.nome }}</div>
+        <div>{{ grupo.idConfirmacaoCompraLegado }}</div>
+        <div>{{ grupo.nomeFantasia }}</div>
+        <div class="d-flex justify-content-end">
+          {{ grupo.valorTotalNegociado | default: 0 | number: '1.2-2' }}
+        </div>
+        <div class="d-flex justify-content-end">
+          {{ grupo.valorSaldo | default: 0 | number: '1.2-2' }}
+        </div>
+        <div class="d-flex justify-content-end">
+          {{ grupo.valorUtilizado | default: 0 | number: '1.2-2' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

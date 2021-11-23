@@ -1,0 +1,26 @@
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-size: 1.25rem;
+  border-bottom: solid 1px #9ea1ae;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+}
+p {
+  width: 70%;
+}
+.custom-control {
+  width: 70%;
+  margin: 2rem 0;
+}
+label {
+  font-size: 1.15rem;
+  line-height: 1.15rem;
+  span {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+}

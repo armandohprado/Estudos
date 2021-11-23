@@ -1,0 +1,56 @@
+<form [formGroup]="implantacaoSteps" class="form">
+  <h3 class="project-name">
+    <span>{{ projeto.numeroProjeto }}</span>
+    {{ projeto.nomeProjeto }}
+  </h3>
+  <tabset type="pills" class="questionario-steps" #tabsetImplantacao>
+    <tab id="1">
+      <ng-template tabHeading>
+        <span class="tab-indicator">1</span>
+        <span class="title">Infomações e Fornencedores</span>
+      </ng-template>
+      <app-step1-implantacao (changeTab)="onSelectTab($event)" [formParent]="questionario"></app-step1-implantacao>
+    </tab>
+    <tab id="2">
+      <ng-template tabHeading>
+        <span class="tab-indicator">2</span>
+        <span class="title">Segurança e Critérios</span>
+      </ng-template>
+      <app-step2-implantacao (changeTab)="onSelectTab($event)" [formParent]="questionario">
+        [idQuestionarioModelo]="questionario?.idQuestionarioModelo" [idQuestionario]="questionario?.idQuestionario"
+      </app-step2-implantacao>
+    </tab>
+    <tab id="3">
+      <ng-template tabHeading>
+        <span class="tab-indicator">3</span>
+        <span class="title">Condições do ambiente / local da obra</span>
+      </ng-template>
+      <app-step3-implantacao (changeTab)="onSelectTab($event)" [formParent]="questionario"></app-step3-implantacao>
+    </tab>
+    <tab id="4">
+      <ng-template tabHeading>
+        <span class="tab-indicator">4</span>
+        <span class="title">Documentação</span>
+      </ng-template>
+      <app-step4-implantacao
+        [idQuestionarioModelo]="questionario?.idQuestionarioModelo"
+        (changeTab)="onSelectTab($event)"
+        [formParent]="questionario"
+      ></app-step4-implantacao>
+    </tab>
+    <tab id="5">
+      <ng-template tabHeading>
+        <span class="tab-indicator">5</span>
+        <span class="title">Empreitada parcial</span>
+      </ng-template>
+      <app-step5-implantacao (changeTab)="onSelectTab($event)" [formParent]="questionario"></app-step5-implantacao>
+    </tab>
+    <tab id="6">
+      <ng-template tabHeading>
+        <span class="tab-indicator">6</span>
+        <span class="title">Informações para negociação</span>
+      </ng-template>
+      <app-step6-implantacao (changeTab)="onSelectTab($event)" [formParent]="questionario"></app-step6-implantacao>
+    </tab>
+  </tabset>
+</form>

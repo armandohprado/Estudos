@@ -1,0 +1,37 @@
+@import 'variables';
+
+.pc-grid-colunas {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #f7f7f7;
+  > .tabs {
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--very-light-blue);
+    > .item {
+      padding-right: 15px;
+      padding-left: 15px;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      margin-bottom: -1px;
+      &.active {
+        border-color: $primary;
+      }
+      &:not(.colunas) {
+        font-weight: bold;
+      }
+      &.colunas {
+        > .icon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  > .congelar {
+    padding-bottom: 5px;
+    padding-right: 15px;
+    border-bottom: 1px solid var(--very-light-blue);
+  }
+}

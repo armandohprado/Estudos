@@ -1,0 +1,66 @@
+@import 'variables';
+
+:host ::ng-deep {
+  .nav {
+    &.nav-tabs {
+      padding: 0 15px;
+      border-bottom: 4px solid $very-light-blue;
+
+      .nav-item {
+        min-width: 148px;
+        position: relative;
+        .badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+        }
+        .nav-link {
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          font-weight: 500;
+          color: $headings-color;
+          opacity: 0.5;
+          background-color: white;
+          border: 1px solid transparent;
+          border-top-left-radius: $border-radius;
+          border-top-right-radius: $border-radius;
+          cursor: pointer;
+          position: relative;
+          &:hover {
+            background-color: #f4f6f7;
+            opacity: 1;
+          }
+
+          .tab-counter {
+            color: $secondary;
+            font-size: 12px;
+            font-weight: normal;
+          }
+
+          &.active {
+            opacity: 1;
+            background-color: $very-light-blue;
+          }
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    .tab-pane {
+      &:not(.prospecao) {
+        padding: 0 1rem;
+      }
+
+      &.prospecao {
+        &.active {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

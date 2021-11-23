@@ -1,0 +1,170 @@
+<table class="tabela-planilha-hibrida" *ngIf="totalTaxaAdministrativa?.tipoTaxaAdministrativa">
+  <tr class="taxa-administrativa text-right">
+    <td class="grupo-codigo">
+      <span class="number"> </span>
+    </td>
+    <td class="grupo-descricao text-left">
+      <span class="description"> Taxa Administrativa com valor fixo para toda proposta </span>
+    </td>
+    <td class="grupo-subtotal-valortotal"></td>
+    <td class="grupo-percentual"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td class="grupo-subtotal-valortotal" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td class="grupo-percentual" [awSpinner]="loading === 'loading'">
+      <span class="acrescimo-grupo">
+        <div class="float-right" *ngIf="!readonly; else exibirValoresPercentual">
+          <aw-radio
+            value="true"
+            class="d-flex justify-content-start"
+            [ngModel]="totalTaxaAdministrativa.taxaEmPercentual"
+            [name]="'proposta_' + totalTaxaAdministrativa.idOrcamentoCenario"
+            (ngModelChange)="alterarBaseCalculoCenario(percentual)"
+            >Percentual</aw-radio
+          >
+          <input
+            currencyMask
+            [options]="currencyPrecision4"
+            awInput
+            type="text"
+            class="porcento w-100"
+            name="porcento-margem"
+            #percentual
+            [class.border-info]="totalTaxaAdministrativa.taxaEmPercentual"
+            [(ngModel)]="totalTaxaAdministrativa.percentualTaxaAdministrativa"
+            (click)="focusSelect(percentual)"
+            (ngModelChange)="salvarTaxaAdmin(totalTaxaAdministrativa, 'porcentotaxaadm')"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+            [disabled]="planilhaVendasHibridaService.congelado || !totalTaxaAdministrativa.taxaEmPercentual"
+          />
+        </div>
+        <ng-template #exibirValoresPercentual class="float-right">
+          <span
+            >{{
+              (planilhaVendasHibridaOpcionalService._taxasCenario$ | async)?.percentualTaxaAdministrativaCenarioOpcional
+                | number: '1.1-2'
+            }}%</span
+          >
+        </ng-template>
+      </span>
+    </td>
+    <td class="grupo-valor" [awSpinner]="loading === 'loading'">
+      <span class="desconto-grupo">
+        <div *ngIf="!readonly; else exibirValores">
+          <aw-radio
+            value="false"
+            class="d-flex justify-content-start"
+            [ngModel]="totalTaxaAdministrativa.taxaEmPercentual"
+            [name]="'proposta_' + totalTaxaAdministrativa.idOrcamentoCenario"
+            (ngModelChange)="alterarBaseCalculoCenario(valor)"
+            >Real <b>(R$)</b></aw-radio
+          >
+          <input
+            currencyMask
+            awInput
+            type="text"
+            class="valor"
+            name="valor-margem"
+            #valor
+            [class.border-info]="!totalTaxaAdministrativa.taxaEmPercentual"
+            [(ngModel)]="totalTaxaAdministrativa.valorTaxaAdmistrativa"
+            (click)="focusSelect(valor)"
+            (ngModelChange)="salvarTaxaAdmin(totalTaxaAdministrativa, 'valortaxaadm')"
+            [ngModelOptions]="{ updateOn: 'blur' }"
+            [disabled]="planilhaVendasHibridaService.congelado || totalTaxaAdministrativa.taxaEmPercentual"
+          />
+        </div>
+        <ng-template #exibirValores class="float-right">
+          <span>{{
+            (planilhaVendasHibridaOpcionalService._taxasCenario$ | async)?.valorTaxaAdministrativaCenarioOpcional
+              | number: '1.1-2'
+          }}</span>
+        </ng-template>
+      </span>
+    </td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+    <td class="grupo-combo-imposto"></td>
+    <td class="grupo-percentual" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+    <td
+      class="grupo-percentual"
+      [class.oportunidade]="!planilhaVendasHibridaService.hideColOportunidade"
+      *ngIf="!isChangeOrder"
+    ></td>
+    <td
+      class="grupo-valor oportunidade"
+      *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade"
+    ></td>
+    <td class="grupo-percentual-desconto-vp"></td>
+    <td class="grupo-valor" *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN"></td>
+    <td class="grupo-subtotal-valortotal">
+      <span class="font-weight-bold"></span>
+    </td>
+  </tr>
+  <tr class="taxa-administrativa text-right mt-0">
+    <td colspan="2" class="p-0"></td>
+    <td colspan="16" class="p-0">
+      <hr class="line-divisor-row" *ngIf="!readonly" />
+    </td>
+  </tr>
+  <tr class="taxa-administrativa text-right last">
+    <td></td>
+    <td></td>
+    <td class="text-nowrap"></td>
+    <td class="pr-3"></td>
+    <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColDesconto"></td>
+    <td
+      class="pr-3"
+      cdkOverlayOrigin
+      #overlayComplemento="cdkOverlayOrigin"
+      (click)="editComentarioTaxaAdministrativa = true"
+    >
+      <i class="aw-icon-msg-black" *ngIf="totalTaxaAdministrativa.comentarioTaxaAdministrativa"></i>
+      <i class="aw-icon-msg-success" *ngIf="totalTaxaAdministrativa.comentarioTaxaAdministrativa"></i>
+    </td>
+    <ng-template
+      cdkConnectedOverlay
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      [cdkConnectedOverlayOpen]="editComentarioTaxaAdministrativa"
+      [cdkConnectedOverlayOrigin]="overlayComplemento"
+      [cdkConnectedOverlayPositions]="[editComplementoPosition]"
+      cdkConnectedOverlayPanelClass="overlay-complemento"
+      cdkConnectedOverlayWidth="300px"
+      (backdropClick)="editComentarioTaxaAdministrativa = false"
+    >
+      <div class="container-fluid comentario-edit">
+        <div class="d-flex flex-row mt-2">
+          <textarea
+            placeholder="Adicionar Comentário"
+            awInput
+            resize="none"
+            [(ngModel)]="totalTaxaAdministrativa.comentarioTaxaAdministrativa"
+            [disabled]="planilhaVendasHibridaService.congelado"
+          ></textarea>
+        </div>
+
+        <div class="d-flex flex-row justify-content-end mt-2">
+          <span class="link" (click)="editComentarioTaxaAdministrativa = false">Cancelar</span>
+          <span class="link" (click)="salvarTaxaAdmin(totalTaxaAdministrativa)"> Salvar </span>
+        </div>
+      </div>
+    </ng-template>
+    <td></td>
+    <td colspan="2"></td>
+    <td colspan="2" *ngIf="!planilhaVendasHibridaService.hideColImposto"></td>
+    <td></td>
+    <td></td>
+    <td class="pr-3" *ngIf="!isChangeOrder && !planilhaVendasHibridaService.hideColOportunidade"></td>
+    <td></td>
+    <td *ngIf="!planilhaVendasHibridaService.hideColDescontoVPDNN"></td>
+    <td *ngIf="!isChangeOrder"></td>
+  </tr>
+  <tr>
+    <td class="pt-3"></td>
+  </tr>
+</table>

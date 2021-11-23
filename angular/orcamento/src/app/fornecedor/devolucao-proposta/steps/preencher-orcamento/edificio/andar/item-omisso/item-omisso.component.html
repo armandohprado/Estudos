@@ -1,0 +1,35 @@
+<div class="row mx-1" [formGroup]="formOmisso" [awSpinner]="loadingOmisso">
+  <div class="col-12">
+    <div class="row py-3">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-2 font-weight-bold d-flex p-0">
+            <div class="px-2">
+              <span [class.aw-icon-sucesso]="omisso?.atributos?.idPropostaItemStatus === 2"></span>
+              <span [class.aw-icon-erro]="omisso?.atributos?.idPropostaItemStatus === 3"></span>
+            </div>
+            <div class="">
+              <div>{{ omisso?.tag }}</div>
+              <div>{{ omisso?.numeracao }}</div>
+            </div>
+          </div>
+          <div class="col-9">
+            <div class="mt-1 pr-3">
+              <label for="textArea">Item*</label>
+              <div [awSpinner]="omisso?.status?.descricao === 'loading'">
+                <textarea style="height: 166px" awInput id="textArea" resize="vertical" formControlName="descricao">
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-item-detalhes-valores
+        [item]="omisso"
+        [pavimento]="pavimento"
+        [omisso]="itemOmisso"
+        class="col-6"
+      ></app-item-detalhes-valores>
+    </div>
+  </div>
+</div>

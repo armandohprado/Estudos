@@ -1,0 +1,1400 @@
+diff --git a/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js b/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js
+new file mode 100644
+index 0000000..7c83983
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js
+@@ -0,0 +1,939 @@
++import { CommonModule } from '@angular/common';
++import { Component, Input, ContentChildren, EventEmitter, ElementRef, Output, NgModule } from '@angular/core';
++import { Spread } from '@grapecity/spread-sheets';
++
++/*import_begin*/
++/*import_end*/
++/*code_begin*/
++import * as ɵngcc0 from '@angular/core';
++import * as ɵngcc1 from '@angular/common';
++
++const _c0 = ["*"];
++class ColumnComponent {
++    constructor() {
++        this.changes = {};
++    }
++    onAttached(sheet, index) {
++        this.sheet = sheet;
++        this.index = index;
++        this.onColumnChanged();
++    }
++    onColumnChanged() {
++        if (this.sheet) {
++            const sheet = this.sheet;
++            sheet.suspendPaint();
++            sheet.suspendEvent();
++            const changes = this.changes;
++            for (const changeName in changes) {
++                let newValue = changes[changeName].currentValue;
++                if (newValue === null || newValue === void 0) {
++                    continue;
++                }
++                switch (changeName) {
++                    case 'width':
++                        newValue = parseInt(newValue, 10);
++                        sheet.setColumnWidth(this.index, newValue);
++                        break;
++                    case 'visible':
++                        sheet.setColumnVisible(this.index, newValue);
++                        break;
++                    case 'resizable':
++                        sheet.setColumnResizable(this.index, newValue);
++                        break;
++                    case 'autoFit':
++                        if (newValue) {
++                            sheet.autoFitColumn(this.index);
++                        }
++                        break;
++                    case 'style':
++                        sheet.setStyle(-1, this.index, newValue);
++                        break;
++                    case 'headerStyle':
++                        sheet.setStyle(-1, this.index, newValue, Spread.Sheets.SheetArea.colHeader);
++                        break;
++                    case 'cellType':
++                        sheet.setCellType(-1, this.index, newValue);
++                        break;
++                    case 'formatter':
++                        sheet.setFormatter(-1, this.index, newValue, Spread.Sheets.SheetArea.viewport);
++                        break;
++                }
++            }
++            sheet.resumeEvent();
++            sheet.resumePaint();
++        }
++    }
++    ngOnChanges(changes) {
++        this.changes = {};
++        const changesCache = this.changes;
++        for (const changeName in changes) {
++            changesCache[changeName] = changes[changeName];
++        }
++        this.onColumnChanged();
++    }
++}
++ColumnComponent.ɵfac = function ColumnComponent_Factory(t) { return new (t || ColumnComponent)(); };
++ColumnComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: ColumnComponent, selectors: [["gc-column"]], inputs: { width: "width", dataField: "dataField", headerText: "headerText", visible: "visible", resizable: "resizable", autoFit: "autoFit", style: "style", cellType: "cellType", headerStyle: "headerStyle", formatter: "formatter" }, features: [ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c0, decls: 1, vars: 0, template: function ColumnComponent_Template(rf, ctx) { if (rf & 1) {
++        ɵngcc0.ɵɵprojectionDef();
++        ɵngcc0.ɵɵprojection(0);
++    } }, encapsulation: 2 });
++ColumnComponent.propDecorators = {
++    width: [{ type: Input }],
++    dataField: [{ type: Input }],
++    headerText: [{ type: Input }],
++    visible: [{ type: Input }],
++    resizable: [{ type: Input }],
++    autoFit: [{ type: Input }],
++    style: [{ type: Input }],
++    cellType: [{ type: Input }],
++    headerStyle: [{ type: Input }],
++    formatter: [{ type: Input }]
++};
++(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(ColumnComponent, [{
++        type: Component,
++        args: [{
++                selector: 'gc-column',
++                template: `
++        <ng-content></ng-content>
++    `
++            }]
++    }], function () { return []; }, { width: [{
++            type: Input
++        }], dataField: [{
++            type: Input
++        }], headerText: [{
++            type: Input
++        }], visible: [{
++            type: Input
++        }], resizable: [{
++            type: Input
++        }], autoFit: [{
++            type: Input
++        }], style: [{
++            type: Input
++        }], cellType: [{
++            type: Input
++        }], headerStyle: [{
++            type: Input
++        }], formatter: [{
++            type: Input
++        }] }); })();
++/*code_end*/
++
++/*import_begin*/
++/*code_begin*/
++class WorksheetComponent {
++    constructor() {
++        this.sheet = new Spread.Sheets.Worksheet('');
++    }
++    onAttached() {
++        const sheet = this.sheet;
++        const columns = this.columns;
++        sheet.suspendPaint();
++        sheet.suspendEvent();
++        if (this.dataSource) {
++            sheet.setDataSource(this.dataSource);
++            columns.forEach((columnComponent, index) => {
++                if (columnComponent.dataField) {
++                    sheet.bindColumn(index, {
++                        name: columnComponent.dataField,
++                        displayName: columnComponent.headerText,
++                    });
++                }
++            });
++        }
++        if (columns.length > 0) {
++            sheet.setColumnCount(columns.length);
++            columns.forEach((columnComponent, index) => {
++                columnComponent.onAttached(this.sheet, index);
++            });
++        }
++        sheet.resumeEvent();
++        sheet.resumePaint();
++    }
++    getSheet() {
++        return this.sheet;
++    }
++    ngOnChanges(changes) {
++        const sheet = this.sheet;
++        sheet.suspendPaint();
++        sheet.suspendEvent();
++        for (const changeName in changes) {
++            const newValue = changes[changeName].currentValue;
++            if (newValue === null || newValue === void 0) {
++                continue;
++            }
++            switch (changeName) {
++                case 'rowCount':
++                    sheet.setRowCount(newValue);
++                    break;
++                case 'colCount':
++                    sheet.setColumnCount(newValue);
++                    break;
++                case 'name':
++                    sheet.name(newValue);
++                    break;
++                case 'frozenColumnCount':
++                    sheet.frozenColumnCount(newValue);
++                    break;
++                case 'frozenRowCount':
++                    sheet.frozenRowCount(newValue);
++                    break;
++                case 'frozenTrailingRowCount':
++                    sheet.frozenTrailingRowCount(newValue);
++                    break;
++                case 'frozenTrailingColumnCount':
++                    sheet.frozenTrailingColumnCount(newValue);
++                    break;
++                case 'selectionPolicy':
++                    sheet.selectionPolicy(newValue);
++                    break;
++                case 'selectionUnit':
++                    sheet.selectionUnit(newValue);
++                    break;
++                case 'zoom':
++                    sheet.zoom(newValue);
++                    break;
++                case 'currentTheme':
++                    sheet.currentTheme(newValue);
++                    break;
++                case 'defaultStyle':
++                    sheet.setDefaultStyle(newValue);
++                    break;
++                case 'rowOutlineInfo':
++                    newValue.forEach((item) => {
++                        sheet.rowOutlines.group(item.index, item.count);
++                    });
++                    sheet.repaint();
++                    break;
++                case 'columnOutlineInfo':
++                    newValue.forEach((item) => {
++                        sheet.columnOutlines.group(item.index, item.count);
++                    });
++                    sheet.repaint();
++                    break;
++                case 'showRowOutline':
++                    sheet.showRowOutline(newValue);
++                    break;
++                case 'showColumnOutline':
++                    sheet.showColumnOutline(newValue);
++                    break;
++                case 'dataSource':
++                    sheet.setDataSource(newValue);
++                    break;
++                case 'autoGenerateColumns':
++                    sheet[changeName] = newValue;
++                default:
++                    sheet.options[changeName] = newValue;
++            }
++        }
++        sheet.resumeEvent();
++        sheet.resumePaint();
++    }
++    ngAfterViewInit() {
++        this.columns.changes.subscribe(() => { this.onAttached(); });
++    }
++    ngOnDestroy() {
++        const sheet = this.sheet;
++        const spread = sheet ? sheet.getParent() : null;
++        if (spread) {
++            const sheetIndex = spread.getSheetIndex(sheet.name());
++            if (sheetIndex !== void 0) {
++                spread.removeSheet(sheetIndex);
++            }
++        }
++    }
++}
++WorksheetComponent.ɵfac = function WorksheetComponent_Factory(t) { return new (t || WorksheetComponent)(); };
++WorksheetComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: WorksheetComponent, selectors: [["gc-worksheet"]], contentQueries: function WorksheetComponent_ContentQueries(rf, ctx, dirIndex) { if (rf & 1) {
++        ɵngcc0.ɵɵcontentQuery(dirIndex, ColumnComponent, 0);
++    } if (rf & 2) {
++        let _t;
++        ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.columns = _t);
++    } }, inputs: { rowCount: "rowCount", colCount: "colCount", dataSource: "dataSource", name: "name", frozenColumnCount: "frozenColumnCount", frozenRowCount: "frozenRowCount", frozenTrailingRowCount: "frozenTrailingRowCount", frozenTrailingColumnCount: "frozenTrailingColumnCount", allowCellOverflow: "allowCellOverflow", frozenlineColor: "frozenlineColor", sheetTabColor: "sheetTabColor", selectionPolicy: "selectionPolicy", selectionUnit: "selectionUnit", zoom: "zoom", currentTheme: "currentTheme", clipBoardOptions: "clipBoardOptions", rowHeaderVisible: "rowHeaderVisible", colHeaderVisible: "colHeaderVisible", rowHeaderAutoText: "rowHeaderAutoText", colHeaderAutoText: "colHeaderAutoText", rowHeaderAutoTextIndex: "rowHeaderAutoTextIndex", colHeaderAutoTextIndex: "colHeaderAutoTextIndex", isProtected: "isProtected", showRowOutline: "showRowOutline", showColumnOutline: "showColumnOutline", selectionBackColor: "selectionBackColor", selectionBorderColor: "selectionBorderColor", defaultStyle: "defaultStyle", rowOutlineInfo: "rowOutlineInfo", columnOutlineInfo: "columnOutlineInfo", autoGenerateColumns: "autoGenerateColumns" }, features: [ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c0, decls: 1, vars: 0, template: function WorksheetComponent_Template(rf, ctx) { if (rf & 1) {
++        ɵngcc0.ɵɵprojectionDef();
++        ɵngcc0.ɵɵprojection(0);
++    } }, encapsulation: 2 });
++WorksheetComponent.ctorParameters = () => [];
++WorksheetComponent.propDecorators = {
++    columns: [{ type: ContentChildren, args: [ColumnComponent,] }],
++    rowCount: [{ type: Input }],
++    colCount: [{ type: Input }],
++    dataSource: [{ type: Input }],
++    name: [{ type: Input }],
++    frozenColumnCount: [{ type: Input }],
++    frozenRowCount: [{ type: Input }],
++    frozenTrailingRowCount: [{ type: Input }],
++    frozenTrailingColumnCount: [{ type: Input }],
++    allowCellOverflow: [{ type: Input }],
++    frozenlineColor: [{ type: Input }],
++    sheetTabColor: [{ type: Input }],
++    selectionPolicy: [{ type: Input }],
++    selectionUnit: [{ type: Input }],
++    zoom: [{ type: Input }],
++    currentTheme: [{ type: Input }],
++    clipBoardOptions: [{ type: Input }],
++    rowHeaderVisible: [{ type: Input }],
++    colHeaderVisible: [{ type: Input }],
++    rowHeaderAutoText: [{ type: Input }],
++    colHeaderAutoText: [{ type: Input }],
++    rowHeaderAutoTextIndex: [{ type: Input }],
++    colHeaderAutoTextIndex: [{ type: Input }],
++    isProtected: [{ type: Input }],
++    showRowOutline: [{ type: Input }],
++    showColumnOutline: [{ type: Input }],
++    selectionBackColor: [{ type: Input }],
++    selectionBorderColor: [{ type: Input }],
++    defaultStyle: [{ type: Input }],
++    rowOutlineInfo: [{ type: Input }],
++    columnOutlineInfo: [{ type: Input }],
++    autoGenerateColumns: [{ type: Input }]
++};
++(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(WorksheetComponent, [{
++        type: Component,
++        args: [{
++                selector: 'gc-worksheet',
++                template: `
++        <ng-content></ng-content>
++    `
++            }]
++    }], function () { return []; }, { columns: [{
++            type: ContentChildren,
++            args: [ColumnComponent]
++        }], rowCount: [{
++            type: Input
++        }], colCount: [{
++            type: Input
++        }], dataSource: [{
++            type: Input
++        }], name: [{
++            type: Input
++        }], frozenColumnCount: [{
++            type: Input
++        }], frozenRowCount: [{
++            type: Input
++        }], frozenTrailingRowCount: [{
++            type: Input
++        }], frozenTrailingColumnCount: [{
++            type: Input
++        }], allowCellOverflow: [{
++            type: Input
++        }], frozenlineColor: [{
++            type: Input
++        }], sheetTabColor: [{
++            type: Input
++        }], selectionPolicy: [{
++            type: Input
++        }], selectionUnit: [{
++            type: Input
++        }], zoom: [{
++            type: Input
++        }], currentTheme: [{
++            type: Input
++        }], clipBoardOptions: [{
++            type: Input
++        }], rowHeaderVisible: [{
++            type: Input
++        }], colHeaderVisible: [{
++            type: Input
++        }], rowHeaderAutoText: [{
++            type: Input
++        }], colHeaderAutoText: [{
++            type: Input
++        }], rowHeaderAutoTextIndex: [{
++            type: Input
++        }], colHeaderAutoTextIndex: [{
++            type: Input
++        }], isProtected: [{
++            type: Input
++        }], showRowOutline: [{
++            type: Input
++        }], showColumnOutline: [{
++            type: Input
++        }], selectionBackColor: [{
++            type: Input
++        }], selectionBorderColor: [{
++            type: Input
++        }], defaultStyle: [{
++            type: Input
++        }], rowOutlineInfo: [{
++            type: Input
++        }], columnOutlineInfo: [{
++            type: Input
++        }], autoGenerateColumns: [{
++            type: Input
++        }] }); })();
++/*code_end*/
++
++/*import_begin*/
++/*code_begin*/
++class SpreadSheetsComponent {
++    constructor(elRef) {
++        this.elRef = elRef;
++        this.style = {
++            width: '800px',
++            height: '600px',
++        };
++        // outputs events
++        this.workbookInitialized = new EventEmitter();
++        this.validationError = new EventEmitter();
++        this.cellClick = new EventEmitter();
++        this.cellDoubleClick = new EventEmitter();
++        this.enterCell = new EventEmitter();
++        this.leaveCell = new EventEmitter();
++        this.valueChanged = new EventEmitter();
++        this.topRowChanged = new EventEmitter();
++        this.leftColumnChanged = new EventEmitter();
++        this.invalidOperation = new EventEmitter();
++        this.rangeFiltering = new EventEmitter();
++        this.rangeFiltered = new EventEmitter();
++        this.tableFiltering = new EventEmitter();
++        this.tableFiltered = new EventEmitter();
++        this.rangeSorting = new EventEmitter();
++        this.rangeSorted = new EventEmitter();
++        this.clipboardChanging = new EventEmitter();
++        this.clipboardChanged = new EventEmitter();
++        this.clipboardPasting = new EventEmitter();
++        this.clipboardPasted = new EventEmitter();
++        this.columnWidthChanging = new EventEmitter();
++        this.columnWidthChanged = new EventEmitter();
++        this.rowHeightChanging = new EventEmitter();
++        this.rowHeightChanged = new EventEmitter();
++        this.dragDropBlock = new EventEmitter();
++        this.dragDropBlockCompleted = new EventEmitter();
++        this.dragFillBlock = new EventEmitter();
++        this.dragFillBlockCompleted = new EventEmitter();
++        this.editStarting = new EventEmitter();
++        this.editChange = new EventEmitter();
++        this.editEnding = new EventEmitter();
++        this.editEnd = new EventEmitter();
++        this.editEnded = new EventEmitter();
++        this.rangeGroupStateChanging = new EventEmitter();
++        this.rangeGroupStateChanged = new EventEmitter();
++        this.selectionChanging = new EventEmitter();
++        this.selectionChanged = new EventEmitter();
++        this.sheetTabClick = new EventEmitter();
++        this.sheetTabDoubleClick = new EventEmitter();
++        this.sheetNameChanging = new EventEmitter();
++        this.sheetNameChanged = new EventEmitter();
++        this.userZooming = new EventEmitter();
++        this.userFormulaEntered = new EventEmitter();
++        this.cellChanged = new EventEmitter();
++        this.columnChanged = new EventEmitter();
++        this.rowChanged = new EventEmitter();
++        this.activeSheetChanging = new EventEmitter();
++        this.activeSheetChanged = new EventEmitter();
++        this.sparklineChanged = new EventEmitter();
++        this.rangeChanged = new EventEmitter();
++        this.buttonClicked = new EventEmitter();
++        this.editorStatusChanged = new EventEmitter();
++        this.floatingObjectChanged = new EventEmitter();
++        this.floatingObjectSelectionChanged = new EventEmitter();
++        this.pictureChanged = new EventEmitter();
++        this.floatingObjectRemoving = new EventEmitter();
++        this.floatingObjectRemoved = new EventEmitter();
++        this.pictureSelectionChanged = new EventEmitter();
++        this.floatingObjectLoaded = new EventEmitter();
++        this.touchToolStripOpening = new EventEmitter();
++        this.commentChanged = new EventEmitter();
++        this.commentRemoving = new EventEmitter();
++        this.commentRemoved = new EventEmitter();
++        this.slicerChanged = new EventEmitter();
++    }
++    ngAfterViewInit() {
++        const elRef = this.elRef;
++        const dom = elRef.nativeElement;
++        const hostElement = dom.querySelector('div');
++        this.spread = new Spread.Sheets.Workbook(hostElement, { sheetCount: 0 });
++        this.setSpreadOptions();
++        this.initSheets();
++        this.sheets.changes.subscribe((changes) => {
++            this.onSheetsChanged(changes);
++        }); // may change sheets using bingidng.
++        this.bindCustomEvent(this.spread);
++        this.workbookInitialized.emit({ spread: this.spread });
++    }
++    onSheetsChanged(sheetComponents) {
++        const spread = this.spread;
++        spread.suspendPaint();
++        if (sheetComponents) {
++            sheetComponents.forEach((sheetComponent, index) => {
++                const sheet = sheetComponent.getSheet();
++                if (sheet && !sheet.getParent()) {
++                    spread.addSheet(index, sheetComponent.getSheet());
++                    sheetComponent.onAttached();
++                }
++            });
++        }
++        spread.resumePaint();
++    }
++    initSheets() {
++        const sheets = this.sheets;
++        const spread = this.spread;
++        spread.clearSheets();
++        sheets.forEach((sheetComponent, index) => {
++            spread.addSheet(index, sheetComponent.getSheet());
++            sheetComponent.onAttached();
++        });
++        // when there is no sheet, add default sheet to spread
++        if (sheets.length === 0) {
++            spread.addSheet(0, new Spread.Sheets.Worksheet(''));
++        }
++    }
++    bindCustomEvent(spread) {
++        const customEventNameSpace = '.ng';
++        const events = ['ValidationError', 'CellClick', 'CellDoubleClick', 'EnterCell',
++            'LeaveCell', 'ValueChanged', 'TopRowChanged', 'LeftColumnChanged',
++            'InvalidOperation', 'RangeFiltering', 'RangeFiltered', 'TableFiltering',
++            'TableFiltered', 'RangeSorting', 'RangeSorted', 'ClipboardChanging',
++            'ClipboardChanged', 'ClipboardPasting', 'ClipboardPasted', 'ColumnWidthChanging',
++            'ColumnWidthChanged', 'RowHeightChanging', 'RowHeightChanged', 'DragDropBlock',
++            'DragDropBlockCompleted', 'DragFillBlock', 'DragFillBlockCompleted', 'EditStarting',
++            'EditChange', 'EditEnding', 'EditEnd', 'EditEnded', 'RangeGroupStateChanging',
++            'RangeGroupStateChanged', 'SelectionChanging', 'SelectionChanged', 'SheetTabClick',
++            'SheetTabDoubleClick', 'SheetNameChanging', 'SheetNameChanged',
++            'UserZooming', 'UserFormulaEntered', 'CellChanged', 'ColumnChanged',
++            'RowChanged', 'ActiveSheetChanging', 'ActiveSheetChanged',
++            'SparklineChanged',
++            'RangeChanged', 'ButtonClicked', 'EditorStatusChanged',
++            'FloatingObjectChanged', 'FloatingObjectSelectionChanged', 'PictureChanged',
++            'FloatingObjectRemoving', 'FloatingObjectRemoved', 'PictureSelectionChanged',
++            'FloatingObjectLoaded', 'TouchToolStripOpening', 'CommentChanged', 'CommentRemoving', 'CommentRemoved', 'SlicerChanged'];
++        events.forEach((event) => {
++            spread.bind(event + customEventNameSpace, (event, data) => {
++                const eventType = event.type;
++                const camelCaseEvent = eventType[0].toLowerCase() + eventType.substr(1);
++                this[camelCaseEvent].emit(data);
++            });
++        });
++    }
++    setSpreadOptions() {
++        const spread = this.spread;
++        if (!this.spread) {
++            return;
++        }
++        spread.suspendEvent();
++        spread.suspendPaint();
++        const options = this.spreadOptions;
++        options && options.forEach((option) => {
++            if (option.name === 'name') {
++                spread.name = option.value;
++            }
++            else {
++                spread.options[option.name] = option.value;
++            }
++        });
++        spread.resumePaint();
++        spread.resumeEvent();
++    }
++    ngOnChanges(changes) {
++        const options = [];
++        for (const changeName in changes) {
++            const newValue = changes[changeName].currentValue;
++            if (newValue !== null && newValue !== void 0) {
++                switch (changeName) {
++                    case 'hostStyle':
++                        this.style = newValue;
++                        break;
++                    case 'hostClass':
++                        break;
++                    default:
++                        options.push({ name: changeName, value: newValue });
++                }
++            }
++        }
++        this.spreadOptions = options;
++        this.setSpreadOptions();
++    }
++    ngOnDestroy() {
++        this.spread.destroy();
++    }
++}
++SpreadSheetsComponent.ɵfac = function SpreadSheetsComponent_Factory(t) { return new (t || SpreadSheetsComponent)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef)); };
++SpreadSheetsComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: SpreadSheetsComponent, selectors: [["gc-spread-sheets"]], contentQueries: function SpreadSheetsComponent_ContentQueries(rf, ctx, dirIndex) { if (rf & 1) {
++        ɵngcc0.ɵɵcontentQuery(dirIndex, WorksheetComponent, 0);
++    } if (rf & 2) {
++        let _t;
++        ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.sheets = _t);
++    } }, inputs: { allowUserResize: "allowUserResize", allowUserZoom: "allowUserZoom", allowUserEditFormula: "allowUserEditFormula", allowUserDragFill: "allowUserDragFill", allowUserDragDrop: "allowUserDragDrop", allowUserDragMerge: "allowUserDragMerge", allowUndo: "allowUndo", allowSheetReorder: "allowSheetReorder", allowContextMenu: "allowContextMenu", allowUserDeselect: "allowUserDeselect", allowCopyPasteExcelStyle: "allowCopyPasteExcelStyle", allowExtendPasteRange: "allowExtendPasteRange", cutCopyIndicatorVisible: "cutCopyIndicatorVisible", cutCopyIndicatorBorderColor: "cutCopyIndicatorBorderColor", copyPasteHeaderOptions: "copyPasteHeaderOptions", defaultDragFillType: "defaultDragFillType", enableFormulaTextbox: "enableFormulaTextbox", highlightInvalidData: "highlightInvalidData", newTabVisible: "newTabVisible", tabStripVisible: "tabStripVisible", tabEditable: "tabEditable", tabStripRatio: "tabStripRatio", tabNavigationVisible: "tabNavigationVisible", autoFitType: "autoFitType", referenceStyle: "referenceStyle", backColor: "backColor", grayAreaBackColor: "grayAreaBackColor", resizeZeroIndicator: "resizeZeroIndicator", showVerticalScrollbar: "showVerticalScrollbar", showHorizontalScrollbar: "showHorizontalScrollbar", scrollbarMaxAlign: "scrollbarMaxAlign", scrollIgnoreHidden: "scrollIgnoreHidden", hostStyle: "hostStyle", hostClass: "hostClass", hideSelection: "hideSelection", name: "name", backgroundImage: "backgroundImage", backgroundImageLayout: "backgroundImageLayout", showScrollTip: "showScrollTip", showResizeTip: "showResizeTip", showDragDropTip: "showDragDropTip", showDragFillTip: "showDragFillTip", showDragFillSmartTag: "showDragFillSmartTag", scrollbarShowMax: "scrollbarShowMax", useTouchLayout: "useTouchLayout" }, outputs: { workbookInitialized: "workbookInitialized", validationError: "validationError", cellClick: "cellClick", cellDoubleClick: "cellDoubleClick", enterCell: "enterCell", leaveCell: "leaveCell", valueChanged: "valueChanged", topRowChanged: "topRowChanged", leftColumnChanged: "leftColumnChanged", invalidOperation: "invalidOperation", rangeFiltering: "rangeFiltering", rangeFiltered: "rangeFiltered", tableFiltering: "tableFiltering", tableFiltered: "tableFiltered", rangeSorting: "rangeSorting", rangeSorted: "rangeSorted", clipboardChanging: "clipboardChanging", clipboardChanged: "clipboardChanged", clipboardPasting: "clipboardPasting", clipboardPasted: "clipboardPasted", columnWidthChanging: "columnWidthChanging", columnWidthChanged: "columnWidthChanged", rowHeightChanging: "rowHeightChanging", rowHeightChanged: "rowHeightChanged", dragDropBlock: "dragDropBlock", dragDropBlockCompleted: "dragDropBlockCompleted", dragFillBlock: "dragFillBlock", dragFillBlockCompleted: "dragFillBlockCompleted", editStarting: "editStarting", editChange: "editChange", editEnding: "editEnding", editEnd: "editEnd", editEnded: "editEnded", rangeGroupStateChanging: "rangeGroupStateChanging", rangeGroupStateChanged: "rangeGroupStateChanged", selectionChanging: "selectionChanging", selectionChanged: "selectionChanged", sheetTabClick: "sheetTabClick", sheetTabDoubleClick: "sheetTabDoubleClick", sheetNameChanging: "sheetNameChanging", sheetNameChanged: "sheetNameChanged", userZooming: "userZooming", userFormulaEntered: "userFormulaEntered", cellChanged: "cellChanged", columnChanged: "columnChanged", rowChanged: "rowChanged", activeSheetChanging: "activeSheetChanging", activeSheetChanged: "activeSheetChanged", sparklineChanged: "sparklineChanged", rangeChanged: "rangeChanged", buttonClicked: "buttonClicked", editorStatusChanged: "editorStatusChanged", floatingObjectChanged: "floatingObjectChanged", floatingObjectSelectionChanged: "floatingObjectSelectionChanged", pictureChanged: "pictureChanged", floatingObjectRemoving: "floatingObjectRemoving", floatingObjectRemoved: "floatingObjectRemoved", pictureSelectionChanged: "pictureSelectionChanged", floatingObjectLoaded: "floatingObjectLoaded", touchToolStripOpening: "touchToolStripOpening", commentChanged: "commentChanged", commentRemoving: "commentRemoving", commentRemoved: "commentRemoved", slicerChanged: "slicerChanged" }, features: [ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c0, decls: 2, vars: 2, consts: [[3, "ngStyle", "ngClass"]], template: function SpreadSheetsComponent_Template(rf, ctx) { if (rf & 1) {
++        ɵngcc0.ɵɵprojectionDef();
++        ɵngcc0.ɵɵelementStart(0, "div", 0);
++        ɵngcc0.ɵɵprojection(1);
++        ɵngcc0.ɵɵelementEnd();
++    } if (rf & 2) {
++        ɵngcc0.ɵɵproperty("ngStyle", ctx.style)("ngClass", ctx.hostClass);
++    } }, directives: [ɵngcc1.NgStyle, ɵngcc1.NgClass], encapsulation: 2 });
++SpreadSheetsComponent.ctorParameters = () => [
++    { type: ElementRef }
++];
++SpreadSheetsComponent.propDecorators = {
++    allowUserResize: [{ type: Input }],
++    allowUserZoom: [{ type: Input }],
++    allowUserEditFormula: [{ type: Input }],
++    allowUserDragFill: [{ type: Input }],
++    allowUserDragDrop: [{ type: Input }],
++    allowUserDragMerge: [{ type: Input }],
++    allowUndo: [{ type: Input }],
++    allowSheetReorder: [{ type: Input }],
++    allowContextMenu: [{ type: Input }],
++    allowUserDeselect: [{ type: Input }],
++    allowCopyPasteExcelStyle: [{ type: Input }],
++    allowExtendPasteRange: [{ type: Input }],
++    cutCopyIndicatorVisible: [{ type: Input }],
++    cutCopyIndicatorBorderColor: [{ type: Input }],
++    copyPasteHeaderOptions: [{ type: Input }],
++    defaultDragFillType: [{ type: Input }],
++    enableFormulaTextbox: [{ type: Input }],
++    highlightInvalidData: [{ type: Input }],
++    newTabVisible: [{ type: Input }],
++    tabStripVisible: [{ type: Input }],
++    tabEditable: [{ type: Input }],
++    tabStripRatio: [{ type: Input }],
++    tabNavigationVisible: [{ type: Input }],
++    autoFitType: [{ type: Input }],
++    referenceStyle: [{ type: Input }],
++    backColor: [{ type: Input }],
++    grayAreaBackColor: [{ type: Input }],
++    resizeZeroIndicator: [{ type: Input }],
++    showVerticalScrollbar: [{ type: Input }],
++    showHorizontalScrollbar: [{ type: Input }],
++    scrollbarMaxAlign: [{ type: Input }],
++    scrollIgnoreHidden: [{ type: Input }],
++    hostStyle: [{ type: Input }],
++    hostClass: [{ type: Input }],
++    hideSelection: [{ type: Input }],
++    name: [{ type: Input }],
++    backgroundImage: [{ type: Input }],
++    backgroundImageLayout: [{ type: Input }],
++    showScrollTip: [{ type: Input }],
++    showResizeTip: [{ type: Input }],
++    showDragDropTip: [{ type: Input }],
++    showDragFillTip: [{ type: Input }],
++    showDragFillSmartTag: [{ type: Input }],
++    scrollbarShowMax: [{ type: Input }],
++    useTouchLayout: [{ type: Input }],
++    workbookInitialized: [{ type: Output }],
++    validationError: [{ type: Output }],
++    cellClick: [{ type: Output }],
++    cellDoubleClick: [{ type: Output }],
++    enterCell: [{ type: Output }],
++    leaveCell: [{ type: Output }],
++    valueChanged: [{ type: Output }],
++    topRowChanged: [{ type: Output }],
++    leftColumnChanged: [{ type: Output }],
++    invalidOperation: [{ type: Output }],
++    rangeFiltering: [{ type: Output }],
++    rangeFiltered: [{ type: Output }],
++    tableFiltering: [{ type: Output }],
++    tableFiltered: [{ type: Output }],
++    rangeSorting: [{ type: Output }],
++    rangeSorted: [{ type: Output }],
++    clipboardChanging: [{ type: Output }],
++    clipboardChanged: [{ type: Output }],
++    clipboardPasting: [{ type: Output }],
++    clipboardPasted: [{ type: Output }],
++    columnWidthChanging: [{ type: Output }],
++    columnWidthChanged: [{ type: Output }],
++    rowHeightChanging: [{ type: Output }],
++    rowHeightChanged: [{ type: Output }],
++    dragDropBlock: [{ type: Output }],
++    dragDropBlockCompleted: [{ type: Output }],
++    dragFillBlock: [{ type: Output }],
++    dragFillBlockCompleted: [{ type: Output }],
++    editStarting: [{ type: Output }],
++    editChange: [{ type: Output }],
++    editEnding: [{ type: Output }],
++    editEnd: [{ type: Output }],
++    editEnded: [{ type: Output }],
++    rangeGroupStateChanging: [{ type: Output }],
++    rangeGroupStateChanged: [{ type: Output }],
++    selectionChanging: [{ type: Output }],
++    selectionChanged: [{ type: Output }],
++    sheetTabClick: [{ type: Output }],
++    sheetTabDoubleClick: [{ type: Output }],
++    sheetNameChanging: [{ type: Output }],
++    sheetNameChanged: [{ type: Output }],
++    userZooming: [{ type: Output }],
++    userFormulaEntered: [{ type: Output }],
++    cellChanged: [{ type: Output }],
++    columnChanged: [{ type: Output }],
++    rowChanged: [{ type: Output }],
++    activeSheetChanging: [{ type: Output }],
++    activeSheetChanged: [{ type: Output }],
++    sparklineChanged: [{ type: Output }],
++    rangeChanged: [{ type: Output }],
++    buttonClicked: [{ type: Output }],
++    editorStatusChanged: [{ type: Output }],
++    floatingObjectChanged: [{ type: Output }],
++    floatingObjectSelectionChanged: [{ type: Output }],
++    pictureChanged: [{ type: Output }],
++    floatingObjectRemoving: [{ type: Output }],
++    floatingObjectRemoved: [{ type: Output }],
++    pictureSelectionChanged: [{ type: Output }],
++    floatingObjectLoaded: [{ type: Output }],
++    touchToolStripOpening: [{ type: Output }],
++    commentChanged: [{ type: Output }],
++    commentRemoving: [{ type: Output }],
++    commentRemoved: [{ type: Output }],
++    slicerChanged: [{ type: Output }],
++    sheets: [{ type: ContentChildren, args: [WorksheetComponent,] }]
++};
++(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(SpreadSheetsComponent, [{
++        type: Component,
++        args: [{
++                selector: 'gc-spread-sheets',
++                template: `
++        <div [ngStyle]="style" [ngClass]="hostClass">
++            <ng-content></ng-content>
++        </div>
++    `
++            }]
++    }], function () { return [{ type: ɵngcc0.ElementRef }]; }, { workbookInitialized: [{
++            type: Output
++        }], validationError: [{
++            type: Output
++        }], cellClick: [{
++            type: Output
++        }], cellDoubleClick: [{
++            type: Output
++        }], enterCell: [{
++            type: Output
++        }], leaveCell: [{
++            type: Output
++        }], valueChanged: [{
++            type: Output
++        }], topRowChanged: [{
++            type: Output
++        }], leftColumnChanged: [{
++            type: Output
++        }], invalidOperation: [{
++            type: Output
++        }], rangeFiltering: [{
++            type: Output
++        }], rangeFiltered: [{
++            type: Output
++        }], tableFiltering: [{
++            type: Output
++        }], tableFiltered: [{
++            type: Output
++        }], rangeSorting: [{
++            type: Output
++        }], rangeSorted: [{
++            type: Output
++        }], clipboardChanging: [{
++            type: Output
++        }], clipboardChanged: [{
++            type: Output
++        }], clipboardPasting: [{
++            type: Output
++        }], clipboardPasted: [{
++            type: Output
++        }], columnWidthChanging: [{
++            type: Output
++        }], columnWidthChanged: [{
++            type: Output
++        }], rowHeightChanging: [{
++            type: Output
++        }], rowHeightChanged: [{
++            type: Output
++        }], dragDropBlock: [{
++            type: Output
++        }], dragDropBlockCompleted: [{
++            type: Output
++        }], dragFillBlock: [{
++            type: Output
++        }], dragFillBlockCompleted: [{
++            type: Output
++        }], editStarting: [{
++            type: Output
++        }], editChange: [{
++            type: Output
++        }], editEnding: [{
++            type: Output
++        }], editEnd: [{
++            type: Output
++        }], editEnded: [{
++            type: Output
++        }], rangeGroupStateChanging: [{
++            type: Output
++        }], rangeGroupStateChanged: [{
++            type: Output
++        }], selectionChanging: [{
++            type: Output
++        }], selectionChanged: [{
++            type: Output
++        }], sheetTabClick: [{
++            type: Output
++        }], sheetTabDoubleClick: [{
++            type: Output
++        }], sheetNameChanging: [{
++            type: Output
++        }], sheetNameChanged: [{
++            type: Output
++        }], userZooming: [{
++            type: Output
++        }], userFormulaEntered: [{
++            type: Output
++        }], cellChanged: [{
++            type: Output
++        }], columnChanged: [{
++            type: Output
++        }], rowChanged: [{
++            type: Output
++        }], activeSheetChanging: [{
++            type: Output
++        }], activeSheetChanged: [{
++            type: Output
++        }], sparklineChanged: [{
++            type: Output
++        }], rangeChanged: [{
++            type: Output
++        }], buttonClicked: [{
++            type: Output
++        }], editorStatusChanged: [{
++            type: Output
++        }], floatingObjectChanged: [{
++            type: Output
++        }], floatingObjectSelectionChanged: [{
++            type: Output
++        }], pictureChanged: [{
++            type: Output
++        }], floatingObjectRemoving: [{
++            type: Output
++        }], floatingObjectRemoved: [{
++            type: Output
++        }], pictureSelectionChanged: [{
++            type: Output
++        }], floatingObjectLoaded: [{
++            type: Output
++        }], touchToolStripOpening: [{
++            type: Output
++        }], commentChanged: [{
++            type: Output
++        }], commentRemoving: [{
++            type: Output
++        }], commentRemoved: [{
++            type: Output
++        }], slicerChanged: [{
++            type: Output
++        }], allowUserResize: [{
++            type: Input
++        }], allowUserZoom: [{
++            type: Input
++        }], allowUserEditFormula: [{
++            type: Input
++        }], allowUserDragFill: [{
++            type: Input
++        }], allowUserDragDrop: [{
++            type: Input
++        }], allowUserDragMerge: [{
++            type: Input
++        }], allowUndo: [{
++            type: Input
++        }], allowSheetReorder: [{
++            type: Input
++        }], allowContextMenu: [{
++            type: Input
++        }], allowUserDeselect: [{
++            type: Input
++        }], allowCopyPasteExcelStyle: [{
++            type: Input
++        }], allowExtendPasteRange: [{
++            type: Input
++        }], cutCopyIndicatorVisible: [{
++            type: Input
++        }], cutCopyIndicatorBorderColor: [{
++            type: Input
++        }], copyPasteHeaderOptions: [{
++            type: Input
++        }], defaultDragFillType: [{
++            type: Input
++        }], enableFormulaTextbox: [{
++            type: Input
++        }], highlightInvalidData: [{
++            type: Input
++        }], newTabVisible: [{
++            type: Input
++        }], tabStripVisible: [{
++            type: Input
++        }], tabEditable: [{
++            type: Input
++        }], tabStripRatio: [{
++            type: Input
++        }], tabNavigationVisible: [{
++            type: Input
++        }], autoFitType: [{
++            type: Input
++        }], referenceStyle: [{
++            type: Input
++        }], backColor: [{
++            type: Input
++        }], grayAreaBackColor: [{
++            type: Input
++        }], resizeZeroIndicator: [{
++            type: Input
++        }], showVerticalScrollbar: [{
++            type: Input
++        }], showHorizontalScrollbar: [{
++            type: Input
++        }], scrollbarMaxAlign: [{
++            type: Input
++        }], scrollIgnoreHidden: [{
++            type: Input
++        }], hostStyle: [{
++            type: Input
++        }], hostClass: [{
++            type: Input
++        }], hideSelection: [{
++            type: Input
++        }], name: [{
++            type: Input
++        }], backgroundImage: [{
++            type: Input
++        }], backgroundImageLayout: [{
++            type: Input
++        }], showScrollTip: [{
++            type: Input
++        }], showResizeTip: [{
++            type: Input
++        }], showDragDropTip: [{
++            type: Input
++        }], showDragFillTip: [{
++            type: Input
++        }], showDragFillSmartTag: [{
++            type: Input
++        }], scrollbarShowMax: [{
++            type: Input
++        }], useTouchLayout: [{
++            type: Input
++        }], sheets: [{
++            type: ContentChildren,
++            args: [WorksheetComponent]
++        }] }); })();
++/*code_end*/
++
++/*import_begin*/
++/*code_begin*/
++class SpreadSheetsModule {
++}
++SpreadSheetsModule.ɵfac = function SpreadSheetsModule_Factory(t) { return new (t || SpreadSheetsModule)(); };
++SpreadSheetsModule.ɵmod = ɵngcc0.ɵɵdefineNgModule({ type: SpreadSheetsModule });
++SpreadSheetsModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ imports: [[CommonModule]] });
++(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵngcc0.ɵɵsetNgModuleScope(SpreadSheetsModule, { declarations: function () { return [SpreadSheetsComponent, WorksheetComponent, ColumnComponent]; }, imports: function () { return [CommonModule]; }, exports: function () { return [SpreadSheetsComponent, WorksheetComponent, ColumnComponent]; } }); })();
++(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵngcc0.ɵsetClassMetadata(SpreadSheetsModule, [{
++        type: NgModule,
++        args: [{
++                imports: [CommonModule],
++                declarations: [SpreadSheetsComponent, WorksheetComponent, ColumnComponent],
++                exports: [SpreadSheetsComponent, WorksheetComponent, ColumnComponent]
++            }]
++    }], null, null); })();
++/*code_end*/
++
++/**
++ * Generated bundle index. Do not edit.
++ */
++
++export { SpreadSheetsModule, WorksheetComponent, SpreadSheetsComponent as ɵa, WorksheetComponent as ɵb, ColumnComponent as ɵc };
++
++//# sourceMappingURL=grapecity-spread-sheets-angular.js.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js.map b/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js.map
+new file mode 100644
+index 0000000..bad7dfa
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/__ivy_ngcc__/fesm2015/grapecity-spread-sheets-angular.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"grapecity-spread-sheets-angular.js","sources":["../../src/column.component.ts","../../src/worksheet.component.ts","../../src/spreadSheets.component.ts","../../src/spreadSheets.module.ts","../../grapecity-spread-sheets-angular.ts"],"names":["GC.Spread"],"mappings":"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","sourcesContent":["/*import_begin*/\r\nimport { Component, Input, OnChanges, SimpleChanges } from '@angular/core';\r\nimport * as GC from '@grapecity/spread-sheets';\r\n/*import_end*/\r\n\r\n/*code_begin*/\r\n@Component({\r\n  selector: 'gc-column',\r\n  template: `\r\n        <ng-content></ng-content>\r\n    `,\r\n})\r\nexport class ColumnComponent implements OnChanges {\r\n  private changes: any = {};\r\n  private sheet?: GC.Spread.Sheets.Worksheet;\r\n  private index?: number;\r\n\r\n  // indicate all inputs\r\n  @Input() public width?: number;\r\n  @Input() public dataField?: string;\r\n  @Input() public headerText?: string;\r\n  @Input() public visible?: boolean;\r\n  @Input() public resizable?: boolean;\r\n  @Input() public autoFit?: boolean;\r\n  @Input() public style?: GC.Spread.Sheets.Style;\r\n  @Input() public cellType?: GC.Spread.Sheets.CellTypes.Base;\r\n  @Input() public headerStyle?: GC.Spread.Sheets.Style;\r\n  @Input() public formatter: any;\r\n\r\n  public onAttached(sheet: GC.Spread.Sheets.Worksheet, index: number): void {\r\n    this.sheet = sheet;\r\n    this.index = index;\r\n    this.onColumnChanged();\r\n  }\r\n\r\n  private onColumnChanged() {\r\n    if (this.sheet) {\r\n      const sheet = this.sheet;\r\n      sheet.suspendPaint();\r\n      sheet.suspendEvent();\r\n      const changes = this.changes;\r\n      for (const changeName in changes) {\r\n        let newValue = changes[changeName].currentValue;\r\n        if (newValue === null || newValue === void 0) {\r\n          continue;\r\n        }\r\n        switch (changeName) {\r\n          case 'width':\r\n            newValue = parseInt(newValue, 10);\r\n            sheet.setColumnWidth(this.index as number, newValue);\r\n            break;\r\n          case 'visible':\r\n            sheet.setColumnVisible(this.index as number, newValue);\r\n            break;\r\n          case 'resizable':\r\n            sheet.setColumnResizable(this.index as number, newValue);\r\n            break;\r\n          case 'autoFit':\r\n            if (newValue) {\r\n              sheet.autoFitColumn(this.index as number);\r\n            }\r\n            break;\r\n          case 'style':\r\n            sheet.setStyle(-1, this.index as number, newValue);\r\n            break;\r\n          case 'headerStyle':\r\n            sheet.setStyle(-1, this.index as number, newValue, GC.Spread.Sheets.SheetArea.colHeader);\r\n            break;\r\n          case 'cellType':\r\n            sheet.setCellType(-1, this.index as number, newValue);\r\n            break;\r\n          case 'formatter':\r\n            sheet.setFormatter(-1, this.index as number, newValue, GC.Spread.Sheets.SheetArea.viewport);\r\n            break;\r\n        }\r\n      }\r\n      sheet.resumeEvent();\r\n      sheet.resumePaint();\r\n    }\r\n  }\r\n\r\n  public ngOnChanges(changes: SimpleChanges) {\r\n    this.changes = {};\r\n    const changesCache = this.changes;\r\n    for (const changeName in changes) {\r\n      changesCache[changeName] = changes[changeName];\r\n    }\r\n    this.onColumnChanged();\r\n  }\r\n}\r\n/*code_end*/\r\n","/*import_begin*/\r\nimport {\r\n  AfterViewInit,\r\n  Component,\r\n  ContentChildren,\r\n  Input,\r\n  OnChanges,\r\n  OnDestroy,\r\n  QueryList, SimpleChanges,\r\n} from '@angular/core';\r\n/*import_end*/\r\nimport { ColumnComponent } from './column.component';\r\nimport * as GC from '@grapecity/spread-sheets';\r\n/*code_begin*/\r\n@Component({\r\n  selector: 'gc-worksheet',\r\n  template: `\r\n        <ng-content></ng-content>\r\n    `,\r\n})\r\nexport class WorksheetComponent implements OnChanges, AfterViewInit {\r\n  private sheet: GC.Spread.Sheets.Worksheet;\r\n  @ContentChildren(ColumnComponent)\r\n  public columns?: QueryList<ColumnComponent>;\r\n\r\n  // indicate all inputs\r\n  @Input() public rowCount?: number;\r\n  @Input() public colCount?: number;\r\n  @Input() public dataSource: any;\r\n  @Input() public name?: string;\r\n  @Input() public frozenColumnCount?: number;\r\n  @Input() public frozenRowCount?: number;\r\n  @Input() public frozenTrailingRowCount?: number;\r\n  @Input() public frozenTrailingColumnCount?: number;\r\n  @Input() public allowCellOverflow?: boolean;\r\n  @Input() public frozenlineColor?: string;\r\n  @Input() public sheetTabColor?: string;\r\n  @Input() public selectionPolicy?: number;\r\n  @Input() public selectionUnit?: number;\r\n  @Input() public zoom?: number;\r\n  @Input() public currentTheme?: string;\r\n  @Input() public clipBoardOptions?: number;\r\n  @Input() public rowHeaderVisible?: boolean;\r\n  @Input() public colHeaderVisible?: boolean;\r\n  @Input() public rowHeaderAutoText?: number;\r\n  @Input() public colHeaderAutoText?: number;\r\n  @Input() public rowHeaderAutoTextIndex?: number;\r\n  @Input() public colHeaderAutoTextIndex?: number;\r\n  @Input() public isProtected?: boolean;\r\n  @Input() public showRowOutline?: boolean;\r\n  @Input() public showColumnOutline?: boolean;\r\n  @Input() public selectionBackColor?: string;\r\n  @Input() public selectionBorderColor?: string;\r\n  @Input() public defaultStyle?: GC.Spread.Sheets.Style;\r\n  @Input() public rowOutlineInfo?: any[];\r\n  @Input() public columnOutlineInfo?: any[];\r\n  @Input() public autoGenerateColumns?: boolean;\r\n\r\n  constructor() {\r\n    this.sheet = new GC.Spread.Sheets.Worksheet('');\r\n  }\r\n\r\n  public onAttached(): void {\r\n    const sheet = this.sheet;\r\n    const columns = (this.columns as QueryList<ColumnComponent>);\r\n    sheet.suspendPaint();\r\n    sheet.suspendEvent();\r\n    if (this.dataSource) {\r\n      sheet.setDataSource(this.dataSource);\r\n      columns.forEach((columnComponent: ColumnComponent, index: number) => {\r\n        if (columnComponent.dataField) {\r\n          sheet.bindColumn(index, {\r\n            name: columnComponent.dataField,\r\n            displayName: columnComponent.headerText,\r\n          });\r\n        }\r\n      });\r\n    }\r\n    if (columns.length > 0) {\r\n      sheet.setColumnCount(columns.length);\r\n      columns.forEach((columnComponent: ColumnComponent, index: number) => {\r\n        columnComponent.onAttached(this.sheet, index);\r\n      });\r\n    }\r\n    sheet.resumeEvent();\r\n    sheet.resumePaint();\r\n  }\r\n  public getSheet() {\r\n    return this.sheet;\r\n  }\r\n\r\n  public ngOnChanges(changes: SimpleChanges) {\r\n    const sheet = this.sheet;\r\n    sheet.suspendPaint();\r\n    sheet.suspendEvent();\r\n    for (const changeName in changes) {\r\n      const newValue = changes[changeName].currentValue;\r\n      if (newValue === null || newValue === void 0) {\r\n        continue;\r\n      }\r\n      switch (changeName) {\r\n        case 'rowCount':\r\n          sheet.setRowCount(newValue);\r\n          break;\r\n        case 'colCount':\r\n          sheet.setColumnCount(newValue);\r\n          break;\r\n        case 'name':\r\n          sheet.name(newValue);\r\n          break;\r\n        case 'frozenColumnCount':\r\n          sheet.frozenColumnCount(newValue);\r\n          break;\r\n        case 'frozenRowCount':\r\n          sheet.frozenRowCount(newValue);\r\n          break;\r\n        case 'frozenTrailingRowCount':\r\n          sheet.frozenTrailingRowCount(newValue);\r\n          break;\r\n        case 'frozenTrailingColumnCount':\r\n          sheet.frozenTrailingColumnCount(newValue);\r\n          break;\r\n        case 'selectionPolicy':\r\n          sheet.selectionPolicy(newValue);\r\n          break;\r\n        case 'selectionUnit':\r\n          sheet.selectionUnit(newValue);\r\n          break;\r\n        case 'zoom':\r\n          sheet.zoom(newValue);\r\n          break;\r\n        case 'currentTheme':\r\n          sheet.currentTheme(newValue);\r\n          break;\r\n        case 'defaultStyle':\r\n          sheet.setDefaultStyle(newValue);\r\n          break;\r\n        case 'rowOutlineInfo':\r\n          newValue.forEach((item: any) => {\r\n            sheet.rowOutlines.group(item.index, item.count);\r\n          });\r\n          sheet.repaint();\r\n          break;\r\n        case 'columnOutlineInfo':\r\n          newValue.forEach((item: any) => {\r\n            sheet.columnOutlines.group(item.index, item.count);\r\n          });\r\n          sheet.repaint();\r\n          break;\r\n        case 'showRowOutline':\r\n          sheet.showRowOutline(newValue);\r\n          break;\r\n        case 'showColumnOutline':\r\n          sheet.showColumnOutline(newValue);\r\n          break;\r\n        case 'dataSource':\r\n          sheet.setDataSource(newValue);\r\n          break;\r\n        case 'autoGenerateColumns':\r\n          sheet[changeName] = newValue;\r\n        default:\r\n          (sheet.options as any)[changeName] = newValue;\r\n      }\r\n    }\r\n    sheet.resumeEvent();\r\n    sheet.resumePaint();\r\n  }\r\n\r\n  public ngAfterViewInit() {\r\n    (this.columns as QueryList<ColumnComponent>).changes.subscribe(() => { this.onAttached(); });\r\n  }\r\n\r\n  public ngOnDestroy() {\r\n    const sheet = this.sheet;\r\n    const spread = sheet ? sheet.getParent() : null;\r\n    if (spread) {\r\n      const sheetIndex = spread.getSheetIndex(sheet.name());\r\n      if (sheetIndex !== void 0) {\r\n        spread.removeSheet(sheetIndex);\r\n      }\r\n    }\r\n  }\r\n}\r\n/*code_end*/\r\n","/*import_begin*/\r\nimport {\r\n  AfterViewInit,\r\n  Component,\r\n  ContentChildren,\r\n  ElementRef,\r\n  EventEmitter,\r\n  Input,\r\n  OnChanges,\r\n  OnDestroy,\r\n  Output,\r\n  QueryList, SimpleChanges,\r\n} from '@angular/core';\r\n/*import_end*/\r\n\r\nimport { WorksheetComponent } from './worksheet.component';\r\nimport * as GC from '@grapecity/spread-sheets';\r\n/*code_begin*/\r\n@Component({\r\n  selector: 'gc-spread-sheets',\r\n  template: `\r\n        <div [ngStyle]=\"style\" [ngClass]=\"hostClass\">\r\n            <ng-content></ng-content>\r\n        </div>\r\n    `,\r\n})\r\nexport class SpreadSheetsComponent implements OnChanges, AfterViewInit, OnDestroy {\r\n  private spread?: GC.Spread.Sheets.Workbook;\r\n  private spreadOptions?: any[];\r\n\r\n  public style = {\r\n    width: '800px',\r\n    height: '600px',\r\n  };\r\n\r\n  // indicate all options\r\n  @Input() public allowUserResize?: boolean;\r\n  @Input() public allowUserZoom?: boolean;\r\n  @Input() public allowUserEditFormula?: boolean;\r\n  @Input() public allowUserDragFill?: boolean;\r\n  @Input() public allowUserDragDrop?: boolean;\r\n  @Input() public allowUserDragMerge?: boolean;\r\n  @Input() public allowUndo?: boolean;\r\n  @Input() public allowSheetReorder?: boolean;\r\n  @Input() public allowContextMenu?: boolean;\r\n  @Input() public allowUserDeselect?: boolean;\r\n  @Input() public allowCopyPasteExcelStyle?: boolean;\r\n  @Input() public allowExtendPasteRange?: boolean;\r\n  @Input() public cutCopyIndicatorVisible?: boolean;\r\n  @Input() public cutCopyIndicatorBorderColor?: string;\r\n  @Input() public copyPasteHeaderOptions?: number;\r\n  @Input() public defaultDragFillType?: number;\r\n  @Input() public enableFormulaTextbox?: boolean;\r\n  @Input() public highlightInvalidData?: boolean;\r\n  @Input() public newTabVisible?: boolean;\r\n  @Input() public tabStripVisible?: boolean;\r\n  @Input() public tabEditable?: boolean;\r\n  @Input() public tabStripRatio?: number;\r\n  @Input() public tabNavigationVisible?: boolean;\r\n  @Input() public autoFitType?: number;\r\n  @Input() public referenceStyle?: number;\r\n  @Input() public backColor?: string;\r\n  @Input() public grayAreaBackColor?: string;\r\n  @Input() public resizeZeroIndicator?: number;\r\n  @Input() public showVerticalScrollbar?: boolean;\r\n  @Input() public showHorizontalScrollbar?: boolean;\r\n  @Input() public scrollbarMaxAlign?: boolean;\r\n  @Input() public scrollIgnoreHidden?: boolean;\r\n  @Input() public hostStyle?: any; // used for get styles form parent host DIV\r\n  @Input() public hostClass?: string;\r\n  @Input() public hideSelection?: boolean;\r\n  @Input() public name?: string;\r\n  @Input() public backgroundImage?: string;\r\n  @Input() public backgroundImageLayout?: number;\r\n  @Input() public showScrollTip?: number;\r\n  @Input() public showResizeTip?: number;\r\n  @Input() public showDragDropTip?: boolean;\r\n  @Input() public showDragFillTip?: boolean;\r\n  @Input() public showDragFillSmartTag?: boolean;\r\n  @Input() public scrollbarShowMax?: boolean;\r\n  @Input() public useTouchLayout?: boolean;\r\n\r\n  // outputs events\r\n  @Output() public workbookInitialized = new EventEmitter<any>();\r\n  @Output() public validationError = new EventEmitter<any>();\r\n  @Output() public cellClick = new EventEmitter<any>();\r\n  @Output() public cellDoubleClick = new EventEmitter<any>();\r\n  @Output() public enterCell = new EventEmitter<any>();\r\n  @Output() public leaveCell = new EventEmitter<any>();\r\n  @Output() public valueChanged = new EventEmitter<any>();\r\n  @Output() public topRowChanged = new EventEmitter<any>();\r\n  @Output() public leftColumnChanged = new EventEmitter<any>();\r\n  @Output() public invalidOperation = new EventEmitter<any>();\r\n  @Output() public rangeFiltering = new EventEmitter<any>();\r\n  @Output() public rangeFiltered = new EventEmitter<any>();\r\n  @Output() public tableFiltering = new EventEmitter<any>();\r\n  @Output() public tableFiltered = new EventEmitter<any>();\r\n  @Output() public rangeSorting = new EventEmitter<any>();\r\n  @Output() public rangeSorted = new EventEmitter<any>();\r\n  @Output() public clipboardChanging = new EventEmitter<any>();\r\n  @Output() public clipboardChanged = new EventEmitter<any>();\r\n  @Output() public clipboardPasting = new EventEmitter<any>();\r\n  @Output() public clipboardPasted = new EventEmitter<any>();\r\n  @Output() public columnWidthChanging = new EventEmitter<any>();\r\n  @Output() public columnWidthChanged = new EventEmitter<any>();\r\n  @Output() public rowHeightChanging = new EventEmitter<any>();\r\n  @Output() public rowHeightChanged = new EventEmitter<any>();\r\n  @Output() public dragDropBlock = new EventEmitter<any>();\r\n  @Output() public dragDropBlockCompleted = new EventEmitter<any>();\r\n  @Output() public dragFillBlock = new EventEmitter<any>();\r\n  @Output() public dragFillBlockCompleted = new EventEmitter<any>();\r\n  @Output() public editStarting = new EventEmitter<any>();\r\n  @Output() public editChange = new EventEmitter<any>();\r\n  @Output() public editEnding = new EventEmitter<any>();\r\n  @Output() public editEnd = new EventEmitter<any>();\r\n  @Output() public editEnded = new EventEmitter<any>();\r\n  @Output() public rangeGroupStateChanging = new EventEmitter<any>();\r\n  @Output() public rangeGroupStateChanged = new EventEmitter<any>();\r\n  @Output() public selectionChanging = new EventEmitter<any>();\r\n  @Output() public selectionChanged = new EventEmitter<any>();\r\n  @Output() public sheetTabClick = new EventEmitter<any>();\r\n  @Output() public sheetTabDoubleClick = new EventEmitter<any>();\r\n  @Output() public sheetNameChanging = new EventEmitter<any>();\r\n  @Output() public sheetNameChanged = new EventEmitter<any>();\r\n  @Output() public userZooming = new EventEmitter<any>();\r\n  @Output() public userFormulaEntered = new EventEmitter<any>();\r\n  @Output() public cellChanged = new EventEmitter<any>();\r\n  @Output() public columnChanged = new EventEmitter<any>();\r\n  @Output() public rowChanged = new EventEmitter<any>();\r\n  @Output() public activeSheetChanging = new EventEmitter<any>();\r\n  @Output() public activeSheetChanged = new EventEmitter<any>();\r\n  @Output() public sparklineChanged = new EventEmitter<any>();\r\n  @Output() public rangeChanged = new EventEmitter<any>();\r\n  @Output() public buttonClicked = new EventEmitter<any>();\r\n  @Output() public editorStatusChanged = new EventEmitter<any>();\r\n  @Output() public floatingObjectChanged = new EventEmitter<any>();\r\n  @Output() public floatingObjectSelectionChanged = new EventEmitter<any>();\r\n  @Output() public pictureChanged = new EventEmitter<any>();\r\n  @Output() public floatingObjectRemoving = new EventEmitter<any>();\r\n  @Output() public floatingObjectRemoved = new EventEmitter<any>();\r\n  @Output() public pictureSelectionChanged = new EventEmitter<any>();\r\n  @Output() public floatingObjectLoaded = new EventEmitter<any>();\r\n  @Output() public touchToolStripOpening = new EventEmitter<any>();\r\n  @Output() public commentChanged = new EventEmitter<any>();\r\n  @Output() public commentRemoving = new EventEmitter<any>();\r\n  @Output() public commentRemoved = new EventEmitter<any>();\r\n  @Output() public slicerChanged = new EventEmitter<any>();\r\n\r\n  @ContentChildren(WorksheetComponent)\r\n  public sheets?: QueryList<WorksheetComponent>;\r\n\r\n  constructor(private elRef: ElementRef) {\r\n  }\r\n\r\n  public ngAfterViewInit() {\r\n    const elRef = this.elRef;\r\n    const dom = elRef.nativeElement as HTMLElement;\r\n    const hostElement = dom.querySelector('div');\r\n    this.spread = new GC.Spread.Sheets.Workbook(hostElement, { sheetCount: 0 });\r\n    this.setSpreadOptions();\r\n    this.initSheets();\r\n    (this.sheets as QueryList<WorksheetComponent>).changes.subscribe((changes) => {\r\n      this.onSheetsChanged(changes);\r\n    }); // may change sheets using bingidng.\r\n    this.bindCustomEvent(this.spread);\r\n    this.workbookInitialized.emit({ spread: this.spread });\r\n  }\r\n\r\n  private onSheetsChanged(sheetComponents: QueryList<WorksheetComponent>) {\r\n    const spread = (this.spread as GC.Spread.Sheets.Workbook);\r\n    spread.suspendPaint();\r\n    if (sheetComponents) {\r\n      sheetComponents.forEach((sheetComponent: WorksheetComponent, index: number) => {\r\n        const sheet = sheetComponent.getSheet();\r\n        if (sheet && !sheet.getParent()) {\r\n          spread.addSheet(index, sheetComponent.getSheet());\r\n          sheetComponent.onAttached();\r\n        }\r\n      });\r\n    }\r\n    spread.resumePaint();\r\n  }\r\n\r\n  private initSheets() {\r\n    const sheets = this.sheets as QueryList<WorksheetComponent>;\r\n    const spread = this.spread as GC.Spread.Sheets.Workbook;\r\n    spread.clearSheets();\r\n    sheets.forEach((sheetComponent, index) => {\r\n      spread.addSheet(index, sheetComponent.getSheet());\r\n      sheetComponent.onAttached();\r\n    });\r\n    // when there is no sheet, add default sheet to spread\r\n    if (sheets.length === 0) {\r\n      spread.addSheet(0, new GC.Spread.Sheets.Worksheet(''));\r\n    }\r\n  }\r\n\r\n  private bindCustomEvent(spread: GC.Spread.Sheets.Workbook) {\r\n    const customEventNameSpace = '.ng';\r\n    const events = ['ValidationError', 'CellClick', 'CellDoubleClick', 'EnterCell',\r\n      'LeaveCell', 'ValueChanged', 'TopRowChanged', 'LeftColumnChanged',\r\n      'InvalidOperation', 'RangeFiltering', 'RangeFiltered', 'TableFiltering',\r\n      'TableFiltered', 'RangeSorting', 'RangeSorted', 'ClipboardChanging',\r\n      'ClipboardChanged', 'ClipboardPasting', 'ClipboardPasted', 'ColumnWidthChanging',\r\n      'ColumnWidthChanged', 'RowHeightChanging', 'RowHeightChanged', 'DragDropBlock',\r\n      'DragDropBlockCompleted', 'DragFillBlock', 'DragFillBlockCompleted', 'EditStarting',\r\n      'EditChange', 'EditEnding', 'EditEnd', 'EditEnded', 'RangeGroupStateChanging',\r\n      'RangeGroupStateChanged', 'SelectionChanging', 'SelectionChanged', 'SheetTabClick',\r\n      'SheetTabDoubleClick', 'SheetNameChanging', 'SheetNameChanged',\r\n      'UserZooming', 'UserFormulaEntered', 'CellChanged', 'ColumnChanged',\r\n      'RowChanged', 'ActiveSheetChanging', 'ActiveSheetChanged',\r\n      'SparklineChanged',\r\n      'RangeChanged', 'ButtonClicked', 'EditorStatusChanged',\r\n      'FloatingObjectChanged', 'FloatingObjectSelectionChanged', 'PictureChanged',\r\n      'FloatingObjectRemoving', 'FloatingObjectRemoved', 'PictureSelectionChanged',\r\n      'FloatingObjectLoaded', 'TouchToolStripOpening', 'CommentChanged', 'CommentRemoving', 'CommentRemoved', 'SlicerChanged'];\r\n    events.forEach((event) => {\r\n      spread.bind(event + customEventNameSpace, (event: any, data: any) => {\r\n        const eventType = event.type;\r\n        const camelCaseEvent = eventType[0].toLowerCase() + eventType.substr(1);\r\n        (this as any)[camelCaseEvent].emit(data);\r\n      });\r\n    });\r\n  }\r\n\r\n  public setSpreadOptions() {\r\n    const spread = this.spread as GC.Spread.Sheets.Workbook;\r\n    if (!this.spread) {\r\n      return;\r\n    }\r\n    spread.suspendEvent();\r\n    spread.suspendPaint();\r\n    const options = this.spreadOptions;\r\n    options && options.forEach((option) => {\r\n      if (option.name === 'name') {\r\n        spread.name = option.value;\r\n      } else {\r\n        (spread.options as any)[option.name] = option.value;\r\n      }\r\n    });\r\n    spread.resumePaint();\r\n    spread.resumeEvent();\r\n  }\r\n\r\n  public ngOnChanges(changes: SimpleChanges) {\r\n    const options = [];\r\n    for (const changeName in changes) {\r\n      const newValue = changes[changeName].currentValue;\r\n      if (newValue !== null && newValue !== void 0) {\r\n        switch (changeName) {\r\n          case 'hostStyle':\r\n            this.style = newValue;\r\n            break;\r\n          case 'hostClass':\r\n            break;\r\n          default:\r\n            options.push({ name: changeName, value: newValue });\r\n        }\r\n      }\r\n    }\r\n    this.spreadOptions = options;\r\n    this.setSpreadOptions();\r\n  }\r\n\r\n  public ngOnDestroy() {\r\n    (this.spread as GC.Spread.Sheets.Workbook).destroy();\r\n  }\r\n}\r\n/*code_end*/\r\n","/*import_begin*/\r\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ColumnComponent } from './column.component';\r\n/*import_end*/\r\nimport { SpreadSheetsComponent } from './spreadSheets.component';\r\nimport { WorksheetComponent } from './worksheet.component';\r\n\r\n/*code_begin*/\r\n@NgModule({\r\n  imports: [CommonModule],\r\n  declarations: [SpreadSheetsComponent, WorksheetComponent, ColumnComponent],\r\n  exports: [SpreadSheetsComponent, WorksheetComponent, ColumnComponent],\r\n})\r\nexport class SpreadSheetsModule {\r\n}\r\n/*code_end*/\r\n","/**\n * Generated bundle index. Do not edit.\n */\n\nexport * from './public_api';\n\nexport {ColumnComponent as ɵc} from './src/column.component';\nexport {SpreadSheetsComponent as ɵa} from './src/spreadSheets.component';\nexport {WorksheetComponent as ɵb} from './src/worksheet.component';"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/bundles/grapecity-spread-sheets-angular.umd.js b/node_modules/@grapecity/spread-sheets-angular/bundles/grapecity-spread-sheets-angular.umd.js
+index a6a0e69..0a6c3c1 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/bundles/grapecity-spread-sheets-angular.umd.js
++++ b/node_modules/@grapecity/spread-sheets-angular/bundles/grapecity-spread-sheets-angular.umd.js
+@@ -592,6 +592,7 @@
+      */
+ 
+     exports.SpreadSheetsModule = SpreadSheetsModule;
++    exports.WorksheetComponent = WorksheetComponent;
+     exports.ɵa = SpreadSheetsComponent;
+     exports.ɵb = WorksheetComponent;
+     exports.ɵc = ColumnComponent;
+diff --git a/node_modules/@grapecity/spread-sheets-angular/esm2015/public_api.js b/node_modules/@grapecity/spread-sheets-angular/esm2015/public_api.js
+index b6e7d81..ad69079 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/esm2015/public_api.js
++++ b/node_modules/@grapecity/spread-sheets-angular/esm2015/public_api.js
+@@ -1,2 +1,3 @@
+ export * from './src/spreadSheets.module';
++export * from './src/worksheet.component';
+ //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL3B1YmxpY19hcGkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsY0FBYywyQkFBMkIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gJy4vc3JjL3NwcmVhZFNoZWV0cy5tb2R1bGUnOyJdfQ==
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/fesm2015/grapecity-spread-sheets-angular.js b/node_modules/@grapecity/spread-sheets-angular/fesm2015/grapecity-spread-sheets-angular.js
+index 0e8e9e8..052201a 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/fesm2015/grapecity-spread-sheets-angular.js
++++ b/node_modules/@grapecity/spread-sheets-angular/fesm2015/grapecity-spread-sheets-angular.js
+@@ -587,5 +587,5 @@ SpreadSheetsModule.decorators = [
+  * Generated bundle index. Do not edit.
+  */
+ 
+-export { SpreadSheetsModule, SpreadSheetsComponent as ɵa, WorksheetComponent as ɵb, ColumnComponent as ɵc };
++export { SpreadSheetsModule, WorksheetComponent, SpreadSheetsComponent as ɵa, WorksheetComponent as ɵb, ColumnComponent as ɵc };
+ //# sourceMappingURL=grapecity-spread-sheets-angular.js.map
+diff --git a/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts
+index b4f8219..84f5ffa 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts
+@@ -5,3 +5,7 @@ export * from './public_api';
+ export { ColumnComponent as ɵc } from './src/column.component';
+ export { SpreadSheetsComponent as ɵa } from './src/spreadSheets.component';
+ export { WorksheetComponent as ɵb } from './src/worksheet.component';
++
++//# sourceMappingURL=grapecity-spread-sheets-angular.d.ts.map
++
++//# sourceMappingURL=grapecity-spread-sheets-angular.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..b4f8219
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.__ivy_ngcc_bak
+@@ -0,0 +1,7 @@
++/**
++ * Generated bundle index. Do not edit.
++ */
++export * from './public_api';
++export { ColumnComponent as ɵc } from './src/column.component';
++export { SpreadSheetsComponent as ɵa } from './src/spreadSheets.component';
++export { WorksheetComponent as ɵb } from './src/worksheet.component';
+diff --git a/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map
+new file mode 100644
+index 0000000..722921b
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"grapecity-spread-sheets-angular.d.ts","sources":["grapecity-spread-sheets-angular.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AAAE;AAAE;AAAE","sourcesContent":["/**\r\n * Generated bundle index. Do not edit.\r\n */\r\nexport * from './public_api';\r\nexport { ColumnComponent as ɵc } from './src/column.component';\r\nexport { SpreadSheetsComponent as ɵa } from './src/spreadSheets.component';\r\nexport { WorksheetComponent as ɵb } from './src/worksheet.component';\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..34a6c8a
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/grapecity-spread-sheets-angular.d.ts.map.__ivy_ngcc_bak
+@@ -0,0 +1 @@
++{"version":3,"file":"grapecity-spread-sheets-angular.d.ts","sources":["grapecity-spread-sheets-angular.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA","sourcesContent":["/**\r\n * Generated bundle index. Do not edit.\r\n */\r\nexport * from './public_api';\r\nexport { ColumnComponent as ɵc } from './src/column.component';\r\nexport { SpreadSheetsComponent as ɵa } from './src/spreadSheets.component';\r\nexport { WorksheetComponent as ɵb } from './src/worksheet.component';\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/public_api.d.ts b/node_modules/@grapecity/spread-sheets-angular/public_api.d.ts
+index afc825a..e959e4f 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/public_api.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/public_api.d.ts
+@@ -1 +1,2 @@
+ export * from './src/spreadSheets.module';
++export * from './src/worksheet.component';
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts
+index 2d2f97c..1cf9973 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts
+@@ -1,5 +1,6 @@
+ import { OnChanges, SimpleChanges } from '@angular/core';
+ import * as GC from '@grapecity/spread-sheets';
++import * as ɵngcc0 from '@angular/core';
+ export declare class ColumnComponent implements OnChanges {
+     private changes;
+     private sheet?;
+@@ -17,4 +18,8 @@ export declare class ColumnComponent implements OnChanges {
+     onAttached(sheet: GC.Spread.Sheets.Worksheet, index: number): void;
+     private onColumnChanged;
+     ngOnChanges(changes: SimpleChanges): void;
++    static ɵfac: ɵngcc0.ɵɵFactoryDef<ColumnComponent, never>;
++    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<ColumnComponent, "gc-column", never, { "width": "width"; "dataField": "dataField"; "headerText": "headerText"; "visible": "visible"; "resizable": "resizable"; "autoFit": "autoFit"; "style": "style"; "cellType": "cellType"; "headerStyle": "headerStyle"; "formatter": "formatter"; }, {}, never, ["*"]>;
+ }
++
++//# sourceMappingURL=column.component.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..2d2f97c
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.__ivy_ngcc_bak
+@@ -0,0 +1,20 @@
++import { OnChanges, SimpleChanges } from '@angular/core';
++import * as GC from '@grapecity/spread-sheets';
++export declare class ColumnComponent implements OnChanges {
++    private changes;
++    private sheet?;
++    private index?;
++    width?: number;
++    dataField?: string;
++    headerText?: string;
++    visible?: boolean;
++    resizable?: boolean;
++    autoFit?: boolean;
++    style?: GC.Spread.Sheets.Style;
++    cellType?: GC.Spread.Sheets.CellTypes.Base;
++    headerStyle?: GC.Spread.Sheets.Style;
++    formatter: any;
++    onAttached(sheet: GC.Spread.Sheets.Worksheet, index: number): void;
++    private onColumnChanged;
++    ngOnChanges(changes: SimpleChanges): void;
++}
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map
+new file mode 100644
+index 0000000..df10003
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"column.component.d.ts","sources":["column.component.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AAC4D;;;AAD5D;AACA;AAAE","sourcesContent":["import { OnChanges, SimpleChanges } from '@angular/core';\r\nimport * as GC from '@grapecity/spread-sheets';\r\nexport declare class ColumnComponent implements OnChanges {\r\n    private changes;\r\n    private sheet?;\r\n    private index?;\r\n    width?: number;\r\n    dataField?: string;\r\n    headerText?: string;\r\n    visible?: boolean;\r\n    resizable?: boolean;\r\n    autoFit?: boolean;\r\n    style?: GC.Spread.Sheets.Style;\r\n    cellType?: GC.Spread.Sheets.CellTypes.Base;\r\n    headerStyle?: GC.Spread.Sheets.Style;\r\n    formatter: any;\r\n    onAttached(sheet: GC.Spread.Sheets.Worksheet, index: number): void;\r\n    private onColumnChanged;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..3c1313b
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/column.component.d.ts.map.__ivy_ngcc_bak
+@@ -0,0 +1 @@
++{"version":3,"file":"column.component.d.ts","sources":["column.component.d.ts"],"names":[],"mappings":"AAAA;AACA;;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;AACA","sourcesContent":["import { OnChanges, SimpleChanges } from '@angular/core';\r\nimport * as GC from '@grapecity/spread-sheets';\r\nexport declare class ColumnComponent implements OnChanges {\r\n    private changes;\r\n    private sheet?;\r\n    private index?;\r\n    width?: number;\r\n    dataField?: string;\r\n    headerText?: string;\r\n    visible?: boolean;\r\n    resizable?: boolean;\r\n    autoFit?: boolean;\r\n    style?: GC.Spread.Sheets.Style;\r\n    cellType?: GC.Spread.Sheets.CellTypes.Base;\r\n    headerStyle?: GC.Spread.Sheets.Style;\r\n    formatter: any;\r\n    onAttached(sheet: GC.Spread.Sheets.Worksheet, index: number): void;\r\n    private onColumnChanged;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts
+index e133bff..a6a1d0c 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts
+@@ -1,5 +1,6 @@
+ import { AfterViewInit, ElementRef, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges } from '@angular/core';
+ import { WorksheetComponent } from './worksheet.component';
++import * as ɵngcc0 from '@angular/core';
+ export declare class SpreadSheetsComponent implements OnChanges, AfterViewInit, OnDestroy {
+     private elRef;
+     private spread?;
+@@ -126,4 +127,8 @@ export declare class SpreadSheetsComponent implements OnChanges, AfterViewInit,
+     setSpreadOptions(): void;
+     ngOnChanges(changes: SimpleChanges): void;
+     ngOnDestroy(): void;
++    static ɵfac: ɵngcc0.ɵɵFactoryDef<SpreadSheetsComponent, never>;
++    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<SpreadSheetsComponent, "gc-spread-sheets", never, { "allowUserResize": "allowUserResize"; "allowUserZoom": "allowUserZoom"; "allowUserEditFormula": "allowUserEditFormula"; "allowUserDragFill": "allowUserDragFill"; "allowUserDragDrop": "allowUserDragDrop"; "allowUserDragMerge": "allowUserDragMerge"; "allowUndo": "allowUndo"; "allowSheetReorder": "allowSheetReorder"; "allowContextMenu": "allowContextMenu"; "allowUserDeselect": "allowUserDeselect"; "allowCopyPasteExcelStyle": "allowCopyPasteExcelStyle"; "allowExtendPasteRange": "allowExtendPasteRange"; "cutCopyIndicatorVisible": "cutCopyIndicatorVisible"; "cutCopyIndicatorBorderColor": "cutCopyIndicatorBorderColor"; "copyPasteHeaderOptions": "copyPasteHeaderOptions"; "defaultDragFillType": "defaultDragFillType"; "enableFormulaTextbox": "enableFormulaTextbox"; "highlightInvalidData": "highlightInvalidData"; "newTabVisible": "newTabVisible"; "tabStripVisible": "tabStripVisible"; "tabEditable": "tabEditable"; "tabStripRatio": "tabStripRatio"; "tabNavigationVisible": "tabNavigationVisible"; "autoFitType": "autoFitType"; "referenceStyle": "referenceStyle"; "backColor": "backColor"; "grayAreaBackColor": "grayAreaBackColor"; "resizeZeroIndicator": "resizeZeroIndicator"; "showVerticalScrollbar": "showVerticalScrollbar"; "showHorizontalScrollbar": "showHorizontalScrollbar"; "scrollbarMaxAlign": "scrollbarMaxAlign"; "scrollIgnoreHidden": "scrollIgnoreHidden"; "hostStyle": "hostStyle"; "hostClass": "hostClass"; "hideSelection": "hideSelection"; "name": "name"; "backgroundImage": "backgroundImage"; "backgroundImageLayout": "backgroundImageLayout"; "showScrollTip": "showScrollTip"; "showResizeTip": "showResizeTip"; "showDragDropTip": "showDragDropTip"; "showDragFillTip": "showDragFillTip"; "showDragFillSmartTag": "showDragFillSmartTag"; "scrollbarShowMax": "scrollbarShowMax"; "useTouchLayout": "useTouchLayout"; }, { "workbookInitialized": "workbookInitialized"; "validationError": "validationError"; "cellClick": "cellClick"; "cellDoubleClick": "cellDoubleClick"; "enterCell": "enterCell"; "leaveCell": "leaveCell"; "valueChanged": "valueChanged"; "topRowChanged": "topRowChanged"; "leftColumnChanged": "leftColumnChanged"; "invalidOperation": "invalidOperation"; "rangeFiltering": "rangeFiltering"; "rangeFiltered": "rangeFiltered"; "tableFiltering": "tableFiltering"; "tableFiltered": "tableFiltered"; "rangeSorting": "rangeSorting"; "rangeSorted": "rangeSorted"; "clipboardChanging": "clipboardChanging"; "clipboardChanged": "clipboardChanged"; "clipboardPasting": "clipboardPasting"; "clipboardPasted": "clipboardPasted"; "columnWidthChanging": "columnWidthChanging"; "columnWidthChanged": "columnWidthChanged"; "rowHeightChanging": "rowHeightChanging"; "rowHeightChanged": "rowHeightChanged"; "dragDropBlock": "dragDropBlock"; "dragDropBlockCompleted": "dragDropBlockCompleted"; "dragFillBlock": "dragFillBlock"; "dragFillBlockCompleted": "dragFillBlockCompleted"; "editStarting": "editStarting"; "editChange": "editChange"; "editEnding": "editEnding"; "editEnd": "editEnd"; "editEnded": "editEnded"; "rangeGroupStateChanging": "rangeGroupStateChanging"; "rangeGroupStateChanged": "rangeGroupStateChanged"; "selectionChanging": "selectionChanging"; "selectionChanged": "selectionChanged"; "sheetTabClick": "sheetTabClick"; "sheetTabDoubleClick": "sheetTabDoubleClick"; "sheetNameChanging": "sheetNameChanging"; "sheetNameChanged": "sheetNameChanged"; "userZooming": "userZooming"; "userFormulaEntered": "userFormulaEntered"; "cellChanged": "cellChanged"; "columnChanged": "columnChanged"; "rowChanged": "rowChanged"; "activeSheetChanging": "activeSheetChanging"; "activeSheetChanged": "activeSheetChanged"; "sparklineChanged": "sparklineChanged"; "rangeChanged": "rangeChanged"; "buttonClicked": "buttonClicked"; "editorStatusChanged": "editorStatusChanged"; "floatingObjectChanged": "floatingObjectChanged"; "floatingObjectSelectionChanged": "floatingObjectSelectionChanged"; "pictureChanged": "pictureChanged"; "floatingObjectRemoving": "floatingObjectRemoving"; "floatingObjectRemoved": "floatingObjectRemoved"; "pictureSelectionChanged": "pictureSelectionChanged"; "floatingObjectLoaded": "floatingObjectLoaded"; "touchToolStripOpening": "touchToolStripOpening"; "commentChanged": "commentChanged"; "commentRemoving": "commentRemoving"; "commentRemoved": "commentRemoved"; "slicerChanged": "slicerChanged"; }, ["sheets"], ["*"]>;
+ }
++
++//# sourceMappingURL=spreadSheets.component.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..e133bff
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.__ivy_ngcc_bak
+@@ -0,0 +1,129 @@
++import { AfterViewInit, ElementRef, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges } from '@angular/core';
++import { WorksheetComponent } from './worksheet.component';
++export declare class SpreadSheetsComponent implements OnChanges, AfterViewInit, OnDestroy {
++    private elRef;
++    private spread?;
++    private spreadOptions?;
++    style: {
++        width: string;
++        height: string;
++    };
++    allowUserResize?: boolean;
++    allowUserZoom?: boolean;
++    allowUserEditFormula?: boolean;
++    allowUserDragFill?: boolean;
++    allowUserDragDrop?: boolean;
++    allowUserDragMerge?: boolean;
++    allowUndo?: boolean;
++    allowSheetReorder?: boolean;
++    allowContextMenu?: boolean;
++    allowUserDeselect?: boolean;
++    allowCopyPasteExcelStyle?: boolean;
++    allowExtendPasteRange?: boolean;
++    cutCopyIndicatorVisible?: boolean;
++    cutCopyIndicatorBorderColor?: string;
++    copyPasteHeaderOptions?: number;
++    defaultDragFillType?: number;
++    enableFormulaTextbox?: boolean;
++    highlightInvalidData?: boolean;
++    newTabVisible?: boolean;
++    tabStripVisible?: boolean;
++    tabEditable?: boolean;
++    tabStripRatio?: number;
++    tabNavigationVisible?: boolean;
++    autoFitType?: number;
++    referenceStyle?: number;
++    backColor?: string;
++    grayAreaBackColor?: string;
++    resizeZeroIndicator?: number;
++    showVerticalScrollbar?: boolean;
++    showHorizontalScrollbar?: boolean;
++    scrollbarMaxAlign?: boolean;
++    scrollIgnoreHidden?: boolean;
++    hostStyle?: any;
++    hostClass?: string;
++    hideSelection?: boolean;
++    name?: string;
++    backgroundImage?: string;
++    backgroundImageLayout?: number;
++    showScrollTip?: number;
++    showResizeTip?: number;
++    showDragDropTip?: boolean;
++    showDragFillTip?: boolean;
++    showDragFillSmartTag?: boolean;
++    scrollbarShowMax?: boolean;
++    useTouchLayout?: boolean;
++    workbookInitialized: EventEmitter<any>;
++    validationError: EventEmitter<any>;
++    cellClick: EventEmitter<any>;
++    cellDoubleClick: EventEmitter<any>;
++    enterCell: EventEmitter<any>;
++    leaveCell: EventEmitter<any>;
++    valueChanged: EventEmitter<any>;
++    topRowChanged: EventEmitter<any>;
++    leftColumnChanged: EventEmitter<any>;
++    invalidOperation: EventEmitter<any>;
++    rangeFiltering: EventEmitter<any>;
++    rangeFiltered: EventEmitter<any>;
++    tableFiltering: EventEmitter<any>;
++    tableFiltered: EventEmitter<any>;
++    rangeSorting: EventEmitter<any>;
++    rangeSorted: EventEmitter<any>;
++    clipboardChanging: EventEmitter<any>;
++    clipboardChanged: EventEmitter<any>;
++    clipboardPasting: EventEmitter<any>;
++    clipboardPasted: EventEmitter<any>;
++    columnWidthChanging: EventEmitter<any>;
++    columnWidthChanged: EventEmitter<any>;
++    rowHeightChanging: EventEmitter<any>;
++    rowHeightChanged: EventEmitter<any>;
++    dragDropBlock: EventEmitter<any>;
++    dragDropBlockCompleted: EventEmitter<any>;
++    dragFillBlock: EventEmitter<any>;
++    dragFillBlockCompleted: EventEmitter<any>;
++    editStarting: EventEmitter<any>;
++    editChange: EventEmitter<any>;
++    editEnding: EventEmitter<any>;
++    editEnd: EventEmitter<any>;
++    editEnded: EventEmitter<any>;
++    rangeGroupStateChanging: EventEmitter<any>;
++    rangeGroupStateChanged: EventEmitter<any>;
++    selectionChanging: EventEmitter<any>;
++    selectionChanged: EventEmitter<any>;
++    sheetTabClick: EventEmitter<any>;
++    sheetTabDoubleClick: EventEmitter<any>;
++    sheetNameChanging: EventEmitter<any>;
++    sheetNameChanged: EventEmitter<any>;
++    userZooming: EventEmitter<any>;
++    userFormulaEntered: EventEmitter<any>;
++    cellChanged: EventEmitter<any>;
++    columnChanged: EventEmitter<any>;
++    rowChanged: EventEmitter<any>;
++    activeSheetChanging: EventEmitter<any>;
++    activeSheetChanged: EventEmitter<any>;
++    sparklineChanged: EventEmitter<any>;
++    rangeChanged: EventEmitter<any>;
++    buttonClicked: EventEmitter<any>;
++    editorStatusChanged: EventEmitter<any>;
++    floatingObjectChanged: EventEmitter<any>;
++    floatingObjectSelectionChanged: EventEmitter<any>;
++    pictureChanged: EventEmitter<any>;
++    floatingObjectRemoving: EventEmitter<any>;
++    floatingObjectRemoved: EventEmitter<any>;
++    pictureSelectionChanged: EventEmitter<any>;
++    floatingObjectLoaded: EventEmitter<any>;
++    touchToolStripOpening: EventEmitter<any>;
++    commentChanged: EventEmitter<any>;
++    commentRemoving: EventEmitter<any>;
++    commentRemoved: EventEmitter<any>;
++    slicerChanged: EventEmitter<any>;
++    sheets?: QueryList<WorksheetComponent>;
++    constructor(elRef: ElementRef);
++    ngAfterViewInit(): void;
++    private onSheetsChanged;
++    private initSheets;
++    private bindCustomEvent;
++    setSpreadOptions(): void;
++    ngOnChanges(changes: SimpleChanges): void;
++    ngOnDestroy(): void;
++}
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map
+new file mode 100644
+index 0000000..0507886
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"spreadSheets.component.d.ts","sources":["spreadSheets.component.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACkE;;;AADlE;AACA;AAAE","sourcesContent":["import { AfterViewInit, ElementRef, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges } from '@angular/core';\r\nimport { WorksheetComponent } from './worksheet.component';\r\nexport declare class SpreadSheetsComponent implements OnChanges, AfterViewInit, OnDestroy {\r\n    private elRef;\r\n    private spread?;\r\n    private spreadOptions?;\r\n    style: {\r\n        width: string;\r\n        height: string;\r\n    };\r\n    allowUserResize?: boolean;\r\n    allowUserZoom?: boolean;\r\n    allowUserEditFormula?: boolean;\r\n    allowUserDragFill?: boolean;\r\n    allowUserDragDrop?: boolean;\r\n    allowUserDragMerge?: boolean;\r\n    allowUndo?: boolean;\r\n    allowSheetReorder?: boolean;\r\n    allowContextMenu?: boolean;\r\n    allowUserDeselect?: boolean;\r\n    allowCopyPasteExcelStyle?: boolean;\r\n    allowExtendPasteRange?: boolean;\r\n    cutCopyIndicatorVisible?: boolean;\r\n    cutCopyIndicatorBorderColor?: string;\r\n    copyPasteHeaderOptions?: number;\r\n    defaultDragFillType?: number;\r\n    enableFormulaTextbox?: boolean;\r\n    highlightInvalidData?: boolean;\r\n    newTabVisible?: boolean;\r\n    tabStripVisible?: boolean;\r\n    tabEditable?: boolean;\r\n    tabStripRatio?: number;\r\n    tabNavigationVisible?: boolean;\r\n    autoFitType?: number;\r\n    referenceStyle?: number;\r\n    backColor?: string;\r\n    grayAreaBackColor?: string;\r\n    resizeZeroIndicator?: number;\r\n    showVerticalScrollbar?: boolean;\r\n    showHorizontalScrollbar?: boolean;\r\n    scrollbarMaxAlign?: boolean;\r\n    scrollIgnoreHidden?: boolean;\r\n    hostStyle?: any;\r\n    hostClass?: string;\r\n    hideSelection?: boolean;\r\n    name?: string;\r\n    backgroundImage?: string;\r\n    backgroundImageLayout?: number;\r\n    showScrollTip?: number;\r\n    showResizeTip?: number;\r\n    showDragDropTip?: boolean;\r\n    showDragFillTip?: boolean;\r\n    showDragFillSmartTag?: boolean;\r\n    scrollbarShowMax?: boolean;\r\n    useTouchLayout?: boolean;\r\n    workbookInitialized: EventEmitter<any>;\r\n    validationError: EventEmitter<any>;\r\n    cellClick: EventEmitter<any>;\r\n    cellDoubleClick: EventEmitter<any>;\r\n    enterCell: EventEmitter<any>;\r\n    leaveCell: EventEmitter<any>;\r\n    valueChanged: EventEmitter<any>;\r\n    topRowChanged: EventEmitter<any>;\r\n    leftColumnChanged: EventEmitter<any>;\r\n    invalidOperation: EventEmitter<any>;\r\n    rangeFiltering: EventEmitter<any>;\r\n    rangeFiltered: EventEmitter<any>;\r\n    tableFiltering: EventEmitter<any>;\r\n    tableFiltered: EventEmitter<any>;\r\n    rangeSorting: EventEmitter<any>;\r\n    rangeSorted: EventEmitter<any>;\r\n    clipboardChanging: EventEmitter<any>;\r\n    clipboardChanged: EventEmitter<any>;\r\n    clipboardPasting: EventEmitter<any>;\r\n    clipboardPasted: EventEmitter<any>;\r\n    columnWidthChanging: EventEmitter<any>;\r\n    columnWidthChanged: EventEmitter<any>;\r\n    rowHeightChanging: EventEmitter<any>;\r\n    rowHeightChanged: EventEmitter<any>;\r\n    dragDropBlock: EventEmitter<any>;\r\n    dragDropBlockCompleted: EventEmitter<any>;\r\n    dragFillBlock: EventEmitter<any>;\r\n    dragFillBlockCompleted: EventEmitter<any>;\r\n    editStarting: EventEmitter<any>;\r\n    editChange: EventEmitter<any>;\r\n    editEnding: EventEmitter<any>;\r\n    editEnd: EventEmitter<any>;\r\n    editEnded: EventEmitter<any>;\r\n    rangeGroupStateChanging: EventEmitter<any>;\r\n    rangeGroupStateChanged: EventEmitter<any>;\r\n    selectionChanging: EventEmitter<any>;\r\n    selectionChanged: EventEmitter<any>;\r\n    sheetTabClick: EventEmitter<any>;\r\n    sheetTabDoubleClick: EventEmitter<any>;\r\n    sheetNameChanging: EventEmitter<any>;\r\n    sheetNameChanged: EventEmitter<any>;\r\n    userZooming: EventEmitter<any>;\r\n    userFormulaEntered: EventEmitter<any>;\r\n    cellChanged: EventEmitter<any>;\r\n    columnChanged: EventEmitter<any>;\r\n    rowChanged: EventEmitter<any>;\r\n    activeSheetChanging: EventEmitter<any>;\r\n    activeSheetChanged: EventEmitter<any>;\r\n    sparklineChanged: EventEmitter<any>;\r\n    rangeChanged: EventEmitter<any>;\r\n    buttonClicked: EventEmitter<any>;\r\n    editorStatusChanged: EventEmitter<any>;\r\n    floatingObjectChanged: EventEmitter<any>;\r\n    floatingObjectSelectionChanged: EventEmitter<any>;\r\n    pictureChanged: EventEmitter<any>;\r\n    floatingObjectRemoving: EventEmitter<any>;\r\n    floatingObjectRemoved: EventEmitter<any>;\r\n    pictureSelectionChanged: EventEmitter<any>;\r\n    floatingObjectLoaded: EventEmitter<any>;\r\n    touchToolStripOpening: EventEmitter<any>;\r\n    commentChanged: EventEmitter<any>;\r\n    commentRemoving: EventEmitter<any>;\r\n    commentRemoved: EventEmitter<any>;\r\n    slicerChanged: EventEmitter<any>;\r\n    sheets?: QueryList<WorksheetComponent>;\r\n    constructor(elRef: ElementRef);\r\n    ngAfterViewInit(): void;\r\n    private onSheetsChanged;\r\n    private initSheets;\r\n    private bindCustomEvent;\r\n    setSpreadOptions(): void;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n    ngOnDestroy(): void;\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..974cbcd
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.component.d.ts.map.__ivy_ngcc_bak
+@@ -0,0 +1 @@
++{"version":3,"file":"spreadSheets.component.d.ts","sources":["spreadSheets.component.d.ts"],"names":[],"mappings":"AAAA;AACA;;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;AACA","sourcesContent":["import { AfterViewInit, ElementRef, EventEmitter, OnChanges, OnDestroy, QueryList, SimpleChanges } from '@angular/core';\r\nimport { WorksheetComponent } from './worksheet.component';\r\nexport declare class SpreadSheetsComponent implements OnChanges, AfterViewInit, OnDestroy {\r\n    private elRef;\r\n    private spread?;\r\n    private spreadOptions?;\r\n    style: {\r\n        width: string;\r\n        height: string;\r\n    };\r\n    allowUserResize?: boolean;\r\n    allowUserZoom?: boolean;\r\n    allowUserEditFormula?: boolean;\r\n    allowUserDragFill?: boolean;\r\n    allowUserDragDrop?: boolean;\r\n    allowUserDragMerge?: boolean;\r\n    allowUndo?: boolean;\r\n    allowSheetReorder?: boolean;\r\n    allowContextMenu?: boolean;\r\n    allowUserDeselect?: boolean;\r\n    allowCopyPasteExcelStyle?: boolean;\r\n    allowExtendPasteRange?: boolean;\r\n    cutCopyIndicatorVisible?: boolean;\r\n    cutCopyIndicatorBorderColor?: string;\r\n    copyPasteHeaderOptions?: number;\r\n    defaultDragFillType?: number;\r\n    enableFormulaTextbox?: boolean;\r\n    highlightInvalidData?: boolean;\r\n    newTabVisible?: boolean;\r\n    tabStripVisible?: boolean;\r\n    tabEditable?: boolean;\r\n    tabStripRatio?: number;\r\n    tabNavigationVisible?: boolean;\r\n    autoFitType?: number;\r\n    referenceStyle?: number;\r\n    backColor?: string;\r\n    grayAreaBackColor?: string;\r\n    resizeZeroIndicator?: number;\r\n    showVerticalScrollbar?: boolean;\r\n    showHorizontalScrollbar?: boolean;\r\n    scrollbarMaxAlign?: boolean;\r\n    scrollIgnoreHidden?: boolean;\r\n    hostStyle?: any;\r\n    hostClass?: string;\r\n    hideSelection?: boolean;\r\n    name?: string;\r\n    backgroundImage?: string;\r\n    backgroundImageLayout?: number;\r\n    showScrollTip?: number;\r\n    showResizeTip?: number;\r\n    showDragDropTip?: boolean;\r\n    showDragFillTip?: boolean;\r\n    showDragFillSmartTag?: boolean;\r\n    scrollbarShowMax?: boolean;\r\n    useTouchLayout?: boolean;\r\n    workbookInitialized: EventEmitter<any>;\r\n    validationError: EventEmitter<any>;\r\n    cellClick: EventEmitter<any>;\r\n    cellDoubleClick: EventEmitter<any>;\r\n    enterCell: EventEmitter<any>;\r\n    leaveCell: EventEmitter<any>;\r\n    valueChanged: EventEmitter<any>;\r\n    topRowChanged: EventEmitter<any>;\r\n    leftColumnChanged: EventEmitter<any>;\r\n    invalidOperation: EventEmitter<any>;\r\n    rangeFiltering: EventEmitter<any>;\r\n    rangeFiltered: EventEmitter<any>;\r\n    tableFiltering: EventEmitter<any>;\r\n    tableFiltered: EventEmitter<any>;\r\n    rangeSorting: EventEmitter<any>;\r\n    rangeSorted: EventEmitter<any>;\r\n    clipboardChanging: EventEmitter<any>;\r\n    clipboardChanged: EventEmitter<any>;\r\n    clipboardPasting: EventEmitter<any>;\r\n    clipboardPasted: EventEmitter<any>;\r\n    columnWidthChanging: EventEmitter<any>;\r\n    columnWidthChanged: EventEmitter<any>;\r\n    rowHeightChanging: EventEmitter<any>;\r\n    rowHeightChanged: EventEmitter<any>;\r\n    dragDropBlock: EventEmitter<any>;\r\n    dragDropBlockCompleted: EventEmitter<any>;\r\n    dragFillBlock: EventEmitter<any>;\r\n    dragFillBlockCompleted: EventEmitter<any>;\r\n    editStarting: EventEmitter<any>;\r\n    editChange: EventEmitter<any>;\r\n    editEnding: EventEmitter<any>;\r\n    editEnd: EventEmitter<any>;\r\n    editEnded: EventEmitter<any>;\r\n    rangeGroupStateChanging: EventEmitter<any>;\r\n    rangeGroupStateChanged: EventEmitter<any>;\r\n    selectionChanging: EventEmitter<any>;\r\n    selectionChanged: EventEmitter<any>;\r\n    sheetTabClick: EventEmitter<any>;\r\n    sheetTabDoubleClick: EventEmitter<any>;\r\n    sheetNameChanging: EventEmitter<any>;\r\n    sheetNameChanged: EventEmitter<any>;\r\n    userZooming: EventEmitter<any>;\r\n    userFormulaEntered: EventEmitter<any>;\r\n    cellChanged: EventEmitter<any>;\r\n    columnChanged: EventEmitter<any>;\r\n    rowChanged: EventEmitter<any>;\r\n    activeSheetChanging: EventEmitter<any>;\r\n    activeSheetChanged: EventEmitter<any>;\r\n    sparklineChanged: EventEmitter<any>;\r\n    rangeChanged: EventEmitter<any>;\r\n    buttonClicked: EventEmitter<any>;\r\n    editorStatusChanged: EventEmitter<any>;\r\n    floatingObjectChanged: EventEmitter<any>;\r\n    floatingObjectSelectionChanged: EventEmitter<any>;\r\n    pictureChanged: EventEmitter<any>;\r\n    floatingObjectRemoving: EventEmitter<any>;\r\n    floatingObjectRemoved: EventEmitter<any>;\r\n    pictureSelectionChanged: EventEmitter<any>;\r\n    floatingObjectLoaded: EventEmitter<any>;\r\n    touchToolStripOpening: EventEmitter<any>;\r\n    commentChanged: EventEmitter<any>;\r\n    commentRemoving: EventEmitter<any>;\r\n    commentRemoved: EventEmitter<any>;\r\n    slicerChanged: EventEmitter<any>;\r\n    sheets?: QueryList<WorksheetComponent>;\r\n    constructor(elRef: ElementRef);\r\n    ngAfterViewInit(): void;\r\n    private onSheetsChanged;\r\n    private initSheets;\r\n    private bindCustomEvent;\r\n    setSpreadOptions(): void;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n    ngOnDestroy(): void;\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts
+index 8638b67..b14b5d2 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts
+@@ -1,2 +1,12 @@
++import * as ɵngcc0 from '@angular/core';
++import * as ɵngcc1 from './spreadSheets.component';
++import * as ɵngcc2 from './worksheet.component';
++import * as ɵngcc3 from './column.component';
++import * as ɵngcc4 from '@angular/common';
+ export declare class SpreadSheetsModule {
++    static ɵfac: ɵngcc0.ɵɵFactoryDef<SpreadSheetsModule, never>;
++    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<SpreadSheetsModule, [typeof ɵngcc1.SpreadSheetsComponent, typeof ɵngcc2.WorksheetComponent, typeof ɵngcc3.ColumnComponent], [typeof ɵngcc4.CommonModule], [typeof ɵngcc1.SpreadSheetsComponent, typeof ɵngcc2.WorksheetComponent, typeof ɵngcc3.ColumnComponent]>;
++    static ɵinj: ɵngcc0.ɵɵInjectorDef<SpreadSheetsModule>;
+ }
++
++//# sourceMappingURL=spreadSheets.module.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..8638b67
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.__ivy_ngcc_bak
+@@ -0,0 +1,2 @@
++export declare class SpreadSheetsModule {
++}
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map
+new file mode 100644
+index 0000000..a469310
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"spreadSheets.module.d.ts","sources":["spreadSheets.module.d.ts"],"names":[],"mappings":";;;;;;;;;;AAAA;AACA;AAC+D;AAAkT;;;;AADjX;AACA;AAAE","sourcesContent":["export declare class SpreadSheetsModule {\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..4bbd183
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/spreadSheets.module.d.ts.map.__ivy_ngcc_bak
+@@ -0,0 +1 @@
++{"version":3,"file":"spreadSheets.module.d.ts","sources":["spreadSheets.module.d.ts"],"names":[],"mappings":";;;;;AAAA;;;;AACA","sourcesContent":["export declare class SpreadSheetsModule {\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts
+index 6210953..e2dc7bb 100644
+--- a/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts
++++ b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts
+@@ -1,6 +1,7 @@
+ import { AfterViewInit, OnChanges, QueryList, SimpleChanges } from '@angular/core';
+ import { ColumnComponent } from './column.component';
+ import * as GC from '@grapecity/spread-sheets';
++import * as ɵngcc0 from '@angular/core';
+ export declare class WorksheetComponent implements OnChanges, AfterViewInit {
+     private sheet;
+     columns?: QueryList<ColumnComponent>;
+@@ -41,4 +42,8 @@ export declare class WorksheetComponent implements OnChanges, AfterViewInit {
+     ngOnChanges(changes: SimpleChanges): void;
+     ngAfterViewInit(): void;
+     ngOnDestroy(): void;
++    static ɵfac: ɵngcc0.ɵɵFactoryDef<WorksheetComponent, never>;
++    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<WorksheetComponent, "gc-worksheet", never, { "rowCount": "rowCount"; "colCount": "colCount"; "dataSource": "dataSource"; "name": "name"; "frozenColumnCount": "frozenColumnCount"; "frozenRowCount": "frozenRowCount"; "frozenTrailingRowCount": "frozenTrailingRowCount"; "frozenTrailingColumnCount": "frozenTrailingColumnCount"; "allowCellOverflow": "allowCellOverflow"; "frozenlineColor": "frozenlineColor"; "sheetTabColor": "sheetTabColor"; "selectionPolicy": "selectionPolicy"; "selectionUnit": "selectionUnit"; "zoom": "zoom"; "currentTheme": "currentTheme"; "clipBoardOptions": "clipBoardOptions"; "rowHeaderVisible": "rowHeaderVisible"; "colHeaderVisible": "colHeaderVisible"; "rowHeaderAutoText": "rowHeaderAutoText"; "colHeaderAutoText": "colHeaderAutoText"; "rowHeaderAutoTextIndex": "rowHeaderAutoTextIndex"; "colHeaderAutoTextIndex": "colHeaderAutoTextIndex"; "isProtected": "isProtected"; "showRowOutline": "showRowOutline"; "showColumnOutline": "showColumnOutline"; "selectionBackColor": "selectionBackColor"; "selectionBorderColor": "selectionBorderColor"; "defaultStyle": "defaultStyle"; "rowOutlineInfo": "rowOutlineInfo"; "columnOutlineInfo": "columnOutlineInfo"; "autoGenerateColumns": "autoGenerateColumns"; }, {}, ["columns"], ["*"]>;
+ }
++
++//# sourceMappingURL=worksheet.component.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..6210953
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.__ivy_ngcc_bak
+@@ -0,0 +1,44 @@
++import { AfterViewInit, OnChanges, QueryList, SimpleChanges } from '@angular/core';
++import { ColumnComponent } from './column.component';
++import * as GC from '@grapecity/spread-sheets';
++export declare class WorksheetComponent implements OnChanges, AfterViewInit {
++    private sheet;
++    columns?: QueryList<ColumnComponent>;
++    rowCount?: number;
++    colCount?: number;
++    dataSource: any;
++    name?: string;
++    frozenColumnCount?: number;
++    frozenRowCount?: number;
++    frozenTrailingRowCount?: number;
++    frozenTrailingColumnCount?: number;
++    allowCellOverflow?: boolean;
++    frozenlineColor?: string;
++    sheetTabColor?: string;
++    selectionPolicy?: number;
++    selectionUnit?: number;
++    zoom?: number;
++    currentTheme?: string;
++    clipBoardOptions?: number;
++    rowHeaderVisible?: boolean;
++    colHeaderVisible?: boolean;
++    rowHeaderAutoText?: number;
++    colHeaderAutoText?: number;
++    rowHeaderAutoTextIndex?: number;
++    colHeaderAutoTextIndex?: number;
++    isProtected?: boolean;
++    showRowOutline?: boolean;
++    showColumnOutline?: boolean;
++    selectionBackColor?: string;
++    selectionBorderColor?: string;
++    defaultStyle?: GC.Spread.Sheets.Style;
++    rowOutlineInfo?: any[];
++    columnOutlineInfo?: any[];
++    autoGenerateColumns?: boolean;
++    constructor();
++    onAttached(): void;
++    getSheet(): GC.Spread.Sheets.Worksheet;
++    ngOnChanges(changes: SimpleChanges): void;
++    ngAfterViewInit(): void;
++    ngOnDestroy(): void;
++}
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map
+new file mode 100644
+index 0000000..90d63dc
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"worksheet.component.d.ts","sources":["worksheet.component.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AAC+D;;;AAD/D;AACA;AAAE","sourcesContent":["import { AfterViewInit, OnChanges, QueryList, SimpleChanges } from '@angular/core';\r\nimport { ColumnComponent } from './column.component';\r\nimport * as GC from '@grapecity/spread-sheets';\r\nexport declare class WorksheetComponent implements OnChanges, AfterViewInit {\r\n    private sheet;\r\n    columns?: QueryList<ColumnComponent>;\r\n    rowCount?: number;\r\n    colCount?: number;\r\n    dataSource: any;\r\n    name?: string;\r\n    frozenColumnCount?: number;\r\n    frozenRowCount?: number;\r\n    frozenTrailingRowCount?: number;\r\n    frozenTrailingColumnCount?: number;\r\n    allowCellOverflow?: boolean;\r\n    frozenlineColor?: string;\r\n    sheetTabColor?: string;\r\n    selectionPolicy?: number;\r\n    selectionUnit?: number;\r\n    zoom?: number;\r\n    currentTheme?: string;\r\n    clipBoardOptions?: number;\r\n    rowHeaderVisible?: boolean;\r\n    colHeaderVisible?: boolean;\r\n    rowHeaderAutoText?: number;\r\n    colHeaderAutoText?: number;\r\n    rowHeaderAutoTextIndex?: number;\r\n    colHeaderAutoTextIndex?: number;\r\n    isProtected?: boolean;\r\n    showRowOutline?: boolean;\r\n    showColumnOutline?: boolean;\r\n    selectionBackColor?: string;\r\n    selectionBorderColor?: string;\r\n    defaultStyle?: GC.Spread.Sheets.Style;\r\n    rowOutlineInfo?: any[];\r\n    columnOutlineInfo?: any[];\r\n    autoGenerateColumns?: boolean;\r\n    constructor();\r\n    onAttached(): void;\r\n    getSheet(): GC.Spread.Sheets.Worksheet;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n    ngAfterViewInit(): void;\r\n    ngOnDestroy(): void;\r\n}\r\n"]}
+\ No newline at end of file
+diff --git a/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map.__ivy_ngcc_bak b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map.__ivy_ngcc_bak
+new file mode 100644
+index 0000000..27cd8ef
+--- /dev/null
++++ b/node_modules/@grapecity/spread-sheets-angular/src/worksheet.component.d.ts.map.__ivy_ngcc_bak
+@@ -0,0 +1 @@
++{"version":3,"file":"worksheet.component.d.ts","sources":["worksheet.component.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;AACA","sourcesContent":["import { AfterViewInit, OnChanges, QueryList, SimpleChanges } from '@angular/core';\r\nimport { ColumnComponent } from './column.component';\r\nimport * as GC from '@grapecity/spread-sheets';\r\nexport declare class WorksheetComponent implements OnChanges, AfterViewInit {\r\n    private sheet;\r\n    columns?: QueryList<ColumnComponent>;\r\n    rowCount?: number;\r\n    colCount?: number;\r\n    dataSource: any;\r\n    name?: string;\r\n    frozenColumnCount?: number;\r\n    frozenRowCount?: number;\r\n    frozenTrailingRowCount?: number;\r\n    frozenTrailingColumnCount?: number;\r\n    allowCellOverflow?: boolean;\r\n    frozenlineColor?: string;\r\n    sheetTabColor?: string;\r\n    selectionPolicy?: number;\r\n    selectionUnit?: number;\r\n    zoom?: number;\r\n    currentTheme?: string;\r\n    clipBoardOptions?: number;\r\n    rowHeaderVisible?: boolean;\r\n    colHeaderVisible?: boolean;\r\n    rowHeaderAutoText?: number;\r\n    colHeaderAutoText?: number;\r\n    rowHeaderAutoTextIndex?: number;\r\n    colHeaderAutoTextIndex?: number;\r\n    isProtected?: boolean;\r\n    showRowOutline?: boolean;\r\n    showColumnOutline?: boolean;\r\n    selectionBackColor?: string;\r\n    selectionBorderColor?: string;\r\n    defaultStyle?: GC.Spread.Sheets.Style;\r\n    rowOutlineInfo?: any[];\r\n    columnOutlineInfo?: any[];\r\n    autoGenerateColumns?: boolean;\r\n    constructor();\r\n    onAttached(): void;\r\n    getSheet(): GC.Spread.Sheets.Worksheet;\r\n    ngOnChanges(changes: SimpleChanges): void;\r\n    ngAfterViewInit(): void;\r\n    ngOnDestroy(): void;\r\n}\r\n"]}
+\ No newline at end of file

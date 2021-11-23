@@ -1,0 +1,110 @@
+@import 'variables';
+
+$spacing: 10px;
+
+.step4 {
+  padding: $spacing * 2;
+}
+
+h1 {
+  font-size: $h2-font-size;
+  margin-bottom: 0;
+}
+
+section {
+  padding-top: $spacing * 5;
+  h2 {
+    border-bottom: 1px solid rgba(136, 136, 136, 0.9);
+    display: block;
+    margin-top: 0;
+    font-size: $h3-font-size;
+    padding-bottom: $spacing;
+    margin-bottom: $spacing * 2;
+  }
+  &.gerais {
+    padding-top: $spacing * 4;
+  }
+  &.local {
+    article {
+      margin-right: $spacing * 2.5;
+      &:nth-child(2) {
+        margin-left: $spacing * 2.5;
+        margin-right: 0;
+      }
+    }
+  }
+  i {
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  ul.restricoes {
+    list-style-type: disc;
+    padding-left: 1rem;
+    width: 55%;
+    margin-left: 1rem;
+    li {
+      font-size: 0.875rem;
+      margin: 0 0 0.5rem;
+    }
+  }
+  button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0.3rem 0.3rem 0 auto;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+    li {
+      color: #3c3c3c;
+      font-size: $font-size-base;
+      margin-bottom: $spacing * 1.5;
+      span,
+      p {
+        display: inline-block;
+      }
+      span {
+        width: 25%;
+        margin-right: 1.5%;
+        vertical-align: top;
+      }
+      p {
+        margin-bottom: 0;
+        font-weight: bold;
+        font-size: $font-size-lg;
+        width: 73%;
+      }
+    }
+    &.list-30 {
+      li {
+        span,
+        p {
+          display: inline-block;
+        }
+        span {
+          width: 30%;
+          max-width: 30%;
+          margin-right: 3%;
+        }
+        p {
+          width: 67%;
+        }
+      }
+    }
+  }
+
+  aw-radio {
+    margin-left: $spacing;
+  }
+  .visita {
+    label {
+      display: inline-block;
+      width: 40%;
+    }
+    input {
+      display: inline-block;
+      width: 60%;
+    }
+  }
+}

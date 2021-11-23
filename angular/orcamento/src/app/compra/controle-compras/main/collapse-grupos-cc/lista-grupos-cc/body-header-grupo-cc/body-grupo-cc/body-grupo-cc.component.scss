@@ -1,0 +1,39 @@
+:host ::ng-deep {
+  .body-grupo-tabs {
+    width: 100%;
+    .nav {
+      justify-content: center;
+    }
+    .nav-tabs > li.active > a {
+      margin-right: 2px;
+      line-height: 1.42857143;
+      border: none !important;
+      border-bottom: 1px solid #5497ce !important;
+      color: #5497ce !important;
+      font-weight: bold;
+      opacity: 1;
+      background: none !important;
+    }
+    .nav-tabs > li.active > a:focus,
+    .nav-tabs > li.active > a:hover {
+      color: #5497ce !important;
+      cursor: default;
+      background-color: transparent !important;
+      border-bottom: 1px solid #5497ce !important;
+      opacity: 1;
+    }
+    .nav-tabs > li > a {
+      color: #555;
+      margin-right: 2px;
+      line-height: 1.42857143;
+      border: none !important;
+      border-radius: 4px 4px 0 0;
+      opacity: 0.5;
+    }
+    .nav-tabs .nav-link:hover,
+    .nav-tabs .nav-link:focus {
+      color: #5497ce !important;
+      border-bottom: 1px solid #5497ce !important;
+    }
+  }
+}

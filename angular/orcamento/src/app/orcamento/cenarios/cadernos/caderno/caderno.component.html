@@ -1,0 +1,205 @@
+<div class="cadernos mx-auto" *ngIf="caderno$ | async as caderno">
+  <header>
+    <h1>Configurar Caderno</h1>
+  </header>
+
+  <main id="main">
+    <div class="projeto-info d-flex align-content-start">
+      <div *ngIf="projeto$ | async as projeto">
+        <span>Projeto: </span>
+        <p>{{ projeto.numeroProjeto }} {{ projeto.nomeProjeto }}</p>
+      </div>
+      <div>
+        <span>Planilha de Vendas Híbrida:</span>
+        <p>-</p>
+      </div>
+    </div>
+    <div class="content d-flex py-0">
+      <header class="d-flex justify-content-between">
+        <ul>
+          <li>
+            <button
+              class="btn btn-icon"
+              [popover]="popTemplate"
+              (onShown)="getLogo('loading')"
+              [disabled]="caderno.enviadoCliente"
+              popoverTitle="Adicionar logo cliente"
+              placement="bottom"
+            >
+              <i class="icon icon-sum mr-2"></i>Logo Cliente
+            </button>
+          </li>
+        </ul>
+        <a href class="align-self-center" routerLink="../">
+          <i class="icon icon-arrow-left2 mr-2"></i>
+          <span>Voltar para lista de Cadernos</span>
+        </a>
+      </header>
+    </div>
+    <div class="content d-flex flex-column rounded py-0">
+      <div class="caderno d-flex flex-column p-1 rounded">
+        <div class="p-0 text-left c-pointer" (click)="collapseCondicoes = !collapseCondicoes">
+          <div class="col-12 px-0 d-flex justify-content-between">
+            <div class="d-flex align-items-start normalize-css-modelos">Condições gerais e itens não considerados</div>
+            <div class="icon-wrapper">
+              <span
+                class="icon collapse-caret caret"
+                [class.icon-caret-down]="collapseCondicoes"
+                [class.icon-caret-up]="!collapseCondicoes"
+              ></span>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="caderno-content-wrapper d-flex flex-row"
+          *ngIf="!collapseCondicoes"
+          [class.mt-3]="!collapseCondicoes"
+          @collapse
+        >
+          <app-condicao-geral-item-exclusao
+            [caderno]="caderno"
+            [idOrcamentoCenario]="+idOrcamentoCenario"
+            [successFeedback]="successFeedback"
+          ></app-condicao-geral-item-exclusao>
+        </div>
+      </div>
+    </div>
+    <div class="content d-flex py-0">
+      <div class="bg-collapse-group my-2 rounded w-100" size="sm">
+        <div
+          class="font-weight-bolder d-flex justify-content-between p-1 c-pointer"
+          (click)="collapseMod(!collapseModelo)"
+        >
+          <div class="d-flex align-items-start normalize-css-modelos">
+            Modelos
+
+            <span class="icon aw-icon-abrir-budget ml-2 d-flex align-self-center"></span>
+          </div>
+          <div
+            class="d-flex align-items-end text-primary caret align-self-center"
+            [class.icon-caret-down]="collapseModelo"
+            [class.icon-caret-up]="!collapseModelo"
+          ></div>
+        </div>
+        <div class="bg-collapse-group px-1 pb-1" *ngIf="!collapseModelo" @collapse>
+          <app-caderno-layouts></app-caderno-layouts>
+        </div>
+      </div>
+    </div>
+    <div class="content d-flex py-0">
+      <div class="bg-collapse-group my-2 rounded w-100" size="sm">
+        <div
+          class="font-weight-bolder d-flex justify-content-between p-1 c-pointer"
+          (click)="collapseOrcFiltro(!collapseOrcamentoFiltro)"
+        >
+          <div class="d-flex align-items-start normalize-css-modelos">Orçamento - Filtros</div>
+          <div
+            class="d-flex align-items-end text-primary caret align-self-center"
+            [class.icon-caret-down]="collapseOrcamentoFiltro"
+            [class.icon-caret-up]="!collapseOrcamentoFiltro"
+          ></div>
+        </div>
+        <div class="bg-collapse-group px-1 pb-1" *ngIf="!collapseOrcamentoFiltro" @collapse>
+          <app-orcamento-filtro></app-orcamento-filtro>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<ng-template #popTemplate>
+  <div>
+    <div
+      *ngIf="!(isLoading.loadingId === 'loading' && isLoading.status)"
+      class="status-line d-flex justify-content-center align-items-center"
+      [class.success]="isSent"
+      [class.danger]="hasGetImageFailed || invalidType"
+    >
+      {{ logoStatusLineMessage }}
+    </div>
+
+    <div class="p-3">
+      <div
+        *ngIf="
+          (!selectedImage && !hasGetImageFailed && !(isLoading.loadingId === 'loading' && isLoading.status)) ||
+          invalidType
+        "
+        class="upload-logo d-flex align-items-center justify-content-center"
+        appDragndrop
+        (click)="fileInput.click()"
+        (fileDropped)="showPreview($event)"
+      >
+        Selecione ou arraste o logo aqui
+        <input
+          type="file"
+          #fileInput
+          accept="image/*"
+          id="input-logo"
+          (change)="showPreview($any($event.target).files[0])"
+        />
+      </div>
+
+      <div *ngIf="hasGetImageFailed" class="upload-logo-error d-flex align-items-center justify-content-center">
+        Erro ao carregar logo de caderno
+      </div>
+
+      <div
+        *ngIf="isLoading.loadingId === 'loading' && isLoading.status"
+        class="loading-logo d-flex align-items-center justify-content-center"
+      >
+        <i class="icon icon-spin"></i>
+      </div>
+
+      <div
+        *ngIf="selectedImage"
+        class="img-preview"
+        appDragndrop
+        [ngStyle]="{ 'background-image': 'url(' + selectedImage + ')' }"
+        (click)="fileInput.click()"
+        (fileDropped)="showPreview($event)"
+      >
+        <input
+          hidden
+          type="file"
+          #fileInput
+          accept="image/*"
+          id="input-logo"
+          (change)="showPreview($any($event.target).files[0])"
+        />
+      </div>
+
+      <button
+        type="button"
+        *ngIf="!hasGetImageFailed"
+        [disabled]="(isLoading.loadingId === 'send-logo' && isLoading.status) || isSent || invalidType"
+        class="btn btn-primary btn-block mt-2"
+        (click)="sendCadernoLogo('send-logo')"
+      >
+        {{ isSent ? 'logo anexado' : 'anexar logo' }}
+        <i *ngIf="isLoading.loadingId === 'send-logo' && isLoading.status" class="icon icon-spin"></i>
+      </button>
+
+      <button
+        type="button"
+        *ngIf="hasGetImageFailed"
+        [disabled]="isLoading.status"
+        class="btn btn-primary btn-block"
+        (click)="getLogo('retry-logo')"
+      >
+        tentar novamente
+        <i *ngIf="isLoading.loadingId === 'retry-logo' && isLoading.status" class="icon icon-spin"></i>
+      </button>
+
+      <button
+        type="button"
+        *ngIf="hasGetImageFailed"
+        [disabled]="isLoading.status"
+        class="btn btn-primary btn-block mt-2"
+        (click)="resetInputFile()"
+      >
+        Trocar logo
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,87 @@
+@use 'variables' as v;
+@use '../equalizacao-proposta' as ep;
+
+:host {
+  height: ep.$ep-header-height;
+  display: flex;
+  position: fixed;
+  top: v.$header-breacrumbs-heigth;
+  width: 100%;
+  background-color: v.$secondary;
+  color: white;
+  padding: 0.25rem 1rem;
+  box-shadow: 0 4px 5px 0 rgb(136 136 136 / 50%);
+  z-index: 1;
+  left: 0;
+}
+
+.voltar {
+  display: flex;
+  align-items: center;
+  width: calc(100px + 2rem);
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  border-right: 1px solid white;
+  margin-right: 2rem;
+}
+
+.wrapper-header {
+  display: flex;
+  width: 100%;
+}
+
+.title {
+  font-size: 0.75rem;
+}
+
+.equalizacao-header,
+.sub-title {
+  overflow: hidden;
+}
+
+.sub-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.box {
+  display: flex;
+}
+
+label {
+  font-size: 0.75rem;
+  font-weight: normal;
+  margin: 0 0.5rem 0 0;
+  text-align: end;
+  color: white;
+}
+
+.aw-input {
+  width: 75px;
+}
+
+aw-select {
+  max-width: 225px;
+}
+
+.aw-input,
+aw-select,
+.gerar-comparativa,
+.gerar-relatorio {
+  margin-right: 1rem;
+}

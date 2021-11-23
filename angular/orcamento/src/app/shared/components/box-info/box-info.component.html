@@ -1,0 +1,10 @@
+<div [style.width.px]="boxWidth" class="box d-flex align-items-center">
+  <div class="label d-flex align-items-center justify-content-center">
+    <p>{{ label }}</p>
+  </div>
+  <div
+    [ngClass]="classList"
+    class="value d-flex align-items-center justify-content-center">
+    <p>{{ valor }}</p>
+  </div>
+</div>

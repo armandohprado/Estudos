@@ -1,0 +1,32 @@
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-gap: 1rem;
+  > .search {
+    grid-column: span 2;
+  }
+  > .only-selected {
+    grid-column-start: 5;
+  }
+}
+
+.grupo-item-list {
+  margin-top: 1rem;
+  > .header {
+    display: grid;
+    grid-template-columns: 40px 100px 50px repeat(5, minmax(0, 1fr)) 50px;
+    grid-gap: 1rem;
+
+    > .cod-item {
+      grid-column-start: 2;
+      text-align: center;
+    }
+    > .descricao {
+      grid-column: 4 / 6;
+    }
+    > .icons {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

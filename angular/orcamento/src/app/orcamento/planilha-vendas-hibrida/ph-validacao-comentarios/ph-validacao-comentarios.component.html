@@ -1,0 +1,18 @@
+<aw-alert tipo="danger">
+  Para congelar a planilha, você precisa justificar os descontos e oportunidades nos grupos marcados em vermelho.
+  <hr />
+  <h6>Grupos</h6>
+  <ul class="list-unstyled">
+    <li *ngFor="let grupo of validarComentarios.grupos; trackBy: trackByGrupo">
+      {{ grupo.codigoGrupo }} - {{ grupo.nomeGrupo }}
+    </li>
+  </ul>
+  <ng-container *ngIf="validarComentarios.gruposOpcionais?.length"
+    ><h6>Grupos Opcionais</h6>
+    <ul class="list-unstyled">
+      <li *ngFor="let grupo of validarComentarios.gruposOpcionais; trackBy: trackByGrupo">
+        {{ grupo.codigoGrupo }} - {{ grupo.nomeGrupo }}
+      </li>
+    </ul>
+  </ng-container>
+</aw-alert>

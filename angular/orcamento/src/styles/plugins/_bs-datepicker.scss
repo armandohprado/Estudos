@@ -1,0 +1,55 @@
+@import '~ngx-bootstrap/datepicker/utils/scss/mixins';
+
+bs-datepicker-container {
+  &.top {
+    .bs-datepicker {
+      margin-bottom: 10px;
+      &:before {
+        color: #fff;
+        border-top: 0.4em solid;
+      }
+    }
+  }
+
+  &.bottom {
+    .bs-datepicker {
+      margin-top: 10px;
+
+      &:before {
+        top: -6px;
+        color: $blue;
+        border-bottom: 0.4em solid;
+      }
+    }
+  }
+}
+.bs-datepicker {
+  box-shadow: 0 0 5px 0 rgba(136, 136, 136, 0.9);
+  border-radius: $input-border-radius;
+  &:after,
+  &:before {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    right: auto;
+    border-right: 0.4em solid transparent;
+    border-left: 0.4em solid transparent;
+  }
+
+  .bs-datepicker-container {
+    padding: 0;
+  }
+}
+
+@include theming(primary, $primary);
+
+.theme-primary {
+  .bs-datepicker-head {
+    background-image: linear-gradient(278deg, #00b1ed, #089acc);
+  }
+}

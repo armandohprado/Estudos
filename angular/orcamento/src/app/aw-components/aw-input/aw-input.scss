@@ -1,0 +1,13 @@
+.aw-input {
+  &.is-loading {
+    background-image: none;
+    border-color: #3c3c3c;
+    &:focus {
+      border-color: #3c3c3c;
+      box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.25);
+    }
+  }
+  transition: background-image 200ms ease-in-out, border-color 200ms ease-in-out,
+    color 0.3s ease-in-out, border-color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+}

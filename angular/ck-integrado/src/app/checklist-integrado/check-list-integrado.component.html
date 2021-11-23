@@ -1,0 +1,95 @@
+<div class="title" *ngIf="fragment$ | async as fragment">
+  <h5 *ngIf="activeSheetIndex$ | async as activeSheetIndex">
+    <ng-container *ngIf="(activeSheetIndex || 0) >= obraFaseIndexStartAt">
+      Curva S {{ activeSheetIndex > curvaFinanceiraIndexStartAt ? '- Financeira -' : 'da fase' }}
+    </ng-container>
+    {{ fragment }}
+  </h5>
+
+  <div class="legendas" *ngIf="fragment === sheetCheckListNome">
+    <div class="legenda" *ngFor="let cor of cores; trackBy: trackByCheckListCor">
+      <div class="color-block" [style.background-color]="cor.cor"></div>
+      <div class="title">{{ cor.descricao }}</div>
+    </div>
+  </div>
+</div>
+<aw-spinner fullScreen size="lg" *ngIf="loading$ | async; else loaded"></aw-spinner>
+<ng-template #loaded>
+  <div class="planilha">
+    <gc-spread-sheets
+      (workbookInitialized)="workbookInit($event)"
+      [hostStyle]="hostStyle"
+      (activeSheetChanged)="activeSheetChanged()"
+      [allowUserDragDrop]="false"
+      [tabStripVisible]="true"
+      [newTabVisible]="false"
+      [tabNavigationVisible]="false"
+      [allowContextMenu]="false"
+      [allowUndo]="false"
+      [highlightInvalidData]="true"
+      [allowUserDragFill]="false"
+    >
+      <gc-worksheet
+        [name]="sheetCronogramasNome"
+        [isProtected]="true"
+        [colCount]="colCount.cronogramas"
+        [frozenRowCount]="rowStart.cronogramas + 1"
+        appCliCronogramas
+        [(cronogramas)]="cronogramas"
+        [funcao]="funcao"
+        [rowStart]="rowStart.cronogramas"
+      ></gc-worksheet>
+      <gc-worksheet
+        [name]="sheetParticipanteNome"
+        [isProtected]="true"
+        [colCount]="colCount.participante"
+        [frozenRowCount]="rowStart.participante + 1"
+        appCliParticipante
+        [(participantes)]="participantes"
+        [rowStart]="rowStart.checkList"
+        [publicado]="checkLists.publicado"
+        [idProjetoCheckListIntegrado]="idProjetoCheckListIntegrado"
+      ></gc-worksheet>
+      <gc-worksheet
+        [name]="sheetCheckListNome"
+        [isProtected]="true"
+        [colCount]="colCount.checkList"
+        [frozenRowCount]="rowStart.checkList"
+        appCliCheckLists
+        [funcao]="funcao"
+        [(checkLists)]="checkLists"
+        [idProjeto]="idProjeto"
+        [rowStart]="rowStart.checkList"
+        [participantes]="participantes"
+        [idProjetoCheckListIntegrado]="idProjetoCheckListIntegrado"
+        [status]="status"
+      ></gc-worksheet>
+      <gc-worksheet
+        *ngFor="let obraFase of obraFases; trackBy: trackByObraFase"
+        [name]="obraFase.descricao"
+        [isProtected]="true"
+        [colCount]="colCount.obraFase"
+        [frozenRowCount]="rowStart.obraFase + 1"
+        appCliObraFase
+        [funcao]="funcao"
+        [rowStart]="rowStart.obraFase"
+        [obraFase]="obraFase"
+        (obraFaseChange)="onObraFaseChange($event)"
+      ></gc-worksheet>
+
+      <gc-worksheet
+        *ngFor="let curvaF of curvaFinanceira; trackBy: trackByCurvaFinanceira"
+        [name]="curvaF.descricao"
+        appCliCurvaFinanceira
+        [rowStart]="rowStart.curvaFinanceira"
+        [curvaFinanceira]="curvaF"
+        [idProjeto]="idProjeto"
+        [funcao]="funcao"
+        [isProtected]="true"
+        [colCount]="colCount.curvaFinanceira"
+        [frozenRowCount]="rowStart.curvaFinanceira + 1"
+      ></gc-worksheet>
+    </gc-spread-sheets>
+  </div>
+</ng-template>
+<div #zoom class="zoom"></div>

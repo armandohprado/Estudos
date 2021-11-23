@@ -1,0 +1,46 @@
+<aw-spinner *ngIf="devolucaoProposta.loaderSteps" fullScreen></aw-spinner>
+
+<div style="width: 100%; left: -2%; position: relative" *ngLet="quantitativo$ | async as quantitativo">
+  <div class="text-right" *ngIf="quantitativo?.liberarQuantitativo">
+    <span class="extendsA" (click)="suggestToogle(quantitativo)"> Quantitativo de Referência </span>
+    <span
+      [outsideClick]="true"
+      [popoverContext]=""
+      containerClass="popup"
+      [popover]="popTemplate"
+      container="body"
+      placement="top"
+      triggers="mouseenter:mouseleave"
+      class="aw-icon icon-information"
+    >
+    </span>
+  </div>
+  <div class="mb-20">
+    <aw-alert [dismissible]="true" tipo="warning">
+      Os valores indicados com "+" são referenciais.
+      <br />
+      É responsabilidade do fornecedor conferir nas plantas e documentos fornecidos e indicar os quantitativos do
+      item,<br />
+      incluindo perdas se necessário.
+      <br />
+      Caso confirme o valor de referência o fornecedor declara que se responsabiliza com a informação.
+    </aw-alert>
+  </div>
+  <app-de-distribuir-quantitativo
+    tipo="devolucao-proposta"
+    [quantitativo]="quantitativo"
+    [updateInternalBehavior]="true"
+    [sugestaoQtdeReferencia]="suggestHide"
+    (atualizarCentroCusto)="saveQuantitativo($event)"
+    (qtdePavimento)="qtdeTotal($event)"
+  ></app-de-distribuir-quantitativo>
+</div>
+
+<ng-template #popTemplate>
+  <ul class="list-unstyled">
+    <li>
+      <h6>Os Valores de Referência são números estimados pela equipe A/W...</h6>
+      <!-- <p #nomeResponsavelProposta>N/A</p> -->
+    </li>
+  </ul>
+</ng-template>

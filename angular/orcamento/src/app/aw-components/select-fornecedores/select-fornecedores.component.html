@@ -1,0 +1,131 @@
+<div class="select-fornecedores">
+  <div class="options">
+    <aw-radio
+      *ngFor="let _option of optionList; trackBy: trackBySelectFornecedoresOptions"
+      name="option"
+      [value]="_option.situacao"
+      [(ngModel)]="selectedOptionSituacao"
+      (ngModelChange)="onSituacaoChange(_option)"
+      [disabled]="loadingSelect"
+      >{{ _option.title }}</aw-radio
+    >
+  </div>
+  <hr />
+  <div class="fornecedores">
+    <div class="select">
+      <div class="title">
+        {{ selectedOption.title }}
+      </div>
+      <div class="box-fornecedores position-relative">
+        <aw-spinner *ngIf="loadingSelect" size="md"></aw-spinner>
+        <input awInput type="search" placeholder="&#xE908; Pesquisar por nome ou CNPJ" [formControl]="searchControl" />
+        <div
+          class="list"
+          cdkDropList
+          #select="cdkDropList"
+          [cdkDropListData]="selectValues"
+          [cdkDropListConnectedTo]="[selected]"
+          (cdkDropListDropped)="drop($event, 'remove')"
+          [style.height.px]="178"
+        >
+          <ng-container *ngFor="let fornecedor of selectValues; trackBy: trackBy">
+            <div
+              *ngLet="fornecedor | valueFormatter: isFornecedorDisabled as isDisabled"
+              class="item"
+              cdkDrag
+              [cdkDragDisabled]="isDisabled"
+              (cdkDragStarted)="onTouched()"
+              [class.disabled]="isDisabled"
+            >
+              <div class="position-relative">
+                <aw-spinner *ngIf="isDisabled" size="sm"></aw-spinner>
+                <div class="icon">
+                  <span class="icon" [ngClass]="{ 'icon-star-full': fornecedor.favorito }">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </span>
+                </div>
+                <div class="nome">{{ fornecedor.nomeFantasia }}</div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngLet="search$ | async as search">
+            <ng-container *ngIf="!loadingSelect">
+              <div
+                class="item"
+                style="cursor: default"
+                *ngIf="
+                  search &&
+                  !selectValues.length &&
+                  originSelectValues.length &&
+                  selectedOptionSituacao === situacaoFornecedorEnum.HOMOLOGADO
+                "
+              >
+                <div class="fake">
+                  <div class="icon"></div>
+                  <div class="nome">Nenhum fornecedor encontrado!</div>
+                </div>
+              </div>
+              <div
+                class="item fake"
+                style="cursor: default"
+                *ngIf="!selectValues.length && selectedOptionSituacao !== situacaoFornecedorEnum.HOMOLOGADO"
+              >
+                <div class="fake">
+                  <div class="icon"></div>
+                  <div class="nome">
+                    <ng-container *ngIf="search?.length >= 3; else digite">
+                      Nenhum fornecedor encontrado!
+                    </ng-container>
+                    <ng-template #digite> Digite pelo menos 3 caracteres para pesquisar </ng-template>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="divider">
+      <span class="icon aw-icon-seta-esquerda"></span>
+      <span class="icon aw-icon-seta-direita"></span>
+    </div>
+    <div class="selected">
+      <div class="title">Selecionados:</div>
+      <div class="box-fornecedores">
+        <div
+          class="list"
+          cdkDropList
+          #selected="cdkDropList"
+          [cdkDropListData]="selectedValues"
+          [cdkDropListConnectedTo]="[select]"
+          (cdkDropListDropped)="drop($event, 'select')"
+          [style.height.px]="210"
+        >
+          <ng-container *ngFor="let fornecedor of selectedValues; trackBy: trackBy">
+            <div
+              *ngLet="fornecedor | valueFormatter: isFornecedorDisabled as isDisabled"
+              cdkDrag
+              (cdkDragStarted)="onTouched()"
+              [cdkDragDisabled]="isDisabled"
+              class="item"
+              [class.disabled]="isDisabled"
+            >
+              <div class="position-relative">
+                <aw-spinner *ngIf="isDisabled" size="sm"></aw-spinner>
+                <div class="icon">
+                  <span class="icon" [ngClass]="{ 'icon-star-full': fornecedor.favorito }">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </span>
+                </div>
+                <div class="nome">{{ fornecedor.nomeFantasia }}</div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<form [formGroup]="formImplantacaoStep6" class="form-group px-5">
+  <h4 class="font-weight-bold">Informações para negociação</h4>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch">
+      <input
+        class="custom-control-input p-2"
+        id="objecao"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO_PREMISSA"
+      />
+      <label class="custom-control-label" for="objecao"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      class="mx-4"
+      [class.disabled]="
+        this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO_PREMISSA).value !==
+        true
+      "
+    >
+      <legend class="font-weight-bold">
+        Para garantir a qualidade de execução do serviço prestado, a A|W faz um retenção de 10% do valor total da
+        medição, que só é liberada no aceite final do cliente. Existe alguma objeção?
+      </legend>
+
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO" [value]="true"
+        >Sim</aw-radio
+      >
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO" [value]="false"
+        >Nao</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div
+    class="custom-control my-3 mx-5"
+    *ngIf="this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO).value !== true"
+  >
+    <label for="objecaoComente">comente</label>
+    <textarea
+      id="objecaoComente"
+      class="form-control"
+      rows="3"
+      placeholder="comentários"
+      [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO_JUSTIFICATIVA"
+      maxlength="200"
+      [innerHTML]="
+        formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_QUALIDADE_EXECUCAO_JUSTIFICATIVA).value
+      "
+    ></textarea>
+  </div>
+
+  <div class="d-flex mt-4">
+    <div class="custom-switch premissa-position">
+      <input
+        class="custom-control-input p-2"
+        id="objecao2"
+        type="checkbox"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_PREMISSA"
+      />
+      <label class="custom-control-label" for="objecao2"></label>
+      <span></span>
+    </div>
+
+    <fieldset
+      class="content-position"
+      [class.disabled]="
+        this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_PREMISSA).value !== true
+      "
+    >
+      <legend class="font-weight-bold">
+        É prática do mercado prever um sinal para alguns grupos, como por exemplo: seguro, mobiliário especial, carpete
+        importado, elevador e gerador, de forma a obter as melhores condições comerciais. Existe alguma objeção?
+      </legend>
+
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL" [value]="true"
+        >Não</aw-radio
+      >
+
+      <div *ngIf="this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL).value">
+        <div class="custom-control input-radio my-3 pr-5">
+          <label for="objecaoComente2">Caso afirmativo, como trataremos?</label>
+          <textarea
+            id="objecaoComente2"
+            class="form-control"
+            rows="3"
+            placeholder="comentários"
+            [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_AFIRMATIVO"
+            maxlength="200"
+            [innerHTML]="
+              formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_AFIRMATIVO).value
+            "
+          ></textarea>
+        </div>
+      </div>
+
+      <aw-radio [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL" [value]="false"
+        >Não</aw-radio
+      >
+    </fieldset>
+  </div>
+
+  <div *ngIf="this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL).value !== true">
+    <div
+      class="custom-control my-3 mx-5"
+      [class.disabled]="
+        this.formImplantacaoStep6.get(QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_PREMISSA).value !== true
+      "
+    >
+      <label for="objecaoComente3">comente</label>
+      <textarea
+        id="objecaoComente3"
+        class="form-control"
+        rows="3"
+        placeholder="comentários"
+        [formControlName]="QuestionarioEnum.QUESTIONARIO_IMPLANTACAO_OBJECAO_SINAL_JUSTIFICATIVA"
+        maxlength="200"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary gradient-btn btn-bottom" type="button" (click)="goToTab(5)">voltar</button>
+    <button class="btn btn-primary gradient-btn btn-bottom" type="button" (click)="sendForm()">finalizar</button>
+  </div>
+</form>

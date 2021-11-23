@@ -1,0 +1,33 @@
+$x-padding: 25px;
+
+:host {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border-bottom: 1px solid var(--light-blue-grey);
+  position: fixed;
+  top: 97px;
+  right: $x-padding;
+  left: $x-padding;
+  z-index: 1;
+  > .icon,
+  > .title {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  > .icon {
+    justify-content: center;
+    border-right: 1px solid var(--light-blue-grey);
+    > .icon {
+      cursor: pointer;
+    }
+  }
+  > .title {
+    justify-content: space-between;
+    > h5,
+    > h4 {
+      margin-bottom: 0;
+    }
+  }
+}

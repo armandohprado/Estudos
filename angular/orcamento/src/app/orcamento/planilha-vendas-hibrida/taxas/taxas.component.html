@@ -1,0 +1,16 @@
+<div>
+  <app-valor-fixo-proposta
+    [idOrcamentoCenario]="idOrcamentoCenario"
+    [totalTaxaAdministrativa]="cenario"
+    [isChangeOrder]="isChangeOrder"
+    [readonly]="readonly"
+    [gruposOpcionais]="gruposOpcionais"
+  ></app-valor-fixo-proposta>
+  <app-bens-servicos
+    [idOrcamentoCenario]="idOrcamentoCenario"
+    [totalTaxasBensServicos]="cenario"
+    [isChangeOrder]="isChangeOrder"
+    [readonly]="readonly"
+    *ngIf="cenario && !gruposOpcionais"
+  ></app-bens-servicos>
+</div>

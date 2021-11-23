@@ -1,0 +1,18 @@
+<aw-filter
+  [type]="params.type"
+  [ascText]="params.ascText"
+  [descText]="params.descText"
+  [conditionalFilterable]="params.conditional"
+  [debounceConditional]="params.debounceConditional"
+  [debounceFilter]="params.debounceFilter"
+  [filterable]="params.filterable"
+  [filterBy]="params.filterBy"
+  [sortable]="params.colDef.sortable"
+  [sort]="sort"
+  (sortChanged)="onSort($event)"
+  [conditional]="conditional"
+  (conditionalChanged)="onConditionalFilter($event)"
+  [filter]="term"
+  (filterChanged)="onFilter($event)"
+>
+</aw-filter>

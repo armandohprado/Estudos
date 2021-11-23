@@ -1,0 +1,18 @@
+<div class="item sticky">
+  <div class="valor-total-selecionado">
+    Valor total selecionado: {{ epPropostaItemQuery.valorTotalSelecionado$ | async | number: '1.2-2' }}
+  </div>
+  <div class="labels">
+    <div class="valor-total">VALOR TOTAL R$</div>
+    <div class="valor-parcial">Valor Parcial Total</div>
+  </div>
+</div>
+<app-ep-header-total
+  *ngFor="let fornecedor of fornecedores; trackBy: trackByEpFornecedor"
+  [fornecedor]="fornecedor"
+  [class.aw-referencia]="fornecedor.indicadorAWReferencia"
+  [idOrcamentoGrupo]="idOrcamentoGrupo"
+  [idOrcamentoCenario]="idOrcamentoCenario"
+></app-ep-header-total>
+
+<div class="item" *ngFor="let offsetColumn of epPropostaItemQuery.offsetColumns$ | async"></div>

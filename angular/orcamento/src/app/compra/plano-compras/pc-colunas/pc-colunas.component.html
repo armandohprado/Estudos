@@ -1,0 +1,118 @@
+<aw-wrapper-page titulo="Gerenciar colunas" (voltar)="navigateBack()">
+  <div class="colunas">
+    <div class="tudo">
+      <aw-checkbox
+        [(ngModel)]="tudo"
+        (ngModelChange)="selectAll($event)"
+        [indeterminate]="tudoI"
+        >Exibir tudo</aw-checkbox
+      >
+    </div>
+    <div class="grupos">
+      <div class="grupo">
+        <aw-checkbox
+          [(ngModel)]="dnn"
+          (ngModelChange)="selectGroup(pcGridColumnGroupEnum.dnn, $event)"
+          [indeterminate]="dnnI"
+          >Metas financeiras (DNN)</aw-checkbox
+        >
+        <div class="items">
+          <aw-checkbox
+            *ngFor="
+              let dnn of cols | awSearch: 'group':'' + pcGridColumnGroupEnum.dnn
+            "
+            [ngModel]="dnn.visible"
+            (ngModelChange)="selectOne(dnn.id, $event)"
+            >{{ dnn.label }}</aw-checkbox
+          >
+        </div>
+      </div>
+      <div class="grupo">
+        <aw-checkbox
+          [(ngModel)]="desenvolvimento"
+          (ngModelChange)="
+            selectGroup(pcGridColumnGroupEnum.desenvolvimento, $event)
+          "
+          [indeterminate]="desenvolvimentoI"
+          >Metas financeiras (Desenvolvimento)</aw-checkbox
+        >
+        <div class="items">
+          <aw-checkbox
+            *ngFor="
+              let desenvolvimento of cols
+                | awSearch: 'group':'' + pcGridColumnGroupEnum.desenvolvimento
+            "
+            [ngModel]="desenvolvimento.visible"
+            (ngModelChange)="selectOne(desenvolvimento.id, $event)"
+            >{{ desenvolvimento.label }}</aw-checkbox
+          >
+        </div>
+      </div>
+      <div class="grupo">
+        <aw-checkbox
+          [(ngModel)]="responsaveis"
+          (ngModelChange)="
+            selectGroup(pcGridColumnGroupEnum.responsaveis, $event)
+          "
+          [indeterminate]="responsaveisI"
+          >Responsáveis</aw-checkbox
+        >
+        <div class="items">
+          <aw-checkbox
+            *ngFor="
+              let responsavel of cols
+                | awSearch: 'group':'' + pcGridColumnGroupEnum.responsaveis
+            "
+            [ngModel]="responsavel.visible"
+            (ngModelChange)="selectOne(responsavel.id, $event)"
+            >{{ responsavel.label }}</aw-checkbox
+          >
+        </div>
+      </div>
+      <div class="grupo">
+        <aw-checkbox
+          [(ngModel)]="fornecedores"
+          (ngModelChange)="
+            selectGroup(pcGridColumnGroupEnum.fornecedores, $event)
+          "
+          [indeterminate]="fornecedoresI"
+          >Fornecedores</aw-checkbox
+        >
+        <div class="items">
+          <aw-checkbox
+            *ngFor="
+              let fornecedores of cols
+                | awSearch: 'group':'' + pcGridColumnGroupEnum.fornecedores
+            "
+            [ngModel]="fornecedores.visible"
+            (ngModelChange)="selectOne(fornecedores.id, $event)"
+            >{{ fornecedores.label }}</aw-checkbox
+          >
+        </div>
+      </div>
+      <div class="grupo">
+        <aw-checkbox
+          [(ngModel)]="datas"
+          (ngModelChange)="selectGroup(pcGridColumnGroupEnum.datas, $event)"
+          [indeterminate]="datasI"
+          >Datas</aw-checkbox
+        >
+        <div class="items">
+          <aw-checkbox
+            *ngFor="
+              let datas of cols
+                | awSearch: 'group':'' + pcGridColumnGroupEnum.datas
+            "
+            [ngModel]="datas.visible"
+            (ngModelChange)="selectOne(datas.id, $event)"
+            >{{ datas.label }}</aw-checkbox
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div footer>
+    <button awButton status="secondary" (click)="navigateBack()">Voltar</button>
+    <button awButton (click)="confirm()">Confirmar</button>
+  </div>
+</aw-wrapper-page>
