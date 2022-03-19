@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9f53b0fd-3e1a-4d29-b250-7bfbfc83080e" name="Changes" comment="Crud de clientes/usuarios">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/clients-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/clients.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/app-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/app.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/in-memory-database.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/categories-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/categories.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/shared/category.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/shared/category.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entries-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entries.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/shared/entry.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/shared/entry.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="26ZFnFmsducMhXSjb2Gjae1IIN8" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="foldersAlwaysOnTop" value="false" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Projetos\Estudos\angular\crud-cliente\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="ts.external.directory.path" value="C:\Projetos\Estudos\angular\crud-cliente\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="npm.Angular CLI Server">
+    <configuration name="Tests (crud-cliente)" type="JavaScriptTestRunnerKarma">
+      <config-file value="$PROJECT_DIR$/karma.conf.js" />
+      <working-directory value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f53b0fd-3e1a-4d29-b250-7bfbfc83080e" name="Changes" comment="" />
+      <created>1647623366691</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647623366691</updated>
+      <workItem from="1647623367831" duration="254000" />
+      <workItem from="1647624138387" duration="157000" />
+      <workItem from="1647625709679" duration="1721000" />
+      <workItem from="1647631015700" duration="154000" />
+      <workItem from="1647642042234" duration="719000" />
+      <workItem from="1647643820022" duration="5203000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Crud de clientes/usuarios" />
+    <option name="LAST_COMMIT_MESSAGE" value="Crud de clientes/usuarios" />
+  </component>
+</project>
