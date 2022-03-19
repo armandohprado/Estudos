@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f53b0fd-3e1a-4d29-b250-7bfbfc83080e" name="Changes" comment="Crud de clientes/usuarios">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mobile/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/envio-mapa.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-envio-mapa/valores-envio-mapa.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/compra/controle-compras/envio-mapa/valores-resumo-envio-mapa/valores-resumo-envio-mapa.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/orcamento/equalizacao-proposta/ep-historico/ep-historico.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +77,7 @@
       <workItem from="1647625709679" duration="1721000" />
       <workItem from="1647631015700" duration="154000" />
       <workItem from="1647642042234" duration="719000" />
-      <workItem from="1647643820022" duration="5742000" />
+      <workItem from="1647643820022" duration="7004000" />
     </task>
     <servers />
   </component>
