@@ -1,0 +1,39 @@
+pipeline {
+    environment {
+    registry = "awspdocrepo.athiewohnrath.com.br:5000/${params.DEPLOY_TAG}:v1.0.$BUILD_NUMBER"
+    dockerImage = ''
+    }
+    agent any
+    stages {
+        stage('Building image') {
+            steps{
+                script {
+//                    dockerImage = docker.build(registry, "--no-cache --build-arg BUILD_CONFIG=${params.BUILD_CONFIG} .")
+                      dockerImage = docker.build(registry, "--no-cache --build-arg BUILD_CONFIG=${params.BUILD_CONFIG} --build-arg URL_TEAMS=${params.URL_TEAMS} --build-arg FILE_NAME=${params.DEPLOY_TAG}-v$BUILD_NUMBER .")
+                }
+            }
+        }
+//         stage('Deploy Image') {
+//             steps{
+//                 script {
+//                     dockerImage.push()
+//                 }
+//             }
+//         }
+//         stage('Update Image') {
+//             steps {
+//                 rancherRedeploy alwaysPull: true, credential: "rancherglobal", images: "awspdocrepo.athiewohnrath.com.br:5000/${params.DEPLOY_TAG}:v1.0.${BUILD_NUMBER}", workload: "/project/${params.DEPLOY_ID}/workloads/deployment:${params.DEPLOY_TAG}:${params.DEPLOY_TAG}"
+//             }
+//         }
+		stage('Remove Unused docker image') {
+			steps{
+				sh "docker rmi $registry"
+			}
+		}
+        stage('Finish') {
+            steps {
+                echo 'Great work!'
+            }
+        }
+    }
+}

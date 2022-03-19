@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "target": "ES2015",
+    "lib": ["ES2020", "DOM"],
+    "paths": {
+      "@aw-utils/*": ["./src/app/utils/*"],
+      "@aw-models/*": ["./src/app/models/*"],
+      "@aw-components/*": ["./src/app/aw-components/*"],
+      "@aw-shared/*": ["./src/app/shared/*"],
+      "@aw-services/*": ["./src/app/services/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true
+  }
+}

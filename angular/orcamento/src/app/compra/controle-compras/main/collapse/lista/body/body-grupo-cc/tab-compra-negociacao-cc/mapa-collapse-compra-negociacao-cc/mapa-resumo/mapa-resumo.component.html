@@ -1,0 +1,40 @@
+<div class="mt-2 flex-meta font-weight-bold">Meta</div>
+<ng-container *ngIf="grupo.tipo === tipo.Refaturado">
+  <hr />
+
+  <div class="grid-container">
+    <div class="text-left">Limite de Venda</div>
+    <div class="text-right column-start-3">
+      {{ grupo.valorVendaCongelada | number: '1.2-2' }}
+    </div>
+    <div class="text-left">Imposto sobre revenda</div>
+    <div class="text-right pr-3">
+      {{ grupo.percentualImposto / 100 | percent: '1.2-2' }}
+    </div>
+    <div class="text-right">
+      {{ grupo.valorImposto | number: '1.2-2' }}
+    </div>
+  </div>
+  <hr />
+</ng-container>
+
+<div class="grid-container" *ngLet="grupo.valorVendaCongelada - grupo.valorImposto as limiteCompra">
+  <div class="text-left">Limite de Compra</div>
+  <div class="text-right column-start-3">
+    {{ limiteCompra | number: '1.2-2' }}
+  </div>
+  <div class="text-left">Meta de Compra</div>
+  <div class="text-right column-start-3">
+    {{ grupo.valorMetaCompra | number: '1.2-2' }}
+  </div>
+  <div class="text-left">Margem de Miscellaneous</div>
+  <div class="text-right column-start-3">
+    {{ limiteCompra - grupo.valorMetaCompra | number: '1.2-2' }}
+  </div>
+</div>
+<hr />
+<div class="my-3" *ngIf="!grupo.permitidoEmitirCcSemMapa && !grupo.grupoOrcamento?.somenteAwEstimado">
+  <div class="bg-white d-flex justify-content-center margin-15">
+    Clique no ícone <span class="aw-icon-list icon-resumo-mapa"></span> para selecionar valores para envio do mapa
+  </div>
+</div>

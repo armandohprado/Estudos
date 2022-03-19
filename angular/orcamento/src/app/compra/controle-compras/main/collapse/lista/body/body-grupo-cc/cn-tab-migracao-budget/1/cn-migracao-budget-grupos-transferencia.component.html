@@ -1,0 +1,24 @@
+<aw-alert *ngIf="grupo.haTransacoesPendentes" dismissible tipo="warning"> Grupo possuí transações pendentes </aw-alert>
+
+<p *ngIf="!grupo.migracaoBudgetGruposTransferencia?.length; else gruposTemplate">Nenhum grupo encontrado</p>
+<ng-template #gruposTemplate>
+  <app-transferir-saldo-grupos
+    [grupos]="grupo.migracaoBudgetGruposTransferencia"
+    [updateGrupo]="false"
+    (changeValue)="updateTransferenciaGrupo($event)"
+  ></app-transferir-saldo-grupos>
+
+  <hr />
+
+  <div class="actions">
+    <button
+      type="button"
+      awButton
+      (click)="migrar()"
+      [loading]="saving"
+      [disabled]="grupo.migracaoBudgetGruposTransferencia | cnMigracaoBudgetGruposInvalid"
+    >
+      Migrar budget
+    </button>
+  </div>
+</ng-template>

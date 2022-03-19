@@ -1,0 +1,13 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 100px repeat(7, minmax(0, 1fr));
+  padding: 10px;
+}
+
+.grupo {
+  grid-column: span 3;
+}
+
+.no-data-found {
+  grid-column: 1/-1;
+}

@@ -1,0 +1,71 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier", "codelyzer"],
+  "rules": {
+    "curly": [true, "ignore-same-line"],
+    "no-unsafe-any": false,
+    "variable-name": false,
+    "arrow-return-shorthand": true,
+    "import-spacing": true,
+    "typedef": [true, "call-signature", "property-declaration"],
+    "array-type": false,
+    "arrow-parens": false,
+    "deprecation": { "severity": "warn" },
+    "component-class-suffix": true,
+    "contextual-lifecycle": true,
+    "directive-class-suffix": false,
+    "directive-selector": [true, "attribute", "", "camelCase"],
+    "component-selector": [true, ["element", "attribute"], ["app", "aw"], "kebab-case"],
+    "import-blacklist": [true, "rxjs/Rx"],
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "max-line-length": false,
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+      }
+    ],
+    "no-console": [true, "log", "error", "debug", "info", "time", "timeEnd", "trace"],
+    "space-before-function-paren": {
+      "options": {
+        "anonymous": "never",
+        "asyncArrow": "always",
+        "constructor": "never",
+        "method": "never",
+        "named": "never"
+      }
+    },
+    "no-consecutive-blank-lines": true,
+    "no-empty": false,
+    "no-inferrable-types": [true, "ignore-params"],
+    "no-non-null-assertion": true,
+    "no-redundant-jsdoc": true,
+    "unified-signatures": false,
+    "no-switch-case-fall-through": true,
+    "no-var-requires": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [true, "single"],
+    "trailing-comma": false,
+    "no-conflicting-lifecycle": true,
+    "no-input-rename": true,
+    "no-inputs-metadata-property": true,
+    "no-output-native": true,
+    "no-output-on-prefix": true,
+    "no-output-rename": true,
+    "no-outputs-metadata-property": true,
+    "template-banana-in-box": true,
+    "template-no-negated-async": true,
+    "use-lifecycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "template-no-any": true,
+    "use-injectable-provided-in": true,
+    "component-max-inline-declarations": [true, { "animations": 20, "styles": 8, "template": 5 }],
+    "template-no-call-expression": true,
+    "template-use-track-by-function": true,
+    "angular-whitespace": true,
+    "prefer-const": [true, { "destructuring": "all" }]
+  }
+}

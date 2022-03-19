@@ -1,0 +1,6 @@
+<div class="bg-light mx-3">
+  <div class="px-4 py-2">
+    <app-mapas-detalhes [grupo]="grupo" *ngIf="grupo.mapaAtual?.idCompraNegociacaoGrupoMapa"></app-mapas-detalhes>
+    <app-mapa-resumo [grupo]="grupo" *ngIf="!grupo.mapaAtual?.idCompraNegociacaoGrupoMapa"></app-mapa-resumo>
+  </div>
+</div>

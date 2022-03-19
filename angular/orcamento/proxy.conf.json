@@ -1,0 +1,29 @@
+{
+  "/api-sciensa": {
+    "target": "https://api-focus-d.athiewohnrath.com.br/sciensa/api/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api-sciensa": ""
+    }
+  },
+  "/api-aw": {
+    "target": "https://api-focus-d.athiewohnrath.com.br/orcamento/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api-aw": ""
+    }
+  },
+  "/api-chave-registro": {
+    "target": "https://api-focus-d.athiewohnrath.com.br/chave-registro/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api-chave-registro": ""
+    }
+  }
+}

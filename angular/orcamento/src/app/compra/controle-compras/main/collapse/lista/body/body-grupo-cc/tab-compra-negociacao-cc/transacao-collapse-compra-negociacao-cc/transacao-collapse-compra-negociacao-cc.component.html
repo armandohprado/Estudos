@@ -1,0 +1,55 @@
+<div class="bg-light mx-3">
+  <div class="p-4">
+    <div class="grid-container py-2">
+      <div>Cod.</div>
+      <div class="grupo">Grupo</div>
+      <div class="text-center">Status</div>
+      <div class="text-center">ID Mapa</div>
+      <div>Data</div>
+      <div class="text-right">Valor (R$)</div>
+    </div>
+    <div class="grid-container bg-white">
+      <div class="no-data-found" *ngIf="!transacoesAtual.compraNegociacaoGrupoExtratoTransacao.length">
+        Nenhuma transação encontrada
+      </div>
+    </div>
+    <ng-container
+      *ngFor="
+        let compraNegociacaoGrupoExtratoTransacao of transacoesAtual.compraNegociacaoGrupoExtratoTransacao;
+        trackBy: trackByTransacao;
+        let $even = even
+      "
+    >
+      <div class="grid-container" [class.bg-white]="$even">
+        <div>{{ compraNegociacaoGrupoExtratoTransacao.codigo }}</div>
+        <div class="grupo">{{ compraNegociacaoGrupoExtratoTransacao.nome }}</div>
+        <div class="text-center">{{ compraNegociacaoGrupoExtratoTransacao.compraNegociacaoStatus }}</div>
+        <div
+          (click)="$event.stopPropagation()"
+          class="text-primary text-center c-pointer"
+          [routerLink]="[
+            transacoesAtual.idCompraNegociacaoGrupo,
+            'visualizar-mapa',
+            compraNegociacaoGrupoExtratoTransacao.idCompraNegociacaoGrupoMapa
+          ]"
+        >
+          <span class="aw-icon-revisar-budget">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            <span class="path3"></span>
+            <span class="path4"></span>
+            <span class="path5"></span>
+            <span class="path6"></span>
+            <span class="path7"></span>
+          </span>
+          {{ compraNegociacaoGrupoExtratoTransacao.idCompraNegociacaoGrupoMapa }}
+        </div>
+        <div>{{ compraNegociacaoGrupoExtratoTransacao.data | date: 'dd/MM/yyyy' }}</div>
+        <div class="text-right">
+          <span class="aw-icon-lock"></span>
+          {{ compraNegociacaoGrupoExtratoTransacao.valor | number: '1.2-2' }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+app-mapas-detalhes {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 0.25fr 1.75fr 0.5fr 0.5fr 0.5fr;
+    margin: 0 3%;
+    padding: 10px;
+  }
+  .grid-container-refaturado {
+    display: grid;
+    grid-template-columns: 0.5fr 0.25fr 1.25fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    margin: 0 3%;
+    padding: 10px;
+  }
+  .column-start-3 {
+    grid-column-start: 3;
+  }
+  .column-start-2 {
+    grid-column-start: 2;
+  }
+  .column-start-4 {
+    grid-column-start: 4;
+  }
+  .font-12 {
+    font-size: 12px;
+  }
+
+  .titulo {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .subtitulo {
+    font-size: 12px;
+  }
+
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 0.5fr 0.5fr 0.5fr;
+    padding: 10px;
+  }
+
+  .count {
+    column-count: 3;
+  }
+
+  .list {
+    //display: list-item;
+    //list-style: circle;
+  }
+
+  .circle-list:before {
+    content: '\2022';
+  }
+
+  .count-1 {
+    column-count: 1;
+  }
+}
