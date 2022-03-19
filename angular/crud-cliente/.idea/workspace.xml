@@ -2,47 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f53b0fd-3e1a-4d29-b250-7bfbfc83080e" name="Changes" comment="Crud de clientes/usuarios">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-form/client-form.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/client-list/client-list.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/clients-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/clients.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/pages/clients/shared/client.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/app-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/app.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/app.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/in-memory-database.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/categories-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/categories.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-form/category-form.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/category-list/category-list.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/shared/category.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/categories/shared/category.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entries-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entries.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-form/entry-form.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/entry-list/entry-list.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/shared/entry.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../crud/app/pages/entries/shared/entry.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../master-detail-crud-master/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mobile/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/page-fornecedores/page-fornecedores.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../orcamento/src/app/aw-components/select-fornecedores/select-fornecedores.component.ts" afterDir="false" />
@@ -128,7 +91,7 @@
       <workItem from="1647625709679" duration="1721000" />
       <workItem from="1647631015700" duration="154000" />
       <workItem from="1647642042234" duration="719000" />
-      <workItem from="1647643820022" duration="5203000" />
+      <workItem from="1647643820022" duration="5742000" />
     </task>
     <servers />
   </component>
